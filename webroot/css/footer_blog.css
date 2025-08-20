@@ -1,0 +1,410 @@
+/* Footer Optimizado - Estilos CSS con Acordeón y Botón Fijo */
+
+/* Botón flotante fijo */
+.fixed-back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 50%;
+    color: #666666;
+    text-decoration: none;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+
+.fixed-back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.fixed-back-to-top:hover {
+    background: #000000;
+    border-color: #000000;
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer Styles */
+.modern-footer {
+    background: #ffffff;
+    color: #333333;
+    padding: 60px 0 30px;
+    margin-top: 80px;
+    border-top: 1px solid #e9ecef;
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.05);
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navigation Grid - Optimizado para balanceo */
+.footer-navigation {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px 50px;
+    margin-bottom: 50px;
+    align-items: start;
+}
+
+/* Event Section */
+.event-section {
+    margin-bottom: 0;
+    min-height: fit-content;
+}
+
+.event-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #000000;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+
+.event-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: #666666;
+}
+
+.event-title i.event-icon {
+    margin-right: 12px;
+    font-size: 16px;
+    color: #666666;
+}
+
+.event-title i.toggle-icon {
+    font-size: 14px;
+    color: #999999;
+    transition: transform 0.3s ease;
+}
+
+.event-title.collapsed i.toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    opacity: 1;
+}
+
+.categories-list.collapsed {
+    max-height: 0;
+    opacity: 0;
+    gap: 0;
+    margin-top: 0;
+}
+
+.category-group {
+    border-left: 3px solid #f0f0f0;
+    padding-left: 20px;
+    transition: all 0.3s ease;
+}
+
+.category-group:hover {
+    border-left-color: #333333;
+}
+
+.category-item-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.category-link {
+    color: #333333;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 8px 0;
+    transition: all 0.2s ease;
+    position: relative;
+    flex-grow: 1;
+}
+
+.category-link::before {
+    content: '';
+    position: absolute;
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: #cccccc;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.category-link:hover {
+    color: #000000;
+    padding-left: 8px;
+}
+
+.category-link:hover::before {
+    background: #333333;
+    transform: translateY(-50%) scale(1.3);
+}
+
+.category-toggle {
+    background: none;
+    border: none;
+    color: #999999;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 5px;
+    transition: all 0.2s ease;
+}
+
+.category-toggle:hover {
+    color: #333333;
+}
+
+.category-toggle i {
+    transition: transform 0.3s ease;
+}
+
+.category-toggle.collapsed i {
+    transform: rotate(-90deg);
+}
+
+.subcategories {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 8px;
+    margin-left: 15px;
+    max-height: 200px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    opacity: 1;
+}
+
+.subcategories.collapsed {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+}
+
+.subcategory-item {
+    margin-bottom: 6px;
+}
+
+.subcategory-link {
+    display: flex;
+    align-items: center;
+    color: #666666;
+    text-decoration: none;
+    font-size: 13px;
+    padding: 4px 0;
+    transition: all 0.2s ease;
+    font-weight: 400;
+}
+
+.subcategory-link:hover {
+    color: #333333;
+    padding-left: 8px;
+}
+
+.subcategory-link i {
+    margin-right: 6px;
+    font-size: 10px;
+    color: #999999;
+    transition: color 0.2s ease;
+}
+
+.subcategory-link:hover i {
+    color: #333333;
+}
+
+/* Brand Section */
+.footer-brand {
+    text-align: center;
+    padding-top: 40px;
+    border-top: 1px solid #e9ecef;
+    margin-top: 40px;
+}
+
+.footer-logo {
+    max-width: 180px;
+    height: auto;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.footer-logo:hover {
+    transform: scale(1.02);
+}
+
+.footer-info {
+    text-align: center;
+}
+
+.copyright {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.copyright i {
+    margin-right: 6px;
+    color: #999999;
+    font-size: 12px;
+}
+
+.powered-by {
+    font-size: 12px;
+    color: #999999;
+}
+
+.powered-by a {
+    color: #333333;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.powered-by a:hover {
+    color: #000000;
+}
+
+/* Estilo base para la flechita de categoría */
+.category-toggle i {
+    transition: transform 0.3s ease;
+    transform: rotate(0deg);
+}
+
+/* Cuando la categoría está abierta (clase .open), rotamos 180° */
+.category-toggle.open i {
+    transform: rotate(180deg);
+}
+/* Estilo para categoría activa */
+.category-link.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Estilo para subcategoría activa */
+.subcategory-link.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+.category-link.active,
+.subcategory-link.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .footer-navigation {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .modern-footer {
+        padding: 40px 0 25px;
+    }
+
+    .footer-navigation {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .event-title {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .category-link {
+        font-size: 14px;
+    }
+
+    .subcategory-link {
+        font-size: 12px;
+    }
+
+    .footer-logo {
+        max-width: 150px;
+    }
+
+    .fixed-back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-content {
+        padding: 0 15px;
+    }
+
+    .footer-navigation {
+        gap: 25px;
+    }
+
+    .category-group {
+        padding-left: 15px;
+    }
+
+    .subcategories {
+        margin-left: 10px;
+    }
+
+    .fixed-back-to-top {
+        bottom: 15px;
+        right: 15px;
+        width: 42px;
+        height: 42px;
+    }
+}
+
+/* Smooth scroll behavior for back to top */
+html {
+    scroll-behavior: smooth;
+}
+
+    .subcategories {
+        margin-left: 10px;
+    }

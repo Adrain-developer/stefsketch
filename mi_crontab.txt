@@ -1,0 +1,1 @@
+*/15 * * * * /home/u773299113/domains/mieventoapp.com/public_html/publish_posts.sh

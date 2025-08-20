@@ -6,6 +6,7 @@ use Cake\Database\Driver\Mysql;
 use Cake\Log\Engine\FileLog;
 use Cake\Mailer\Transport\MailTransport;
 
+
 return [
     /*
      * Debug Level:
@@ -49,7 +50,7 @@ return [
     'App' => [
         'namespace' => 'App',
         'encoding' => env('APP_ENCODING', 'UTF-8'),
-        'defaultLocale' => env('APP_DEFAULT_LOCALE', 'en_US'),
+        'defaultLocale' => env('APP_DEFAULT_LOCALE', 'es'),
         'defaultTimezone' => env('APP_DEFAULT_TIMEZONE', 'UTC'),
         'base' => false,
         'dir' => 'src',
@@ -145,6 +146,7 @@ return [
             'url' => env('CACHE_CAKEROUTES_URL', null),
         ],
     ],
+
 
     /*
      * Configure the Error and Exception handlers used by your application.
@@ -420,5 +422,7 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
+        'timeout' => 7200, // 5 días en minutos
+        'cookie_lifetime' => 432000, // 5 días en segundos
     ],
 ];

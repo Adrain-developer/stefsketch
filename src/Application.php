@@ -28,43 +28,84 @@ use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 
+use Authentication\Middleware\AuthenticationMiddleware;
+use Authentication\AuthenticationServiceProviderInterface;
+
+use Authentication\AuthenticationServiceInterface;
+use Authentication\AuthenticationService;
+use Authentication\Identifier\IdentifierInterface;
+use Authentication\Authenticator\AuthenticatorInterface;
+use Authentication\Identifier\PasswordIdentifier;
+use Authentication\Authenticator\SessionAuthenticator;
+use Authentication\Authenticator\FormAuthenticator;
+use Cake\Routing\Router;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
+use Enqueue\Dbal\DbalConnectionFactory;
+use Interop\Queue\Context;
+use Cake\Queue\QueueManager;
+
+
 /**
  * Application setup class.
  *
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication
+class Application extends BaseApplication implements AuthenticationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
      *
      * @return void
      */
-    public function bootstrap(): void
-    {
-        // Call parent to load bootstrap from files.
-        parent::bootstrap();
+  public function bootstrap(): void
+{
+    // Call parent to load bootstrap from files.
+    parent::bootstrap();
 
-        if (PHP_SAPI === 'cli') {
-            $this->bootstrapCli();
-        } else {
-            FactoryLocator::add(
-                'Table',
-                (new TableLocator())->allowFallbackClass(false)
-            );
-        }
+    $this->addPlugin('Authentication');
 
-        /*
-         * Only try to load DebugKit in development mode
-         * Debug Kit should not be installed on a production system
-         */
-        if (Configure::read('debug')) {
-            $this->addPlugin('DebugKit');
-        }
-
-        // Load more plugins here
+    if (PHP_SAPI === 'cli') {
+        $this->bootstrapCli();
+    } else {
+        FactoryLocator::add(
+            'Table',
+            (new TableLocator())->allowFallbackClass(false)
+        );
     }
+
+    /*
+     * Only try to load DebugKit in development mode
+     * Debug Kit should not be installed on a production system
+     */
+    if (Configure::read('debug')) {
+        $this->addPlugin('DebugKit');
+    }
+
+    // Load more plugins here
+    $this->addPlugin('Cake/Queue', ['bootstrap' => true]);
+    
+    // Configurar enqueue/dbal para el esquema doctrine
+    $this->configureQueueConnections();
+}
+
+
+/**
+ * Configure Queue connections for enqueue/dbal
+ * 
+ * @return void
+ */
+/**
+ * Configure Queue connections for enqueue/dbal
+ * 
+ * @return void
+ */
+private function configureQueueConnections(): void
+{
+
+}
 
     /**
      * Setup the middleware queue your application will use.
@@ -91,6 +132,9 @@ class Application extends BaseApplication
             // using it's second constructor argument:
             // `new RoutingMiddleware($this, '_cake_routes_')`
             ->add(new RoutingMiddleware($this))
+
+            // Aquí agregamos el middleware de Authentication
+            ->add(new AuthenticationMiddleware($this))
 
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()
@@ -133,4 +177,37 @@ class Application extends BaseApplication
 
         // Load more plugins here
     }
+
+    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
+    {
+    $service = new AuthenticationService([
+        'unauthenticatedRedirect' => Router::url('/login'),
+        'queryParam' => 'redirect',
+    ]);
+
+    // Load identifiers
+    $service->loadIdentifier('Authentication.Password', [
+        'fields' => [
+            'username' => 'email',
+            'password' => 'password',
+        ],
+        'resolver' => [
+            'className' => 'Authentication.Orm',
+            'userModel' => 'Users', // la tabla 'users'
+        ],
+    ]);
+
+    // Load authenticators
+    $service->loadAuthenticator('Authentication.Session');
+    $service->loadAuthenticator('Authentication.Form', [
+        'fields' => [
+            'username' => 'email',
+            'password' => 'password',
+        ],
+        'loginUrl' => '/login',
+    ]);
+
+    return $service;
+    }
+
 }

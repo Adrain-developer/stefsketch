@@ -15,4 +15,16 @@ class BodaController extends AppController{
         return $this->render('index');
     }
 
+    public function demosAmbar(){
+        return $this->render('demosAmbar');
+    }
+    public function demosEssential(){
+        return $this->render('demosEssential');
+    }
+    public function demosZafiro(){
+        return $this->render('demosZafiro');
+    }
+    public function demosDiamante(){
+        return $this->render('demosDiamante');
+    }
 }

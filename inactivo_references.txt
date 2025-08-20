@@ -1,0 +1,4 @@
+src/Controller/BlogPostsController.php:                    ['status' => 'inactivo'],
+src/Controller/BlogPostsController.php:                $statusMessage = 'inactivo';
+src/Controller/BlogPostsController.php:                $newStatus = $post->status === 'activo' ? 'inactivo' : 'activo';
+src/Controller/BlogPostsController.php:        $newStatus = $this->request->getData('status', $post->status === 'activo' ? 'inactivo' : 'activo');

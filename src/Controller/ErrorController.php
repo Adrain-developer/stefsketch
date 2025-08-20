@@ -45,6 +45,11 @@ class ErrorController extends AppController
     {
     }
 
+    public function noAccess()
+    {
+        $this->viewBuilder()->setLayout('blog_layout'); // o usa tu layout visual
+    }
+
     /**
      * beforeRender callback.
      *

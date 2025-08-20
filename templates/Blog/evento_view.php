@@ -1,0 +1,1859 @@
+<?php
+$this->loadHelper('Time');
+
+$this->assign('title', 'Blog | ' . h($eventType->name));
+$this->Html->css(['https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css'], ['block' => true]);
+
+?>
+
+
+<?php
+function formatNumberShort($n) {
+    if ($n >= 1000000) return round($n / 1000000, 1) . 'M';
+    if ($n >= 1000) return round($n / 1000, 1) . 'k';
+    return $n;
+}
+?>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* Base y Container - CORREGIDO */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+}
+
+.container, .container-fluid {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding: 0 16px;
+    margin: 0 auto;
+}
+
+/* Glass Card Components */
+.glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #333;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.glass-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 50px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-card {
+    transition: all 0.5s ease;
+}
+
+.tag-badge2 {
+    background: #fdeee4;
+    color: #000000;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+    flex-shrink: 0;
+    border: 1px solid rgb(249 96 11);
+    display: inline-block;
+    margin: 2px;
+}
+
+.tag-badge2:hover {
+    /*background: #E8E8E8;*/
+    background: #fa6f22;
+    color: #FFFFFF;
+}
+
+.section-title {
+    font-weight: 700;
+    font-size: clamp(30px, 4vw, 50px);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.3rem;
+    color: #000000;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+.glass-card a {
+    text-decoration: none;
+}
+
+.glass-card:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Header Mejorado */
+.blog-header {
+    padding: clamp(20px, 4vw, 40px) 10px;
+    text-align: left;
+    width: 100%;
+    max-width: 100%;
+}
+
+.section-subtitle {
+    font-size: clamp(14px, 3vw, 16px);
+    color: #A0A0A0;
+    font-weight: 400;
+    margin-bottom: 0;
+    word-wrap: break-word;
+}
+
+/* Layout Principal Mejorado - CORREGIDO */
+.blog-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(20px, 4vw, 40px);
+    padding: clamp(20px, 4vw, 40px) 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Posts Grid Mejorado - CORREGIDO */
+.posts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(37px, 3vw, 32px);
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.post-card {
+    position: relative;
+    border-radius: 16px 0px 16px 16px;
+    overflow: hidden;
+    background: white;
+    /*box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);*/
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    min-height: 420px;
+    max-height: 560px;
+}
+
+        .post-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .post-card-image-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+
+        .post-card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: block;
+        }
+        
+        .post-category {
+            position: absolute;
+            /*top: 42px;*/
+            bottom: 60px;
+            left: 16px;
+            background: rgb(255 255 255 / 86%);
+            backdrop-filter: blur(10px);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            z-index: 3;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-title-overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            max-width: calc(95% - 16px);
+            z-index: 2;
+            text-align: end;
+        }
+
+.post-title-overlay h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000;
+    line-height: 1.7;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    margin: 0;
+    text-align: right;
+    display: inline;
+    background: rgb(255 255 255);
+    padding: 8px 16px;
+    position: relative;
+    border-radius: 8px 0px 0px 8px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    box-sizing: border-box;
+}
+/* Curva invertida en esquina superior izquierda para cada línea */
+.post-title-overlay h3::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: -17px;
+    width: 20px;
+    height: 20px;
+    background: #c91f1f00;
+    border-radius: 0 0 20px 0;
+    box-shadow: 4px 5px 0px 3px rgb(255 255 255);
+    transform: rotate(285deg);
+}
+/* Curva invertida en esquina inferior derecha para la última línea */
+.post-title-overlay h3::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    right: -1px;
+    width: 20px;
+    height: 20px;
+    background: #c50f0f00;
+    border-radius: 20px 0 0 0;
+    box-shadow: -11px -12px 0px 7px rgb(255 255 255);
+    transform: rotate(94deg);
+}
+
+        .post-arrow-btn {
+    position: absolute;
+    right: 45%;
+    width: 32px;
+    height: 32px;
+    /*background: rgba(255, 255, 255, 0.95);*/
+    background: rgb(227 225 225 / 39%);
+    backdrop-filter: blur(10px);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 5; /* Por encima del preview (z-index: 4) */
+        }
+
+        .post-arrow-btn::after {
+            content: '↗';
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .post-arrow-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: scale(1.1);
+        }
+
+        .post-tags {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            z-index: 3;
+        }
+
+        .post-tags::-webkit-scrollbar {
+            display: none;
+        }
+
+        .post-tags {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tag-badge {
+            background: rgb(73 73 73 / 21%);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive positioning for arrow button */
+        .post-title-overlay.single-line + .post-arrow-btn {
+            top: 60px;
+        }
+
+        .post-title-overlay.two-lines + .post-arrow-btn {
+            top: 76px;
+        }
+
+        .post-title-overlay.three-lines + .post-arrow-btn {
+            top: 92px;
+        }
+
+/* Sidebar Mejorado - CORREGIDO */
+.sidebar {
+    display: grid;
+    gap: clamp(20px, 4vw, 32px);
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.sidebar-section {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: clamp(16px, 3vw, 24px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.sidebar-title {
+    font-size: clamp(18px, 3vw, 20px);
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 16px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.category-list {
+    list-style: none;
+    display: grid;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+}
+
+.category-item {
+    padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 16px);
+    background: #fdeee4;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.category-item:hover {
+    background: #ffd2b7;
+    transform: translateX(4px);
+}
+
+.category-count {
+    font-size: clamp(10px, 2vw, 12px);
+    /*color: #A0A0A0;*/
+    color: #f55d02;
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+.popular-posts {
+    display: grid;
+    gap: 16px;
+}
+
+.popular-post {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.popular-post:hover {
+    background: #ffd2b7;
+}
+
+.popular-post-image {
+    width: clamp(50px, 10vw, 60px);
+    height: clamp(50px, 10vw, 60px);
+    border-radius: 8px;
+    object-fit: cover;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    flex-shrink: 0;
+}
+
+.popular-post-content {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.popular-post-content h4 {
+    font-size: clamp(12px, 2.5vw, 14px);
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 4px;
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.popular-post-meta {
+    font-size: clamp(10px, 2vw, 12px);
+    color: #A0A0A0;
+}
+
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+    justify-content: center;
+}
+
+.tag-cloud .tag-badge .tag-badge2 {
+    cursor: pointer;
+}
+
+/* Paginación Mejorada - CORREGIDO */
+.pagination-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(4px, 1vw, 8px);
+    margin-top: 40px;
+    padding: 20px 0;
+    list-style: none;
+    flex-wrap: wrap;
+}
+
+.pagination li {
+    display: inline-block;
+}
+
+.pagination a,
+.pagination span {
+    min-width: clamp(36px, 6vw, 44px);
+    height: clamp(36px, 6vw, 44px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: #fef6f1;
+    color: #000000;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    text-decoration: none;
+    padding: 0 clamp(8px, 2vw, 12px);
+    font-size: clamp(12px, 2.5vw, 14px);
+}
+
+.pagination a:hover {
+    background: #F5F5F5;
+    transform: translateY(-2px);
+    color: #000000;
+}
+
+.pagination .active a,
+.pagination .active span {
+    background: #9b3006;
+    color: #FFFFFF;
+}
+
+.pagination .disabled a,
+.pagination .disabled span {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #fdeee4;
+}
+
+.pagination .disabled a:hover {
+    transform: none;
+    /*background: #F5F5F5;*/
+    background: #fdeee4;
+}
+
+.pagination .ellipsis span {
+    background: transparent;
+    box-shadow: none;
+    cursor: default;
+    color: #A0A0A0;
+}
+
+.pagination .ellipsis span:hover {
+    background: transparent;
+    transform: none;
+}
+/* RESPONSIVE MEJORADO */
+@media (max-width: 768px) {
+    .post-arrow-btn {
+        width: 30px;
+        height: 30px;
+        right: 18px;
+    }
+}
+ /* Media queries for responsive design */
+        @media (max-width: 480px) {
+            .post-card {
+                border-radius: 12px;
+            }
+            
+            .post-category {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+            
+            .post-title-overlay {
+                padding: 0px 0px;
+                max-width: calc(93% - -1px);
+                line-height: 35px;
+            }
+            
+            .post-title-overlay h3 {
+                font-size: 18px;
+            }
+            
+            .post-arrow-btn {
+                width: 38px;
+                height: 38px;
+                right: 46%;
+            }
+            
+            .post-arrow-btn::after {
+                font-size: 12px;
+            }
+            
+            .tag-badge {
+                font-size: 11px;
+                padding: 5px 10px;
+            }
+        }
+
+        /* Animation for fade-in effect */
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+/* Responsive Design Mejorado - CORREGIDO */
+@media (max-width: 374px) {
+    .container, .container-fluid {
+        padding: 0 12px;
+    }
+    
+    .post-card {
+        min-height: 260px;
+    }
+    
+    .post-title-overlay {
+        max-width: calc(99% - 8px);
+        padding: 3px 0px;
+    }
+    
+    .post-arrow-btn {
+         width: 26px;
+        height: 26px;
+        right: 14px;
+    }
+    
+    .sidebar-section {
+        padding: 12px;
+    }
+    
+    .popular-post-image {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .blog-layout {
+        gap: 16px;
+        padding: 16px 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .blog-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px 0;
+    }
+    
+    .post-card {
+        min-height: 370px;
+    }
+    
+    .sidebar-section {
+        padding: 16px;
+    }
+    
+    .breadcrumb {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+    
+    .pagination {
+        gap: 4px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .pagination a,
+    .pagination span {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 8px;
+    }
+    
+    .posts-grid {
+        grid-template-columns: 1fr;
+        padding: 0 12px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .blog-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .posts-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+
+    .post-card {
+        min-height: 320px;
+    }
+    
+    .container, .container-fluid {
+        padding: 0 20px;
+    }
+}
+
+@media (min-width: 768px) {
+    .posts-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 32px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .blog-layout {
+        grid-template-columns: 1fr 300px;
+        gap: 40px;
+    }
+    
+    .posts-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .container, .container-fluid {
+        padding: 0 32px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .blog-layout {
+       grid-template-columns: 1fr 320px;
+        gap: 40px;
+        padding: 0 10px;
+    }
+    
+    .posts-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+
+@media (min-width: 1440px) {
+    .container, .container-fluid {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px;
+    }
+}
+
+/* Animaciones Mejoradas */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Loading states */
+.loading-skeleton {
+    background: linear-gradient(90deg, #F5F5F5 25%, #E8E8E8 50%, #F5F5F5 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Mejoras adicionales de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus states mejorados */
+.post-card:focus-within,
+.sidebar-section:focus-within,
+.category-item:focus,
+.popular-post:focus,
+.tag-badge2:focus {
+    outline: 2px solidrgb(235, 235, 238);
+    outline-offset: 2px;
+}
+
+/* Mejoras de contrast para mejor accesibilidad */
+@media (prefers-contrast: high) {
+    .tag-badge2 {
+        border: 2px solid #000000;
+    }
+    
+    .post-card {
+        border: 1px solid #000000;
+    }
+    
+    .sidebar-section {
+        border: 1px solid #000000;
+    }
+}
+
+
+/* CORRECCIONES ADICIONALES PARA EVITAR SCROLL HORIZONTAL */
+.row {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-width: 100%;
+}
+
+.row > * {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.col-md-3, .col-md-4, .col-md-6, .col-md-8, .col-md-12 {
+    width: 100%;
+    max-width: 100%;
+}
+
+.d-flex {
+    flex-wrap: wrap;
+}
+
+.flex-wrap {
+    flex-wrap: wrap !important;
+}
+
+.w-100 {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.btn {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.badge {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Asegurar que ningún elemento se salga del contenedor */
+* {
+    max-width: 100%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Corrección específica para Bootstrap columns */
+@media (min-width: 768px) {
+    .col-md-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    
+    .col-md-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    .col-md-8 {
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+    }
+}
+
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(20px, 3vw, 32px);
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    align-content: space-between;
+}
+
+/* Móvil pequeño */
+@media (min-width: 480px) {
+    .posts-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    .posts-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+
+/* Tablet grande / Desktop pequeño */
+@media (min-width: 1024px) {
+    .posts-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+    }
+}
+
+/* Desktop grande */
+@media (min-width: 1200px) {
+    .posts-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+    }
+}
+
+/* Desktop extra grande */
+@media (min-width: 1400px) {
+    .posts-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+    }
+}
+
+
+
+.posts-grid > .card .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.badge-secondary {
+    background-color: #000000 !important;
+}
+.card {
+    background-color: #fdeee4 !important;
+}
+.card-header {
+    background-color: rgba(255, 255, 255, 0) !important;
+}
+    /* diseño nuevo BREADCRUMN */
+
+    /* Contenedor principal del breadcrumb */
+        .bc-enhanced__nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fbfbfb;
+            border-radius: 16px;
+            padding: 20px 0;
+        }
+
+        .bc-enhanced__nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #000, transparent);
+            opacity: 0.1;
+        }
+
+        /* Lista del breadcrumb */
+        .bc-enhanced__list {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* Items del breadcrumb */
+        .bc-enhanced__item {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .bc-enhanced__item:not(:last-child)::after {
+            content: '';
+            width: 16px;
+            height: 16px;
+            margin: 0 12px;
+            background: #000;
+            clip-path: polygon(0 20%, 60% 50%, 0 80%);
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+
+        .bc-enhanced__item:hover:not(:last-child)::after {
+            opacity: 0.6;
+            transform: translateX(2px);
+        }
+
+        /* Enlaces del breadcrumb */
+        .bc-enhanced__link {
+            text-decoration: none;
+            color: #6c757d;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+        }
+
+        .bc-enhanced__link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .bc-enhanced__link:hover {
+            color: #000;
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .bc-enhanced__link:hover::before {
+            left: 100%;
+        }
+
+        /* Item activo */
+        .bc-enhanced__item--active .bc-enhanced__text {
+            color: #000;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 16px;
+            background: #000;
+            color: #fff;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bc-enhanced__item--active .bc-enhanced__text::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Texto sin enlace */
+        .bc-enhanced__text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #6c757d;
+            padding: 8px 16px;
+        }
+
+        /* Efectos de hover en el contenedor */
+        .bc-enhanced__nav:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            transform: translateY(-1px);
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .bc-enhanced__list {
+                padding: 0 16px;
+                gap: 4px;
+            }
+
+            .bc-enhanced__item:not(:last-child)::after {
+                margin: 0 8px;
+                width: 12px;
+                height: 12px;
+            }
+
+            .bc-enhanced__link,
+            .bc-enhanced__text,
+            .bc-enhanced__item--active .bc-enhanced__text {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+        }
+
+        /* Indicador de posición */
+        .bc-enhanced__nav::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            right: 20px;
+            height: 1px;
+            /*background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);*/
+        }
+
+        /* Animación de entrada */
+        .bc-enhanced__item {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: slideInUp 0.5s ease forwards;
+        }
+
+        .bc-enhanced__item:nth-child(1) { animation-delay: 0.1s; }
+        .bc-enhanced__item:nth-child(2) { animation-delay: 0.2s; }
+        .bc-enhanced__item:nth-child(3) { animation-delay: 0.3s; }
+        .bc-enhanced__item:nth-child(4) { animation-delay: 0.4s; }
+        .bc-enhanced__item:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* NUEVAS CLASES PARA EL PREVIEW */
+.post-preview-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 32px);
+    max-width: 280px;
+    background: rgb(59 57 57 / 25%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    z-index: 4;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.preview-text {
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0 0 12px 0;
+    font-weight: 400;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.read-more-btn {
+    display: inline-block;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+/* HOVER EFFECTS */
+.post-card:hover .post-preview-overlay {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%) scale(1.02);
+}
+
+.post-card:hover .read-more-btn {
+    transform: translateX(4px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .post-preview-overlay {
+        width: calc(100% - 24px);
+        max-width: none;
+        padding: 14px;
+    }
+    
+    .preview-text {
+        font-size: 13px;
+        -webkit-line-clamp: 2;
+    }
+    
+    .read-more-btn {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-preview-overlay {
+        width: calc(100% - 50px); /* Más espacio para el botón en móvil */
+        margin-right: 15px;
+        padding: 12px;
+    }
+    
+    .preview-text {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+}
+
+/* Custom styles for v2-minimalist sidebar */
+.v2-sidebar-section {
+    padding: 15px 0;
+}
+
+.v2-sidebar-title {
+    font-size: 1.3rem; /* Slightly larger for prominence */
+    font-weight: 600; /* Bolder for title */
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9ecef; /* Subtle line */
+}
+
+.v2-sidebar-title-link {
+    color: #343a40 !important; /* Darker text for title */
+}
+
+.v2-accordion-item {
+    border: none; /* Remove default Bootstrap card border */
+    margin-bottom: 0; /* Remove margin between items */
+    border-bottom: 1px solid #f0f0f0; /* Very light separator line */
+    background-color: transparent; /* Ensure transparent background */
+}
+
+.v2-accordion-item:last-child {
+    border-bottom: none; /* No border on the last item */
+}
+
+.v2-accordion-item-active .v2-accordion-header {
+    background-color: #f8f9fa; /* Very light background for active category header */
+}
+
+.v2-accordion-header {
+    padding: 12px 15px; /* Adjust padding */
+    background-color: #fff; /* White background */
+    border-bottom: none; /* Remove default card-header border */
+    cursor: pointer; /* Indicate clickable area */
+}
+
+.v2-category-link {
+    font-size: 1rem;
+    font-weight: 500; /* Medium font weight */
+    color: #495057 !important; /* Darker gray for category links */
+    display: block; /* Make the whole link clickable */
+    flex-grow: 1; /* Allow link to take available space */
+}
+
+.v2-category-link-active {
+    color: #021933 !important; /* Bootstrap primary blue for active link */
+    font-weight: 600; /* Bolder for active link */
+}
+
+.v2-accordion-toggle {
+    padding: 0 5px; /* Smaller padding for button */
+    color: #6c757d !important; /* Gray icon */
+    font-size: 0.8rem; /* Smaller icon */
+    transition: transform 0.3s ease; /* Smooth transition for rotation */
+}
+
+.v2-accordion-toggle:hover {
+    color: #007bff !important; /* Blue on hover */
+}
+
+/* New class for rotated state */
+.v2-accordion-toggle-rotated {
+    transform: rotate(180deg);
+}
+
+.v2-accordion-body {
+    padding: 0; /* Remove default padding */
+}
+
+.v2-sub-list {
+    padding-left: 0; /* Remove default ul padding */
+    margin-bottom: 0; /* Remove default ul margin */
+    list-style: none; /* Remove bullet points */
+}
+
+.v2-sub-item {
+    padding: 8px 15px 8px 30px; /* Indent sub-items, adjust padding */
+    border: none; /* Remove list-group-item border */
+    background-color: #fafafa; /* Slightly different background for sub-items */
+    border-bottom: 1px solid #f7f7f7; /* Even lighter separator */
+}
+
+.v2-sub-item:last-child {
+    border-bottom: none;
+}
+
+.v2-sub-item-active {
+    background-color: #e9f5ff !important; /* Light blue background for active sub-item */
+}
+
+.v2-sub-link {
+    color: #6c757d !important; /* Gray for sub-links */
+    font-size: 0.9rem; /* Slightly smaller font for sub-links */
+    text-decoration: none;
+}
+
+.v2-sub-link-active {
+    color: #212c39 !important; /* Primary blue for active sub-link */
+    font-weight: 500; /* Medium font weight for active sub-link */
+}
+
+.v2-active-check {
+    color: #1ddf49; /* Green checkmark */
+    margin-right: 5px;
+    font-size: 0.8rem;
+}
+
+.v2-sub-count {
+    background-color: #e9ecef; /* Light gray badge */
+    color: #495057; /* Darker text for badge */
+    font-size: 0.75rem; /* Smaller badge font */
+    padding: 0.3em 0.6em; /* Adjust badge padding */
+}
+
+</style>
+
+<!-- Caracteristicas -->
+
+
+
+<div class="" style="margin-top: 100px;">
+    
+<nav aria-label="breadcrumb" class="bc-enhanced__nav">
+    <ol class="bc-enhanced__list">
+        <li class="bc-enhanced__item">
+            <a href="/blog/<?= h($eventType->eventoslug) ?>" class="bc-enhanced__link">Inicio</a>
+        </li>
+
+        <?php if (!empty($categoryId) && isset($breadcrumbCategories[$categoryId])): ?>
+            <li class="bc-enhanced__item">
+                <a href="/blog/<?= h($eventType->eventoslug) ?>/temas" class="bc-enhanced__link">Todos los temas</a>
+            </li>
+            <li class="bc-enhanced__item <?= empty($subcategorySlug) ? 'bc-enhanced__item--active' : '' ?>">
+                <?php if (!empty($subcategorySlug)): ?>
+                    <a href="/blog/<?= h($eventType->eventoslug) ?>/temas/<?= h($categorySlug) ?>" class="bc-enhanced__link">
+                        Tema: <?= h($breadcrumbCategories[$categoryId]) ?>
+                    </a>
+                <?php else: ?>
+                    <span class="bc-enhanced__text">
+                        Tema: <?= h($breadcrumbCategories[$categoryId]) ?>
+                    </span>
+                <?php endif; ?>
+            </li>
+            
+            <?php if (!empty($subcategorySlug)): ?>
+                <li class="bc-enhanced__item bc-enhanced__item--active">
+                    <span class="bc-enhanced__text">
+                        Subtema: <?= h($subcategorySlug) ?>
+                    </span>
+                </li>
+            <?php endif; ?>
+
+        <?php elseif (!empty($tagId) && isset($breadcrumbTags[$tagId])): ?>
+            <li class="bc-enhanced__item">
+                <a href="/blog/<?= h($eventType->eventoslug) ?>/etiquetas" class="bc-enhanced__link">Todas las etiquetas</a>
+            </li>
+            <li class="bc-enhanced__item bc-enhanced__item--active">
+                <span class="bc-enhanced__text">
+                    Etiqueta: <?= h($breadcrumbTags[$tagId]) ?>
+                </span>
+            </li>
+
+        <?php elseif ($show === 'categories'): ?>
+            <li class="bc-enhanced__item bc-enhanced__item--active">
+                <span class="bc-enhanced__text">
+                    Todos los temas
+                </span>
+            </li>
+
+        <?php elseif ($show === 'tags'): ?>
+            <li class="bc-enhanced__item bc-enhanced__item--active">
+                <span class="bc-enhanced__text">
+                    Todas las etiquetas
+                </span>
+            </li>
+
+        <?php else: ?>
+            <li class="bc-enhanced__item">
+                <a href="/blog/<?= h($eventType->eventoslug) ?>/temas" class="bc-enhanced__link">Ver todos los temas</a>
+            </li>
+            <li class="bc-enhanced__item">
+                <a href="/blog/<?= h($eventType->eventoslug) ?>/etiquetas" class="bc-enhanced__link">Ver todas las etiquetas</a>
+            </li>
+        <?php endif; ?>
+    </ol>
+</nav>
+
+    <?php if ($show === 'categories'): ?>
+        <!-- SOLO Vista de todas las categorías/temas -->
+        <div class="mb-4">
+            <h2 class="mb-2">Explora todos los temas de <?= h($eventType->name) ?></h2>
+            <p class="text-muted">Descubre contenido organizado por temas específicos</p>
+        </div>
+        
+        <div class="row">
+            <?php foreach ($blogCategories as $cat): ?>
+            <div class="col-md-4 mb-4">
+                <div class="glass-card p-4 h-100 d-flex flex-column">
+                    <?php if (!empty($cat->image)): ?>
+                        <div class="mb-3 text-center">
+                            <img src="/img/<?= h($cat->image) ?>" alt="<?= h($cat->name) ?>" 
+                                 class="img-fluid rounded" style="max-height: 120px; object-fit: cover;">
+                        </div>
+                    <?php endif; ?>
+                    
+                    <div class="flex-grow-1">
+                        <h5 class="card-title">
+                            <a href="/blog/<?= h($eventType->eventoslug) ?>/temas/<?= h($cat->slug) ?>" 
+                               class="text-decoration-none text-dark">
+                                <?= h($cat->name) ?>
+                            </a>
+                        </h5>
+                        
+                        <?php if (!empty($cat->description)): ?>
+                            <p class="card-text text-muted small"><?= h($cat->description) ?></p>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="mt-auto">
+                        <span class="badge bg-primary">
+                            <?= $cat->count ?> artículo<?= $cat->count > 1 ? 's' : '' ?>
+                        </span>
+                        <a href="/blog/<?= h($eventType->eventoslug) ?>/temas/<?= h($cat->slug) ?>" 
+                           class="btn btn-outline-primary btn-sm mt-2 w-100">
+                            Ver artículos
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+
+    <?php elseif ($show === 'tags'): ?>
+        <!-- SOLO Vista de todas las etiquetas -->
+        <div class="mb-4">
+            <h2 class="mb-2">Explora todas las etiquetas de <?= h($eventType->name) ?></h2>
+            <p class="text-muted">Encuentra contenido por etiquetas específicas</p>
+        </div>
+        
+        <div class="row">
+            <?php foreach ($blogTags as $tag): ?>
+            <div class="col-md-3 mb-3">
+                <div class="glass-card p-3 text-center h-100">
+                    <a href="/blog/<?= h($eventType->eventoslug) ?>/etiquetas/<?= h($tag->slug) ?>" 
+                       class="stretched-link text-decoration-none">
+                        <div class="mb-2">
+                            <span class="badge fs-6">#<?= h($tag->name) ?></span>
+                        </div>
+                        <small class="text-muted">
+                            <?= $tag->count ?> post<?= $tag->count > 1 ? 's' : '' ?>
+                        </small>
+                    </a>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+
+    <?php else: ?>
+        <!-- Vista normal de posts -->
+        <div class="">
+            <!-- Header -->
+            <div class="blog-header">
+                <h1 class="section-title"><?= h($pageTitle) ?></h1>
+                <?php if (!empty($pageDescription)): ?>
+                    <p class="section-subtitle"><?= h($pageDescription) ?></p>
+                <?php endif; ?>
+            </div>
+
+            <!-- Main Layout -->
+            <div class="blog-layout">
+                <!-- Posts Grid -->
+                <main class="posts-section">
+                    <div class="posts-grid">
+                        <?php foreach ($posts as $post): ?>
+                            <article class="post-card animate-fade-in">
+                                <a href="/blog/<?= h($eventType->eventoslug) ?>/<?= h($post->slug) ?>">
+                                    <img src="/img/<?= h($post->banner) ?>" alt="<?= h($post->title) ?>" class="post-card-image" loading="lazy">
+                                    <div class="post-category">
+                                        <span><?= h($post->blog_category->name ?? '-') ?></span>
+                                    </div>
+                                    <div class="post-title-overlay">
+                                        <h3><?= h($post->title) ?></h3>
+                                    </div>
+                                     <!-- NUEVO: Preview con blur background -->
+                                    <div class="post-preview-overlay">
+                                        <p class="preview-text"><?= h(substr(preg_replace('/[#*`_~\[\]()>-]/', '', strip_tags($post->body)), 0, 120)) ?>...</p></p>
+                                        <span class="read-more-btn">Leer más</span>
+                                    </div>
+                                    <button class="post-arrow-btn"></button>
+                                    <div class="post-tags">
+                                        <?php foreach ($post->blog_tags as $tag): ?>
+                                            <span class="tag-badge">🔖 <?= h($tag->name) ?></span>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </a>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                    
+                    <div class="pagination-wrapper">
+                        <ul class="pagination">
+                            <?= $this->Paginator->first('« Primera') ?>
+                            <?= $this->Paginator->prev('← Anterior') ?>
+                            <?= $this->Paginator->numbers() ?>
+                            <?= $this->Paginator->next('Siguiente →') ?>
+                            <?= $this->Paginator->last('Última »') ?>
+                        </ul>
+                    </div>
+                </main>
+                   
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <!-- Categorías y subcategorías con contador -->
+                    <div class="v2-sidebar-section">
+    <h3 class="v2-sidebar-title">
+        <a href="/blog/<?= h($eventType->eventoslug) ?>/temas" class="text-decoration-none v2-sidebar-title-link">
+            Temas Populares
+        </a>
+    </h3>
+    <div class="v2-accordion" id="accordionCategorias">
+        <?php foreach ($blogCategories as $category): ?>
+            <?php
+                $catId = $category->id;
+                $subcats = $organizedSubcategories[$catId] ?? [];
+                $subcatCount = count($subcats);
+                $accordionId = 'cat_' . $catId;
+
+                $isActiveCat = ($categorySlug === $category->slug);
+                $shouldShowAccordion = ($activeCategoryId == $catId);
+
+                $categoryUrl = "/blog/{$eventType->eventoslug}/temas/{$category->slug}";
+                $collapseId = "collapse_{$accordionId}";
+                $headingId = "heading_{$accordionId}";
+            ?>
+            <div class="v2-accordion-item <?= $isActiveCat ? 'v2-accordion-item-active' : '' ?>">
+                <div class="v2-accordion-header d-flex justify-content-between align-items-center" id="<?= $headingId ?>">
+                    <a href="<?= h($categoryUrl) ?>" class="text-decoration-none v2-category-link <?= $isActiveCat ? 'v2-category-link-active' : '' ?>">
+                        <?= h($category->name) ?>
+                    </a>
+                    <?php if ($subcatCount > 0): ?>
+                        <button class="v2-accordion-toggle btn btn-sm btn-link text-dark" type="button"
+                                data-toggle="collapse"
+                                data-target="#<?= $collapseId ?>"
+                                aria-expanded="<?= $shouldShowAccordion ? 'true' : 'false' ?>"
+                                aria-controls="<?= $collapseId ?>">
+                            <i class="fas <?= $shouldShowAccordion ? 'fa-chevron-up' : 'fa-chevron-down' ?>"></i>
+                        </button>
+                    <?php endif; ?>
+                </div>
+
+                <?php if ($subcatCount > 0): ?>
+                    <div id="<?= $collapseId ?>"
+                        class="v2-accordion-body collapse <?= $shouldShowAccordion ? 'show' : '' ?>"
+                        aria-labelledby="<?= $headingId ?>"
+                        data-parent="#accordionCategorias">
+                        <ul class="v2-sub-list list-group list-group-flush">
+                            <?php foreach ($subcats as $subcat): ?>
+                                <?php
+                                    $isActiveSubcat = ($subcategorySlug === $subcat->slug && $categorySlug === $category->slug);
+                                    $subcatUrl = "/blog/{$eventType->eventoslug}/temas/{$category->slug}/{$subcat->slug}";
+                                ?>
+                                <li class="v2-sub-item list-group-item d-flex justify-content-between align-items-center <?= $isActiveSubcat ? 'v2-sub-item-active' : '' ?>">
+                                    <a href="<?= h($subcatUrl) ?>" class="v2-sub-link <?= $isActiveSubcat ? 'v2-sub-link-active' : '' ?>">
+                                        <?= $isActiveSubcat ? '<i class="fas fa-check-circle v2-active-check"></i> ' : '' ?><?= h($subcat->name) ?>
+                                    </a>
+                                    <span class="v2-sub-count badge badge-pill"><?= $subcat->count ?></span>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+                    <!-- Posts Más Vistos -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Posts Más Vistos 🔥</h3>
+                        <div class="popular-posts">
+                            <?php if (!empty($mostViewedPosts)): ?>
+                                <?php foreach ($mostViewedPosts as $post): ?>
+                                    <div class="popular-post">
+                                        <a href="/blog/<?= h($eventType->eventoslug) ?>/<?= h($post->slug) ?>">
+                                            <img src="/img/<?= h($post->banner) ?>" alt="Post popular" class="popular-post-image">
+                                        </a>
+                                        <a href="/blog/<?= h($eventType->eventoslug) ?>/<?= h($post->slug) ?>">
+                                            <div class="popular-post-content">
+                                                <h4><?= h($post->title) ?></h4>
+                                                <p class="popular-post-meta"> 
+                                                    <?= $this->Time->timeAgoInSpanish($post->modified) ?>
+                                                    • <?= formatNumberShort($post->views) ?> vistas
+                                                    <?php if (!empty($post->blog_author)): ?>
+                                                        • Por <?= h($post->blog_author->name ?? 'Autor Desconocido') ?>
+                                                    <?php endif; ?>
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Tags Disponibles -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">
+                            <a href="/blog/<?= h($eventType->eventoslug) ?>/etiquetas" class="text-decoration-none">
+                                Explora por etiquetas
+                            </a>
+                        </h3>
+                        <div class="tag-cloud">
+                            <?php foreach ($blogTags as $tag): ?>
+                                <a href="/blog/<?= h($eventType->eventoslug) ?>/etiquetas/<?= h($tag->slug) ?>">
+                                    <span class="tag-badge2">
+                                        <?= h($tag->name) ?> 
+                                        <span class="category-count">(<?= $tag->count ?>)</span>
+                                    </span>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Sección: Categorías (solo en vista principal) -->
+            <?php if (empty($categoryId) && empty($tagId)): ?>
+            <h3 class="section-title text-center">Temas populares</h3>
+
+            <div class="d-flex flex-wrap justify-content-center gap-4 mb-5">
+                <?php foreach ($blogCategories as $category): ?>
+                    <a href="/blog/<?= h($eventType->eventoslug) ?>/temas/<?= h($category->slug) ?>" class="text-decoration-none text-center" style="width: 120px;">
+                        <div class="mx-auto rounded-circle overflow-hidden shadow" style="width: 100px; height: 100px; background: white;">
+                            <?php if (!empty($category->image)): ?>
+                                <img src="/img/<?= h($category->image) ?>" alt="<?= h($category->name) ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                            <?php else: ?>
+                                <div style="width: 100%; height: 100%; background: #eee;"></div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="mt-2" style="font-size: 0.95rem; color: #333;">
+                            <?= h($category->name) ?>
+                        </div>
+                        <span class="badge badge-pill badge-primary"><?= $category->count ?></span>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+
+        </div>
+        
+    <?php endif; ?>
+
+</div>
+    
+ <script>
+        // Auto-detect title lines and adjust arrow button position
+        document.addEventListener('DOMContentLoaded', function() {
+            const postCards = document.querySelectorAll('.post-card');
+            
+           // JavaScript mejorado para coordinar preview y botón
+postCards.forEach(card => {
+    const titleOverlay = card.querySelector('.post-title-overlay');
+    const title = titleOverlay.querySelector('h3');
+    const arrowBtn = card.querySelector('.post-arrow-btn');
+    const previewOverlay = card.querySelector('.post-preview-overlay');
+    
+    // Calcular la altura del título para determinar cuántas líneas tiene
+    const titleHeight = title.offsetHeight;
+    
+    // Mantener el preview centrado con pequeños ajustes según el título
+    let previewOffset;
+    if (titleHeight <= 24) { // Una línea
+        previewOffset = -10; // Ligeramente hacia arriba
+    } else if (titleHeight <= 48) { // Dos líneas
+        previewOffset = 0; // Centro perfecto
+    } else { // Tres líneas o más
+        previewOffset = 10; // Ligeramente hacia abajo
+    }
+    
+    // Establecer posición del preview (mantiene centrado)
+    previewOverlay.style.top = '50%';
+    previewOverlay.style.transform = `translate(-50%, calc(-50% + ${previewOffset}px))`;
+    
+    // ===== AQUÍ ES DONDE AJUSTAMOS LA POSICIÓN DEL BOTÓN =====
+    
+    // Obtener las medidas del preview y de la tarjeta
+    const previewRect = previewOverlay.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    
+    // Calcular el centro del preview como porcentaje de la tarjeta
+    const previewCenterY = ((previewRect.top + previewRect.height/2 - cardRect.top) / cardRect.height) * 100;
+    
+    // AJUSTE PRINCIPAL: Cambiar este valor para mover el botón más abajo
+    // Valores más altos = botón más abajo
+    // Valores más bajos = botón más arriba
+    const buttonOffset = 13; // 🔧 CAMBIA ESTE NÚMERO:
+                            //    8 = más arriba (original)
+                            //    15 = moderadamente abajo
+                            //    20 = bastante abajo
+                            //    25 = muy abajo
+    
+    // Calcular posición final del botón (con límite máximo del 85% para evitar los tags)
+    const arrowTopPercent = Math.min(previewCenterY + buttonOffset, 85);
+    
+    // Aplicar la posición al botón
+    arrowBtn.style.top = `${arrowTopPercent}%`;
+    
+    // ===== MÉTODO ALTERNATIVO (más directo) =====
+    // Si quieres un control más directo, puedes usar posiciones fijas:
+    
+    /*
+    // Descomenta este bloque y comenta el código de arriba si prefieres posiciones fijas
+    if (titleHeight <= 24) { // Una línea
+        arrowBtn.style.top = '70%'; // Posición fija para títulos de una línea
+    } else if (titleHeight <= 48) { // Dos líneas
+        arrowBtn.style.top = '72%'; // Posición fija para títulos de dos líneas
+    } else { // Tres líneas o más
+        arrowBtn.style.top = '75%'; // Posición fija para títulos de tres líneas
+    }
+    */
+    
+    // Agregar clases CSS para coordinación de estilos
+    if (titleHeight <= 24) {
+        titleOverlay.className = 'post-title-overlay single-line';
+    } else if (titleHeight <= 48) {
+        titleOverlay.className = 'post-title-overlay two-lines';
+    } else {
+        titleOverlay.className = 'post-title-overlay three-lines';
+    }
+});
+        
+
+        // Handle smooth scroll and click navigation for tags
+        document.querySelectorAll('.post-tags').forEach(container => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            
+            // Mouse events for drag scrolling
+            container.addEventListener('mousedown', (e) => {
+                isDown = true;
+                container.style.cursor = 'grabbing';
+                startX = e.pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+            });
+            
+            container.addEventListener('mouseleave', () => {
+                isDown = false;
+                container.style.cursor = 'grab';
+            });
+            
+            container.addEventListener('mouseup', () => {
+                isDown = false;
+                container.style.cursor = 'grab';
+            });
+            
+            container.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - container.offsetLeft;
+                const walk = (x - startX) * 2;
+                container.scrollLeft = scrollLeft - walk;
+            });
+            
+            // Touch events for mobile
+            container.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+            });
+            
+            container.addEventListener('touchmove', (e) => {
+                if (!startX) return;
+                const x = e.touches[0].pageX - container.offsetLeft;
+                const walk = (x - startX) * 2;
+                container.scrollLeft = scrollLeft - walk;
+            });
+            
+            // Wheel scrolling
+            container.addEventListener('wheel', (e) => {
+                if (container.scrollWidth > container.clientWidth) {
+                    e.preventDefault();
+                    container.scrollLeft += e.deltaY;
+                }
+            });
+            
+            // Set cursor style
+            container.style.cursor = 'grab';
+        });
+
+        });
+    </script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const accordions = document.querySelectorAll('#accordionCategorias .collapse');
+
+    accordions.forEach(collapse => {
+        collapse.addEventListener('shown.bs.collapse', function () {
+            const button = this.previousElementSibling.querySelector('button .toggle-icon');
+            if (button) button.textContent = '▲';
+        });
+        collapse.addEventListener('hidden.bs.collapse', function () {
+            const button = this.previousElementSibling.querySelector('button .toggle-icon');
+            if (button) button.textContent = '▼';
+        });
+    });
+});
+</script>
+<script>
+    // JavaScript para manejar la rotación de las flechas del acordeón
+$(document).ready(function() {
+    // Escuchar el evento 'show.bs.collapse' de Bootstrap
+    $('#accordionCategorias').on('show.bs.collapse', function (e) {
+        // Encontrar el botón que activó el colapso
+        const toggleButton = $(e.target).prev('.v2-accordion-header').find('.v2-accordion-toggle');
+        // Quitar la clase de flecha hacia abajo y agregar la de flecha hacia arriba
+        toggleButton.find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+        // Añadir la clase para rotar el icono
+        toggleButton.addClass('v2-accordion-toggle-rotated');
+    });
+
+    // Escuchar el evento 'hide.bs.collapse' de Bootstrap
+    $('#accordionCategorias').on('hide.bs.collapse', function (e) {
+        // Encontrar el botón que activó el colapso
+        const toggleButton = $(e.target).prev('.v2-accordion-header').find('.v2-accordion-toggle');
+        // Quitar la clase de flecha hacia arriba y agregar la de flecha hacia abajo
+        toggleButton.find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+        // Quitar la clase para rotar el icono
+        toggleButton.removeClass('v2-accordion-toggle-rotated');
+    });
+
+    // Inicializar el estado de las flechas al cargar la página si hay categorías abiertas
+    $('.v2-accordion-body.show').each(function() {
+        const toggleButton = $(this).prev('.v2-accordion-header').find('.v2-accordion-toggle');
+        toggleButton.find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+        toggleButton.addClass('v2-accordion-toggle-rotated');
+    });
+});
+</script>

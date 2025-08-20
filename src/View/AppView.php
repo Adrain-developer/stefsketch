@@ -37,5 +37,10 @@ class AppView extends View
      */
     public function initialize(): void
     {
+    parent::initialize();
+
+    // Carga tu helper personalizado
+    $this->loadHelper('Blog');
+
     }
 }

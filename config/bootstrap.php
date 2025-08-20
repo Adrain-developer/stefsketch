@@ -46,6 +46,8 @@ use Cake\Mailer\TransportFactory;
 use Cake\Routing\Router;
 use Cake\Utility\Security;
 
+
+
 /*
  * See https://github.com/josegonzalez/php-dotenv for API details.
  *
@@ -102,11 +104,15 @@ if (Configure::read('debug')) {
     Configure::write('Cache._cake_routes_.duration', '+2 seconds');
 }
 
+use Cake\I18n\I18n;
+I18n::setLocale('es_ES'); // o 'es_MX' dependiendo de tu región
+
 /*
  * Set the default server timezone. Using UTC makes time calculations / conversions easier.
  * Check http://php.net/manual/en/timezones.php for list of valid timezone strings.
  */
-date_default_timezone_set(Configure::read('App.defaultTimezone'));
+date_default_timezone_set('America/Mexico_City');
+
 
 /*
  * Configure the mbstring extension to use the correct encoding.

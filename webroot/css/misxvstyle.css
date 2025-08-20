@@ -800,7 +800,7 @@
   }
   
   section.modelos .modelos-list {
-    padding-top: 50px;
+    padding-top: 5px;
   }
   
   
@@ -1076,6 +1076,7 @@
   
     section.modelos .modelo .botones-modelo {
       padding: 0 10px;
+      margin-top: -20px;
     }
   
     section.modelos .modelo .botones-modelo a {
@@ -1191,13 +1192,14 @@
 @media only screen and (max-width: 767px) {
 
     section.portada-bodas::after {
-      background-color: rgba(71, 71, 71, 0.6);
+      height: 120%;
     }
-  
     section.portada-bodas .info-portada .box-iframe {
       display: none;
     }
-  
+    .info-portada{ 
+      padding-top: 310px;
+    }
     section.portada-bodas .info-portada .box-info {
       max-width: 100%;
       padding-top: 45px;
@@ -1279,6 +1281,7 @@
     }
   
   }
+
   section.como-funciona .step-number span.number {
     display: inline-block;
     background-color:#f8bdc0;
@@ -1307,12 +1310,66 @@
   content: "";
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 96.8%;
   background-color: rgba(0, 0, 0, 0.55);
   z-index: 0;
   top: 0;
   left: 0;
 }
-.portada-bodas::after {
-  background-color: rgba(0, 0, 0, 0.60);
+
+  .info-portada{ 
+    max-width: 100%;
+    padding-top: 310px;
+    text-align: center;
+    position: relative;
+    z-index: 999;
+    color: white;
+    text-shadow: 0px 6px 12px black;
+  }
+  .responsive-banner{
+    margin: 25px 0 25px 0;
+  }
+  .imgBannerrsvp{
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: -5px 9px 10px #9c9c9c;
+  }
+  
+.imgBannera {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: -5px 9px 10px #9c9c9c;
+}
+
+.imgBannerrsvp {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: -5px 9px 10px #9c9c9c;
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .imgBannerrsvp {
+    display: none;
+  }
+}
+
+.imgBannerrsvomovil {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .imgBannerrsvomovil {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: -5px 9px 10px #9c9c9c;
+  }
+}
+.paddtp-100{
+  padding-top: 100px;
 }

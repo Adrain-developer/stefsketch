@@ -1,233 +1,254 @@
-<?php
-/**
- * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link      https://cakephp.org CakePHP(tm) Project
- * @since     0.10.0
- * @license   https://opensource.org/licenses/mit-license.php MIT License
- * @var \App\View\AppView $this
- */
-use Cake\Cache\Cache;
-use Cake\Core\Configure;
-use Cake\Core\Plugin;
-use Cake\Datasource\ConnectionManager;
-use Cake\Error\Debugger;
-use Cake\Http\Exception\NotFoundException;
 
-$this->disableAutoLayout();
+<?= $this->Html->css(['bodaNB'.'.css?v=1.0-2b5']) ?>
+<?= $this->Html->css(['infVersiones'.'.css?v=1.3']) ?>	
 
-$checkConnection = function (string $name) {
-    $error = null;
-    $connected = false;
-    try {
-        $connection = ConnectionManager::get($name);
-        $connected = $connection->connect();
-    } catch (Exception $connectionError) {
-        $error = $connectionError->getMessage();
-        if (method_exists($connectionError, 'getAttributes')) {
-            $attributes = $connectionError->getAttributes();
-            if (isset($attributes['message'])) {
-                $error .= '<br />' . $attributes['message'];
-            }
-        }
-    }
+<?php $this->assign('title', 'Home'); ?>
 
-    return compact('connected', 'error');
-};
+<style>
+section.como-funciona .step-number {
+    text-align: center;
+    padding: 0px 0px;
+}
+.boton-secundario{
+  background: linear-gradient(135deg, #8673a1 0%, #ebb0f3 25%, #8673a1 75%, #ebb0f3 100%);
+    color: #fff;
+}
+.outer-menu .hamburger{
+  background: linear-gradient(135deg, #8673a1 0%, #ebb0f3 25%, #8673a1 75%, #ebb0f3 100%);
+}
+.divisionmorada{
+  content: "";
+    width: 50px;
+    height: 2px;
+    background: #8673a1 !important;
+    margin-bottom: 15px;
+}
+section.como-funciona .step-number span.number {
+  background: linear-gradient(119deg, #e161e1, #f38658) !important;
+}
+.banner-call-to-action:before{
+  background: linear-gradient(135deg, #8673a1 0%, #ebb0f3 25%, #8673a1 75%, #ebb0f3 100%);
+}
+section.portada-bodas .info-portada-bodas .box-info a.boton {
+    padding: 18px 50px;
+    margin-top: 20px;
+}
+.texttitslider{
+      color: #f8bdc0;
+}
+</style>
 
-if (!Configure::read('debug')) :
-    throw new NotFoundException(
-        'Please replace templates/Pages/home.php with your own version or re-enable debug mode.'
-    );
-endif;
-
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        CakePHP: the rapid development PHP framework:
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
-
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
-
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home']) ?>
-
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
-</head>
-<body>
-    <header>
-        <div class="container text-center">
-            <a href="https://cakephp.org/" target="_blank" rel="noopener">
-                <img alt="CakePHP" src="https://cakephp.org/v2/img/logos/CakePHP_Logo.svg" width="350" />
-            </a>
-            <h1>
-                Welcome to CakePHP <?= h(Configure::version()) ?> Strawberry (🍓)
-            </h1>
+<div class="parallax-mirror mirrorbanner-principal">
+  <?php echo $this->Html->image('bannerHomeFiesta1.jpg', ['class' => 'parallax-slider full-imgprincipal', 'style' => '', 'alt' => 'PORTADA']); ?>
+</div>
+<!-- Portada -->
+<section id="portada-bodas" class="portada-bodas" style="height: 55vh;">
+<!-- Contenido portada -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="info-portada d-flex justify-content-center justify-content-md-between align-items-center">
+        <!-- Info -->
+        <div class="box-info">
+          <h1>Invitaciones únicas para tu día especial</h1>
+          <p class="price">Diseños exclusivos listos en 48 horas</p>
         </div>
-    </header>
-    <main class="main">
-        <div class="container">
-            <div class="content">
-                <div class="row">
-                    <div class="column">
-                        <div class="message default text-center">
-                            <small>Please be aware that this page will not be shown if you turn off debug mode unless you replace templates/Pages/home.php with your own version.</small>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Curva divisoria portada -->
+<div class="bottom-portada-bodas"></div>
+</section>
+
+<!-- Caracteristicas -->
+
+<!-- Inicio Eventos -->
+<section id="ventajas" class="como-funciona" style="background-color: #ffffff;">
+    <div class="container">
+    <div class="banner-call-to-action d-flex justify-content-center align-items-center flex-column">
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="title">Eventos 🎉</h2>
+          <p class="sub-title">Invitaciones para todo tipo de eventos</p>
+        </div>
+      </div>
+      </div>
+      <div class="container">
+        <div class="row">
+            <!-- Tarjeta Boda -->
+            <!-- Tarjeta Boda -->
+            <div class="col-12 col-md-4">
+            <a href="https://mieventoapp.com/boda">
+                <div class="neumorph-card wedding-card">
+                        <div class="card-background rellaxevento" data-rellax-speed="-2">
+                            <img src="https://mieventoapp.com/img/bannereventosBoda.jpg" alt="Imagen de boda" loading="lazy">
                         </div>
-                        <div id="url-rewriting-warning" style="padding: 1rem; background: #fcebea; color: #cc1f1a; border-color: #ef5753;">
-                            <ul>
-                                <li class="bullet problem">
-                                    URL rewriting is not properly configured on your server.<br />
-                                    1) <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/installation.html#url-rewriting">Help me configure it</a><br />
-                                    2) <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/development/configuration.html#general-configuration">I don't / can't use URL rewriting</a>
-                                </li>
-                            </ul>
+                        <div class="card-content">
+                            <h2 class="card-title">Boda</h2>
+                            <p class="card-text">La invitación ideal para tu boda</p>
                         </div>
-                        <?php Debugger::checkSecurityKeys(); ?>
-                    </div>
                 </div>
-                <div class="row">
-                    <div class="column">
-                        <h4>Environment</h4>
-                        <ul>
-                        <?php if (version_compare(PHP_VERSION, '7.4.0', '>=')) : ?>
-                            <li class="bullet success">Your version of PHP is 7.4.0 or higher (detected <?= PHP_VERSION ?>).</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your version of PHP is too low. You need PHP 7.4.0 or higher to use CakePHP (detected <?= PHP_VERSION ?>).</li>
-                        <?php endif; ?>
-
-                        <?php if (extension_loaded('mbstring')) : ?>
-                            <li class="bullet success">Your version of PHP has the mbstring extension loaded.</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your version of PHP does NOT have the mbstring extension loaded.</li>
-                        <?php endif; ?>
-
-                        <?php if (extension_loaded('openssl')) : ?>
-                            <li class="bullet success">Your version of PHP has the openssl extension loaded.</li>
-                        <?php elseif (extension_loaded('mcrypt')) : ?>
-                            <li class="bullet success">Your version of PHP has the mcrypt extension loaded.</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your version of PHP does NOT have the openssl or mcrypt extension loaded.</li>
-                        <?php endif; ?>
-
-                        <?php if (extension_loaded('intl')) : ?>
-                            <li class="bullet success">Your version of PHP has the intl extension loaded.</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your version of PHP does NOT have the intl extension loaded.</li>
-                        <?php endif; ?>
-                        </ul>
-                    </div>
-                    <div class="column">
-                        <h4>Filesystem</h4>
-                        <ul>
-                        <?php if (is_writable(TMP)) : ?>
-                            <li class="bullet success">Your tmp directory is writable.</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your tmp directory is NOT writable.</li>
-                        <?php endif; ?>
-
-                        <?php if (is_writable(LOGS)) : ?>
-                            <li class="bullet success">Your logs directory is writable.</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your logs directory is NOT writable.</li>
-                        <?php endif; ?>
-
-                        <?php $settings = Cache::getConfig('_cake_core_'); ?>
-                        <?php if (!empty($settings)) : ?>
-                            <li class="bullet success">The <em><?= h($settings['className']) ?></em> is being used for core caching. To change the config edit config/app.php</li>
-                        <?php else : ?>
-                            <li class="bullet problem">Your cache is NOT working. Please check the settings in config/app.php</li>
-                        <?php endif; ?>
-                        </ul>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="column">
-                        <h4>Database</h4>
-                        <?php
-                        $result = $checkConnection('default');
-                        ?>
-                        <ul>
-                        <?php if ($result['connected']) : ?>
-                            <li class="bullet success">CakePHP is able to connect to the database.</li>
-                        <?php else : ?>
-                            <li class="bullet problem">CakePHP is NOT able to connect to the database.<br /><?= h($result['error']) ?></li>
-                        <?php endif; ?>
-                        </ul>
-                    </div>
-                    <div class="column">
-                        <h4>DebugKit</h4>
-                        <ul>
-                        <?php if (Plugin::isLoaded('DebugKit')) : ?>
-                            <li class="bullet success">DebugKit is loaded.</li>
-                            <?php
-                            $result = $checkConnection('debug_kit');
-                            ?>
-                            <?php if ($result['connected']) : ?>
-                                <li class="bullet success">DebugKit can connect to the database.</li>
-                            <?php else : ?>
-                                <li class="bullet problem">DebugKit is <strong>not</strong> able to connect to the database.<br /><?= $result['error'] ?></li>
-                            <?php endif; ?>
-                        <?php else : ?>
-                            <li class="bullet problem">DebugKit is <strong>not</strong> loaded.</li>
-                        <?php endif; ?>
-                        </ul>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="column links">
-                        <h3>Getting Started</h3>
-                        <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/">CakePHP Documentation</a>
-                        <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/tutorials-and-examples/cms/installation.html">The 20 min CMS Tutorial</a>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="column links">
-                        <h3>Help and Bug Reports</h3>
-                        <a target="_blank" rel="noopener" href="irc://irc.freenode.net/cakephp">irc.freenode.net #cakephp</a>
-                        <a target="_blank" rel="noopener" href="http://cakesf.herokuapp.com/">Slack</a>
-                        <a target="_blank" rel="noopener" href="https://github.com/cakephp/cakephp/issues">CakePHP Issues</a>
-                        <a target="_blank" rel="noopener" href="http://discourse.cakephp.org/">CakePHP Forum</a>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="column links">
-                        <h3>Docs and Downloads</h3>
-                        <a target="_blank" rel="noopener" href="https://api.cakephp.org/">CakePHP API</a>
-                        <a target="_blank" rel="noopener" href="https://bakery.cakephp.org">The Bakery</a>
-                        <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/en/">CakePHP Documentation</a>
-                        <a target="_blank" rel="noopener" href="https://plugins.cakephp.org">CakePHP plugins repo</a>
-                        <a target="_blank" rel="noopener" href="https://github.com/cakephp/">CakePHP Code</a>
-                        <a target="_blank" rel="noopener" href="https://github.com/FriendsOfCake/awesome-cakephp">CakePHP Awesome List</a>
-                        <a target="_blank" rel="noopener" href="https://www.cakephp.org">CakePHP</a>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="column links">
-                        <h3>Training and Certification</h3>
-                        <a target="_blank" rel="noopener" href="https://cakefoundation.org/">Cake Software Foundation</a>
-                        <a target="_blank" rel="noopener" href="https://training.cakephp.org/">CakePHP Training</a>
-                    </div>
-                </div>
+                </a>
             </div>
+            <!-- Tarjeta XV años -->
+            <div class="col-12 col-md-4">
+              <a href="https://mieventoapp.com/misxv">
+                  <div class="neumorph-card xv-card">
+                          <div class="card-background rellaxevento" data-rellax-speed="-2">
+                              <img src="https://mieventoapp.com/img/bannereventosXVsvDOS.jpg" alt="Imagen de XV años" loading="lazy">
+                          </div>
+                          <div class="card-content">
+                              <h2 class="card-title">XV Años</h2>
+                              <p class="card-text">La invitación perfecta para tus XV años</p>
+                          </div>
+                  </div>
+              </a>
+            </div>
+            <!-- INICIO cumpleaños -->
+            <div class="col-12 col-md-4">
+              <a href="https://mieventoapp.com/cumple">
+                  <div class="neumorph-card cumple-card">
+                          <div class="card-background rellaxevento" data-rellax-speed="-2">
+                              <img src="https://mieventoapp.com/img/bannereventosCumpleanios.jpg" alt="Imagen de XV años" loading="lazy">
+                          </div>
+                          <div class="card-content">
+                              <h2 class="card-title">Cumpleaños</h2>
+                              <p class="card-text">Encuentra la invitación para tu evento</p>
+                          </div>
+                  </div>
+              </a>
+            </div>
+            <!-- FIN cumpleaños -->
         </div>
-    </main>
-</body>
-</html>
+    </div>
+
+      <div class="banner-call-to-action d-flex justify-content-center align-items-center flex-column">
+        <!-- Dropdown Contacto -->
+        <div id="dropdownMenuContacto" class="dropdown">
+          <a class="boton boton-primario" msj="Hola MieventoApp!" numberto="+52 2225062683" target="_blank"
+              href="https://api.whatsapp.com/send?phone=+522225062683&text=https://mieventoapp.com%0A%0AHola 👋🏻%0ADeseo una Invitación digital!🥳">
+              <i class="fa fa-whatsapp"></i>
+              Comenzar diseño <br>
+          </a>
+        </div>
+        <spam class="microcopys">¡Solo 5 minutos!</spam>
+      </div>
+    </div>
+
+  </section>
+  <!-- Fin eventos-->
+<!-- Caracteristicas 2 -->
+<section id="ventajas" class="como-funciona" style="background-color: #ffffff;">
+    <div class="container">
+    <div class="banner-call-to-action d-flex justify-content-center align-items-center flex-column">
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="title">¿Cómo obtenerla?</h2>
+          <p class="sub-title">Solo 3 pasos para tu invitación perfecta</p>
+        </div>
+      </div>
+
+      <!-- Items -->
+      <div class="row animaciones-steps no-gutters">
+
+        <div class="col-md-4">
+          <div class="step-number step-number-1 col-12">
+          <span class="number">1</span>
+          
+            <div class="row row-Alcentro">
+              <div class="col-4">
+                <img style="width: 150%;" 
+                src="https://mieventoapp.com/webroot/img/iconoElige.webp">
+              </div>
+              <div class="col-8">
+                <h4>Elige</h4>
+                <p>Tu diseño favorito</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="step-number step-number-1 col-12">
+            <span class="number">2</span>
+            <div class="row row-Alcentro">
+              <div class="col-8">
+                <h4>Personalízalo</h4>
+                <p>Por WhatsApp</p>
+              </div>
+              <div class="col-4" style="left: -10px;">
+                <img style="width: 120%;" 
+                src="https://mieventoapp.com/webroot/img/iconoEnvia.webp">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="step-number step-number-1 col-12">
+          <span class="number">3</span>
+            <div class="row row-Alcentro">
+              <div class="col-4">
+                <img style="width: 150%;" 
+                src="https://mieventoapp.com/webroot/img/iconoComparte.gif">
+              </div>
+              <div class="col-8">
+                <h4>¡Listo!🥳</h4>
+                <p>Puedes compartir con tus invitados</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner-call-to-action d-flex justify-content-center align-items-center flex-column">
+
+        <!-- Dropdown Contacto -->
+        <div id="dropdownMenuContacto" class="dropdown">
+          <a class="boton boton-primario" msj="Hola MieventoApp!" numberto="+52 2225062683" target="_blank"
+              href="https://api.whatsapp.com/send?phone=+522225062683&text=https://mieventoapp.com%0A%0AHola 👋🏻%0ADeseo una Invitación digital!🥳">
+              <i class="fa fa-whatsapp"></i>
+              Comenzar diseño <br>
+          </a>
+        </div>
+        <spam class="microcopys">¡Solo 5 minutos!</spam>
+      </div>
+    </div>
+  </section>
+
+<!--boletosQR-->
+<section style="background-color: #ffffff; padding: 50px 0 1px 0;">
+    <div class="container-fluid">
+      <div class="banner-call-to-action d-flex justify-content-center align-items-center flex-column">
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="title">Boletos QR</h2>
+            <p class="sub-title" style="color: #676767;">Glamour y seguridad para el acceso a tu evento</p>
+          </div>
+        </div>
+        <aside class="responsive-banner col-12 ">
+        <a href="https://mieventoapp.com/invitaciones/vipaccess" target="_blank">
+          <img class="imgBannerrsvp" src="https://mieventoapp.com/webroot/img/bannerVIPACCESSdos.gif" />
+          <img class="imgBannerrsvomovil" src="https://mieventoapp.com/webroot/img/bannerVIPACCESSmovil.gif" />
+        </a>
+          <div class="container-envelope">
+          <div class="botones-modelo" style="text-align: center; margin-top: -46px;">
+            <a class="boton boton-secundario" href="https://mieventoapp.com/invitaciones/vipaccess" target="_blank">
+              Más información </a>
+          </div>
+          </div>
+        </aside>
+</div>
+</div>
+</section>
+
+    <script>
+        // Inicializar Rellax
+        var rellaxevento = new Rellax('.rellaxevento');
+    </script>
+

@@ -14,5 +14,20 @@ class MisxvController extends AppController{
     public function index(){
         return $this->render('index');
     }
+    public function vdos(){
+        return $this->render('vdos');
+    }
+    public function demosAmbar(){
+        return $this->render('demosAmbar');
+    }
+    public function demosZafiro(){
+        return $this->render('demosZafiro');
+    }
+    public function demosDiamante(){
+        return $this->render('demosDiamante');
+    }
+    public function demosPremium(){
+        return $this->render('demosPremium');
+    }
 
 }

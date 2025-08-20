@@ -52,7 +52,7 @@ section.portada-vipaccess .info-portada-vipaccess .box-info{
   width: auto;
   max-width: 42%;
   position: relative;
-  z-index: 2;
+  z-index: 99;
   padding-top: 10%;
 }
 
@@ -62,8 +62,9 @@ section.portada-vipaccess .info-portada-vipaccess .box-info a{
 
 
 section.portada-vipaccess .info-portada-vipaccess .box-info a.boton{
-  padding: 18px 50px;
+  padding: 18px 18px;
   margin-top: 20px;
+  text-align: center;
 }
 
 
@@ -227,7 +228,7 @@ section.caracteristicas-modelo .item-caracteristica .name-item{
 }
 
 section.caracteristicas-modelo .item-caracteristica .name-item:hover{
-  color: var(--color-1);
+  color: #7ac943;
 }
 
 section.caracteristicas-modelo .item-caracteristica .card-body{
@@ -328,8 +329,8 @@ section.caracteristicas-modelo .share-model p{
 /* Modelos */
 
 section.modelos{
-  padding-bottom: 13%;
-  padding-top: 13%;
+  /*padding-bottom: 13%;*/
+  padding-top: 10%;
   position: relative;
 }
 
@@ -340,7 +341,7 @@ section.modelos .container{
 
 
 section.modelos::before{
-  background-image: url('https://fixdate.io/public/images/curva_superior_modelos.svg');
+  /*background-image: url('https://fixdate.io/public/images/curva_superior_modelos.svg');*/
   position: absolute;
   content: '';
   background-repeat: no-repeat;
@@ -351,7 +352,7 @@ section.modelos::before{
 }
 
 section.modelos::after{
-  background-image: url('https://mieventoapp.com/webroot/img/x.png');
+  /*background-image: url('https://mieventoapp.com/webroot/img/x.png');*/
   position: absolute;
   content: '';
   background-repeat: no-repeat;
@@ -380,7 +381,7 @@ section.modelos::after{
   section.portada-vipaccess .info-portada-vipaccess .box-info{
     width:100%;
     max-width:100%;
-    padding-top: 160px;
+    padding-top: 110px;
     text-align:center;
   }
 
@@ -446,6 +447,7 @@ section.modelos::after{
 .boton-primario {
   background-color: #7ed96a;
   color: #fff;
+  width: 94%;
 }
 
 
@@ -463,4 +465,31 @@ section.modelos::after{
     width: 100%;
     height: auto;
   }
+}
+
+section.como-funciona .step-number {
+  text-align: center;
+  padding: 20px 0px;
+}
+section.como-funciona .step-number span.number {
+  display: inline-block;
+  background-color: #FDF5E6;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.30), 0 5px 10px 0 rgba(131, 85, 85, 0.30);
+  -webkit-transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
+}
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+
+.titvipaccess{
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 44px !important;
 }
