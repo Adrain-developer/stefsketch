@@ -1534,7 +1534,7 @@ img {
                     <div class="v2-sidebar-section">
     <h3 class="v2-sidebar-title">
         <a href="/blog/<?= h($eventType->eventoslug) ?>/temas" class="text-decoration-none v2-sidebar-title-link">
-            Temas Populares
+            Temas Populares DOS
         </a>
     </h3>
     <div class="v2-accordion" id="accordionCategorias">
