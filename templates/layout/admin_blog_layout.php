@@ -19,23 +19,7 @@ use Cake\Routing\Router;
  * @var \App\View\AppView $this
  */
 $url = $_SERVER['REQUEST_URI'];
-$cakeDescription = 'Mi EventoApp';
-?>
-
-<?php
-$postsTable = TableRegistry::getTableLocator()->get('BlogPosts');
-$eventsTable = TableRegistry::getTableLocator()->get('EventTypes');
-// Cargar las notificaciones no leídas del usuario actual
-$user = $this->request->getAttribute('identity');
-$notifications = [];
-if ($user) {
-    $notificationsTable = TableRegistry::getTableLocator()->get('Notifications');
-    $notifications = $notificationsTable->find()
-        ->where(['user_id' => $user->id, 'is_read' => false])
-        ->order(['created' => 'DESC'])
-        ->limit(10)
-        ->toArray();
-}
+$cakeDescription = 'Stefsketch';
 ?>
 
 
@@ -54,15 +38,10 @@ if ($user) {
         <?= $this->fetch('title') ?>
     </title>
 
-    <?= $this->Html->meta('icon', 'LOGOPRINCIPAL.png', ['type'=>'image/png']) ?>
-    <?php if (isset($blogPost)): ?>
-        <?= $this->Html->meta('og:title', $blogPost->title); ?>
-        <?= $this->Html->meta('og:description', $blogPost->subtitle); ?>
-        <?= $this->Html->meta('og:image', $this->Url->build('/img/' . h($blogPost->banner), ['fullBase' => true])); ?>
-        <?= $this->Html->meta('og:url', $this->Url->build(['controller' => 'Blog', 'action' => 'view', $blogPost->slug], ['fullBase' => true])); ?>
-    <?php endif; ?>
+    <?= $this->Html->meta('icon', '.png', ['type'=>'image/png']) ?>
+
     <?= $this->Html->meta('og:type', 'article'); ?>
-    <?= $this->Html->meta('og:site_name', 'Mi Evento App'); ?>
+    <?= $this->Html->meta('og:site_name', 'Stefsketch'); ?>
     <?= $this->Html->css(['bootstrap.min', 'base'.'.css?ver=26-08:001', 'css2.css', 'footer_blog'.'.css?ver=3']) ?>
         <?= $this->Html->css(['easymde.min.css']) ?>
         <!-- Font Awesome -->
@@ -75,26 +54,7 @@ if ($user) {
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 
-    <!-- Google tag (gtag.js) --
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-12BZVRKWSX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-12BZVRKWSX');
-</>-->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5QW6NF2749"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'G-5QW6NF2749');
-    </script>
+   
 </head>
 
 <body>
@@ -105,11 +65,11 @@ if ($user) {
                 <div class="col-md-3">
                     <!-- Logo -->
                     <div class="logo">
-                        <?php if (isset($eventType)): ?>
-                        <a href="https://mieventoapp.com/blog/<?= h($eventType->eventoslug) ?>" >
-                            <?php echo $this->Html->image('EAlogoPrincipal.png', ['class' => 'parallax-slider', 'alt' => 'LOGO', 'width' => '180', 'style' => 'background-color: #161b26a8;border-radius: 8px;padding: 4px;', 'height' => '53']); ?>
+                        
+                        <a href="https://stefsketch.com/" >
+                            <?php echo $this->Html->image('.png', ['class' => 'parallax-slider', 'alt' => 'LOGO', 'width' => '180']); ?>
                         </a>
-                        <?php endif; ?>
+                       
                     </div>
                 </div>
             </div>
@@ -137,58 +97,16 @@ if ($user) {
                 <div class="menu-title">Inicio</div>
             </a>
         </li>
-
-        <?php if (isset($eventTypesEntities) && !empty($eventTypesEntities)): ?>
-            <?php foreach ($eventTypesEntities as $eventType): ?>
-                <li class="menu-item">
-                    <a href="/blog/<?= h($eventType->eventoslug) ?>">
-                        <div class="menu-title">
-                            <?= h($eventType->name) ?>
-                        </div>
-                    </a>
-                </li>
-            <?php endforeach; ?>
-        <?php endif; ?>
     </ul>
 </nav>
         <div class="col-12" style="text-align: center;">
-          <a href="https://mieventoapp.com/">
-            <?php echo $this->Html->image('LOGOPRINCIPAL.png', ['class' => 'logoprincipal','style' => 'width: 50%;margin-top: -18px;', 'alt' => 'LOGO' , 'loading' => 'lazy']); ?>
+          <a href="https://stefsketch.com/">
+            <?php echo $this->Html->image('.png', ['class' => 'logoprincipal','style' => 'width: 50%;margin-top: -18px;', 'alt' => 'LOGO' , 'loading' => 'lazy']); ?>
           </a>
         </div>
     </div>
 </div>
-<!--<?php echo $this->element('notifications'); ?>-->
-    <!-- Botón NOTIFICACIONES -->
-    <div id="notification-widget">
-    <button id="notification-toggle">
-        🔔 <span id="notif-count"><?= count($notifications) ?></span>
-    </button>
-    <div id="notification-list" style="display:none;">
-        <ul>
-            <?php foreach ($notifications as $note) :
-            if ($note->target_type === 'blog_post' && $note->target_id) {
-                try {
-                    $post = $postsTable->get($note->target_id, ['contain' => ['EventTypes']]);
-                    $note->resolved_url = $postsTable->getPostUrl($post);
-                } catch (RecordNotFoundException $e) {
-                    $note->resolved_url = $note->url ?? '#';
-                }
-            } else {
-                $note->resolved_url = $note->url ?? '#';
-            } ?>
 
-                
-                <li>
-                    <a href="<?=  $note->resolved_url ?>">
-                        <strong><?= h($note->title) ?></strong><br>
-                        <?= h($note->body) ?><br>
-                        <small><?= $note->created->nice() ?></small>
-                    </a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
 </div>
 
     
@@ -207,20 +125,12 @@ if ($user) {
 
        <!-- Eventos (boda, xv...) -->
 <div class="footer-navigation">
-    <?php if (isset($eventTypesEntities) && !empty($eventTypesEntities)): ?>
-        <?php foreach ($eventTypesEntities as $eventType): ?>
-            <div class="event-section">
-                <h6 class="event-title">
-                    <a href="/blog/<?= h($eventType->eventoslug) ?>" class="event-link"><?= h($eventType->name) ?></a>
-                </h6>
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+
 </div>
 
         <!-- Brand + Login/Logout -->
         <div class="footer-brand">
-            <?= $this->Html->image('LOGOPRINCIPAL.png', [
+            <?= $this->Html->image('.png', [
                 'class' => 'footer-logo',
                 'alt' => 'LOGO',
                 'loading' => 'lazy'
@@ -251,6 +161,8 @@ if ($user) {
     <?= $this->Html->script('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js') ?>
 
     <?= $this->Html->script('jscustom-adn.js?ver=24-10-05') ?>
+
+
     
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/css/selectize.default.css" />
 <script src="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/js/standalone/selectize.min.js"></script>
