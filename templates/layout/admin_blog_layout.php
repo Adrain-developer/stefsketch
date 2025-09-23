@@ -209,86 +209,10 @@ $cakeDescription = 'Stefsketch';
         });
         </script>
 
-        <script>
-document.addEventListener('DOMContentLoaded', function(){
-    const btn = document.getElementById('notif-btn');
-    const list = document.getElementById('notif-list');
-    const countSpan = document.getElementById('notif-count');
 
-    btn.addEventListener('click', () => {
-        list.style.display = (list.style.display === 'block') ? 'none' : 'block';
-    });
-
-    function markAsRead(id) {
-        fetch(`/notifications/mark-read/${id}`, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Accept': 'application/json'
-            }
-        }).then(res => {
-            if(res.ok) {
-                pollNotifications(); // refrescar después de marcar como leído
-            }
-        });
-    }
-
-    function pollNotifications() {
-        fetch('/notifications/poll', {
-            headers: {'Accept': 'application/json'}
-        })
-        .then(res => res.json())
-        .then(data => {
-            countSpan.textContent = data.notifications.length;
-            if(data.notifications.length === 0) {
-                list.innerHTML = '<p style="padding:10px;">No hay nuevas notificaciones</p>';
-                return;
-            }
-            list.innerHTML = data.notifications.map(n => `
-                <div style="border-bottom:1px solid #eee; padding:5px 10px; cursor:pointer;">
-                    <a href="${n.url || '#'}" style="text-decoration:none; color:#333;" onclick="markAsRead(${n.id})">${n.message}</a>
-                </div>
-            `).join('');
-        });
-    }
-
-    setInterval(pollNotifications, 10000); // cada 10 segundos
-    pollNotifications();
-});
 </script>
 
-<script>
-document.getElementById('notification-toggle').addEventListener('click', function() {
-    const list = document.getElementById('notification-list');
-    list.style.display = (list.style.display === 'none') ? 'block' : 'none';
-});
-</script>
-<script>
-    function fetchNotifications() {
-    fetch('/notifications/fetch', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-        .then(response => response.json())
-        .then(data => {
-            const countElem = document.getElementById('notification-count');
-            const listElem = document.getElementById('notification-list').querySelector('ul');
-            countElem.textContent = data.notifications.length;
 
-            listElem.innerHTML = '';
-            data.notifications.forEach(note => {
-                listElem.innerHTML += `
-                    <li>
-                        <a href="${note.url}">
-                            <strong>${note.title}</strong><br>
-                            ${note.body}<br>
-                            <small>${new Date(note.created).toLocaleString()}</small>
-                        </a>
-                    </li>
-                `;
-            });
-        });
-}
-// Ejecutar cada 30 segundos
-setInterval(fetchNotifications, 30000);
-</script>
 
 </body>
 

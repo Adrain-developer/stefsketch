@@ -430,26 +430,31 @@ $user = $this->request->getAttribute('identity');
     <!-- Botón de retroceso -->
 
 
+<!-- FORMULARIO SIMPLIFICADO PARA PORTAFOLIO -->
 <div class="blogPostForm glass-card">
 <?= $this->Form->create($blogPost, ['type' => 'file']) ?>
 
 <fieldset>
+    <legend>🎨 <strong>Agregar Proyecto</strong></legend>
+    <a href="javascript:history.back()" class="back-button">←</a>
     
-
-    <legend>📝 <strong>Agregar Post</strong></legend>
-    <a href="javascript:history.back()" class="back-button">
-    ←
-</a>
-    <!-- SECCIÓN 1: Encabezado -->
+    <!-- SECCIÓN 1: Información Principal -->
     <div class="row">
         <div class="col-md-6">
-            <?= $this->Form->control('title', ['label' => 'Título', 'class' => 'neo-input']) ?>
-            <?= $this->Form->control('subtitle', ['label' => 'Subtítulo', 'class' => 'neo-input']) ?>
+            <?= $this->Form->control('title', [
+                'label' => 'Nombre del Proyecto', 
+                'class' => 'neo-input',
+                'placeholder' => 'Ej: Ilustración Fantasy Dragon'
+            ]) ?>
+            
+            <!-- OCULTAR SUBTÍTULO - NO ES NECESARIO PARA PORTAFOLIO -->
+            <?= $this->Form->hidden('subtitle', ['value' => '']) ?>
+            
             <?php if ($this->request->getAttribute('identity')->role === 'admin'): ?>
                 <?= $this->Form->control('blog_author_id', [
-                    'label' => 'Autor',
+                    'label' => 'Ilustrador',
                     'options' => $blogAuthors,
-                    'empty' => 'Seleccione un autor',
+                    'empty' => 'Seleccione un ilustrador',
                     'class' => 'neo-select'
                 ]) ?>
             <?php else: ?>
@@ -457,243 +462,398 @@ $user = $this->request->getAttribute('identity');
                     'value' => $this->request->getAttribute('identity')->blog_author_id
                 ]) ?>
             <?php endif; ?>
-
         </div>
 
         <div class="col-md-6">
             <?= $this->Form->control('banner', [
                 'type' => 'file',
                 'accept' => 'image/*',
-                'label' => 'Imagen Principal',
+                'label' => 'Imagen Principal del Proyecto',
                 'class' => 'neo-input',
                 'id' => 'bannerInput'
             ]) ?>
             <div id="bannerPreviewContainer">
-                <img id="bannerPreview" src="#" style="display:none; max-width: 100%; margin-top:10px;" />
+                <img id="bannerPreview" src="#" style="display:none; max-width: 100%; margin-top:10px; border-radius: 8px;" />
             </div>
         </div>
     </div>
-    <!-- Separador visual -->
+    
     <hr class="my-4">
 </fieldset>
 
-    <!-- SECCIÓN 2: Metadatos -->
+<!-- SECCIÓN 2: Categorización Simplificada -->
 <fieldset>
- <legend>🧩 <strong>Metadatos</strong></legend>
+    <legend>📂 <strong>Categorización</strong></legend>
     <div class="row">
-        <div class="col-md-3 col-12">
+        <div class="col-md-4">
             <?= $this->Form->control('event_type_id', [
-                'label' => 'Evento',
+                'label' => 'Tipo de Trabajo',
                 'options' => $eventTypes,
-                'empty' => 'Seleccione un tipo',
+                'empty' => 'Seleccione tipo',
                 'class' => 'neo-select'
             ]) ?>
+            <small class="form-text text-muted">
+                Ej: Digital Art, Traditional, Commissions
+            </small>
         </div>
-        <div class="col-md-3 col-12">
+        
+        <div class="col-md-4">
             <?= $this->Form->control('blog_category_id', [
-                'label' => 'Tema',
+                'label' => 'Categoría Principal',
                 'options' => $blogCategories,
-                'empty' => 'Seleccione una categoría',
+                'empty' => 'Seleccione categoría',
                 'class' => 'neo-select'
             ]) ?>
+            <small class="form-text text-muted">
+                Ej: Personajes, Paisajes, Concept Art
+            </small>
         </div>
-        <div class="col-md-3 col-12">
-             <?= $this->Form->control('blog_subcategories', [
-                'label' => 'Sub Temas',
-                'options' => $blogSubcategories,
-                'multiple' => true,
-                'class' => ' select-tags',
-                'id' => 'subcatInput'
-            ]) ?>
-        </div>
-        <div class="col-md-3 col-12">
+        
+        <div class="col-md-4">
             <?= $this->Form->control('blog_tags', [
-                'label' => 'Tags',
+                'label' => 'Tags/Técnicas',
                 'options' => $blogTags,
                 'multiple' => true,
-                'class' => ' select-tags',
+                'class' => 'select-tags',
                 'id' => 'tagInput'
             ]) ?>
+            <small class="form-text text-muted">
+                Ej: #Photoshop, #Procreate, #Digital
+            </small>
         </div>
     </div>
 
-<?= $this->Form->control('slug', ['label' => 'Slug', 'class' => 'neo-input', 'type' => 'hidden']) ?>
-
-    <!-- Separador -->
+    <!-- OCULTAR SUBCATEGORÍAS - NO NECESARIAS PARA PORTAFOLIO -->
+    <?= $this->Form->hidden('blog_subcategories._ids', ['value' => '']) ?>
+    
+    <!-- SLUG OCULTO - SE GENERA AUTOMÁTICAMENTE -->
+    <?= $this->Form->control('slug', ['type' => 'hidden']) ?>
+    
     <hr class="my-4">
-
 </fieldset>
 
-    <!-- SECCIÓN 3: Contenido + Galería -->
+<!-- SECCIÓN 3: Descripción del Proyecto -->
 <fieldset>
-    <legend>🖼️ <strong>Contenido y Galería</strong></legend>
+    <legend>📝 <strong>Descripción del Proyecto</strong></legend>
     <div class="form-group">
         <?= $this->Form->control('body', [
             'type' => 'textarea',
             'id' => 'markdown-editor',
             'required' => false,
-            'label' => 'Contenido del post'
+            'label' => 'Describe tu proyecto',
+            'placeholder' => 'Cuéntanos sobre tu proceso creativo, inspiración, técnicas utilizadas...',
+            'rows' => 6
         ]) ?>
+        <small class="form-text text-muted">
+            Opcional: Describe el proceso, inspiración, cliente, etc.
+        </small>
     </div>
-
-   <div class="form-group">
-    <label class="form-label">Galería de Imágenes</label>
-
-    <div class="multi-drag-drop-zone" id="multiImageDragDrop">
-        <div class="upload-icon">🖼️</div>
-        <div class="upload-text">
-            <div class="upload-title">Arrastra tus imágenes aquí</div>
-            <div class="upload-subtitle">o haz clic para seleccionar (máx. 10 imágenes, 5MB c/u)</div>
-        </div>
-
-        <?= $this->Form->control('gallery[]', [
-            'type' => 'file',
-            'multiple' => true,
-            'accept' => 'image/jpeg,image/png,image/webp',
-            'label' => false,
-            'id' => 'multiImageInput',
-            'class' => 'file-input',
-            'templates' => [
-                'inputContainer' => '{{content}}'
-            ]
-        ]) ?>
-    </div>
-
-    <div class="upload-progress" id="multiUploadProgress" style="display: none;">
-        <div class="progress-text" id="progressText">Procesando imágenes...</div>
-        <div class="progress-bar-container">
-            <div class="progress-bar" id="multiProgressBar"></div>
-        </div>
-    </div>
-
-    <div class="images-grid" id="imageGrid">
-        <!-- Las imágenes se generarán aquí dinámicamente -->
-    </div>
-
-    <div class="error-message" id="multi-image-error"></div>
-</div>
-
-
- <!--<?php
-        $statusOptions = [
-            'borrador' => 'Borrador',
-            'programado' => 'programado',
-        ];
-
-        if ($user->role === 'admin') {
-            $statusOptions['activo'] = 'Activo';
-            $statusOptions['inactivo'] = 'Inactivo';
-        }
-    ?>-->
-
-    <?php
-        $statusOptions = [
-            'borrador' => 'Borrador',
-            'programado' => 'Programado',
-            'activo' => 'Activo',
-            'inactivo' => 'Inactivo',
-        ]; 
-    ?>
-
-        <div class="form-group">
-            <?= $this->Form->label('status', 'Estado del post') ?>
-            <?= $this->Form->select('status', $statusOptions, [
-                'class' => 'form-control',
-                'id' => 'status-select'
-            ]) ?>
-        </div>
-
-        <!-- para programar post-->
-        <div class="form-group" id="scheduling-section" style="display: none;">
-            <div class="form-check">
-                <?= $this->Form->checkbox('enable_scheduling', [
-                    'class' => 'form-check-input',
-                    'id' => 'enable-scheduling'
-                ]) ?>
-                <?= $this->Form->label('enable_scheduling', 'Programar publicación', [
-                    'class' => 'form-check-label'
-                ]) ?>
-            </div>
-            
-            <div id="datetime-input" style="display: none;">
-                <?= $this->Form->label('scheduled_at', 'Fecha y hora de publicación') ?>
-                <?= $this->Form->datetime('scheduled_at', [
-                    'class' => 'form-control'
-                ]) ?>
-            </div>
-        </div>
-
+    
+    <hr class="my-4">
 </fieldset>
 
-      <div class="text-center mt-4">
-        <?= $this->Form->button('Guardar', ['class' => 'neo-button', 'id' => 'submit-button']) ?>
+<!-- SECCIÓN 4: Galería del Proceso -->
+<fieldset>
+    <legend>🖼️ <strong>Galería del Proyecto</strong></legend>
+    
+    <div class="form-group">
+        <label class="form-label">Imágenes del Proceso/Variaciones</label>
+        <div class="multi-drag-drop-zone" id="multiImageDragDrop">
+            <div class="upload-icon">🖼️</div>
+            <div class="upload-text">
+                <div class="upload-title">Arrastra imágenes del proceso aquí</div>
+                <div class="upload-subtitle">o haz clic para seleccionar (máx. 10 imágenes)</div>
+            </div>
+            <input type="file" id="galleryInput" name="gallery[]" multiple accept="image/*" style="display: none;">
+        </div>
+        
+        <div class="images-grid" id="imagesGrid">
+            <!-- Las imágenes seleccionadas aparecerán aquí -->
+        </div>
+        
+        <small class="form-text text-muted">
+            Sube sketches, WIP, versiones alternativas, detalles, etc.
+        </small>
     </div>
+</fieldset>
 
-    <?= $this->Form->end() ?>
+<!-- CAMPOS OCULTOS PARA SIMPLIFICAR -->
+<?= $this->Form->hidden('status', ['value' => 'activo']) ?>
+<?= $this->Form->hidden('scheduled_at', ['value' => null]) ?>
+<?= $this->Form->hidden('enable_scheduling', ['value' => false]) ?>
+
+<!-- BOTÓN DE ENVÍO -->
+<div class="text-center mt-4">
+    <?= $this->Form->button('🚀 Publicar Proyecto', [
+        'class' => 'neo-button btn-primary',
+        'id' => 'submit-button'
+    ]) ?>
 </div>
+
+<?= $this->Form->end() ?>
+</div>
+
+<style>
+/* ESTILOS ESPECÍFICOS PARA PORTAFOLIO */
+.multi-drag-drop-zone {
+    border: 2px dashed #e2e8f0;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+}
+
+.multi-drag-drop-zone:hover {
+    border-color: #4299e1;
+    background: #ebf8ff;
+}
+
+.multi-drag-drop-zone.dragover {
+    border-color: #3182ce;
+    background: #bee3f8;
+}
+
+.upload-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+}
+
+.upload-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.upload-subtitle {
+    color: #718096;
+    font-size: 14px;
+}
+
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.grid-image {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f7fafc;
+    aspect-ratio: 1;
+}
+
+.grid-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-image {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-image:hover {
+    background: #c53030;
+}
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background: #4299e1;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.back-button:hover {
+    background: #3182ce;
+    transform: scale(1.1);
+    color: white;
+    text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .images-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 12px;
+    }
+    
+    .multi-drag-drop-zone {
+        padding: 30px 15px;
+    }
+    
+    .upload-icon {
+        font-size: 36px;
+    }
+}
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Cambia texto del botón según el estado
-    const statusSelect = document.getElementById('status-select');
-    const submitButton = document.getElementById('submit-button');
-
-    function updateButtonText() {
-        const status = statusSelect.value;
-    if (status === 'borrador') {
-        submitButton.textContent = 'Guardar como borrador';
-    } else if (status === 'programado') { // Cambié 'programado' por 'publico'
-        submitButton.textContent = 'Programar Post';
-    } else if (status === 'activo') {
-        submitButton.textContent = 'Publicar';
-    } else if (status === 'inactivo') {
-        submitButton.textContent = 'Publicar Inactivo';
-    } else {
-        submitButton.textContent = 'Guardar';
-    }
-    }
-
-    updateButtonText();
-    statusSelect.addEventListener('change', updateButtonText);
-
-    // Preview del banner
+    // PREVIEW DEL BANNER
     const bannerInput = document.getElementById('bannerInput');
+    const bannerPreview = document.getElementById('bannerPreview');
+    
     if (bannerInput) {
-        bannerInput.addEventListener('change', function (e) {
+        bannerInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function (ev) {
-                    document.getElementById('bannerPreview').src = ev.target.result;
-                    document.getElementById('bannerPreview').style.display = 'block';
+                reader.onload = function(e) {
+                    bannerPreview.src = e.target.result;
+                    bannerPreview.style.display = 'block';
                 };
                 reader.readAsDataURL(file);
             }
         });
     }
 
-    // Inicialización Selectize
-    if (document.getElementById('tagInput')) {
+    // GALERÍA MÚLTIPLE CON DRAG & DROP
+    const dragDropZone = document.getElementById('multiImageDragDrop');
+    const galleryInput = document.getElementById('galleryInput');
+    const imagesGrid = document.getElementById('imagesGrid');
+    let selectedFiles = [];
+
+    // Eventos de Drag & Drop
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dragDropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dragDropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dragDropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    dragDropZone.addEventListener('drop', handleDrop, false);
+    dragDropZone.addEventListener('click', () => galleryInput.click());
+    galleryInput.addEventListener('change', handleInputChange);
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    function highlight(e) {
+        dragDropZone.classList.add('dragover');
+    }
+
+    function unhighlight(e) {
+        dragDropZone.classList.remove('dragover');
+    }
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles(files);
+    }
+
+    function handleInputChange(e) {
+        const files = e.target.files;
+        handleFiles(files);
+    }
+
+    function handleFiles(files) {
+        ([...files]).forEach(addFile);
+        updateGalleryInput();
+        renderImages();
+    }
+
+    function addFile(file) {
+        if (selectedFiles.length >= 10) {
+            alert('Máximo 10 imágenes permitidas');
+            return;
+        }
+        
+        if (file.type.startsWith('image/')) {
+            selectedFiles.push(file);
+        }
+    }
+
+    function removeFile(index) {
+        selectedFiles.splice(index, 1);
+        updateGalleryInput();
+        renderImages();
+    }
+
+    function updateGalleryInput() {
+        const dt = new DataTransfer();
+        selectedFiles.forEach(file => dt.items.add(file));
+        galleryInput.files = dt.files;
+    }
+
+    function renderImages() {
+        imagesGrid.innerHTML = '';
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'grid-image';
+                imageDiv.innerHTML = `
+                    <img src="${e.target.result}" alt="Imagen ${index + 1}">
+                    <button type="button" class="remove-image" onclick="removeFile(${index})">×</button>
+                `;
+                imagesGrid.appendChild(imageDiv);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Hacer removeFile global para que funcione desde el HTML
+    window.removeFile = removeFile;
+
+    // TAGS SELECTIZE (si lo usas)
+    if (typeof $ !== 'undefined' && $.fn.selectize) {
         $('#tagInput').selectize({
             plugins: ['remove_button'],
-            create: true,
+            delimiter: ',',
             persist: false,
-            placeholder: 'Escribe y presiona Enter para agregar una etiqueta'
+            create: function(input) {
+                return {
+                    value: input,
+                    text: input
+                };
+            }
         });
     }
 
-    if (document.getElementById('subcatInput')) {
-        $('#subcatInput').selectize({
-            plugins: ['remove_button'],
-            create: true,
-            persist: false,
-            placeholder: 'Escribe y presiona Enter para agregar una subCategoría'
-        });
-    }
-
-    // Markdown editor
+    // ✅ EDITOR MARKDOWN - EasyMDE
     const editorElement = document.getElementById("markdown-editor");
-    if (editorElement) {
+    if (editorElement && typeof EasyMDE !== 'undefined') {
         const easyMDE = new EasyMDE({
             element: editorElement,
             spellChecker: false,
@@ -714,108 +874,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     title: "Insertar imagen de galería"
                 }
             ],
-            placeholder: "Escribe el contenido del post aquí..."
+            placeholder: "Describe tu proyecto: proceso creativo, inspiración, técnicas utilizadas..."
         });
 
-        document.querySelector('form').addEventListener('submit', function () {
-            editorElement.value = easyMDE.value();
+        // Sincronizar contenido del editor al enviar el formulario
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById("markdown-editor").value = easyMDE.value();
+            easyMDE.codemirror.save();
         });
     }
-
-    // Drag & Drop de múltiples imágenes
-    const multiInput = document.getElementById('multiImageInput');
-    const imageGrid = document.getElementById('imageGrid');
-    const dropZone = document.getElementById('multiImageDragDrop');
-    const errorMsg = document.getElementById('multi-image-error');
-    const progressContainer = document.getElementById('multiUploadProgress');
-    const progressBar = document.getElementById('multiProgressBar');
-    const progressText = document.getElementById('progressText');
-
-    if (multiInput && imageGrid && dropZone) {
-        const maxFiles = 10;
-        const maxSize = 5 * 1024 * 1024; // 5MB
-
-        function handleFiles(files) {
-            errorMsg.textContent = '';
-            imageGrid.innerHTML = '';
-
-            if (files.length > maxFiles) {
-                errorMsg.textContent = `Solo puedes subir hasta ${maxFiles} imágenes.`;
-                return;
-            }
-
-            progressContainer.style.display = 'block';
-            progressBar.style.width = '0%';
-
-            let loaded = 0;
-            [...files].forEach((file, index) => {
-                if (file.size > maxSize) {
-                    errorMsg.textContent = `La imagen "${file.name}" supera el tamaño máximo permitido (5MB).`;
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = function (ev) {
-                    const img = document.createElement('img');
-                    img.src = ev.target.result;
-                    img.style = "width: 120px; margin:5px; border-radius:10px;";
-                    imageGrid.appendChild(img);
-
-                    loaded++;
-                    const progress = Math.round((loaded / files.length) * 100);
-                    progressBar.style.width = progress + '%';
-
-                    if (loaded === files.length) {
-                        progressText.textContent = "Imágenes listas.";
-                        setTimeout(() => progressContainer.style.display = 'none', 1000);
-                    }
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        multiInput.addEventListener('change', e => {
-            handleFiles(e.target.files);
-        });
-
-        dropZone.addEventListener('dragover', e => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragover');
-        });
-
-        dropZone.addEventListener('drop', e => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            multiInput.files = e.dataTransfer.files;
-            handleFiles(e.dataTransfer.files);
-        });
-
-        dropZone.addEventListener('click', () => multiInput.click());
-    }
-});
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const statusSelect = document.getElementById('status-select');
-    const schedulingSection = document.getElementById('scheduling-section');
-    const enableScheduling = document.getElementById('enable-scheduling');
-    const datetimeInput = document.getElementById('datetime-input');
-    
-    statusSelect.addEventListener('change', function() {
-        if (this.value === 'borrador') {
-            schedulingSection.style.display = 'none';
-        } else {
-            schedulingSection.style.display = 'block';
-        }
-    });
-    
-    enableScheduling.addEventListener('change', function() {
-        datetimeInput.style.display = this.checked ? 'block' : 'none';
-    });
 });
 </script>

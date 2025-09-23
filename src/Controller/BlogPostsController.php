@@ -18,26 +18,27 @@ public function initialize(): void
 
     // ✅ SOLUCIÓN: Agregar updateViews a las acciones desbloqueadas de FormProtection
     $this->loadComponent('FormProtection', [
+        'unlockedFields' => ['gallery', 'existing_gallery', 'remove_images'],
         'unlockedActions' => ['toggleStatus', 'updateViews']  // ← Agregar updateViews aquí
     ]);
     
     $this->loadComponent('Flash');
     $this->loadComponent('Authentication.Authentication');
-    $this->loadComponent('Notification'); //nuevo para Notificaciones
+    //$this->loadComponent('Notification'); //nuevo para Notificaciones
 
     // ✨ NUEVO: Cargar el componente de auto-publicación
-    $this->loadComponent('WebScheduler', [
-        'throttleMinutes' => 5, // Solo ejecutar cada 5 minutos
-        'logFile' => 'web_scheduler'
-    ]);
+    //$this->loadComponent('WebScheduler', [
+    //    'throttleMinutes' => 5, // Solo ejecutar cada 5 minutos
+    //    'logFile' => 'web_scheduler'
+    //]);
     
     // ✨ NUEVO: Ejecutar auto-publicación en cada carga de página
-    try {
-        $this->WebScheduler->publishScheduledPosts();
-    } catch (\Exception $e) {
+    //try {
+    //    $this->WebScheduler->publishScheduledPosts();
+    //} catch (\Exception $e) {
         // Si hay error, no afecta el funcionamiento del sitio
         // Solo se registra en los logs
-    }
+    //}
 
 }
 
@@ -71,7 +72,7 @@ public function beforeFilter(\Cake\Event\EventInterface $event)
         $user = $this->request->getAttribute('identity');
 
         $query = $this->BlogPosts->find()
-            ->contain(['EventTypes', 'BlogAuthors', 'BlogCategories', 'BlogSubcategories']);
+            ->contain(['EventTypes', 'BlogAuthors', 'BlogCategories', 'BlogTags']);
 
         // Mostrar solo los posts del autor si no es admin
         if ($user->role === 'author') {
@@ -344,6 +345,42 @@ public function edit($id = null)
             unset($data['gallery']);
         }
 
+
+        // Manejar eliminación de imágenes existentes
+        if (!empty($data['remove_images'])) {
+            $imagesToRemove = json_decode($data['remove_images'], true);
+            $currentImages = json_decode($blogPost->gallery, true) ?? [];
+            
+            // Eliminar físicamente los archivos del servidor
+            foreach ($imagesToRemove as $imageToRemove) {
+                $filePath = WWW_ROOT . 'img' . DS . $imageToRemove;
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+                
+                // Remover de la lista actual
+                $currentImages = array_filter($currentImages, function($img) use ($imageToRemove) {
+                    return $img !== $imageToRemove;
+                });
+            }
+            
+            // Combinar imágenes existentes (que no se eliminaron) con las nuevas
+            if (!empty($galleryPaths)) {
+                $allImages = array_merge(array_values($currentImages), $galleryPaths);
+            } else {
+                $allImages = array_values($currentImages);
+            }
+            
+            $data['gallery'] = !empty($allImages) ? json_encode($allImages) : null;
+        } else {
+            // Si no hay eliminaciones, mantener lógica original de combinar
+            if (!empty($galleryPaths)) {
+                $currentImages = json_decode($blogPost->gallery, true) ?? [];
+                $allImages = array_merge($currentImages, $galleryPaths);
+                $data['gallery'] = json_encode($allImages);
+            }
+        }
+
         if (!empty($data['blog_subcategories']['_ids']) && is_array($data['blog_subcategories']['_ids'])) {
             $subcatsArray = [];
             foreach ($data['blog_subcategories']['_ids'] as $subcategoriesValue) {
@@ -401,7 +438,7 @@ public function edit($id = null)
         ]);
 
         if ($this->BlogPosts->save($blogPost)) {
-            $this->ensureCategorySubcategoryLinks($blogPost->blog_category_id, $data['blog_subcategories']['_ids'] ?? []);
+            $this->ensureCategorySubcategoryLinks($blogPost->blog_category_id, []);
 
             // Enviar notificaciones si el post pasa a activo
             if ($blogPost->status === 'activo' && ($blogPost->isDirty('status') || $blogPost->isDirty('scheduled_at'))) {

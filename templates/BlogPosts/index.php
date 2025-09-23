@@ -20,13 +20,20 @@ $user = $this->request->getAttribute('identity');
 
 <?= $this->Html->css(['custom-admin'.'.css?ver=001']) ?>
 
+<style>
+    .tag-green {
+    background-color: #48bb78 !important;
+    color: white !important;
+}
+</style>
+
 <section id="ventajas" class="como-funciona" style="background-color: #ffffff;">
     <div class="my-4 glass-card" style="padding: 18px;">
-        <h2 class="mb-3">Hola <?= $blogAuthorName ?? '<span style="color:#aaa;">Sin autor</span>' ?> | Administra tus Posts</h2>
+        <h2 class="mb-3">Hola <?= $blogAuthorName ?? '<span style="color:#aaa;">Sin autor</span>' ?> | Proyectos</h2>
 
         <!-- Botones modernos con diseño mejorado -->
         <div class="button-container">
-            <?= $this->Html->link('<i class="fas fa-plus-circle"></i>Agregar nuevo post', ['action' => 'add'], [
+            <?= $this->Html->link('<i class="fas fa-plus-circle"></i>Agregar Proyecto', '/portafolio/add', [
                 'class' => 'admin-btn btn-primary',
                 'escape' => false
             ]) ?>
@@ -105,10 +112,10 @@ $user = $this->request->getAttribute('identity');
                 <thead>
                     <tr>
                         <th>Portada</th>
-                        <th>Título Post</th>
-                        <th>Evento</th>
-                        <th>Tema</th>
-                        <th>SubTemas</th>
+                        <th>Título</th>
+                        <th>Trabajo</th>
+                        <th>Categoria</th>
+                        <th>Tags/Técnicas</th>
                         <th>Creado</th>
                         <th>Acciones</th>
                     </tr>
@@ -130,17 +137,19 @@ $user = $this->request->getAttribute('identity');
                         <td><?= $post->event_type->name ?? '<span style="color:#aaa;">Sin evento</span>' ?></td>
                         
                         <td><?= $post->blog_category->name ?? '<span style="color:#aaa;">Sin categoría</span>' ?></td>
+
                         <td>
-                            <?php if (!empty($post->blog_subcategories)): ?>
+                            <?php if (!empty($post->blog_tags)): ?>
                                 <div class="tags-container">
-                                    <?php foreach ($post->blog_subcategories as $subcategory): ?>
-                                        <span class="tag tag-blue"><?= h($subcategory->name) ?></span>
+                                    <?php foreach ($post->blog_tags as $tag): ?>
+                                        <span class="tag tag-green"><?= h($tag->name) ?></span>
                                     <?php endforeach; ?>
                                 </div>
                             <?php else: ?>
-                                <span style="color:#aaa;">Sin subTemas</span>
+                                <span style="color:#aaa;">Sin tags</span>
                             <?php endif; ?>
                         </td>
+
                         <td><?= $post->created->format('d M, y') ?></td>
                        
                         <td>
@@ -148,7 +157,7 @@ $user = $this->request->getAttribute('identity');
                                 <!-- Botón Ver -->
                                 <?= $this->Html->link(
                                     '<i class="fas fa-eye"></i>', 
-                                    ['controller' => 'blog', 'action' => h($post->event_type->eventoslug) . '/' . $post->slug], 
+                                    ['controller' => 'portafolio', 'action' => h($post->event_type->eventoslug) . '/' . $post->slug], 
                                     [
                                         'class' => 'btn-action btn-view',
                                         'data-tooltip' => 'Ver post',
@@ -159,7 +168,7 @@ $user = $this->request->getAttribute('identity');
                                 <!-- Botón Editar -->
                                 <?= $this->Html->link(
                                     '<i class="fas fa-edit"></i>', 
-                                    ['action' => 'edit', $post->id], 
+                                    '/portafolio/edit/' . $post->id, 
                                     [
                                         'class' => 'btn-action btn-edit',
                                         'data-tooltip' => 'Editar',
@@ -171,7 +180,7 @@ $user = $this->request->getAttribute('identity');
                                 <button type="button" 
                                         class="btn-action btn-share share-btn" 
                                         data-tooltip="Compartir"
-                                        data-url="<?= $this->Url->build('/blog/' . h($post->event_type->eventoslug) . '/' . $post->slug, ['fullBase' => true]) ?>">
+                                        data-url="<?= $this->Url->build('/portafolio/' . h($post->event_type->eventoslug) . '/' . $post->slug, ['fullBase' => true]) ?>">
                                     <i class="fas fa-share-alt"></i>
                                 </button>
                                 

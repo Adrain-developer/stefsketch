@@ -17,18 +17,18 @@ class BlogController extends AppController
     $this->loadModel('BlogTags');
     
     // ✨ NUEVO: Cargar el componente de auto-publicación
-    $this->loadComponent('WebScheduler', [
-        'throttleMinutes' => 5, // Solo ejecutar cada 5 minutos
-        'logFile' => 'web_scheduler'
-    ]);
+    //$this->loadComponent('WebScheduler', [
+    //    'throttleMinutes' => 5, // Solo ejecutar cada 5 minutos
+    //    'logFile' => 'web_scheduler'
+    //]);
     
     // ✨ NUEVO: Ejecutar auto-publicación en cada carga de página
-    try {
-        $this->WebScheduler->publishScheduledPosts();
-    } catch (\Exception $e) {
+    //try {
+    //    $this->WebScheduler->publishScheduledPosts();
+    //} catch (\Exception $e) {
         // Si hay error, no afecta el funcionamiento del sitio
         // Solo se registra en los logs
-    }
+    //}
 }
 
 public function beforeRender(\Cake\Event\EventInterface $event)
