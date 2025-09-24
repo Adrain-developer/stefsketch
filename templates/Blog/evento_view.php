@@ -25,42 +25,46 @@ function formatNumberShort($n) {
 
 <div class="" style="margin-top: 100px;">
 
-    <nav aria-label="breadcrumb" class="bc-enhanced__nav">
-        <ol class="bc-enhanced__list">
-            <li class="bc-enhanced__item">
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>" class="bc-enhanced__link">Inicio</a>
-            </li>
+<nav aria-label="breadcrumb" class="bc-enhanced__nav">
+    <ol class="bc-enhanced__list">
+        <!-- Casita siempre presente - Home Global -->
+        <li class="bc-enhanced__item">
+            <a href="/" class="bc-enhanced__link" title="Inicio Global">🏠</a>
+        </li>
 
-            <?php if (!empty($categoryId) && isset($breadcrumbCategories[$categoryId])): ?>
+        <?php if (!empty($categoryId) && isset($breadcrumbCategories[$categoryId])): ?>
+            <!-- Navegación en categorías: 🏠 | EventType | Tema -->
             <li class="bc-enhanced__item">
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas" class="bc-enhanced__link">Todos los
-                    temas</a>
+                <a href="/portafolio/<?= h($eventType->eventoslug) ?>" class="bc-enhanced__link">
+                    <?= h($eventType->name) ?>
+                </a>
             </li>
             <li class="bc-enhanced__item <?= empty($subcategorySlug) ? 'bc-enhanced__item--active' : '' ?>">
                 <?php if (!empty($subcategorySlug)): ?>
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($categorySlug) ?>"
-                    class="bc-enhanced__link">
-                    Tema: <?= h($breadcrumbCategories[$categoryId]) ?>
-                </a>
+                    <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($categorySlug) ?>" class="bc-enhanced__link">
+                        Tema: <?= h($breadcrumbCategories[$categoryId]) ?>
+                    </a>
                 <?php else: ?>
-                <span class="bc-enhanced__text">
-                    Tema: <?= h($breadcrumbCategories[$categoryId]) ?>
-                </span>
+                    <span class="bc-enhanced__text">
+                        Tema: <?= h($breadcrumbCategories[$categoryId]) ?>
+                    </span>
                 <?php endif; ?>
             </li>
 
             <?php if (!empty($subcategorySlug)): ?>
-            <li class="bc-enhanced__item bc-enhanced__item--active">
-                <span class="bc-enhanced__text">
-                    Subtema: <?= h($subcategorySlug) ?>
-                </span>
-            </li>
+                <li class="bc-enhanced__item bc-enhanced__item--active">
+                    <span class="bc-enhanced__text">
+                        Subtema: <?= h($subcategorySlug) ?>
+                    </span>
+                </li>
             <?php endif; ?>
 
-            <?php elseif (!empty($tagId) && isset($breadcrumbTags[$tagId])): ?>
+        <?php elseif (!empty($tagId) && isset($breadcrumbTags[$tagId])): ?>
+            <!-- Navegación en etiquetas: 🏠 | EventType | Etiqueta -->
             <li class="bc-enhanced__item">
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas" class="bc-enhanced__link">Todas las
-                    etiquetas</a>
+                <a href="/portafolio/<?= h($eventType->eventoslug) ?>" class="bc-enhanced__link">
+                    <?= h($eventType->name) ?>
+                </a>
             </li>
             <li class="bc-enhanced__item bc-enhanced__item--active">
                 <span class="bc-enhanced__text">
@@ -68,32 +72,65 @@ function formatNumberShort($n) {
                 </span>
             </li>
 
-            <?php elseif ($show === 'categories'): ?>
+        <?php elseif ($show === 'categories'): ?>
+            <!-- Vista de todas las categorías: 🏠 | EventType | Todos los temas -->
+            <li class="bc-enhanced__item">
+                <a href="/portafolio/<?= h($eventType->eventoslug) ?>" class="bc-enhanced__link">
+                    <?= h($eventType->name) ?>
+                </a>
+            </li>
             <li class="bc-enhanced__item bc-enhanced__item--active">
                 <span class="bc-enhanced__text">
                     Todos los temas
                 </span>
             </li>
 
-            <?php elseif ($show === 'tags'): ?>
+        <?php elseif ($show === 'tags'): ?>
+            <!-- Vista de todas las etiquetas: 🏠 | EventType | Todas las etiquetas -->
+            <li class="bc-enhanced__item">
+                <a href="/portafolio/<?= h($eventType->eventoslug) ?>" class="bc-enhanced__link">
+                    <?= h($eventType->name) ?>
+                </a>
+            </li>
             <li class="bc-enhanced__item bc-enhanced__item--active">
                 <span class="bc-enhanced__text">
                     Todas las etiquetas
                 </span>
             </li>
 
-            <?php else: ?>
+        <?php else: ?>
+            <!-- Vista principal: 🏠 | Ver todos los temas | Ver todas las etiquetas | 🔽 Cambiar trabajo -->
             <li class="bc-enhanced__item">
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas" class="bc-enhanced__link">Ver todos los
-                    temas</a>
+                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas" class="bc-enhanced__link">
+                    Ver todos los temas
+                </a>
             </li>
             <li class="bc-enhanced__item">
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas" class="bc-enhanced__link">Ver todas las
-                    etiquetas</a>
+                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas" class="bc-enhanced__link">
+                    Ver todas las etiquetas
+                </a>
             </li>
-            <?php endif; ?>
-        </ol>
-    </nav>
+            <li class="bc-enhanced__item">
+                <div class="dropdown">
+                    <button class="bc-enhanced__link dropdown-toggle" type="button" data-toggle="dropdown" style="background:none;border:none;color:inherit;">
+                        Cambiar trabajo
+                    </button>
+                    <div class="dropdown-menu">
+                        <?php if (isset($allEventTypes)): ?>
+                            <?php foreach ($allEventTypes as $type): ?>
+                                <a class="dropdown-item <?= $type->id == $eventType->id ? 'active' : '' ?>" 
+                                   href="/portafolio/<?= h($type->eventoslug) ?>">
+                                    <?= h($type->name) ?>
+                                </a>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </li>
+        <?php endif; ?>
+    </ol>
+</nav>
+    
 
     <?php if ($show === 'categories'): ?>
     <!-- SOLO Vista de todas las categorías/temas -->

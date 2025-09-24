@@ -7,35 +7,41 @@ use Cake\ORM\TableRegistry;
 class BlogController extends AppController
 {
    public function initialize(): void
-{
-    parent::initialize();
-    $this->viewBuilder()->setLayout('blog_layout'); // Usa templates/layout/blog_layout.php
+    {
+        parent::initialize();
+        $this->viewBuilder()->setLayout('blog_layout'); // Usa templates/layout/blog_layout.php
 
-    $this->loadModel('BlogPosts');
-    $this->loadModel('EventTypes');
-    $this->loadModel('BlogCategories');
-    $this->loadModel('BlogTags');
-    
-    // ✨ NUEVO: Cargar el componente de auto-publicación
-    //$this->loadComponent('WebScheduler', [
-    //    'throttleMinutes' => 5, // Solo ejecutar cada 5 minutos
-    //    'logFile' => 'web_scheduler'
-    //]);
-    
-    // ✨ NUEVO: Ejecutar auto-publicación en cada carga de página
-    //try {
-    //    $this->WebScheduler->publishScheduledPosts();
-    //} catch (\Exception $e) {
-        // Si hay error, no afecta el funcionamiento del sitio
-        // Solo se registra en los logs
-    //}
-}
+        $this->loadModel('BlogPosts');
+        $this->loadModel('EventTypes');
+        $this->loadModel('BlogCategories');
+        $this->loadModel('BlogTags');
+        
+        // ✨ NUEVO: Cargar el componente de auto-publicación
+        //$this->loadComponent('WebScheduler', [
+        //    'throttleMinutes' => 5, // Solo ejecutar cada 5 minutos
+        //    'logFile' => 'web_scheduler'
+        //]);
+        
+        // ✨ NUEVO: Ejecutar auto-publicación en cada carga de página
+        //try {
+        //    $this->WebScheduler->publishScheduledPosts();
+        //} catch (\Exception $e) {
+            // Si hay error, no afecta el funcionamiento del sitio
+            // Solo se registra en los logs
+        //}
+    }
 
-public function beforeRender(\Cake\Event\EventInterface $event)
-{
-    parent::beforeRender($event);
-    $this->buildBlogMenu();
-}
+    public function beforeRender(\Cake\Event\EventInterface $event)
+        {
+            parent::beforeRender($event);
+            
+            // Datos para el menú inteligente - disponibles en todas las vistas
+            $this->loadModel('EventTypes');
+            $allEventTypes = $this->EventTypes->find()->orderAsc('name')->toArray();
+            $this->set(compact('allEventTypes'));
+            
+            $this->buildBlogMenu();
+        }
     
 public function index()
 {
@@ -118,6 +124,10 @@ public function eventoView($eventoslug = null, $param2 = null, $param3 = null)
     $pageDescription = '';
     $mostrarTemas = false;
     $category = null;
+
+    $this->loadModel('EventTypes');
+    $allEventTypes = $this->EventTypes->find()->orderAsc('name')->toArray();
+    $this->set(compact('allEventTypes'));
 
     if ($show === 'categories') {
         $mostrarTemas = true;
@@ -216,6 +226,18 @@ public function eventoView($eventoslug = null, $param2 = null, $param3 = null)
         ->distinct(['BlogCategories.id'])
         ->orderAsc('BlogCategories.name')
         ->all();
+
+        if (isset($blogCategories)) {
+        foreach ($blogCategories as $category) {
+            $category->count = $this->BlogPosts->find()
+                ->where([
+                    'blog_category_id' => $category->id,
+                    'event_type_id' => $eventType->id,
+                    'status' => 'activo'
+                ])
+                ->count();
+        }
+    }
 
     // Obtener subcategorías para mostrar en acordeón (SIEMPRE, excepto cuando se muestran solo tags)
     if ($show !== 'tags') {
