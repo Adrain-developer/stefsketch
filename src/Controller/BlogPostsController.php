@@ -18,7 +18,7 @@ public function initialize(): void
 
     // ✅ SOLUCIÓN: Agregar updateViews a las acciones desbloqueadas de FormProtection
     $this->loadComponent('FormProtection', [
-        'unlockedFields' => ['gallery', 'existing_gallery', 'remove_images'],
+        'unlockedFields' => ['gallery', 'existing_gallery', 'remove_images', 'event_type_id', 'blog_category_id'],
         'unlockedActions' => ['toggleStatus', 'updateViews']  // ← Agregar updateViews aquí
     ]);
     
@@ -243,7 +243,31 @@ public function add()
             $data['scheduled_at'] = null;
         }
 
-        // 7. Guardar post
+        // 7. Manejar creación de nuevo EventType
+        if (!empty($data['event_type_id']) && !is_numeric($data['event_type_id'])) {
+            $newEventType = $this->BlogPosts->EventTypes->newEntity([
+                'name' => $data['event_type_id'],
+                'eventoslug' => Text::slug(strtolower($data['event_type_id']))
+            ]);
+            
+            if ($this->BlogPosts->EventTypes->save($newEventType)) {
+                $data['event_type_id'] = $newEventType->id;
+            }
+        }
+
+        // Manejar creación de nueva BlogCategory  
+        if (!empty($data['blog_category_id']) && !is_numeric($data['blog_category_id'])) {
+            $newCategory = $this->BlogPosts->BlogCategories->newEntity([
+                'name' => $data['blog_category_id'],
+                'slug' => Text::slug(strtolower($data['blog_category_id']))
+            ]);
+            
+            if ($this->BlogPosts->BlogCategories->save($newCategory)) {
+                $data['blog_category_id'] = $newCategory->id;
+            }
+        }
+
+        // 8. Guardar post
         $blogPost = $this->BlogPosts->patchEntity($blogPost, $data, [
             'associated' => ['BlogTags', 'BlogSubcategories', 'BlogCategories', 'EventTypes', 'BlogAuthors']
         ]);
@@ -431,6 +455,30 @@ public function edit($id = null)
             $data['scheduled_at'] = $data['scheduled_at'];
         } else {
             $data['scheduled_at'] = null;
+        }
+
+        // 7. Manejar creación de nuevo EventType
+        if (!empty($data['event_type_id']) && !is_numeric($data['event_type_id'])) {
+            $newEventType = $this->BlogPosts->EventTypes->newEntity([
+                'name' => $data['event_type_id'],
+                'eventoslug' => Text::slug(strtolower($data['event_type_id']))
+            ]);
+            
+            if ($this->BlogPosts->EventTypes->save($newEventType)) {
+                $data['event_type_id'] = $newEventType->id;
+            }
+        }
+
+        // Manejar creación de nueva BlogCategory  
+        if (!empty($data['blog_category_id']) && !is_numeric($data['blog_category_id'])) {
+            $newCategory = $this->BlogPosts->BlogCategories->newEntity([
+                'name' => $data['blog_category_id'],
+                'slug' => Text::slug(strtolower($data['blog_category_id']))
+            ]);
+            
+            if ($this->BlogPosts->BlogCategories->save($newCategory)) {
+                $data['blog_category_id'] = $newCategory->id;
+            }
         }
 
         $blogPost = $this->BlogPosts->patchEntity($blogPost, $data, [

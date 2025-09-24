@@ -39,83 +39,34 @@ public function beforeRender(\Cake\Event\EventInterface $event)
     
 public function index()
 {
-    $this->request->allowMethod(['get', 'ajax']);
-
-    $query = $this->BlogPosts->find()
-        ->contain(['EventTypes', 'BlogCategories', 'BlogSubcategories', 'BlogTags'])
-        ->order(['BlogPosts.created' => 'DESC']);
-
-    // Filtro si tienes el campo 'active'
-    if ($this->BlogPosts->getSchema()->hasColumn('active')) {
-        $query->where(['BlogPosts.active' => true]);
-    }
-
-    // Filtros
-    $filters = $this->request->getQuery();
-
-    if (!empty($filters['event_type_id'])) {
-        $query->where(['BlogPosts.event_type_id' => $filters['event_type_id']]);
-    }
-
-    if (!empty($filters['blog_category_id'])) {
-        $query->where(['BlogPosts.blog_category_id' => $filters['blog_category_id']]);
-    }
-
-    if (!empty($filters['search'])) {
-        $search = trim($filters['search']);
-        $query->where(function ($exp, $q) use ($search) {
-            return $exp->or([
-                'BlogPosts.title LIKE' => "%$search%",
-                'BlogPosts.slug LIKE' => "%$search%",
-                'BlogPosts.body LIKE' => "%$search%"
-            ]);
-        });
-    }
-
-    // Excluir posts sin imagen/banner
-    $query->where(function ($exp, $q) {
-        return $exp->notEq('BlogPosts.banner', '');
-    });
-
-    $this->paginate = [
-        'limit' => 6
-    ];
-
-    // Obtener total de registros
-    $total = $query->count();
-
-    // Verificar si la página solicitada es válida
-    $page = $this->request->getQuery('page', 1);
-    $limit = 6; // o el valor que uses para paginar
-    $maxPages = ceil($total / $limit);
-
-        $posts = $this->paginate($query, [
-        'limit' => $limit,
-        'page' => $page,
-    ]);
-
-    if ($page > $maxPages) {
-        throw new \Cake\Http\Exception\NotFoundException('Página no encontrada');
-    }
-
-    if ($this->request->is('ajax')) {
-        $this->viewBuilder()->setLayout('ajax');
-        $this->set(compact('posts'));
-        $this->render('ajax_index_items');
-        return;
+    // Obtener todos los EventTypes que tienen posts activos
+    $allEventTypes = $this->EventTypes->find()
+        ->orderAsc('EventTypes.name')
+        ->toArray();
+    
+    $eventTypesWithPosts = [];
+    
+    // Para cada EventType, obtener sus mejores posts
+    foreach ($allEventTypes as $eventType) {
+        $posts = $this->BlogPosts->find()
+            ->contain(['BlogCategories', 'BlogTags'])
+            ->where([
+                'BlogPosts.status' => 'activo',
+                'BlogPosts.event_type_id' => $eventType->id,
+                'BlogPosts.banner IS NOT' => null  // Solo posts con imagen
+            ])
+            ->order(['BlogPosts.created' => 'DESC'])
+            ->limit(5)  // ← CAMBIO: Solo 5 posts por carrusel
+            ->toArray();
+        
+        // Solo agregar EventTypes que tienen posts
+        if (!empty($posts)) {
+            $eventType->posts = $posts;
+            $eventTypesWithPosts[] = $eventType;
+        }
     }
     
-    // Datos para filtros y sidebar
-    $eventTypes = $this->EventTypes->find('list')->toArray();
-    $blogCategories = $this->BlogCategories->find('list')->toArray();
-    $blogTags = $this->BlogTags->find('list')->toArray();
-
-    $popularPosts = $this->BlogPosts->find()
-        ->order(['views' => 'DESC'])
-        ->limit(5)
-        ->toArray();
-
-    $this->set(compact('posts', 'eventTypes', 'blogCategories', 'blogTags', 'popularPosts'));
+    $this->set(compact('eventTypesWithPosts'));
 }
 
 public function eventoView($eventoslug = null, $param2 = null, $param3 = null)

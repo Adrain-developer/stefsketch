@@ -489,8 +489,9 @@ $user = $this->request->getAttribute('identity');
             <?= $this->Form->control('event_type_id', [
                 'label' => 'Tipo de Trabajo',
                 'options' => $eventTypes,
-                'empty' => 'Seleccione tipo',
-                'class' => 'neo-select'
+                'empty' => 'Seleccione o escriba nuevo tipo',
+                'class' => 'selectize-single',
+                'id' => 'eventTypeInput'
             ]) ?>
             <small class="form-text text-muted">
                 Ej: Digital Art, Traditional, Commissions
@@ -501,8 +502,9 @@ $user = $this->request->getAttribute('identity');
             <?= $this->Form->control('blog_category_id', [
                 'label' => 'Categoría Principal',
                 'options' => $blogCategories,
-                'empty' => 'Seleccione categoría',
-                'class' => 'neo-select'
+                'empty' => 'Seleccione o escriba nueva categoría',
+                'class' => 'selectize-single',
+                'id' => 'categoryInput'
             ]) ?>
             <small class="form-text text-muted">
                 Ej: Personajes, Paisajes, Concept Art
@@ -836,8 +838,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hacer removeFile global para que funcione desde el HTML
     window.removeFile = removeFile;
 
-    // TAGS SELECTIZE (si lo usas)
+    // SELECTIZE PARA CAMPOS EDITABLES
     if (typeof $ !== 'undefined' && $.fn.selectize) {
+        // Tags (múltiple con creación)
         $('#tagInput').selectize({
             plugins: ['remove_button'],
             delimiter: ',',
@@ -847,7 +850,32 @@ document.addEventListener('DOMContentLoaded', () => {
                     value: input,
                     text: input
                 };
-            }
+            },
+            placeholder: 'Escriba tags/técnicas'
+        });
+
+        // Tipo de Trabajo (single con creación)
+        $('#eventTypeInput').selectize({
+            create: function(input) {
+                return {
+                    value: input,
+                    text: input
+                };
+            },
+            placeholder: 'Seleccione o escriba nuevo tipo',
+            persist: false
+        });
+
+        // Categoría Principal (single con creación) 
+        $('#categoryInput').selectize({
+            create: function(input) {
+                return {
+                    value: input,
+                    text: input
+                };
+            },
+            placeholder: 'Seleccione o escriba nueva categoría',
+            persist: false
         });
     }
 

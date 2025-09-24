@@ -22,24 +22,9 @@ use Cake\Routing\Router;
  * @var \App\View\AppView $this
  */
 $url = $_SERVER['REQUEST_URI'];
-$cakeDescription = 'Mi EventoApp';
+$cakeDescription = 'Stefsketch';
 ?>
 
-<?php
-$postsTable = TableRegistry::getTableLocator()->get('BlogPosts');
-$eventsTable = TableRegistry::getTableLocator()->get('EventTypes');
-// Cargar las notificaciones no leídas del usuario actual
-$user = $this->request->getAttribute('identity');
-$notifications = [];
-if ($user) {
-    $notificationsTable = TableRegistry::getTableLocator()->get('Notifications');
-    $notifications = $notificationsTable->find()
-        ->where(['user_id' => $user->id, 'is_read' => false])
-        ->order(['created' => 'DESC'])
-        ->limit(10)
-        ->toArray();
-}
-?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -58,13 +43,7 @@ if ($user) {
         <?= $this->fetch('title') ?>
     </title>
 
-    <?= $this->Html->meta('icon', 'LOGOPRINCIPAL.png', ['type'=>'image/png']) ?>
-    <?php if (isset($blogPost)): ?>
-        <?= $this->Html->meta('og:title', $blogPost->title); ?>
-        <?= $this->Html->meta('og:description', $blogPost->subtitle); ?>
-        <?= $this->Html->meta('og:image', $this->Url->build('/img/' . h($blogPost->banner), ['fullBase' => true])); ?>
-        <?= $this->Html->meta('og:url', $this->Url->build(['controller' => 'Blog', 'action' => 'view', $blogPost->slug], ['fullBase' => true])); ?>
-    <?php endif; ?>
+    <?= $this->Html->meta('icon', '.png', ['type'=>'image/png']) ?>
     <?= $this->Html->meta('og:type', 'article'); ?>
     <?= $this->Html->meta('og:site_name', 'Mi Evento App'); ?>
     <?= $this->Html->css(['bootstrap.min', 'base'.'.css?ver=26-08:001', 'css2.css', 'footer_blog'.'.css?ver=6']) ?>
@@ -79,26 +58,6 @@ if ($user) {
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 
-    <!-- Google tag (gtag.js) --
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-12BZVRKWSX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-12BZVRKWSX');
-</>-->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5QW6NF2749"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'G-5QW6NF2749');
-    </script>
 
 <?php
     $user = $this->request->getAttribute('identity');
@@ -138,11 +97,7 @@ if ($user) {
                 <div class="col-md-3">
                     <!-- Logo -->
                     <div class="logo">
-                        <?php if (isset($eventType)): ?>
-                        <a href="https://mieventoapp.com/blog/<?= h($eventType->eventoslug) ?>" >
-                            <?php echo $this->Html->image('EAlogoPrincipal.png', ['class' => 'parallax-slider', 'alt' => 'LOGO', 'width' => '180', 'style' => 'background-color: #161b26a8;border-radius: 8px;padding: 4px;', 'height' => '53']); ?>
-                        </a>
-                        <?php endif; ?>
+                       
                     </div>
                 </div>
             </div>
@@ -166,94 +121,23 @@ if ($user) {
         <nav class="menu-nav">
            <ul class="menu-list">
     <li class="menu-item">
-        <a href="/blog/<?= h($eventType->eventoslug) ?>" style="color: #777777;">
-            <div class="menu-title">Inicio</div>
-        </a>
+       
     </li>
 
-    <?php foreach ($menuStructure as $entry): ?>
-        <?php $eventType = $entry['event']; ?>
-        <li class="menu-item">
-            <div class="menu-title">
-                <?= h($eventType->name) ?>
-                <span class="arrow">▼</span>
-            </div>
 
-            <ul class="submenu">
-                <li>
-                    <a href="/blog/<?= h($eventType->eventoslug) ?>/temas">
-                        Todas las categorías
-                    </a>
-                </li>
-
-                <?php foreach ($entry['categories'] as $catEntry): ?>
-                    <?php $category = $catEntry['category']; ?>
-                    <li class="submenu-item">
-                        <a href="/blog/<?= h($eventType->eventoslug) ?>/temas/<?= h($category->slug) ?>">
-                            <?= h($category->name) ?>
-                        </a>
-
-                        <?php if (!empty($catEntry['subcategories'])): ?>
-                            <ul class="sub-submenu">
-                                <?php foreach ($catEntry['subcategories'] as $subcategory): ?>
-                                    <li>
-                                        <a href="/blog/<?= h($eventType->eventoslug) ?>/temas/<?= h($category->slug) ?>/<?= h($subcategory->slug) ?>">
-                                            <?= h($subcategory->name) ?>
-                                        </a>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php endif; ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </li>
-    <?php endforeach; ?>
 </ul>
 
 
         </nav>
         <div class="col-12" style="text-align: center;">
-          <a href="https://mieventoapp.com/">
-            <?php echo $this->Html->image('LOGOPRINCIPAL.png', ['class' => 'logoprincipal','style' => 'width: 50%;margin-top: -18px;', 'alt' => 'LOGO' , 'loading' => 'lazy']); ?>
+          <a href="https://Stefsketch.com/">
+            <?php echo $this->Html->image('.png', ['class' => 'logoprincipal','style' => 'width: 50%;margin-top: -18px;', 'alt' => 'LOGO' , 'loading' => 'lazy']); ?>
           </a>
         </div>
     </div>
 </div>
 
-<!--<?php echo $this->element('notifications'); ?>-->
-    <!-- Botón NOTIFICACIONES -->
-    <div id="notification-widget">
-    <button id="notification-toggle">
-        🔔 <span id="notif-count"><?= count($notifications) ?></span>
-    </button>
-    <div id="notification-list" style="display:none;">
-        <ul>
-            <?php foreach ($notifications as $note) :
-            if ($note->target_type === 'blog_post' && $note->target_id) {
-                try {
-                    $post = $postsTable->get($note->target_id, ['contain' => ['EventTypes']]);
-                    $note->resolved_url = $postsTable->getPostUrl($post);
-                } catch (RecordNotFoundException $e) {
-                    $note->resolved_url = $note->url ?? '#';
-                }
-            } else {
-                $note->resolved_url = $note->url ?? '#';
 
-            } ?>
-
-                
-                <li>
-                    <a href="<?=  $note->resolved_url ?>">
-                        <strong><?= h($note->title) ?></strong><br>
-                        <?= h($note->body) ?><br>
-                        <small><?= $note->created->nice() ?></small>
-                    </a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-</div>
 
 
     </header>
@@ -268,97 +152,11 @@ if ($user) {
 </a>
 
 
-<?php
-// Detectar el tipo de evento actual desde la URL
-$path = $this->request->getPath(); // ej. /blog/xv/post-demo
-$pathParts = explode('/', trim($path, '/'));
-$currentEventSlug = $pathParts[1] ?? null;
-
-// Reordenar el menú para poner el evento activo al principio
-if ($currentEventSlug) {
-    $activeEvent = null;
-    foreach ($menuStructure as $key => $entry) {
-        if ($entry['event']->eventoslug === $currentEventSlug) {
-            $activeEvent = $entry;
-            unset($menuStructure[$key]);
-            break;
-        }
-    }
-    if ($activeEvent) {
-        $menuStructure = array_merge([$activeEvent], $menuStructure);
-    }
-}
-?>
-
 <!--FOOTER DINÁMICO CON ACORDEÓN-->
 <footer class="modern-footer">
     <div class="footer-content">
         <!-- Navegación -->
         <div class="footer-navigation">
-            <?php foreach ($menuStructure as $entry): ?>
-                <?php
-                  $firstCategory = true;
-                  $isCurrentEvent = ($currentEventSlug && $entry['event']->eventoslug === $currentEventSlug);
-                  ?>
-                <?php $isActiveEvent = ($entry['event']->eventoslug === $currentEventSlug); ?>
-                <div class="event-section <?= $isCurrentEvent ? 'active-event' : '' ?>">
-                    <h6 class="event-title <?= $isActiveEvent ? 'active-event' : '' ?>" onclick="toggleEvent(this)">
-                        <span>
-                          <a class="category-link" href="/blog/<?= h($entry['event']->eventoslug) ?>">
-                            <i class="fas fa-calendar-alt event-icon"></i>
-                            <?= h($entry['event']->name) ?>
-                          </a>
-                        </span>
-                        <i class="fas fa-chevron-down toggle-icon <?= $isActiveEvent ? 'rotated' : '' ?>"></i>
-                    </h6>
-                    
-                    <div class="categories-list <?= $isActiveEvent ? 'active' : '' ?>">
-                        <?php foreach ($entry['categories'] as $cat): ?>
-                          <?php
-                              $isFirstCategory = $firstCategory && $isCurrentEvent;
-                              $firstCategory = false;
-                              $categorySlug = $this->request->getParam('pass')[1] ?? null;
-                              $subcatAnchor = $this->request->getParam('pass')[2] ?? null;
-                              $currentUrl = $this->request->getRequestTarget(); // obtiene la URL completa
-                          ?>
-                            <div class="category-group">
-                                <?php if (!empty($cat['subcategories'])): ?>
-                                    <div class="category-item-footer <?= $isFirstCategory ? 'open' : '' ?>">
-                                        <?php
-                                          $isActiveCategory = strpos($currentUrl, '/temas/' . $cat['category']->slug) !== false;
-                                        ?>
-                                        <a class="category-link <?= $isActiveCategory ? 'active' : '' ?>" 
-                                          href="/blog/<?= h($entry['event']->eventoslug) ?>/temas/<?= h($cat['category']->slug) ?>">
-                                            <?= h($cat['category']->name) ?>
-                                        </a>
-                                        <button class="category-toggle" onclick="toggleCategory(this)">
-                                            <i class="fas fa-chevron-down"></i>
-                                        </button>
-                                    </div>
-                                    <ul class="subcategories <?= $isFirstCategory ? 'open' : 'collapsed' ?>">
-                                        <?php foreach ($cat['subcategories'] as $subcat): ?>
-                                          <?php
-                                              $isActiveSubcat = strpos($currentUrl, '#' . $subcat->slug) !== false;
-                                          ?>
-                                          <li class="subcategory-item">
-                                              <a class="subcategory-link <?= $isActiveSubcat ? 'active' : '' ?>"
-                                                href="/blog/<?= h($entry['event']->eventoslug) ?>/temas/<?= h($cat['category']->slug) ?>/<?= h($subcat->slug) ?>">
-                                                  <i class="fas fa-chevron-right"></i>
-                                                  <?= h($subcat->name) ?>
-                                              </a>
-                                          </li>
-                                      <?php endforeach; ?>
-                                    </ul>
-                                <?php else: ?>
-                                    <a class="category-link" href="/blog/<?= h($entry['event']->eventoslug) ?>/temas/<?= h($cat['category']->slug) ?>">
-                                        <?= h($cat['category']->name) ?>
-                                    </a>
-                                <?php endif; ?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            <?php endforeach; ?>
         </div>
         
 
@@ -376,7 +174,7 @@ if ($currentEventSlug) {
         </form>
     </div>
 
-            <?= $this->Html->image('LOGOPRINCIPAL.png', [
+            <?= $this->Html->image('.png', [
                 'class' => 'footer-logo',
                 'alt' => 'LOGO',
                 'loading' => 'lazy'
