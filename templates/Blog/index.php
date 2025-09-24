@@ -46,7 +46,7 @@ html, body {
 }
 
 .hero-bg-back {
-    background-image: url('/img/hero-bg-back.jpg'); /* Imagen de fondo */
+    background-image: url('webroot/img/stefsketch-1.jpg'); /* Imagen de fondo */
     transform: translateZ(0) scale(1.1);
 }
 

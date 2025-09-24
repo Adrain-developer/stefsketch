@@ -412,8 +412,8 @@ $cakeDescription = 'Stefsketch';
 <style>
 .btn-floating-contact {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: 15px;
+    left: 30px;
     width: 60px;
     height: 60px;
     background: linear-gradient(135deg, #061455 0%, #40057d 100%);
@@ -421,9 +421,10 @@ $cakeDescription = 'Stefsketch';
     border-radius: 50%;
     color: white;
     font-size: 24px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     z-index: 1000;
-    transition: all 1.2s cubic-bezier(0.25, 0.8, 0.25, 1); /* Más lento */
+    transition: all 1.2s 
+cubic-bezier(0.25, 0.8, 0.25, 1);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -443,7 +444,7 @@ $cakeDescription = 'Stefsketch';
 
 /* Estado expandido en footer - Transición más dramática */
 .btn-floating-contact.footer-mode {
-    position: relative;
+    position: static;
     bottom: auto;
     right: auto;
     width: 100%;
