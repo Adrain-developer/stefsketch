@@ -51,6 +51,8 @@ $cakeDescription = 'Stefsketch';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css?v=1.0" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.12.1/rellax.min.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -317,16 +319,8 @@ $cakeDescription = 'Stefsketch';
             <!-- Brand / Logo -->
             <div class="footer-brand">
 
-                <!-- ... contenido existente del footer ... -->
-                <div class="subscription-form">
-                    <h3>Suscríbete para recibir notificaciones</h3>
-                    <form action="/users/subscribe" method="post">
-                        <?= $this->Form->create(null, ['url' => ['controller' => 'Users', 'action' => 'subscribe']]) ?>
-                        <input type="email" name="email" placeholder="Ingresa tu correo" required>
-                        <button type="submit">Suscribirse</button>
-                        <?= $this->Form->end() ?>
-                    </form>
-                </div>
+                <!-- Contenedor para el botón en footer -->
+                <div id="footerContactContainer" class="footer-contact-container"></div>
 
                 <?= $this->Html->image('.png', [
                 'class' => 'footer-logo',
@@ -347,6 +341,469 @@ $cakeDescription = 'Stefsketch';
             </div>
         </div>
     </footer>
+
+
+<!-- Botón Flotante para Contacto -->
+<button type="button" class="btn-floating-contact" id="floatingContactBtn" title="¡Contáctanos!">
+    <span class="contact-btn-floating-icon">💬</span>
+    <div class="contact-btn-content">
+        <div class="contact-btn-icon">💬</div>
+        <div class="contact-btn-text">
+            <div class="contact-btn-title">¿Tienes un proyecto en mente?</div>
+            <div class="contact-btn-subtitle">¡Hablemos y hagámoslo realidad!</div>
+        </div>
+    </div>
+</button>
+
+<!-- Modal de Contacto -->
+<div class="custom-modal-overlay" id="contactModal" style="display: none;">
+    <div class="custom-modal">
+        <div class="custom-modal-header">
+            <h5>💬 ¡Hablemos de tu proyecto!</h5>
+            <button type="button" class="custom-modal-close" id="closeModalBtn">&times;</button>
+        </div>
+        <div class="custom-modal-body">
+            <div id="contactFormContainer">
+                <form id="floatingContactForm">
+                    <!-- Honeypot anti-spam (campo oculto) -->
+                    <div style="display: none;">
+                        <input type="text" name="website" tabindex="-1" autocomplete="off">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactName" class="form-label">Nombre *</label>
+                        <input type="text" class="form-control" id="contactName" name="name" required placeholder="Tu nombre completo">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactEmail" class="form-label">Email *</label>
+                        <input type="email" class="form-control" id="contactEmail" name="email" required placeholder="tu@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactPhone" class="form-label">Teléfono</label>
+                        <input type="tel" class="form-control" id="contactPhone" name="phone" placeholder="+52 123 456 7890">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactMessage" class="form-label">Mensaje *</label>
+                        <textarea class="form-control" id="contactMessage" name="message" rows="4" required placeholder="Cuéntanos sobre tu proyecto..."></textarea>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Contenedor para respuestas AJAX -->
+            <div id="contactResponse" style="display: none;"></div>
+        </div>
+        <div class="custom-modal-footer">
+            <button type="button" class="btn btn-secondary" id="cancelModalBtn">Cerrar</button>
+            <button type="button" class="btn btn-primary" id="sendContactBtn">
+                <span class="btn-text">📨 Enviar Mensaje</span>
+                <span class="btn-loading" style="display: none;">
+                    <span class="spinner"></span>
+                    Enviando...
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- CSS para el botón flotante -->
+<style>
+.btn-floating-contact {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #061455 0%, #40057d 100%);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 1000;
+    transition: all 1.2s cubic-bezier(0.25, 0.8, 0.25, 1); /* Más lento */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.btn-floating-contact:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+    color: white;
+}
+
+.btn-floating-contact:active {
+    transform: scale(0.95);
+}
+
+/* Estado expandido en footer - Transición más dramática */
+.btn-floating-contact.footer-mode {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    width: 100%;
+    max-width: 400px;
+    height: 80px;
+    border-radius: 40px; /* Cambio gradual de círculo a rectángulo */
+    background: linear-gradient(135deg, #061455 0%, #40057d 100%);
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+    font-size: 16px;
+    margin: 20px auto;
+    flex-direction: row;
+    text-align: left;
+    padding: 0 30px;
+    transform: scale(1);
+}
+
+.btn-floating-contact.footer-mode:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.5);
+}
+
+/* Contenido del botón - aparece más lento */
+.contact-btn-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    opacity: 0;
+    transform: translateX(30px);
+    transition: all 1s ease 0.6s; /* Delay más largo para que aparezca después */
+}
+
+.btn-floating-contact.footer-mode .contact-btn-content {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Icono flotante - desaparece gradualmente */
+.contact-btn-floating-icon {
+    transition: opacity 0.8s ease;
+    position: absolute;
+}
+
+.btn-floating-contact.footer-mode .contact-btn-floating-icon {
+    opacity: 0;
+}
+
+.contact-btn-icon {
+    font-size: 28px;
+    margin-right: 15px;
+    transition: transform 0.3s ease;
+}
+
+.btn-floating-contact.footer-mode:hover .contact-btn-icon {
+    transform: scale(1.1);
+}
+
+.contact-btn-text {
+    flex: 1;
+}
+
+.contact-btn-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.contact-btn-subtitle {
+    font-size: 14px;
+    opacity: 0.9;
+    margin: 2px 0 0 0;
+    line-height: 1.2;
+}
+
+/* Animación de pulso solo en modo flotante */
+.btn-floating-contact:not(.footer-mode)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    transition: opacity 0.8s ease;
+}
+
+.btn-floating-contact.footer-mode::before {
+    opacity: 0;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
+}
+
+/* Contenedor en footer - transición más lenta */
+.footer-contact-container {
+    display: flex;
+    justify-content: center;
+    padding: 30px 0; /* Más padding para mejor visualización */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease;
+}
+
+.footer-contact-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Estados intermedios para mejor visualización */
+.btn-floating-contact.transitioning {
+    transform: scale(1.05);
+}
+
+/* Resto del CSS del modal permanece igual... */
+.custom-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.custom-modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.custom-modal {
+    background: white;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(0.7) translateY(-50px);
+    transition: transform 0.3s ease;
+}
+
+.custom-modal-overlay.show .custom-modal {
+    transform: scale(1) translateY(0);
+}
+
+.custom-modal-header {
+    padding: 25px 25px 15px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-modal-header h5 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.custom-modal-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #999;
+    padding: 0;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.custom-modal-close:hover {
+    background: #f8f9fa;
+    color: #333;
+}
+
+.custom-modal-body {
+    padding: 25px;
+}
+
+.custom-modal-footer {
+    padding: 15px 25px 25px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-control::placeholder {
+    color: #999;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.btn-primary {
+    color: white;
+    background: linear-gradient(135deg, #061455 0%, #40057d 100%);
+    border-color: transparent;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    transform: none;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    color: #666;
+    background: #f8f9fa;
+    border-color: #e9ecef;
+}
+
+.btn-secondary:hover {
+    background: #e9ecef;
+    border-color: #dee2e6;
+}
+
+/* Spinner */
+.spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top: 2px solid white;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Alert Styles */
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 0;
+}
+
+.alert-success {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .btn-floating-contact {
+        bottom: 15px;
+        left: 15px;
+        width: 42px;
+        height: 42px;
+        font-size: 20px;
+    }
+    
+    .btn-floating-contact.footer-mode {
+        max-width: 90%;
+        height: 70px;
+        padding: 0 20px;
+    }
+    
+    .contact-btn-title {
+        font-size: 16px;
+    }
+    
+    .contact-btn-subtitle {
+        font-size: 13px;
+    }
+    
+    .contact-btn-icon {
+        font-size: 24px;
+        margin-right: 12px;
+    }
+    
+    .custom-modal {
+        width: 95%;
+        margin: 10px;
+    }
+    
+    .custom-modal-header,
+    .custom-modal-body,
+    .custom-modal-footer {
+        padding: 20px;
+    }
+}
+</style>
+
+
 
 
     <?= $this->Html->script('jquery-3.5.1.min.js') ?>
@@ -535,6 +992,197 @@ $cakeDescription = 'Stefsketch';
         console.log('✅ Widget de notificaciones inicializado con sincronización real');
     }
     </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const footerContainer = document.getElementById('footerContactContainer');
+    const footer = document.querySelector('footer');
+    const modal = document.getElementById('contactModal');
+    const form = document.getElementById('floatingContactForm');
+    const formContainer = document.getElementById('contactFormContainer');
+    const responseContainer = document.getElementById('contactResponse');
+    let isInFooterMode = false;
+    let transitionTimeout = null;
+    
+    // ===== FUNCIONALIDAD DEL MODAL (sin cambios) =====
+    function openModal() {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+    }
+    
+    function closeModal() {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+            resetForm();
+        }, 300);
+    }
+    
+    function resetForm() {
+        form.reset();
+        formContainer.style.display = 'block';
+        responseContainer.style.display = 'none';
+        const sendBtn = document.getElementById('sendContactBtn');
+        sendBtn.querySelector('.btn-text').style.display = 'inline-block';
+        sendBtn.querySelector('.btn-loading').style.display = 'none';
+        sendBtn.disabled = false;
+    }
+    
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('#floatingContactBtn')) {
+            e.preventDefault();
+            openModal();
+        }
+        
+        if (e.target.closest('#closeModalBtn, #cancelModalBtn')) {
+            e.preventDefault();
+            closeModal();
+        }
+    });
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('show')) {
+            closeModal();
+        }
+    });
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    document.getElementById('sendContactBtn').addEventListener('click', function() {
+        const sendBtn = this;
+        
+        const name = document.getElementById('contactName').value.trim();
+        const email = document.getElementById('contactEmail').value.trim();
+        const message = document.getElementById('contactMessage').value.trim();
+        
+        if (!name || !email || !message) {
+            alert('Por favor completa todos los campos obligatorios.');
+            return;
+        }
+        
+        sendBtn.querySelector('.btn-text').style.display = 'none';
+        sendBtn.querySelector('.btn-loading').style.display = 'inline-block';
+        sendBtn.disabled = true;
+        
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('phone', document.getElementById('contactPhone').value);
+        formData.append('message', message);
+        
+        const csrfToken = document.querySelector('meta[name="csrfToken"]').getAttribute('content');
+        
+        fetch('/leads/add', {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-Token': csrfToken
+            },
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            formContainer.style.display = 'none';
+            responseContainer.style.display = 'block';
+            responseContainer.innerHTML = data;
+            
+            sendBtn.querySelector('.btn-text').style.display = 'inline-block';
+            sendBtn.querySelector('.btn-loading').style.display = 'none';
+            sendBtn.disabled = false;
+            
+            if (data.includes('alert-success')) {
+                setTimeout(() => {
+                    closeModal();
+                }, 3000);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            responseContainer.innerHTML = '<div class="alert alert-danger">Error de conexión. Intenta nuevamente.</div>';
+            responseContainer.style.display = 'block';
+            formContainer.style.display = 'none';
+            
+            sendBtn.querySelector('.btn-text').style.display = 'inline-block';
+            sendBtn.querySelector('.btn-loading').style.display = 'none';
+            sendBtn.disabled = false;
+        });
+    });
+    
+    // ===== TRANSICIÓN AL FOOTER MEJORADA =====
+    function checkFooterPosition() {
+        if (!footer) return;
+        
+        const floatingBtn = document.getElementById('floatingContactBtn');
+        if (!floatingBtn) return;
+        
+        const footerRect = footer.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        // Detectar cuando el footer está completamente visible
+        const footerFullyVisible = footerRect.top <= windowHeight - 50; // Más restrictivo
+        const footerTopVisible = footerRect.top <= windowHeight + 50;
+        
+        if (footerFullyVisible && !isInFooterMode) {
+            // Iniciar transición a footer
+            isInFooterMode = true;
+            
+            // Agregar clase de transición para efecto visual
+            floatingBtn.classList.add('transitioning');
+            
+            // Mover al footer container después de un pequeño delay
+            setTimeout(() => {
+                footerContainer.appendChild(floatingBtn);
+                footerContainer.classList.add('show');
+                
+                // Activar modo footer después de mover
+                setTimeout(() => {
+                    floatingBtn.classList.remove('transitioning');
+                    floatingBtn.classList.add('footer-mode');
+                }, 100);
+            }, 200);
+            
+        } else if (!footerTopVisible && isInFooterMode) {
+            // Volver a modo flotante
+            isInFooterMode = false;
+            
+            // Agregar clase de transición
+            floatingBtn.classList.add('transitioning');
+            floatingBtn.classList.remove('footer-mode');
+            footerContainer.classList.remove('show');
+            
+            // Mover de vuelta después de la transición
+            setTimeout(() => {
+                floatingBtn.classList.remove('transitioning');
+                document.body.appendChild(floatingBtn);
+            }, 600); // Esperar que termine la transición
+        }
+    }
+    
+    // Throttle mejorado para mejor performance
+    let scrollTimeout;
+    let lastScrollTime = 0;
+    window.addEventListener('scroll', function() {
+        const now = Date.now();
+        if (now - lastScrollTime > 50) { // Límite de 20 FPS
+            lastScrollTime = now;
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(checkFooterPosition, 20);
+        }
+    });
+    
+    // Verificación inicial más tardía
+    setTimeout(checkFooterPosition, 1000);
+});
+</script>
+
 
 </body>
 
