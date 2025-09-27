@@ -162,6 +162,11 @@ $builder->connect('/portafolio/{eventoslug}/{slug}', [
       'slug' => '[a-z0-9\-]+'
   ]);
 
+  $builder->connect('/historia', [
+    'controller' => 'Blog', 
+    'action' => 'historia'
+]);
+
 // 8. Índice general del portafolio
 $builder->connect('/portafolio', ['controller' => 'Blog', 'action' => 'index']);
 

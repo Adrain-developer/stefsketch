@@ -40,7 +40,7 @@ if ($user) {
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="no-js">
 
 <head>
 
@@ -68,6 +68,7 @@ if ($user) {
     <?= $this->Html->meta('og:site_name', 'Stefsketch'); ?>
 
     <link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
+    
 
     <?= $this->Html->css([
         'ui/build/global-styles-inline-css',
@@ -94,6 +95,10 @@ if ($user) {
         'ui/build/off-canvas/fullscreen-legacy0583',
     ]) ?>
 
+    <style id='dynamic-css-inline-css' type='text/css'>
+        #page-header-bg.fullscreen-header,#page-header-wrap.fullscreen-header{width:100%;position:relative;transition:none;-webkit-transition:none;z-index:2}#page-header-wrap.fullscreen-header{background-color:#2b2b2b}#page-header-bg.fullscreen-header .span_6{opacity:1}#page-header-bg.fullscreen-header[data-alignment-v="middle"] .span_6{top:50%!important}.default-blog-title.fullscreen-header{position:relative}@media only screen and (min-width :1px) and (max-width :999px){#page-header-bg[data-parallax="1"][data-alignment-v="middle"].fullscreen-header .span_6{-webkit-transform:translateY(-50%)!important;transform:translateY(-50%)!important;}#page-header-bg[data-parallax="1"][data-alignment-v="middle"].fullscreen-header .nectar-particles .span_6{-webkit-transform:none!important;transform:none!important;}#page-header-bg.fullscreen-header .row{top:0!important;}}.no-rgba #header-space{display:none;}@media only screen and (max-width:999px){body #header-space[data-header-mobile-fixed="1"]{display:none;}#header-outer[data-mobile-fixed="false"]{position:absolute;}}@media only screen and (max-width:999px){body:not(.nectar-no-flex-height) #header-space[data-secondary-header-display="full"]:not([data-header-mobile-fixed="false"]){display:block!important;margin-bottom:-50px;}#header-space[data-secondary-header-display="full"][data-header-mobile-fixed="false"]{display:none;}}@media only screen and (min-width:1000px){#header-space{display:none;}.nectar-slider-wrap.first-section,.parallax_slider_outer.first-section,.full-width-content.first-section,.parallax_slider_outer.first-section .swiper-slide .content,.nectar-slider-wrap.first-section .swiper-slide .content,#page-header-bg,.nder-page-header,#page-header-wrap,.full-width-section.first-section{margin-top:0!important;}body #page-header-bg,body #page-header-wrap{height:84px;}body #search-outer{z-index:100000;}}@media only screen and (min-width:1000px){#page-header-wrap.fullscreen-header,#page-header-wrap.fullscreen-header #page-header-bg,html:not(.nectar-box-roll-loaded) .nectar-box-roll > #page-header-bg.fullscreen-header,.nectar_fullscreen_zoom_recent_projects,#nectar_fullscreen_rows:not(.afterLoaded) > div{height:100vh;}.wpb_row.vc_row-o-full-height.top-level,.wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:100vh;}#page-header-bg[data-alignment-v="middle"] .span_6 .inner-wrap,#page-header-bg[data-alignment-v="top"] .span_6 .inner-wrap,.blog-archive-header.color-bg .container{padding-top:calc(79px + var(--nectar_hook_before_nav_content_height,0px));}#page-header-wrap.container #page-header-bg .span_6 .inner-wrap{padding-top:0;}.nectar-slider-wrap[data-fullscreen="true"]:not(.loaded),.nectar-slider-wrap[data-fullscreen="true"]:not(.loaded) .swiper-container{height:calc(100vh + 2px)!important;}.admin-bar .nectar-slider-wrap[data-fullscreen="true"]:not(.loaded),.admin-bar .nectar-slider-wrap[data-fullscreen="true"]:not(.loaded) .swiper-container{height:calc(100vh - 30px)!important;}}@media only screen and (max-width:999px){#page-header-bg[data-alignment-v="middle"]:not(.fullscreen-header) .span_6 .inner-wrap,#page-header-bg[data-alignment-v="top"] .span_6 .inner-wrap,.blog-archive-header.color-bg .container{padding-top:calc(49px + var(--nectar_hook_before_nav_content_height,0px));}.vc_row.top-level.full-width-section:not(.full-width-ns) > .span_12,#page-header-bg[data-alignment-v="bottom"] .span_6 .inner-wrap{padding-top:24px;}}@media only screen and (max-width:690px){.vc_row.top-level.full-width-section:not(.full-width-ns) > .span_12{padding-top:49px;}.vc_row.top-level.full-width-content .nectar-recent-posts-single_featured .recent-post-container > .inner-wrap{padding-top:24px;}}@media only screen and (max-width:999px){.full-width-ns .nectar-slider-wrap .swiper-slide[data-y-pos="middle"] .content,.full-width-ns .nectar-slider-wrap .swiper-slide[data-y-pos="top"] .content{padding-top:30px;}}@media only screen and (max-width:999px){.using-mobile-browser #page-header-wrap.fullscreen-header,.using-mobile-browser #page-header-wrap.fullscreen-header #page-header-bg{height:calc(100vh - 76px);}.using-mobile-browser #nectar_fullscreen_rows:not(.afterLoaded):not([data-mobile-disable="on"]) > div{height:calc(100vh - 76px);}.using-mobile-browser .wpb_row.vc_row-o-full-height.top-level,.using-mobile-browser .wpb_row.vc_row-o-full-height.top-level > .col.span_12,[data-permanent-transparent="1"].using-mobile-browser .wpb_row.vc_row-o-full-height.top-level,[data-permanent-transparent="1"].using-mobile-browser .wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:calc(100vh - 76px);}#page-header-wrap.fullscreen-header,#page-header-wrap.fullscreen-header #page-header-bg,html:not(.nectar-box-roll-loaded) .nectar-box-roll > #page-header-bg.fullscreen-header,.nectar_fullscreen_zoom_recent_projects,.nectar-slider-wrap[data-fullscreen="true"]:not(.loaded),.nectar-slider-wrap[data-fullscreen="true"]:not(.loaded) .swiper-container,#nectar_fullscreen_rows:not(.afterLoaded):not([data-mobile-disable="on"]) > div{height:calc(100vh - 1px);}.wpb_row.vc_row-o-full-height.top-level,.wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:calc(100vh - 1px);}body[data-transparent-header="false"] #ajax-content-wrap.no-scroll{min-height:calc(100vh - 1px);height:calc(100vh - 1px);}}.col.padding-9-percent > .vc_column-inner,.col.padding-9-percent > .n-sticky > .vc_column-inner{padding:calc(600px * 0.09);}@media only screen and (max-width:690px){.col.padding-9-percent > .vc_column-inner,.col.padding-9-percent > .n-sticky > .vc_column-inner{padding:calc(100vw * 0.09);}}@media only screen and (min-width:1000px){.col.padding-9-percent > .vc_column-inner,.col.padding-9-percent > .n-sticky > .vc_column-inner{padding:calc((100vw - 180px) * 0.09);}.column_container:not(.vc_col-sm-12) .col.padding-9-percent > .vc_column-inner{padding:calc((100vw - 180px) * 0.045);}}@media only screen and (min-width:1425px){.col.padding-9-percent > .vc_column-inner{padding:calc(1245px * 0.09);}.column_container:not(.vc_col-sm-12) .col.padding-9-percent > .vc_column-inner{padding:calc(1245px * 0.045);}}.full-width-content .col.padding-9-percent > .vc_column-inner{padding:calc(100vw * 0.09);}@media only screen and (max-width:999px){.full-width-content .col.padding-9-percent > .vc_column-inner{padding:calc(100vw * 0.09);}}@media only screen and (min-width:1000px){.full-width-content .column_container:not(.vc_col-sm-12) .col.padding-9-percent > .vc_column-inner{padding:calc(100vw * 0.045);}}.col.padding-4-percent > .vc_column-inner,.col.padding-4-percent > .n-sticky > .vc_column-inner{padding:calc(600px * 0.06);}@media only screen and (max-width:690px){.col.padding-4-percent > .vc_column-inner,.col.padding-4-percent > .n-sticky > .vc_column-inner{padding:calc(100vw * 0.06);}}@media only screen and (min-width:1000px){.col.padding-4-percent > .vc_column-inner,.col.padding-4-percent > .n-sticky > .vc_column-inner{padding:calc((100vw - 180px) * 0.04);}.column_container:not(.vc_col-sm-12) .col.padding-4-percent > .vc_column-inner{padding:calc((100vw - 180px) * 0.02);}}@media only screen and (min-width:1425px){.col.padding-4-percent > .vc_column-inner{padding:calc(1245px * 0.04);}.column_container:not(.vc_col-sm-12) .col.padding-4-percent > .vc_column-inner{padding:calc(1245px * 0.02);}}.full-width-content .col.padding-4-percent > .vc_column-inner{padding:calc(100vw * 0.04);}@media only screen and (max-width:999px){.full-width-content .col.padding-4-percent > .vc_column-inner{padding:calc(100vw * 0.06);}}@media only screen and (min-width:1000px){.full-width-content .column_container:not(.vc_col-sm-12) .col.padding-4-percent > .vc_column-inner{padding:calc(100vw * 0.02);}}.col.padding-7-percent > .vc_column-inner,.col.padding-7-percent > .n-sticky > .vc_column-inner{padding:calc(600px * 0.07);}@media only screen and (max-width:690px){.col.padding-7-percent > .vc_column-inner,.col.padding-7-percent > .n-sticky > .vc_column-inner{padding:calc(100vw * 0.07);}}@media only screen and (min-width:1000px){.col.padding-7-percent > .vc_column-inner,.col.padding-7-percent > .n-sticky > .vc_column-inner{padding:calc((100vw - 180px) * 0.07);}.column_container:not(.vc_col-sm-12) .col.padding-7-percent > .vc_column-inner{padding:calc((100vw - 180px) * 0.035);}}@media only screen and (min-width:1425px){.col.padding-7-percent > .vc_column-inner{padding:calc(1245px * 0.07);}.column_container:not(.vc_col-sm-12) .col.padding-7-percent > .vc_column-inner{padding:calc(1245px * 0.035);}}.full-width-content .col.padding-7-percent > .vc_column-inner{padding:calc(100vw * 0.07);}@media only screen and (max-width:999px){.full-width-content .col.padding-7-percent > .vc_column-inner{padding:calc(100vw * 0.07);}}@media only screen and (min-width:1000px){.full-width-content .column_container:not(.vc_col-sm-12) .col.padding-7-percent > .vc_column-inner{padding:calc(100vw * 0.035);}}.wpb_column[data-cfc="true"] h1,.wpb_column[data-cfc="true"] h2,.wpb_column[data-cfc="true"] h3,.wpb_column[data-cfc="true"] h4,.wpb_column[data-cfc="true"] h5,.wpb_column[data-cfc="true"] h6,.wpb_column[data-cfc="true"] p{color:inherit}.nectar_icon_wrap i{vertical-align:middle;top:0;}.nectar_icon_wrap i[class*="nectar-brands"]{display:inline-block;}.wpb_wrapper > .nectar_icon_wrap{margin-bottom:0;}.nectar_icon_wrap i{transition:color .25s ease;}.nectar_icon_wrap path{transition:fill .25s ease;}.nectar-pulsate i{display:block;border-radius:200px;background-color:currentColor;position:relative;}.nectar-pulsate i:after{display:block;position:absolute;top:50%;left:50%;content:"";width:100%;height:100%;margin:-50% auto auto -50%;-webkit-transform-origin:50% 50%;transform-origin:50% 50%;border-radius:50%;background-color:currentColor;opacity:1;z-index:11;pointer-events:none;animation:nectar_pulsate 2s cubic-bezier(.2,1,.2,1) infinite;}@keyframes nectar_pulsate{0%{opacity:0.6;transform:scale(1);}100%{opacity:0;transform:scale(3);}}.nectar_icon_wrap[data-style*="default"][data-color*="extra-color-gradient"] .nectar_icon i{border-radius:0!important;text-align:center;}.nectar_icon_wrap[data-style*="default"][data-color*="extra-color-gradient"] .nectar_icon i:before{vertical-align:top;}.nectar_icon_wrap[data-style*="default"][data-color*="extra-color-gradient"] .nectar_icon i[class*="fa-"],.nectar_icon_wrap[data-style*="default"][data-color*="extra-color-gradient"] .nectar_icon i[class^="icon-"]{vertical-align:baseline;}.iconsmind-Finger-Print:before{content:"\eb39"}.iconsmind-Car-3:before{content:"\e9c6"}.nectar-3d-transparent-button{font-weight:700;font-size:12px;line-height:20px;visibility:hidden}.nectar-3d-transparent-button{display:inline-block}.nectar-3d-transparent-button a{display:block}.nectar-3d-transparent-button .hidden-text{height:1em;line-height:1.5;overflow:hidden}.nectar-3d-transparent-button .hidden-text{display:block;height:0;position:absolute}body .nectar-3d-transparent-button{position:relative;margin-bottom:0}.nectar-3d-transparent-button .inner-wrap{-webkit-perspective:2000px;perspective:2000px;position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;display:block}.nectar-3d-transparent-button .front-3d{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;display:block}.nectar-3d-transparent-button .back-3d{position:relative;top:0;right:0;bottom:0;left:0;width:100%;height:100%;display:block}.nectar-3d-transparent-button .back-3d{-webkit-transform-origin:50% 50% -2.3em;transform-origin:50% 50% -2.3em}.nectar-3d-transparent-button .front-3d{-webkit-transform-origin:50% 50% -2.3em;transform-origin:50% 50% -2.3em;-webkit-transform:rotateX(-90deg);transform:rotateX(-90deg)}.nectar-3d-transparent-button:hover .front-3d{-webkit-transform:rotateX(0deg);transform:rotateX(0deg)}.nectar-3d-transparent-button:hover .back-3d{-webkit-transform:rotateX(90deg);transform:rotateX(90deg)}.nectar-3d-transparent-button .back-3d,.nectar-3d-transparent-button .front-3d{transition:-webkit-transform .25s cubic-bezier(.2,.65,.4,1);transition:transform .25s cubic-bezier(.2,.65,.4,1);transition:transform .25s cubic-bezier(.2,.65,.4,1),-webkit-transform .25s cubic-bezier(.2,.65,.4,1)}.nectar-3d-transparent-button .back-3d,.nectar-3d-transparent-button .front-3d{-webkit-backface-visibility:hidden;backface-visibility:hidden}.nectar-3d-transparent-button .back-3d svg,.nectar-3d-transparent-button .front-3d svg{display:block}.screen-reader-text,.nectar-skip-to-content:not(:focus){border:0;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute!important;width:1px;word-wrap:normal!important;}.row .col img:not([srcset]){width:auto;}.row .col img.img-with-animation.nectar-lazy:not([srcset]){width:100%;}
+    </style>
+
     <link rel='stylesheet' id='nectar_default_font_open_sans-css'
         href='https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C600%2C700&amp;subset=latin%2Clatin-ext&amp;display=swap'
         type='text/css' media='all' />
@@ -103,13 +108,13 @@ if ($user) {
         type='text/css' media='all' />
 
     <script type="text/javascript">
-    var root = document.getElementsByTagName("html")[0];
-    root.setAttribute("class", "js");
+        var root = document.getElementsByTagName("html")[0];
+        root.setAttribute("class", "js");
     </script>
 
     <style data-type="vc_custom-css">
-    .nectar-split-heading[data-has-fit-text="true"] {
-        will-change: font-size;
+        .nectar-split-heading[data-has-fit-text="true"] {
+            will-change: font-size;
     }
     </style><noscript>
         <style>
@@ -164,7 +169,7 @@ if ($user) {
                     <div class="container">
                         <div class="row">
                             <div class="col span_3">
-                                <a id="logo" href="" data-supplied-ml-starting-dark="false"
+                                <a id="logo" href="/" data-supplied-ml-starting-dark="false"
                                     data-supplied-ml-starting="false" data-supplied-ml="false" class="no-image">
                                     Stefsketch</a>
                             </div>
@@ -174,9 +179,9 @@ if ($user) {
                                 <div class="nectar-mobile-only mobile-header">
                                     <div class="inner">
                                         <ul id="menu-quantum-portfolio" class="sf-menu">
-                                            <li 
-                                                class=" menu-item-btn-style-button_extra-color-1 menu-item-364">
-                                                <a href="javascript:void(0);" class="open-contact-modal"><span class="menu-title-text">Let&#8217;s Talk</span></a>
+                                            <li class=" menu-item-btn-style-button_extra-color-1 menu-item-364">
+                                                <a href="javascript:void(0);" class="open-contact-modal"><span
+                                                        class="menu-title-text">Let&#8217;s Talk</span></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -194,29 +199,22 @@ if ($user) {
                                     <ul class="sf-menu">
                                         <li id="menu-item-237"
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-9 current_page_item nectar-regular-menu-item menu-item-237">
-                                            <a href="index.html" aria-current="page"><span class="menu-title-text"><span
+                                            <a href="/" aria-current="page"><span class="menu-title-text"><span
                                                         class="nectar-text-reveal-button"><span
                                                             class="nectar-text-reveal-button__text"
-                                                            data-text="Work">Work</span></span></span></a>
+                                                            data-text="Work">Work's</span></span></span></a>
                                         </li>
                                         <li id="menu-item-236"
                                             class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-236">
-                                            <a href="about/index.html"><span class="menu-title-text"><span
+                                            <a href="/historia"><span class="menu-title-text"><span
                                                         class="nectar-text-reveal-button"><span
                                                             class="nectar-text-reveal-button__text"
                                                             data-text="About">About</span></span></span></a>
                                         </li>
-                                        <li id="menu-item-425"
-                                            class="menu-item menu-item-type-custom menu-item-object-custom nectar-regular-menu-item menu-item-425">
-                                            <a target="_blank" rel="noopener" href=""><span
-                                                    class="menu-title-text"><span
-                                                        class="nectar-text-reveal-button"><span
-                                                            class="nectar-text-reveal-button__text"
-                                                            data-text="Demos">Demos</span></span></span></a>
-                                        </li>
                                         <li
                                             class="menu-item menu-item-type-custom menu-item-object-custom menu-item-btn-style-button_extra-color-1 menu-item-hover-text-reveal nectar-regular-menu-item menu-item-364">
-                                            <a href="javascript:void(0);" class="open-contact-modal"><span class="menu-title-text"><span
+                                            <a href="javascript:void(0);" class="open-contact-modal"><span
+                                                    class="menu-title-text"><span
                                                         class="nectar-text-reveal-button"><span
                                                             class="nectar-text-reveal-button__text"
                                                             data-text="Let&#039;s Talk">Let&#8217;s
@@ -315,9 +313,13 @@ if ($user) {
                                                                 data-style="text-reveal" data-display="block"
                                                                 data-alignment="left" data-text-color="std"
                                                                 style="--nectar-button-color: var(--nectar-default); --nectar-icon-gap: 10px; ">
-                                                                <h2><span class="link_wrap"><a class="link_text open-contact-modal" role="button" href="#"><span
+                                                                <h2><span class="link_wrap"><a
+                                                                            class="link_text open-contact-modal"
+                                                                            role="button" href="#"><span
                                                                                 class="text nectar-text-reveal-button__text"
-                                                                                data-text="¡Hablemos y hagámoslo realidad!">¿Tienes un proyecto en mente?</span></a></span></h2>
+                                                                                data-text="¡Hablemos y hagámoslo realidad!">¿Tienes
+                                                                                un proyecto en mente?</span></a></span>
+                                                                </h2>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -470,295 +472,297 @@ if ($user) {
                 </div>
                 <!--/inner-wrap-->
             </div>
-
         </div>
         <!--/ajax-content-wrap-->
 
-    </div>
+        </div>
+        <!--/ocm-wrap-->
     </div>
     <!--/ocm-effect-wrap-->
 
 
     <!-- Modal de Contacto -->
-<div class="contact-modal-overlay" id="contactModal">
-    <div class="contact-modal">
-        <div class="contact-modal-header">
-            <h3>💬 ¡Hablemos de tu proyecto!</h3>
-            <button type="button" class="contact-modal-close" id="closeModalBtn">&times;</button>
-        </div>
-        <div class="contact-modal-body">
-            <div id="contactFormContainer">
-                <form id="contactForm">
-                    <!-- Honeypot anti-spam -->
-                    <div style="display: none;">
-                        <input type="text" name="website" tabindex="-1" autocomplete="off">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contactName" class="form-label">Nombre *</label>
-                        <input type="text" class="form-control" id="contactName" name="name" 
-                            required placeholder="Tu nombre completo">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contactEmail" class="form-label">Email *</label>
-                        <input type="email" class="form-control" id="contactEmail" name="email" 
-                            required placeholder="tu@email.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contactPhone" class="form-label">Teléfono</label>
-                        <input type="tel" class="form-control" id="contactPhone" name="phone" 
-                            placeholder="+52 123 456 7890">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contactMessage" class="form-label">Mensaje *</label>
-                        <textarea class="form-control" id="contactMessage" name="message" rows="4" 
-                            required placeholder="Cuéntanos sobre tu proyecto..."></textarea>
-                    </div>
-                </form>
+    <div class="contact-modal-overlay" id="contactModal">
+        <div class="contact-modal">
+            <div class="contact-modal-header">
+                <h3>💬 ¡Hablemos de tu proyecto!</h3>
+                <button type="button" class="contact-modal-close" id="closeModalBtn">&times;</button>
             </div>
-            
-            <!-- Respuesta AJAX -->
-            <div id="contactResponse" style="display: none;"></div>
-        </div>
-        <div class="contact-modal-footer">
-            <button type="button" class="btn-cancel" id="cancelModalBtn">Cerrar</button>
-            <button type="button" class="btn-submit" id="sendContactBtn">
-                <span class="btn-text">📨 Enviar Mensaje</span>
-                <span class="btn-loading" style="display: none;">
-                    <span class="spinner"></span> Enviando...
-                </span>
-            </button>
+            <div class="contact-modal-body">
+                <div id="contactFormContainer">
+                    <form id="contactForm">
+                        <!-- Honeypot anti-spam -->
+                        <div style="display: none;">
+                            <input type="text" name="website" tabindex="-1" autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactName" class="form-label">Nombre *</label>
+                            <input type="text" class="form-control" id="contactName" name="name" required
+                                placeholder="Tu nombre completo">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactEmail" class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="contactEmail" name="email" required
+                                placeholder="tu@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactPhone" class="form-label">Teléfono</label>
+                            <input type="tel" class="form-control" id="contactPhone" name="phone"
+                                placeholder="+52 123 456 7890">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactMessage" class="form-label">Mensaje *</label>
+                            <textarea class="form-control" id="contactMessage" name="message" rows="4" required
+                                placeholder="Cuéntanos sobre tu proyecto..."></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Respuesta AJAX -->
+                <div id="contactResponse" style="display: none;"></div>
+            </div>
+            <div class="contact-modal-footer">
+                <button type="button" class="btn-cancel" id="cancelModalBtn">Cerrar</button>
+                <button type="button" class="btn-submit" id="sendContactBtn">
+                    <span class="btn-text">📨 Enviar Mensaje</span>
+                    <span class="btn-loading" style="display: none;">
+                        <span class="spinner"></span> Enviando...
+                    </span>
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- CSS del Modal -->
-<style>
-/* Modal Overlay */
-.contact-modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 999999;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+    <!-- CSS del Modal -->
+    <style>
+    /* Modal Overlay */
+    .contact-modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 999999;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
 
-.contact-modal-overlay.show {
-    display: flex;
-    opacity: 1;
-}
+    .contact-modal-overlay.show {
+        display: flex;
+        opacity: 1;
+    }
 
-/* Modal Container */
-.contact-modal {
-    background: #1a1a1a;
-    color: #fff;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 550px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-    transform: scale(0.9) translateY(20px);
-    transition: transform 0.3s ease;
-}
-
-.contact-modal-overlay.show .contact-modal {
-    transform: scale(1) translateY(0);
-}
-
-/* Modal Header */
-.contact-modal-header {
-    padding: 30px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.contact-modal-header h3 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
-.contact-modal-close {
-    background: none;
-    border: none;
-    font-size: 32px;
-    color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-}
-
-.contact-modal-close:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-}
-
-/* Modal Body */
-.contact-modal-body {
-    padding: 30px;
-}
-
-/* Form Styles */
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.form-control {
-    display: block;
-    width: 100%;
-    padding: 14px 18px;
-    font-size: 16px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 25px;
-    color: #fff;
-    transition: all 0.3s ease;
-    font-family: inherit;
-}
-
-.form-control:focus {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.3);
-    outline: 0;
-}
-
-.form-control::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-}
-
-textarea.form-control {
-    resize: vertical;
-    min-height: 120px;
-    border-radius: 20px;
-}
-
-/* Modal Footer */
-.contact-modal-footer {
-    padding: 20px 30px 30px;
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-}
-
-/* Buttons */
-.btn-cancel,
-.btn-submit {
-    padding: 14px 28px;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: inherit;
-}
-
-.btn-cancel {
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.btn-cancel:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-}
-
-.btn-submit {
-    background: #fff;
-    color: #1a1a1a;
-}
-
-.btn-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
-}
-
-.btn-submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* Spinner */
-.spinner {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    border: 2px solid rgba(0, 0, 0, 0.2);
-    border-radius: 50%;
-    border-top-color: #1a1a1a;
-    animation: spin 0.8s linear infinite;
-    margin-right: 8px;
-    vertical-align: middle;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-/* Alert Styles */
-.alert {
-    padding: 16px 20px;
-    border-radius: 12px;
-    margin-bottom: 0;
-    font-size: 15px;
-}
-
-.alert-success {
-    background: rgba(72, 187, 120, 0.2);
-    border: 1px solid rgba(72, 187, 120, 0.3);
-    color: #68D391;
-}
-
-.alert-danger {
-    background: rgba(245, 101, 101, 0.2);
-    border: 1px solid rgba(245, 101, 101, 0.3);
-    color: #FC8181;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
+    /* Modal Container */
     .contact-modal {
-        width: 95%;
-        margin: 20px;
+        background: #1a1a1a;
+        color: #fff;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 550px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        transform: scale(0.9) translateY(20px);
+        transition: transform 0.3s ease;
     }
-    
-    .contact-modal-header,
-    .contact-modal-body,
-    .contact-modal-footer {
-        padding: 20px;
+
+    .contact-modal-overlay.show .contact-modal {
+        transform: scale(1) translateY(0);
     }
-    
+
+    /* Modal Header */
+    .contact-modal-header {
+        padding: 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
     .contact-modal-header h3 {
-        font-size: 1.25rem;
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
     }
-}
-</style>
+
+    .contact-modal-close {
+        background: none;
+        border: none;
+        font-size: 32px;
+        color: rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+    }
+
+    .contact-modal-close:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+    /* Modal Body */
+    .contact-modal-body {
+        padding: 30px;
+    }
+
+    /* Form Styles */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: 14px 18px;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 25px;
+        color: #fff;
+        transition: all 0.3s ease;
+        font-family: inherit;
+    }
+
+    .form-control:focus {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.3);
+        outline: 0;
+    }
+
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+        border-radius: 20px;
+    }
+
+    /* Modal Footer */
+    .contact-modal-footer {
+        padding: 20px 30px 30px;
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+    }
+
+    /* Buttons */
+    .btn-cancel,
+    .btn-submit {
+        padding: 14px 28px;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: inherit;
+    }
+
+    .btn-cancel {
+        background: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .btn-cancel:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+    }
+
+    .btn-submit {
+        background: #fff;
+        color: #1a1a1a;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    /* Spinner */
+    .spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+        border-radius: 50%;
+        border-top-color: #1a1a1a;
+        animation: spin 0.8s linear infinite;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Alert Styles */
+    .alert {
+        padding: 16px 20px;
+        border-radius: 12px;
+        margin-bottom: 0;
+        font-size: 15px;
+    }
+
+    .alert-success {
+        background: rgba(72, 187, 120, 0.2);
+        border: 1px solid rgba(72, 187, 120, 0.3);
+        color: #68D391;
+    }
+
+    .alert-danger {
+        background: rgba(245, 101, 101, 0.2);
+        border: 1px solid rgba(245, 101, 101, 0.3);
+        color: #FC8181;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .contact-modal {
+            width: 95%;
+            margin: 20px;
+        }
+
+        .contact-modal-header,
+        .contact-modal-body,
+        .contact-modal-footer {
+            padding: 20px;
+        }
+
+        .contact-modal-header h3 {
+            font-size: 1.25rem;
+        }
+    }
+    </style>
 
 
     <?= $this->Html->script('ui/jquery.minf43b.js') ?>
@@ -774,20 +778,56 @@ textarea.form-control {
     <?= $this->Html->script('ui/build/third-party/hoverintent.min3aa8.js') ?>
     <?= $this->Html->script('ui/build/third-party/jquery.fancybox0583.js') ?>
     <?= $this->Html->script('ui/build/third-party/anime.min8686.js') ?>
+    <?= $this->Html->script('ui/build/elements/nectar-text-inline-images0583.js') ?>
     <?= $this->Html->script('ui/build/third-party/superfish0322.js') ?>
     <?= $this->Html->script('ui/build/init0583.js') ?>
     <?= $this->Html->script('ui/build/elements/nectar-fit-text0583.js') ?>
     <?= $this->Html->script('ui/build/nectar-smooth-scroll0583.js') ?>
+    <?= $this->Html->script('ui/build/third-party/stickkit5152.js') ?>
     <?= $this->Html->script('ui/touchswipe.minddcb') ?>
     <?= $this->Html->script('ui/js_composer_front.min3787') ?>
-    <?= $this->Html->script('ui/build/nectar-delay-javascript0583.js') ?>
 
- <script type="text/javascript" id="nectar-frontend-js-extra">
-        /* <![CDATA[ */
-        var nectarOptions = { "delay_js": "1", "smooth_scroll": "true", "smooth_scroll_strength": "51", "quick_search": "false", "react_compat": "disabled", "header_entrance": "true", "body_border_func": "default", "disable_box_roll_mobile": "false", "body_border_mobile": "0", "dropdown_hover_intent": "default", "simplify_ocm_mobile": "0", "mobile_header_format": "default", "ocm_btn_position": "default", "left_header_dropdown_func": "default", "ajax_add_to_cart": "0", "ocm_remove_ext_menu_items": "remove_images", "woo_product_filter_toggle": "0", "woo_sidebar_toggles": "true", "woo_sticky_sidebar": "0", "woo_minimal_product_hover": "default", "woo_minimal_product_effect": "default", "woo_related_upsell_carousel": "false", "woo_product_variable_select": "default", "woo_using_cart_addons": "false", "view_transitions_effect": "reveal-from-bottom" };
-        var nectar_front_i18n = { "menu": "Menu", "next": "Next", "previous": "Previous", "close": "Close" };
-        /* ]]> */
-      </script>
+
+    <script data-pagespeed-no-defer="" data-nowprocket="" data-wpacu-skip="" data-no-optimize="" type="text/javascript"
+        src="webroot/js/ui/build/nectar-delay-javascript0583.js?ver=17.9.962" id="salient-delay-js-js"></script>
+
+    <script type="text/javascript" id="nectar-frontend-js-extra">
+    /* <![CDATA[ */
+    var nectarOptions = {
+        "delay_js": "1",
+        "smooth_scroll": "true",
+        "smooth_scroll_strength": "51",
+        "quick_search": "false",
+        "react_compat": "disabled",
+        "header_entrance": "true",
+        "body_border_func": "default",
+        "disable_box_roll_mobile": "false",
+        "body_border_mobile": "0",
+        "dropdown_hover_intent": "default",
+        "simplify_ocm_mobile": "0",
+        "mobile_header_format": "default",
+        "ocm_btn_position": "default",
+        "left_header_dropdown_func": "default",
+        "ajax_add_to_cart": "0",
+        "ocm_remove_ext_menu_items": "remove_images",
+        "woo_product_filter_toggle": "0",
+        "woo_sidebar_toggles": "true",
+        "woo_sticky_sidebar": "0",
+        "woo_minimal_product_hover": "default",
+        "woo_minimal_product_effect": "default",
+        "woo_related_upsell_carousel": "false",
+        "woo_product_variable_select": "default",
+        "woo_using_cart_addons": "false",
+        "view_transitions_effect": "reveal-from-bottom"
+    };
+    var nectar_front_i18n = {
+        "menu": "Menu",
+        "next": "Next",
+        "previous": "Previous",
+        "close": "Close"
+    };
+    /* ]]> */
+    </script>
 
 
     <!--Smoth scroll -->
@@ -824,131 +864,132 @@ textarea.form-control {
     </script>
 
     <!-- JavaScript del Modal -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const ctaBtns = document.querySelectorAll('.open-contact-modal');
-    const modal = document.getElementById('contactModal');
-    const closeBtn = document.getElementById('closeModalBtn');
-    const cancelBtn = document.getElementById('cancelModalBtn');
-    const form = document.getElementById('contactForm');
-    const formContainer = document.getElementById('contactFormContainer');
-    const responseContainer = document.getElementById('contactResponse');
-    const sendBtn = document.getElementById('sendContactBtn');
-    
-    if (ctaBtns.length === 0) {
-        console.error('Botones CTA no encontrados');
-        return;
-    }
-    
-    // Abrir modal
-    function openModal(e) {
-        e.preventDefault();
-        e.stopPropagation(); // ← AGREGADO: Detiene la propagación del evento
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        setTimeout(() => modal.classList.add('show'), 10);
-        return false; // ← AGREGADO: Asegura que no se ejecute el href
-    }
-    
-    // Cerrar modal
-    function closeModal() {
-        modal.classList.remove('show');
-        setTimeout(() => {
-            modal.style.display = 'none';
-            document.body.style.overflow = '';
-            resetForm();
-        }, 300);
-    }
-    
-    // Reset form
-    function resetForm() {
-        form.reset();
-        formContainer.style.display = 'block';
-        responseContainer.style.display = 'none';
-        sendBtn.querySelector('.btn-text').style.display = 'inline';
-        sendBtn.querySelector('.btn-loading').style.display = 'none';
-        sendBtn.disabled = false;
-    }
-    
-    // Event listeners para TODOS los botones con captura
-    ctaBtns.forEach(btn => {
-        btn.addEventListener('click', openModal, true); // ← CAMBIADO: agregado true para captura
-    });
-    
-    closeBtn.addEventListener('click', closeModal);
-    cancelBtn.addEventListener('click', closeModal);
-    
-    // Cerrar al hacer clic fuera
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) closeModal();
-    });
-    
-    // Cerrar con ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.classList.contains('show')) {
-            closeModal();
-        }
-    });
-    
-    // Enviar formulario
-    sendBtn.addEventListener('click', function() {
-        const name = document.getElementById('contactName').value.trim();
-        const email = document.getElementById('contactEmail').value.trim();
-        const message = document.getElementById('contactMessage').value.trim();
-        
-        if (!name || !email || !message) {
-            alert('Por favor completa todos los campos obligatorios.');
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctaBtns = document.querySelectorAll('.open-contact-modal');
+        const modal = document.getElementById('contactModal');
+        const closeBtn = document.getElementById('closeModalBtn');
+        const cancelBtn = document.getElementById('cancelModalBtn');
+        const form = document.getElementById('contactForm');
+        const formContainer = document.getElementById('contactFormContainer');
+        const responseContainer = document.getElementById('contactResponse');
+        const sendBtn = document.getElementById('sendContactBtn');
+
+        if (ctaBtns.length === 0) {
+            console.error('Botones CTA no encontrados');
             return;
         }
-        
-        // Loading state
-        sendBtn.querySelector('.btn-text').style.display = 'none';
-        sendBtn.querySelector('.btn-loading').style.display = 'inline';
-        sendBtn.disabled = true;
-        
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('phone', document.getElementById('contactPhone').value);
-        formData.append('message', message);
-        
-        const csrfToken = document.querySelector('meta[name="csrfToken"]').getAttribute('content');
-        
-        fetch('/leads/add', {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-Token': csrfToken
-            },
-            body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-            formContainer.style.display = 'none';
-            responseContainer.style.display = 'block';
-            responseContainer.innerHTML = data;
-            
+
+        // Abrir modal
+        function openModal(e) {
+            e.preventDefault();
+            e.stopPropagation(); // ← AGREGADO: Detiene la propagación del evento
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => modal.classList.add('show'), 10);
+            return false; // ← AGREGADO: Asegura que no se ejecute el href
+        }
+
+        // Cerrar modal
+        function closeModal() {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+                resetForm();
+            }, 300);
+        }
+
+        // Reset form
+        function resetForm() {
+            form.reset();
+            formContainer.style.display = 'block';
+            responseContainer.style.display = 'none';
             sendBtn.querySelector('.btn-text').style.display = 'inline';
             sendBtn.querySelector('.btn-loading').style.display = 'none';
             sendBtn.disabled = false;
-            
-            if (data.includes('alert-success')) {
-                setTimeout(closeModal, 3000);
+        }
+
+        // Event listeners para TODOS los botones con captura
+        ctaBtns.forEach(btn => {
+            btn.addEventListener('click', openModal, true); // ← CAMBIADO: agregado true para captura
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+
+        // Cerrar al hacer clic fuera
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+
+        // Cerrar con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
+                closeModal();
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            responseContainer.innerHTML = '<div class="alert alert-danger">Error de conexión. Intenta nuevamente.</div>';
-            responseContainer.style.display = 'block';
-            formContainer.style.display = 'none';
-            
-            sendBtn.querySelector('.btn-text').style.display = 'inline';
-            sendBtn.querySelector('.btn-loading').style.display = 'none';
-            sendBtn.disabled = false;
+        });
+
+        // Enviar formulario
+        sendBtn.addEventListener('click', function() {
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const message = document.getElementById('contactMessage').value.trim();
+
+            if (!name || !email || !message) {
+                alert('Por favor completa todos los campos obligatorios.');
+                return;
+            }
+
+            // Loading state
+            sendBtn.querySelector('.btn-text').style.display = 'none';
+            sendBtn.querySelector('.btn-loading').style.display = 'inline';
+            sendBtn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('phone', document.getElementById('contactPhone').value);
+            formData.append('message', message);
+
+            const csrfToken = document.querySelector('meta[name="csrfToken"]').getAttribute('content');
+
+            fetch('/leads/add', {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    formContainer.style.display = 'none';
+                    responseContainer.style.display = 'block';
+                    responseContainer.innerHTML = data;
+
+                    sendBtn.querySelector('.btn-text').style.display = 'inline';
+                    sendBtn.querySelector('.btn-loading').style.display = 'none';
+                    sendBtn.disabled = false;
+
+                    if (data.includes('alert-success')) {
+                        setTimeout(closeModal, 3000);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    responseContainer.innerHTML =
+                        '<div class="alert alert-danger">Error de conexión. Intenta nuevamente.</div>';
+                    responseContainer.style.display = 'block';
+                    formContainer.style.display = 'none';
+
+                    sendBtn.querySelector('.btn-text').style.display = 'inline';
+                    sendBtn.querySelector('.btn-loading').style.display = 'none';
+                    sendBtn.disabled = false;
+                });
         });
     });
-});
-</script>
+    </script>
 
 
 

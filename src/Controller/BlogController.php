@@ -67,7 +67,6 @@ public function index()
             ->order(['BlogPosts.created' => 'DESC'])
             ->toArray();
         
-        // Solo agregar EventTypes que tienen posts
         if (!empty($posts)) {
             // Obtener la primera imagen (post más reciente)
             $eventType->featured_image = !empty($posts[0]->banner) ? $posts[0]->banner : null;
@@ -93,8 +92,34 @@ public function index()
             $eventTypesWithPosts[] = $eventType;
         }
     }
+
+    // ✨ Post random por sesión
+    $session = $this->request->getSession();
+    $featuredPostId = $session->read('featured_post_id');
     
-    $this->set(compact('eventTypesWithPosts'));
+    // Si no hay post en sesión o no existe, obtener uno nuevo
+    if (!$featuredPostId || !$this->BlogPosts->exists(['id' => $featuredPostId, 'status' => 'activo'])) {
+        $randomPost = $this->BlogPosts->find()
+            ->contain(['BlogCategories', 'EventTypes'])
+            ->where([
+                'BlogPosts.status' => 'activo',
+                'BlogPosts.banner IS NOT' => null
+            ])
+            ->order(['RAND()'])
+            ->first();
+        
+        if ($randomPost) {
+            $session->write('featured_post_id', $randomPost->id);
+        }
+    } else {
+        // Cargar el post guardado en sesión
+        $randomPost = $this->BlogPosts->get($featuredPostId, [
+            'contain' => ['BlogCategories', 'EventTypes']
+        ]);
+    }
+    
+    
+    $this->set(compact('eventTypesWithPosts', 'randomPost'));
 }
 
 public function eventoView($eventoslug = null, $param2 = null, $param3 = null)
@@ -604,6 +629,23 @@ public function eventoView($eventoslug = null, $param2 = null, $param3 = null)
     public function demo()
 {
     $this->viewBuilder()->setLayout('ui-layout');
+}
+
+    public function historia()
+{
+    $this->viewBuilder()->setLayout('ui-layout');
+
+    $randomImages = $this->BlogPosts->find()
+        ->select(['banner'])
+        ->where([
+            'BlogPosts.status' => 'activo',
+            'BlogPosts.banner IS NOT' => null
+        ])
+        ->order(['RAND()'])
+        ->limit(3)
+        ->toArray();
+    
+    $this->set(compact('randomImages'));
 }
 
 }
