@@ -156,12 +156,12 @@ $cakeDescription = 'Stefsketch';
                         </li>
 
                         <?php
-        // Detectar contexto: Home vs Evento_view
-        $currentController = $this->request->getParam('controller');
-        $currentAction = $this->request->getParam('action');
-        $isHome = ($currentController === 'Blog' && $currentAction === 'index');
-        $isEventoView = ($currentController === 'Blog' && $currentAction === 'eventoView');
-        ?>
+                            // Detectar contexto: Home vs Evento_view
+                            $currentController = $this->request->getParam('controller');
+                            $currentAction = $this->request->getParam('action');
+                            $isHome = ($currentController === 'Blog' && $currentAction === 'index');
+                            $isEventoView = ($currentController === 'Blog' && $currentAction === 'eventoView');
+                            ?>
 
                         <?php if ($isHome): ?>
                         <!-- MENÚ HOME: Solo mostrar tipos de trabajo -->
