@@ -534,11 +534,6 @@ public function eventoView($eventoslug = null, $param2 = null, $param3 = null)
     $this->set(compact('blogPost', 'eventType', 'relatedPosts', 'popularPosts', 'tagPosts', 'nextPost', 'prevPost', 'authorPosts'));
 }
 
-    public function demo()
-{
-    $this->viewBuilder()->setLayout('ui-layout');
-}
-
     private function buildBlogMenu()
 {
     $this->loadModel('EventTypes');
@@ -605,5 +600,10 @@ public function eventoView($eventoslug = null, $param2 = null, $param3 = null)
     $this->set('menuStructure', $menuStructure);
 }
 
+
+    public function demo()
+{
+    $this->viewBuilder()->setLayout('ui-layout');
+}
 
 }
