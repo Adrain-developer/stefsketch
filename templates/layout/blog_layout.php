@@ -308,7 +308,7 @@ $cakeDescription = 'Stefsketch';
     </a>
 
 
-    <!--FOOTER DINÁMICO CON ACORDEÓN-->
+    <!--FOOTER-->
     <footer class="modern-footer">
         <div class="footer-content">
             <!-- Navegación -->
