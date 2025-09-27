@@ -45,6 +45,8 @@ class BlogController extends AppController
     
 public function index()
 {
+    $this->viewBuilder()->setLayout('ui-layout'); // ← Usar nuevo layout
+    
     // Obtener todos los EventTypes que tienen posts activos
     $allEventTypes = $this->EventTypes->find()
         ->orderAsc('EventTypes.name')
@@ -52,22 +54,42 @@ public function index()
     
     $eventTypesWithPosts = [];
     
-    // Para cada EventType, obtener sus mejores posts
+    // Para cada EventType, obtener datos completos
     foreach ($allEventTypes as $eventType) {
+        // Obtener posts del EventType
         $posts = $this->BlogPosts->find()
-            ->contain(['BlogCategories', 'BlogTags'])
+            ->contain(['BlogCategories'])
             ->where([
                 'BlogPosts.status' => 'activo',
                 'BlogPosts.event_type_id' => $eventType->id,
-                'BlogPosts.banner IS NOT' => null  // Solo posts con imagen
+                'BlogPosts.banner IS NOT' => null
             ])
             ->order(['BlogPosts.created' => 'DESC'])
-            ->limit(5)  // ← CAMBIO: Solo 5 posts por carrusel
             ->toArray();
         
         // Solo agregar EventTypes que tienen posts
         if (!empty($posts)) {
-            $eventType->posts = $posts;
+            // Obtener la primera imagen (post más reciente)
+            $eventType->featured_image = !empty($posts[0]->banner) ? $posts[0]->banner : null;
+            
+            // Contar posts totales
+            $eventType->posts_count = count($posts);
+            
+            // Obtener categorías únicas del EventType
+            $categories = $this->BlogPosts->BlogCategories
+                ->find()
+                ->matching('BlogPosts', function ($q) use ($eventType) {
+                    return $q->where([
+                        'BlogPosts.status' => 'activo',
+                        'BlogPosts.event_type_id' => $eventType->id
+                    ]);
+                })
+                ->distinct(['BlogCategories.id'])
+                ->orderAsc('BlogCategories.name')
+                ->limit(3) // Máximo 3 categorías para no saturar
+                ->toArray();
+            
+            $eventType->categories = $categories;
             $eventTypesWithPosts[] = $eventType;
         }
     }

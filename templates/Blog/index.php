@@ -6,684 +6,635 @@
 $this->assign('title', 'Portafolio - Ilustraciones Digitales');
 ?>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
 
-<style>
-/* ===== BASE MOBILE-FIRST ===== */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+<div id="ajax-content-wrap">
+    <div id="full_width_portfolio" data-featured-img="webroot/img/stefsketch-1.jpg">
 
-html, body {
-    overflow-x: hidden;
-    font-family: 'Poppins', sans-serif;
-    background: #fafafa;
-}
-
-/* ===== HERO PARALLAX SECTION ===== */
-.hero-parallax {
-    position: relative;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.hero-bg-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    will-change: transform;
-}
-
-.hero-bg-back {
-    background-image: url('webroot/img/stefsketch-1.jpg'); /* Imagen de fondo */
-    transform: translateZ(0) scale(1.1);
-}
-
-.hero-bg-front {
-    background-image: url('/img/hero-bg-front.png'); /* Imagen frontal con transparencia */
-    transform: translateZ(0);
-    opacity: 0.8;
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
-    z-index: 2;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 3;
-    text-align: center;
-    color: white;
-    padding: 1rem;
-    max-width: 90%;
-}
-
-.hero-title {
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    font-weight: 700;
-    text-shadow: 0 4px 8px rgba(0,0,0,0.5);
-    margin-bottom: 1rem;
-    opacity: 0;
-    animation: fadeInUp 1s ease 0.5s forwards;
-}
-
-.hero-subtitle {
-    font-size: clamp(1rem, 4vw, 1.5rem);
-    font-weight: 300;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    opacity: 0;
-    animation: fadeInUp 1s ease 0.8s forwards;
-    margin-bottom: 2rem;
-}
-
-.hero-scroll-indicator {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-    opacity: 0;
-    animation: fadeIn 1s ease 2s forwards, bounce 2s ease-in-out 3s infinite;
-}
-
-.scroll-arrow {
-    width: 2rem;
-    height: 2rem;
-    border: 2px solid white;
-    border-right: none;
-    border-top: none;
-    transform: rotate(45deg);
-}
-
-/* ===== SECCIONES EVENTTYPE ===== */
-.portfolio-sections {
-    padding: 2rem 1rem;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.section-eventtype {
-    margin-bottom: 4rem;
-}
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.section-title {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
-    font-weight: 600;
-    color: #333;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.section-icon {
-    font-size: 1.2em;
-    opacity: 0.8;
-}
-
-.section-count {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 50px;
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
-.view-all-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    text-decoration: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 50px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-}
-
-.view-all-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-    color: white;
-    text-decoration: none;
-}
-
-/* ===== CARRUSEL DE PROYECTOS ===== */
-.projects-carousel {
-    position: relative;
-}
-
-.swiper-container {
-    overflow: visible;
-    padding: 1rem 0 2rem 0;
-}
-
-.project-card {
-    background: white;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    height: auto;
-}
-
-.project-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-}
-
-.project-image {
-    position: relative;
-    aspect-ratio: 4/3;
-    overflow: hidden;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-}
-
-.project-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
-
-.project-card:hover .project-image img {
-    transform: scale(1.05);
-}
-
-.project-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, rgba(102, 126, 234, 0.85), rgba(118, 75, 162, 0.85));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.project-card:hover .project-overlay {
-    opacity: 1;
-}
-
-.view-project-btn {
-    background: white;
-    color: #667eea;
-    padding: 0.75rem 1.5rem;
-    border-radius: 50px;
-    font-weight: 600;
-    text-decoration: none;
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.project-card:hover .view-project-btn {
-    transform: translateY(0);
-}
-
-.project-info {
-    padding: 1.5rem;
-}
-
-.project-category {
-    font-size: 0.75rem;
-    color: #667eea;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.5rem;
-    opacity: 0.8;
-}
-
-.project-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 0.75rem;
-    line-height: 1.3;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.project-tag {
-    background: #f0f2f5;
-    color: #666;
-    padding: 0.25rem 0.75rem;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 500;
-}
-
-/* ===== CONTROLES DEL SWIPER ===== */
-.swiper-button-next,
-.swiper-button-prev {
-    width: 44px;
-    height: 44px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    color: #667eea;
-    margin-top: -22px;
-    transition: all 0.3s ease;
-}
-
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-    background: #667eea;
-    color: white;
-    transform: scale(1.1);
-}
-
-.swiper-button-next:after,
-.swiper-button-prev:after {
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.swiper-pagination {
-    position: relative;
-    margin-top: 1rem;
-}
-
-.swiper-pagination-bullet {
-    background: #ddd;
-    opacity: 1;
-    transition: all 0.3s ease;
-}
-
-.swiper-pagination-bullet-active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    transform: scale(1.2);
-}
-
-/* ===== ANIMACIONES ===== */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateX(-50%) translateY(0);
-    }
-    40% {
-        transform: translateX(-50%) translateY(-10px);
-    }
-    60% {
-        transform: translateX(-50%) translateY(-5px);
-    }
-}
-
-/* ===== RESPONSIVE TABLET ===== */
-@media (min-width: 768px) {
-    .portfolio-sections {
-        padding: 3rem 2rem;
-    }
-    
-    .section-eventtype {
-        margin-bottom: 5rem;
-    }
-    
-    .section-header {
-        margin-bottom: 2.5rem;
-    }
-    
-    .project-info {
-        padding: 1.25rem;
-    }
-    
-    .hero-content {
-        max-width: 80%;
-    }
-}
-
-/* ===== RESPONSIVE DESKTOP ===== */
-@media (min-width: 1024px) {
-    .portfolio-sections {
-        padding: 4rem 2rem;
-    }
-    
-    .section-eventtype {
-        margin-bottom: 6rem;
-    }
-    
-    .hero-bg-layer {
-        background-attachment: fixed;
-    }
-    
-    .hero-content {
-        max-width: 70%;
-    }
-    
-    .project-info {
-        padding: 1.5rem;
-    }
-}
-
-/* ===== RESPONSIVE XL ===== */
-@media (min-width: 1440px) {
-    .portfolio-sections {
-        padding: 5rem 3rem;
-    }
-}
-
-/* ===== ESTADOS DE CARGA ===== */
-.project-card.loading {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: loading-shimmer 1.5s infinite;
-}
-
-@keyframes loading-shimmer {
-    0% {
-        background-position: 200% 0;
-    }
-    100% {
-        background-position: -200% 0;
-    }
-}
-
-/* ===== ACCESIBILIDAD ===== */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-    
-    .hero-bg-layer {
-        background-attachment: scroll;
-    }
-}
-
-.project-card:focus-within {
-    outline: 2px solid #667eea;
-    outline-offset: 4px;
-}
-
-/* ===== MEJORAS DE PERFORMANCE ===== */
-.project-image {
-    contain: layout style paint;
-}
-
-.swiper-slide {
-    will-change: transform;
-}
-</style>
-
-<!-- HERO PARALLAX SECTION -->
-<section class="hero-parallax">
-    <div class="hero-bg-layer hero-bg-back"></div>
-    <div class="hero-bg-layer hero-bg-front"></div>
-    <div class="hero-overlay"></div>
-    
-    <div class="hero-content">
-        <h1 class="hero-title">Portafolio de Ilustraciones</h1>
-        <p class="hero-subtitle">Arte Digital • Ilustración Tradicional • Comisiones</p>
-    </div>
-    
-    <div class="hero-scroll-indicator">
-        <div class="scroll-arrow"></div>
-    </div>
-</section>
-
-<!-- SECCIONES POR EVENTTYPE -->
-<main class="portfolio-sections">
-    <?php foreach ($eventTypesWithPosts as $eventType): ?>
-        <section class="section-eventtype">
-            <header class="section-header">
-                <h2 class="section-title">
-                    <span class="section-icon"><?= $eventType->icon ?? '🎨' ?></span>
-                    <?= h($eventType->name) ?>
-                    <span class="section-count"><?= count($eventType->posts) ?></span>
-                </h2>
-                
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>" class="view-all-btn">
-                    Ver Todos
-                    <span>→</span>
-                </a>
-            </header>
-            
-            <div class="projects-carousel">
-                <div class="swiper-container" data-eventtype="<?= $eventType->id ?>">
-                    <div class="swiper-wrapper">
-                        <?php foreach ($eventType->posts as $post): ?>
-                            <div class="swiper-slide">
-                                <article class="project-card">
-                                    <div class="project-image">
-                                        <img src="/img/<?= h($post->banner) ?>" 
-                                             alt="<?= h($post->title) ?>" 
-                                             loading="lazy">
-                                        <div class="project-overlay">
-                                            <a href="/portafolio/<?= h($eventType->eventoslug) ?>/<?= h($post->slug) ?>" 
-                                               class="view-project-btn">
-                                                Ver Proyecto
-                                            </a>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="project-info">
-                                        <div class="project-category">
-                                            <?= h($post->blog_category->name ?? 'General') ?>
-                                        </div>
-                                        <h3 class="project-title">
-                                            <?= h($post->title) ?>
-                                        </h3>
-                                        
-                                        <?php if (!empty($post->blog_tags)): ?>
-                                            <div class="project-tags">
-                                                <?php foreach (array_slice($post->blog_tags, 0, 3) as $tag): ?>
-                                                    <span class="project-tag"><?= h($tag->name) ?></span>
-                                                <?php endforeach; ?>
-                                                <?php if (count($post->blog_tags) > 3): ?>
-                                                    <span class="project-tag">+<?= count($post->blog_tags) - 3 ?></span>
-                                                <?php endif; ?>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </article>
-                            </div>
-                        <?php endforeach; ?>
+        <div id="page-header-wrap" data-animate-in-effect="zoom-out" data-midnight="light" class="fullscreen-header"
+            role="region" aria-label="Page Header">
+            <div id="page-header-bg" class="fullscreen-header" data-padding-amt="normal"
+                data-animate-in-effect="zoom-out" data-midnight="light" data-text-effect="" data-bg-pos="center"
+                data-alignment="left" data-alignment-v="middle" data-parallax="1" data-height="350"
+                style="background-color: #0a0a0a;  ">
+                <div class="page-header-bg-image-wrap" id="nectar-page-header-p-wrap" data-parallax-speed="fast">
+                    <div class="page-header-bg-image">
+                        <img src="webroot/img/stefsketch-1.jpg" width="100%" height="100%" alt="Nectar Motors" />
                     </div>
-                    
-                    <!-- Navigation -->
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                    
-                    <!-- Pagination -->
-                    <div class="swiper-pagination"></div>
+                </div>
+                <div class="page-header-overlay-color" data-overlay-opacity="default"
+                    style="background-color: #0a0a0a;">
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="container">
+                            <div class="col span_6 section-title no-date">
+                                <div class="inner-wrap">
+                                    <h1>Estefania Palma Apango</h1>
+                                    <span class="subheader">Stefsketch</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/row-->
+
+                </div>
+                <div class="scroll-down-wrap no-border"><a href="#" class="section-down-arrow "><svg
+                            class="nectar-scroll-icon" viewBox="0 0 30 45" enable-background="new 0 0 30 45">
+                            <path class="nectar-scroll-icon-path" fill="none" stroke="#ffffff" stroke-width="2"
+                                stroke-miterlimit="10"
+                                d="M15,1.118c12.352,0,13.967,12.88,13.967,12.88v18.76  c0,0-1.514,11.204-13.967,11.204S0.931,32.966,0.931,32.966V14.05C0.931,14.05,2.648,1.118,15,1.118z">
+                            </path>
+                        </svg></a></div>
+            </div>
+
+        </div>
+
+        <!-- Grid de EventTypes -->
+        <div id="fws_68d45a3a452d0" data-column-margin="default" data-midnight="dark"
+            class="wpb_row vc_row-fluid vc_row full-width-section" style="padding-top: 0px; padding-bottom: 0px; ">
+            <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false">
+                <div class="inner-wrap row-bg-layer">
+                    <div class="row-bg viewport-desktop using-bg-color" style="background-color: #000000; "></div>
                 </div>
             </div>
-        </section>
-    <?php endforeach; ?>
-</main>
+            <div class="row_col_wrap_12 col span_12 dark left">
+                <div class="vc_col-sm-12 wpb_column column_container vc_column_container col has-animation no-extra-padding inherit_tablet inherit_phone "
+                    data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1"
+                    data-animation="slight-fade-in-from-bottom" data-delay="100">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper">
+                            <div class='nectar-post-grid-wrap text-color-light spacing-10px'
+                                data-el-settings='{"post_type":"portfolio","pagination":"none","image_size":"full","parallax_scrolling":"yes","aspect_ratio_image_size":"","category_position":"overlaid","category_display":"default","display_categories":"yes","display_excerpt":"0","excerpt_length":"20","display_date":"0","display_estimated_reading_time":"0","display_author":"0","author_functionality":"default","author_position":"default","color_overlay":"#0a0a0a","color_overlay_opacity":"0","color_overlay_hover_opacity":"0.2","card_bg_color":"","grid_style":"content_overlaid","hover_effect":"zoom","post_title_overlay":"","heading_tag":"default","heading_tag_render":"default","enable_gallery_lightbox":"0","category_style":"button","overlay_secondary_project_image":"","vertical_list_hover_effect":"none","vertical_list_read_more":"","vertical_list_read_more_style":"text","read_more_button":"0","animation":"none","custom_fields":"","custom_fields_location":"before_post_meta","display_type":"grid","text_content_layout":"corners"}'
+                                data-style='content_overlaid'
+                                data-query='{"post_type":"portfolio","posts_per_page":"-1","order":"DESC","orderby":"date","offset":"0","cpt_name":"post","custom_query_tax":"","ignore_sticky_posts":"","exclude_current_post":""}'
+                                data-load-more-color='black' data-load-more-text='Load More'>
+                                <div class="nectar-post-grid-filters" data-active-color="default" data-align="default"
+                                    data-animation="none" data-sortable="">
+                                    <div><a href="#" class="active all-filter" data-filter="-1"
+                                            data-total-count="5">All</a><a href="#" data-filter="branding"
+                                            data-total-count="1">Branding</a><a href="#" data-filter="photography"
+                                            data-total-count="2">Photography</a><a href="#" data-filter="web-design"
+                                            data-total-count="2">Web Design</a></div>
+                                </div>
 
-<!-- SCRIPTS -->
-<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // ===== PARALLAX EFFECT =====
-    function updateParallax() {
-        const scrolled = window.pageYOffset;
-        const parallaxElements = document.querySelectorAll('.hero-bg-layer');
-        
-        parallaxElements.forEach((element, index) => {
-            const speed = (index + 1) * 0.5;
-            const yPos = -(scrolled * speed);
-            element.style.transform = `translateY(${yPos}px)`;
-        });
-    }
-    
-    // Solo aplicar parallax en desktop para mejor performance
-    if (window.innerWidth >= 1024) {
-        window.addEventListener('scroll', updateParallax);
-    }
-    
-    // ===== INICIALIZAR SWIPERS =====
-    const swiperContainers = document.querySelectorAll('.swiper-container');
-    
-    swiperContainers.forEach(container => {
-        new Swiper(container, {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            loop: false,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true
-            },
-            pagination: {
-                el: container.querySelector('.swiper-pagination'),
-                clickable: true
-            },
-            navigation: {
-                nextEl: container.querySelector('.swiper-button-next'),
-                prevEl: container.querySelector('.swiper-button-prev')
-            },
-            breakpoints: {
-                480: {
-                    slidesPerView: 1.2,
-                    spaceBetween: 16
-                },
-                640: {
-                    slidesPerView: 1.8,
-                    spaceBetween: 20
-                },
-                768: {
-                    slidesPerView: 2.2,
-                    spaceBetween: 24
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 28
-                },
-                1280: {
-                    slidesPerView: 4,
-                    spaceBetween: 32
-                }
-            },
-            on: {
-                init: function() {
-                    // Lazy loading de imágenes
-                    this.slides.forEach(slide => {
-                        const img = slide.querySelector('img[loading="lazy"]');
-                        if (img && 'IntersectionObserver' in window) {
-                            const imageObserver = new IntersectionObserver((entries) => {
-                                entries.forEach(entry => {
-                                    if (entry.isIntersecting) {
-                                        entry.target.src = entry.target.src;
-                                        imageObserver.unobserve(entry.target);
-                                    }
-                                });
-                            });
-                            imageObserver.observe(img);
-                        }
-                    });
-                }
-            }
-        });
-    });
-    
-    // ===== SMOOTH SCROLL PARA SCROLL INDICATOR =====
-    const scrollIndicator = document.querySelector('.hero-scroll-indicator');
-    if (scrollIndicator) {
-        scrollIndicator.addEventListener('click', () => {
-            document.querySelector('.portfolio-sections').scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    }
-    
-    // ===== INTERSECTION OBSERVER PARA ANIMACIONES =====
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-        
-        // Observar secciones para animaciones
-        document.querySelectorAll('.section-eventtype').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(30px)';
-            section.style.transition = 'all 0.6s ease';
-            observer.observe(section);
-        });
-    }
-});
+                                <!-- Nectar Post Grid - Clases exactas del diseño -->
+                                <div class="nectar-post-grid custom_font_size_3vw font_size_max_54px font_size_tablet_5vw font_size_phone_34px text-opacity-1 text-opacity-hover-1 overlaid-aspect-ratio-image-size-1-1 layout-default_alt category-position-before-title category-button-color-rgba__10_10_10_0--2__"
+                                    data-lazy-skip="3" data-indicator="" data-indicator-style="default"
+                                    data-indicator-text-color="#fff" data-indicator-color="#000"
+                                    data-indicator-text="View" data-masonry="yes" data-columns="2"
+                                    data-hover-effect="zoom" data-text-style="default" data-border-radius="25px"
+                                    data-grid-item-height="30vh" data-grid-spacing="10px" data-text-layout="corners"
+                                    data-text-color="light" data-text-hover-color="light" data-shadow-hover=""
+                                    data-animation="none" data-animation-stagger="90" data-cat-click="static"
+                                    style="--post-grid-border-radius:25px;">
 
-// ===== OPTIMIZACIÓN DE PERFORMANCE =====
-// Throttle para parallax
-function throttle(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-</script>
+                                    <?php foreach ($eventTypesWithPosts as $eventType): ?>
+                                    <!-- EventType Card - Estructura EXACTA del diseño -->
+                                    <div class="nectar-post-grid-item" data-post-id="<?= $eventType->id ?>"
+                                        data-has-img="true">
+                                        <div class="inner">
+
+                                            <!-- Background Image Wrap - Estructura EXACTA -->
+                                            <div class="nectar-post-grid-item-bg-wrap">
+                                                <div class="nectar-el-parallax-scroll" data-scroll-animation="true"
+                                                    data-scroll-animation-mobile="true"
+                                                    data-scroll-animation-intensity="-0.75"
+                                                    data-scroll-animation-lerp="1">
+                                                    <div class="nectar-post-grid-item-bg-wrap">
+                                                        <div class="nectar-el-parallax-scroll"
+                                                            data-scroll-animation="true"
+                                                            data-scroll-animation-mobile="true"
+                                                            data-scroll-animation-intensity="-0.75"
+                                                            data-scroll-animation-lerp="1">
+                                                            <div class="nectar-post-grid-item-bg-wrap-inner">
+                                                                <div class="nectar-post-grid-item-bg">
+                                                                    <img decoding="async" width="2048" height="2048"
+                                                                        src="/img/<?= h($eventType->featured_image) ?>"
+                                                                        class="nectar-post-grid-item-bg__media"
+                                                                        alt="<?= h($eventType->name) ?>" srcset="/img/<?= h($eventType->featured_image) ?> 2048w, 
+                                                            /img/<?= h($eventType->featured_image) ?> 1024w, 
+                                                            /img/<?= h($eventType->featured_image) ?> 768w, 
+                                                            /img/<?= h($eventType->featured_image) ?> 480w"
+                                                                        sizes="(max-width: 2048px) 100vw, 2048px" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Overlay - Estructura EXACTA -->
+                                            <div class="bg-overlay" style="background-color: #0a0a0a;" data-opacity="0"
+                                                data-hover-opacity="0.2">
+                                            </div>
+
+                                            <!-- Content - Estructura EXACTA -->
+                                            <div class="content">
+
+                                                <!-- Arrow Indicator - Clase EXACTA -->
+                                                <span class="nectar-post-grid__arrow-indicator">
+                                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                                        viewBox="60 58 140 140" height="200px" width="200px"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M198,64V168a6,6,0,0,1-12,0V78.48L68.24,196.24a6,6,0,0,1-8.48-8.48L177.52,70H88a6,6,0,0,1,0-12H192A6,6,0,0,1,198,64Z">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+
+                                                <!-- Link Principal -->
+                                                <a class="nectar-post-grid-link"
+                                                    href="/portafolio/<?= h($eventType->eventoslug) ?>">
+                                                    <span class="screen-reader-text"><?= h($eventType->name) ?></span>
+                                                </a>
+
+                                                <!-- Categorías - Estructura EXACTA -->
+                                                <?php if (!empty($eventType->categories)): ?>
+                                                <span class="meta-category">
+                                                    <?php foreach ($eventType->categories as $category): ?>
+                                                    <a class="<?= h($category->slug) ?> style-button"
+                                                        href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($category->slug) ?>">
+                                                        <?= h($category->name) ?>
+                                                    </a>
+                                                    <?php endforeach; ?>
+                                                </span>
+                                                <?php endif; ?>
+
+                                                <!-- Item Main - Estructura EXACTA -->
+                                                <div class="item-main">
+                                                    <h3 class="post-heading">
+                                                        <span><?= h($eventType->name) ?></span>
+                                                    </h3>
+                                                    <span class="post-meta">
+                                                        <span class="meta-date"><?= $eventType->posts_count ?>
+                                                            proyectos</span>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php endforeach; ?>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                                    </div>
+                                                    </div>
+
+                <div class="container-wrap" data-nav-pos="after_project_2" data-rm-header="false">
+                    <div class="container main-content">
+                        <div class="row  ">
+                            <div class="post-area col span_12">
+                                <div id="portfolio-extra">
+
+
+                                    <div id="fws_68d462ae63b9c" data-column-margin="default" data-midnight="light"
+                                        class="wpb_row vc_row-fluid vc_row full-width-content vc_row-o-equal-height vc_row-flex vc_row-o-content-top"
+                                        style="padding-top: 0px; padding-bottom: 0px; ">
+                                        <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay=""
+                                            data-bg-overlay="false">
+                                            <div class="inner-wrap row-bg-layer">
+                                                <div class="row-bg viewport-desktop using-bg-color"
+                                                    style="background-color: #111111; ">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row_col_wrap_12 col span_12 light left flip-in-vertical-wrap">
+                                            <div class="vc_col-sm-6 wpb_column column_container vc_column_container col no-extra-padding"
+                                                data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
+                                                data-bg-opacity="1" data-animation="" data-delay="0">
+                                                <div class="vc_column-inner">
+                                                    <div class="wpb_wrapper">
+                                                        <div id="fws_68d462ae63da7" data-midnight=""
+                                                            data-column-margin="default"
+                                                            class="wpb_row vc_row-fluid vc_row inner_row vc_row-o-equal-height vc_row-flex vc_row-o-content-middle"
+                                                            style="">
+                                                            <div class="row-bg-wrap">
+                                                                <div class="row-bg"></div>
+                                                            </div>
+                                                            <div
+                                                                class="row_col_wrap_12_inner col span_12  left flip-in-vertical-wrap">
+                                                                <div style=""
+                                                                    class="vc_col-sm-6 wpb_column column_container vc_column_container col child_column has-animation padding-7-percent"
+                                                                    data-using-bg="true" data-bg-cover="true"
+                                                                    data-padding-pos="all" data-has-bg-color="false"
+                                                                    data-bg-color="" data-bg-opacity="1"
+                                                                    data-animation="flip-in-vertical" data-delay="0">
+                                                                    <div class="vc_column-inner">
+                                                                        <div class="column-image-bg-wrap column-bg-layer viewport-desktop"
+                                                                            data-bg-pos="center center"
+                                                                            data-bg-animation="none"
+                                                                            data-bg-overlay="false">
+                                                                            <div class="inner-wrap">
+                                                                                <div class="column-image-bg" style=""
+                                                                                    data-nectar-img-src="https://..com/salient/minimal-portfolio/wp-content/uploads/sites/15/2017/01/5.jpg">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="wpb_wrapper">
+                                                                            <div class="divider-wrap"
+                                                                                data-alignment="default">
+                                                                                <div style="height: 150px;"
+                                                                                    class="divider">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div style=" color: #e2e2e2;"
+                                                                    class="vc_col-sm-6 wpb_column column_container vc_column_container col child_column has-animation padding-7-percent"
+                                                                    data-cfc="true" data-using-bg="true"
+                                                                    data-padding-pos="all" data-has-bg-color="true"
+                                                                    data-bg-color="#ffffff" data-bg-opacity="1"
+                                                                    data-animation="flip-in-vertical" data-delay="100">
+                                                                    <div class="vc_column-inner">
+                                                                        <div class="column-bg-overlay-wrap column-bg-layer"
+                                                                            data-bg-animation="none">
+                                                                            <div class="column-bg-overlay"
+                                                                                style="opacity: 1; background-color: #ffffff;">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="wpb_wrapper">
+                                                                            <div class="nectar_icon_wrap "
+                                                                                data-style="default" data-padding="0px"
+                                                                                data-color="black" style="">
+                                                                                <div class="nectar_icon"><span
+                                                                                        class="im-icon-wrap"
+                                                                                        data-color="black"
+                                                                                        style="height: 40px; width: 40px;"><span><svg
+                                                                                                role="presentation"
+                                                                                                version="1.1"
+                                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                                width="40" height="40"
+                                                                                                viewBox="0 0 32 32">
+                                                                                                <path
+                                                                                                    d="M24.804 24.533c-0.159 0-0.315-0.057-0.443-0.169-0.276-0.245-0.303-0.667-0.057-0.94 3.268-3.68 4.855-8.269 4.349-12.601-0.424-3.636-2.26-6.767-5.169-8.823-0.301-0.212-0.371-0.629-0.159-0.929s0.632-0.369 0.928-0.156c3.221 2.276 5.252 5.744 5.721 9.756 0.547 4.708-1.153 9.684-4.675 13.64-0.131 0.145-0.315 0.223-0.496 0.223zM12.724 31.211c-0.204 0-0.407-0.093-0.535-0.271-0.219-0.3-0.156-0.713 0.139-0.932 3.753-2.771 5.972-4.823 9.493-8.792 2.639-2.972 3.924-6.617 3.528-10.011-0.312-2.692-1.656-4.995-3.779-6.491-4.411-3.105-10.531-1.845-14.887 3.059-0.248 0.276-0.667 0.299-0.943 0.056-0.273-0.248-0.303-0.667-0.055-0.941 4.819-5.428 11.669-6.771 16.651-3.264 2.439 1.719 3.976 4.359 4.337 7.428 0.436 3.771-0.972 7.797-3.859 11.051-3.592 4.047-5.86 6.143-9.699 8.976-0.116 0.091-0.256 0.132-0.393 0.132zM13.989 25.997c-0.189 0-0.376-0.081-0.509-0.235-0.237-0.281-0.203-0.7 0.077-0.94 1.833-1.557 3.453-3.191 5.781-5.812 2.012-2.26 3-4.967 2.713-7.424-0.041-0.363 0.22-0.695 0.584-0.74 0.357-0.047 0.695 0.22 0.741 0.585 0.327 2.833-0.78 5.917-3.041 8.464-2.371 2.675-4.029 4.341-5.916 5.943-0.124 0.107-0.279 0.159-0.431 0.159zM2.592 15.979c-0.2 0-0.399-0.087-0.529-0.259-0.224-0.296-0.167-0.712 0.127-0.935 2.169-1.656 3.621-3.037 5.98-5.692 3.719-4.192 8.644-5.299 12.256-2.751 0.303 0.212 0.372 0.629 0.161 0.929-0.212 0.301-0.628 0.371-0.928 0.161-3.027-2.137-7.245-1.112-10.492 2.545-2.423 2.727-3.923 4.149-6.169 5.863-0.121 0.093-0.261 0.137-0.405 0.137zM7.417 26.857c-0.207 0-0.416-0.093-0.543-0.279-0.213-0.3-0.144-0.716 0.155-0.929 4.295-3.068 6.312-4.885 9.825-8.839 1.361-1.533 2.073-3.344 1.899-4.839-0.065-0.555-0.292-1.319-1.008-1.823-1.82-1.284-4.375 0.093-6.099 2.033-3.095 3.485-4.877 5.089-8.669 7.795-0.301 0.211-0.716 0.143-0.929-0.156-0.213-0.297-0.143-0.716 0.156-0.929 3.693-2.633 5.429-4.193 8.447-7.591 2.543-2.861 5.701-3.759 7.863-2.244 0.883 0.624 1.424 1.581 1.563 2.763 0.219 1.864-0.615 4.063-2.224 5.876-3.589 4.044-5.656 5.904-10.047 9.039-0.116 0.083-0.253 0.123-0.388 0.123zM4.896 23.961c-0.207 0-0.416-0.099-0.545-0.284-0.211-0.3-0.139-0.716 0.161-0.929 4.764-3.355 6.961-5.383 10.685-9.864 0.239-0.284 0.661-0.32 0.94-0.087 0.284 0.237 0.323 0.656 0.085 0.939-3.812 4.591-6.064 6.668-10.943 10.107-0.117 0.079-0.252 0.119-0.384 0.119z">
+                                                                                                </path>
+                                                                                            </svg></span></span></div>
+                                                                            </div>
+                                                                            <h4 style="font-size: 38px;color: #3f3f3f;line-height: 46px;text-align: left"
+                                                                                class="vc_custom_heading vc_do_custom_heading vc_custom_1484779752863">
+                                                                                Assembled Custom Just For You</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="fws_68d462ae6488f" data-midnight=""
+                                                            data-column-margin="default"
+                                                            class="wpb_row vc_row-fluid vc_row inner_row vc_row-o-equal-height vc_row-flex vc_row-o-content-middle"
+                                                            style="">
+                                                            <div class="row-bg-wrap">
+                                                                <div class="row-bg"></div>
+                                                            </div>
+                                                            <div
+                                                                class="row_col_wrap_12_inner col span_12  left flip-in-vertical-wrap">
+                                                                <div style=""
+                                                                    class="vc_col-sm-6 wpb_column column_container vc_column_container col child_column has-animation padding-7-percent"
+                                                                    data-using-bg="true" data-padding-pos="all"
+                                                                    data-has-bg-color="true" data-bg-color="#ff3a6f"
+                                                                    data-bg-opacity="1"
+                                                                    data-animation="flip-in-vertical" data-delay="0">
+                                                                    <div class="vc_column-inner">
+                                                                        <div class="column-bg-overlay-wrap column-bg-layer"
+                                                                            data-bg-animation="none">
+                                                                            <div class="column-bg-overlay"
+                                                                                style="opacity: 1; background-color: #ff3a6f;">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="wpb_wrapper">
+                                                                            <div class="nectar_icon_wrap "
+                                                                                data-style="default" data-padding="0px"
+                                                                                data-color="white" style="">
+                                                                                <div class="nectar_icon"><span
+                                                                                        class="im-icon-wrap"
+                                                                                        data-color="white"
+                                                                                        style="height: 40px; width: 40px;"><span><svg
+                                                                                                role="presentation"
+                                                                                                version="1.1"
+                                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                                width="40" height="40"
+                                                                                                viewBox="0 0 32 32">
+                                                                                                <path
+                                                                                                    d="M27.667 23.229h-23.333c-2.389 0-4.333-1.943-4.333-4.333v-3.781c0-1.084 0.653-2.036 1.664-2.427l1.767-0.684 2.549-5.456c0.565-1.204 1.789-1.985 3.12-1.985h13.789c1.337 0 2.565 0.787 3.127 2l2.495 5.405 1.909 0.813c0.96 0.411 1.58 1.351 1.58 2.393v3.721c0 2.391-1.944 4.333-4.333 4.333zM9.1 5.896c-0.815 0-1.565 0.476-1.912 1.217l-2.663 5.696c-0.073 0.157-0.203 0.279-0.364 0.341l-2.016 0.779c-0.493 0.191-0.812 0.656-0.812 1.185v3.781c0 1.653 1.345 3 3 3h23.333c1.655 0 3-1.347 3-3v-3.721c0-0.509-0.303-0.969-0.771-1.167l-2.145-0.917c-0.151-0.065-0.273-0.187-0.344-0.333l-2.601-5.637c-0.344-0.747-1.095-1.227-1.916-1.227l-13.789 0.003zM16.028 15.341c-6.751 0-12.752-1.344-15.288-3.424-0.284-0.235-0.325-0.653-0.092-0.937 0.233-0.285 0.652-0.327 0.939-0.092 2.276 1.864 8.080 3.123 14.441 3.123 6.281 0 12.060-1.235 14.381-3.073 0.287-0.232 0.705-0.184 0.935 0.107 0.229 0.289 0.18 0.708-0.108 0.937-2.576 2.043-8.545 3.36-15.208 3.36zM5.249 19.979c-1.103 0-2-0.896-2-2 0-1.101 0.897-2 2-2s2 0.899 2 2c0 1.105-0.896 2-2 2zM5.249 17.312c-0.368 0-0.667 0.303-0.667 0.667 0 0.367 0.299 0.667 0.667 0.667s0.667-0.3 0.667-0.667c0-0.365-0.299-0.667-0.667-0.667zM26.584 19.979c-1.104 0-2-0.896-2-2 0-1.101 0.896-2 2-2 1.101 0 2 0.899 2 2 0 1.105-0.896 2-2 2zM26.584 17.312c-0.368 0-0.667 0.303-0.667 0.667 0 0.367 0.299 0.667 0.667 0.667 0.367 0 0.667-0.3 0.667-0.667 0-0.365-0.3-0.667-0.667-0.667zM6 27.437c-1.837 0-3.333-1.495-3.333-3.333v-2.208h1.333v2.208c0 1.101 0.897 2 2 2s2-0.899 2-2v-2.208h1.333v2.208c0 1.839-1.496 3.333-3.333 3.333zM26 27.437c-1.837 0-3.333-1.495-3.333-3.333v-2.208h1.333v2.208c0 1.101 0.897 2 2 2s2-0.899 2-2v-2.208h1.333v2.208c0 1.839-1.496 3.333-3.333 3.333zM21.333 19.229h-10.667c-0.368 0-0.667-0.3-0.667-0.667s0.299-0.667 0.667-0.667h10.667c0.367 0 0.667 0.3 0.667 0.667s-0.3 0.667-0.667 0.667zM8 9.287c-0.184 0-0.367-0.076-0.5-0.225-0.244-0.275-0.219-0.697 0.057-0.94l1.444-1.279c0.276-0.247 0.696-0.22 0.941 0.057 0.244 0.275 0.219 0.696-0.057 0.941l-1.444 1.279c-0.127 0.112-0.284 0.167-0.441 0.167zM8 11.841c-0.177 0-0.353-0.071-0.484-0.208-0.253-0.268-0.241-0.691 0.027-0.943l4.056-3.833c0.267-0.252 0.689-0.241 0.943 0.028 0.253 0.268 0.241 0.693-0.028 0.943l-4.056 3.833c-0.128 0.12-0.292 0.18-0.457 0.18z">
+                                                                                                </path>
+                                                                                            </svg></span></span></div>
+                                                                            </div>
+                                                                            <h4 style="font-size: 38px;color: #ffffff;line-height: 46px;text-align: left"
+                                                                                class="vc_custom_heading vc_do_custom_heading vc_custom_1484778589853">
+                                                                                Speed &amp; Beauty Combined</h4>
+                                                                            <div class="divider-wrap"
+                                                                                data-alignment="default">
+                                                                                <div style="height: 100px;"
+                                                                                    class="divider">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="nectar-cta " data-color=""
+                                                                                data-using-bg="false"
+                                                                                data-style="see-through"
+                                                                                data-display="block"
+                                                                                data-alignment="left"
+                                                                                data-text-color="custom"
+                                                                                style="--nectar-text-color: #ffffff; --nectar-icon-gap: 10px; ">
+                                                                                <h5 style="color: #ffffff;"> <span
+                                                                                        class="text">
+                                                                                    </span><span class="link_wrap"><a
+                                                                                            class="link_text"
+                                                                                            role="button" href="#">Learn
+                                                                                            More<span
+                                                                                                class="arrow"></span></a></span>
+                                                                                </h5>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div style=""
+                                                                    class="vc_col-sm-6 wpb_column column_container vc_column_container col child_column has-animation padding-7-percent"
+                                                                    data-using-bg="true" data-bg-cover="true"
+                                                                    data-padding-pos="all" data-has-bg-color="false"
+                                                                    data-bg-color="" data-bg-opacity="1"
+                                                                    data-animation="flip-in-vertical" data-delay="100">
+                                                                    <div class="vc_column-inner">
+                                                                        <div class="column-image-bg-wrap column-bg-layer viewport-desktop"
+                                                                            data-bg-pos="center center"
+                                                                            data-bg-animation="none"
+                                                                            data-bg-overlay="false">
+                                                                            <div class="inner-wrap">
+                                                                                <div class="column-image-bg" style=""
+                                                                                    data-nectar-img-src="https://..com/salient/minimal-portfolio/wp-content/uploads/sites/15/2017/01/1-1.jpg">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="wpb_wrapper">
+                                                                            <div class="divider-wrap"
+                                                                                data-alignment="default">
+                                                                                <div style="height: 150px;"
+                                                                                    class="divider">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div style=""
+                                                class="vc_col-sm-6 wpb_column column_container vc_column_container col has-animation padding-9-percent"
+                                                data-using-bg="true" data-bg-cover="true" data-padding-pos="all"
+                                                data-has-bg-color="false" data-bg-color="" data-bg-opacity="1"
+                                                data-animation="flip-in-vertical" data-delay="200">
+                                                <div class="vc_column-inner">
+                                                    <div class="column-image-bg-wrap column-bg-layer viewport-desktop"
+                                                        data-bg-pos="center center" data-bg-animation="none"
+                                                        data-bg-overlay="false">
+                                                        <div class="inner-wrap">
+                                                            <div class="column-image-bg" style=""
+                                                                data-nectar-img-src="https://..com/salient/minimal-portfolio/wp-content/uploads/sites/15/2017/01/3-1.jpg">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="wpb_wrapper">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="fws_68d462ae659bc" data-column-margin="default" data-midnight="light"
+                                        data-top-percent="8%" data-bottom-percent="8%"
+                                        class="wpb_row vc_row-fluid vc_row full-width-section"
+                                        style="padding-top: calc(100vw * 0.08); padding-bottom: calc(100vw * 0.08); ">
+                                        <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay=""
+                                            data-bg-overlay="false">
+                                            <div class="inner-wrap row-bg-layer">
+                                                <div class="row-bg viewport-desktop using-bg-color"
+                                                    style="background-color: #111111; ">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row_col_wrap_12 col span_12 light left">
+                                            <div class="vc_col-sm-6 wpb_column column_container vc_column_container col no-extra-padding"
+                                                data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
+                                                data-bg-opacity="1" data-animation="" data-delay="0">
+                                                <div class="vc_column-inner">
+                                                    <div class="wpb_wrapper">
+                                                        <div class="nectar-split-heading " data-align="default"
+                                                            data-m-align="inherit" data-text-effect="default"
+                                                            data-animation-type="default" data-animation-delay="0"
+                                                            data-animation-offset="" data-m-rm-animation=""
+                                                            data-stagger="" data-custom-font-size="false">
+                                                            <div class="heading-line">
+                                                                <div>
+                                                                    <h2>We Successfully</h2>
+                                                                </div>
+                                                            </div>
+                                                            <div class="heading-line">
+                                                                <div>
+                                                                    <h2>Have Redesigned</h2>
+                                                                </div>
+                                                            </div>
+                                                            <div class="heading-line">
+                                                                <div>
+                                                                    <h2>The Wheel</h2>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="wpb_text_column wpb_content_element  wpb_animate_when_almost_visible wpb_bottom-to-top bottom-to-top vc_custom_1484775560863"
+                                                            style=" max-width: 500px; display: inline-block;">
+                                                            <p>Far far away, behind the word mountains, far from the
+                                                                countries Vokalia and Consonantia, there live the blind
+                                                                texts. Separated they live in Bookmarksgrove right at
+                                                                the
+                                                                coast of the Semantics, a large language ocean.</p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="vc_col-sm-6 wpb_column column_container vc_column_container col no-extra-padding"
+                                                data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
+                                                data-bg-opacity="1" data-animation="" data-delay="0">
+                                                <div class="vc_column-inner">
+                                                    <div class="wpb_wrapper">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="fws_68d462ae65ff8" data-column-margin="default" data-midnight="light"
+                                        data-top-percent="20%" data-bottom-percent="20%"
+                                        class="wpb_row vc_row-fluid vc_row full-width-section parallax_section"
+                                        style="padding-top: calc(100vw * 0.20); padding-bottom: calc(100vw * 0.20); ">
+                                        <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay=""
+                                            data-bg-overlay="false">
+                                            <div class="inner-wrap row-bg-layer using-image">
+                                                <div class="row-bg viewport-desktop using-image using-bg-color"
+                                                    data-parallax-speed="fast"
+                                                    style="background-position: center top; background-repeat: no-repeat; background-color: #111111; "
+                                                    data-nectar-img-src="webroot/img/stefsketch-1.jpg">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row_col_wrap_12 col span_12 light left">
+                                            <div class="vc_col-sm-12 wpb_column column_container vc_column_container col no-extra-padding"
+                                                data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
+                                                data-bg-opacity="1" data-animation="" data-delay="0">
+                                                <div class="vc_column-inner">
+                                                    <div class="wpb_wrapper">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="fws_68d462ae661e5" data-column-margin="default" data-midnight="light"
+                                        data-top-percent="8%" data-bottom-percent="8%"
+                                        class="wpb_row vc_row-fluid vc_row full-width-section"
+                                        style="padding-top: calc(100vw * 0.08); padding-bottom: calc(100vw * 0.08); ">
+                                        <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay=""
+                                            data-bg-overlay="false">
+                                            <div class="inner-wrap row-bg-layer">
+                                                <div class="row-bg viewport-desktop using-bg-color"
+                                                    style="background-color: #111111; ">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row_col_wrap_12 col span_12 light left">
+                                            <div class="vc_col-sm-3 wpb_column column_container vc_column_container col no-extra-padding"
+                                                data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
+                                                data-bg-opacity="1" data-animation="" data-delay="0">
+                                                <div class="vc_column-inner">
+                                                    <div class="wpb_wrapper">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="vc_col-sm-6 wpb_column column_container vc_column_container col no-extra-padding"
+                                                data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
+                                                data-bg-opacity="1" data-animation="" data-delay="0">
+                                                <div class="vc_column-inner">
+                                                    <div class="wpb_wrapper">
+                                                        <div class="nectar-split-heading " data-align="default"
+                                                            data-m-align="inherit" data-text-effect="default"
+                                                            data-animation-type="default" data-animation-delay="0"
+                                                            data-animation-offset="" data-m-rm-animation=""
+                                                            data-stagger="" data-custom-font-size="false">
+                                                            <div class="heading-line">
+                                                                <div>
+                                                                    <h2>The Future Is Now</h2>
+                                                                </div>
+                                                            </div>
+                                                            <div class="heading-line">
+                                                                <div>
+                                                                    <h2>With Nectar Motors</h2>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="wpb_text_column wpb_content_element  wpb_animate_when_almost_visible wpb_bottom-to-top bottom-to-top vc_custom_1484775567778">
+                                                            <p>Far far away, behind the word mountains, far from the
+                                                                countries Vokalia and Consonantia, there live the blind
+                                                                texts. Separated they live in Bookmarksgrove right at
+                                                                the
+                                                                coast of the Semantics, a large language ocean.</p>
+                                                        </div>
+
+                                                        <div
+                                                            class="wpb_text_column wpb_content_element  wpb_animate_when_almost_visible wpb_bottom-to-top bottom-to-top vc_custom_1484775572510">
+                                                            <p>A small river named Duden flows by their place and
+                                                                supplies
+                                                                it with the necessary regelialia. It is a paradisematic
+                                                                country, in which roasted parts of sentences</p>
+                                                        </div>
+
+                                                        <div id="fws_68d462ae6664a" data-midnight=""
+                                                            data-column-margin="default"
+                                                            class="wpb_row vc_row-fluid vc_row inner_row" style="">
+                                                            <div class="row-bg-wrap">
+                                                                <div class="row-bg"></div>
+                                                            </div>
+                                                            <div class="row_col_wrap_12_inner col span_12  left">
+                                                                <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column has-animation no-extra-padding"
+                                                                    data-padding-pos="all" data-has-bg-color="false"
+                                                                    data-bg-color="" data-bg-opacity="1"
+                                                                    data-animation="fade-in-from-bottom" data-delay="0">
+                                                                    <div class="vc_column-inner">
+                                                                        <div class="wpb_wrapper">
+
+                                                                            <div class="nectar-3d-transparent-button"
+                                                                                style="margin-top: 40px; "
+                                                                                data-size="jumbo">
+                                                                                <a href="#" role="button" class=""><span
+                                                                                        class="hidden-text">View
+                                                                                        Configurator</span>
+                                                                                    <div class="inner-wrap">
+                                                                                        <div class="front-3d">
+                                                                                            <svg>
+                                                                                                <defs>
+                                                                                                    <mask>
+                                                                                                        <rect
+                                                                                                            width="100%"
+                                                                                                            height="100%"
+                                                                                                            fill="#ffffff">
+                                                                                                        </rect>
+                                                                                                        <text
+                                                                                                            class="mask-text button-text"
+                                                                                                            fill="#000000"
+                                                                                                            text-anchor="middle">View
+                                                                                                            Configurator</text>
+                                                                                                    </mask>
+                                                                                                </defs>
+                                                                                                <rect fill="#ffffff"
+                                                                                                    width="100%"
+                                                                                                    height="100%">
+                                                                                                </rect>
+                                                                                            </svg>
+                                                                                        </div>
+                                                                                        <div class="back-3d">
+                                                                                            <svg>
+                                                                                                <rect stroke="#ffffff"
+                                                                                                    stroke-width="10"
+                                                                                                    fill="transparent"
+                                                                                                    width="100%"
+                                                                                                    height="100%">
+                                                                                                </rect>
+                                                                                                <text
+                                                                                                    class="button-text"
+                                                                                                    fill="#ffffff"
+                                                                                                    text-anchor="middle">View
+                                                                                                    Configurator</text>
+                                                                                            </svg>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </a>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--/fullwidth-->
