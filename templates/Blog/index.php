@@ -1,12 +1,15 @@
-<!-- ================================= -->
-<!-- NUEVO HOME PORTFOLIO - templates/Blog/index.php -->
-<!-- ================================= -->
 
 <?php
 $this->assign('title', 'Portafolio - Ilustraciones Digitales');
 ?>
 
-
+<style>
+    @media only screen and (max-width: 690px) {
+    .wpb_column:not([class*=vc_col-xs]) {
+        margin-bottom: -1px !important;
+    }
+}
+</style>
 <div id="ajax-content-wrap">
     <div id="full_width_portfolio" data-featured-img="webroot/img/stefsketch-1.jpg">
 
@@ -300,10 +303,55 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
 
 
         <div class="container-wrap" data-nav-pos="after_project_2" data-rm-header="false">
-            <div class="container main-content">
+            <div class="container main-content" style="padding-top: 65px;">
+                <div class="vc_col-sm-6 wpb_column column_container vc_column_container col no-extra-padding"
+                                        data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
+                                        data-bg-opacity="1" data-animation="" data-delay="0">
+                                        <div class="vc_column-inner">
+                                            <div class="wpb_wrapper">
+                                                <div class="nectar-split-heading " data-align="default"
+                                                    data-m-align="inherit" data-text-effect="default"
+                                                    data-animation-type="default" data-animation-delay="0"
+                                                    data-animation-offset="" data-m-rm-animation="" data-stagger=""
+                                                    data-custom-font-size="false">
+                                                    <div class="heading-line">
+                                                        <div>
+                                                            <h2>The Future Is Now</h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="heading-line">
+                                                        <div>
+                                                            <h2>With Nectar Motors</h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="wpb_text_column wpb_content_element  wpb_animate_when_almost_visible wpb_bottom-to-top bottom-to-top vc_custom_1484775567778">
+                                                    <p>Far far away, behind the word mountains, far from the
+                                                        countries Vokalia and Consonantia, there live the blind
+                                                        texts. Separated they live in Bookmarksgrove right at
+                                                        the
+                                                        coast of the Semantics, a large language ocean.</p>
+                                                </div>
+
+                                                <div
+                                                    class="wpb_text_column wpb_content_element  wpb_animate_when_almost_visible wpb_bottom-to-top bottom-to-top vc_custom_1484775572510">
+                                                    <p>A small river named Duden flows by their place and
+                                                        supplies
+                                                        it with the necessary regelialia. It is a paradisematic
+                                                        country, in which roasted parts of sentences</p>
+                                                </div>
+
+                                                
+                                                   
+                                            </div>
+                                        </div>
+                                    </div>
                 <div class="row  ">
                     <div class="post-area col span_12">
                         <div id="portfolio-extra">
+
+                        
 
                         <!-- Sección Post Dinámico -->
                         <div id="fws_68d462ae63b9c" data-column-margin="default" data-midnight="light"
@@ -315,6 +363,9 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                 <div class="row-bg viewport-desktop using-bg-color" style="background-color: #111111;"></div>
                             </div>
                         </div>
+
+
+                        
                         
                         <div class="row_col_wrap_12 col span_12 light left flip-in-vertical-wrap">
                             
@@ -348,7 +399,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                         </div>
                                                         <div class="wpb_wrapper">
                                                             <div class="divider-wrap" data-alignment="default">
-                                                                <div style="height: 150px;" class="divider"></div>
+                                                                <div style="height: 260px;" class="divider"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -369,10 +420,10 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                             <?php if (!empty($randomPost->blog_category->image)): ?>
                                                             <div class="nectar_icon_wrap" data-style="default" data-padding="0px" data-color="black">
                                                                 <div class="nectar_icon">
-                                                                    <span class="im-icon-wrap" data-color="black" style="height: 40px; width: 40px;">
+                                                                    <span class="im-icon-wrap" data-color="black" style="">
                                                                         <img src="/img/<?= h($randomPost->blog_category->image) ?>" 
                                                                             alt="<?= h($randomPost->blog_category->name) ?>" 
-                                                                            style="width: 40px; height: 40px; object-fit: contain;">
+                                                                            style="width: 50%; height: 50%; object-fit: contain;">
                                                                     </span>
                                                                 </div>
                                                             </div>

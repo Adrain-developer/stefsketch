@@ -1,9 +1,7 @@
 <?php
 $this->loadHelper('Time');
 
-$this->assign('title', 'Stefsketch | ' . h($eventType->name));
-$this->Html->css(['https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css'], ['block' => true]);
-
+$this->assign('title', h($eventType->name) . ' - Portafolio');
 ?>
 
 
@@ -15,584 +13,339 @@ function formatNumberShort($n) {
 }
 ?>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+ <?= $this->Html->css([
+        'ui/build/estilos-cinta',
+        'ui/build/single0583',
+    ]) ?>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style id='dynamic-css-inline-css' type='text/css'>
+    .featured-media-under-header__featured-media:not([data-format="video"]):not([data-format="audio"]):not([data-has-img="false"]){padding-bottom:50%;}.featured-media-under-header__featured-media .post-featured-img img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:top;}.single.single-post .container-wrap{padding-top:0;}.main-content .featured-media-under-header{padding:min(6vw,90px) 0;}.featured-media-under-header__featured-media:not([data-has-img="false"]){margin-top:min(6vw,90px);}.featured-media-under-header__featured-media:not([data-format="video"]):not([data-format="audio"]):not([data-has-img="false"]){overflow:hidden;position:relative;}.featured-media-under-header__meta-wrap{display:flex;flex-wrap:wrap;align-items:center;}.featured-media-under-header__meta-wrap .meta-author{display:inline-flex;align-items:center;}.featured-media-under-header__meta-wrap .meta-author img{margin-right:8px;width:28px;border-radius:100px;}.featured-media-under-header__featured-media .post-featured-img{display:block;line-height:0;top:auto;bottom:0;}.featured-media-under-header__featured-media[data-n-parallax-bg="true"] .post-featured-img{height:calc(100% + 75px);}@media only screen and (max-width:690px){.featured-media-under-header__featured-media[data-n-parallax-bg="true"] .post-featured-img{height:calc(100% + 45px);}.featured-media-under-header__meta-wrap{font-size:14px;}}.featured-media-under-header__featured-media[data-align="center"] .post-featured-img img{object-position:center;}.featured-media-under-header__featured-media[data-align="bottom"] .post-featured-img img{object-position:bottom;}.featured-media-under-header h1{margin:max(min(0.35em,35px),20px) 0 max(min(0.25em,25px),15px) 0;}.featured-media-under-header__cat-wrap .meta-category a{line-height:1;padding:7px 15px;margin-right:15px;}.featured-media-under-header__cat-wrap .meta-category a:not(:hover){background-color:rgba(0,0,0,0.05);}.featured-media-under-header__cat-wrap .meta-category a:hover{color:#fff;}.featured-media-under-header__meta-wrap a,.featured-media-under-header__cat-wrap a{color:inherit;}.featured-media-under-header__meta-wrap > span:not(:first-child):not(.rich-snippet-hidden):before{content:"·";padding:0 .5em;}.featured-media-under-header__excerpt{margin:0 0 20px 0;}@media only screen and (min-width:691px){[data-animate="fade_in"] .featured-media-under-header__cat-wrap,[data-animate="fade_in"].featured-media-under-header .entry-title,[data-animate="fade_in"] .featured-media-under-header__meta-wrap,[data-animate="fade_in"] .featured-media-under-header__featured-media,[data-animate="fade_in"] .featured-media-under-header__excerpt,[data-animate="fade_in"].featured-media-under-header + .row .content-inner{opacity:0;transform:translateY(50px);animation:nectar_featured_media_load 1s cubic-bezier(0.25,1,0.5,1) forwards;}[data-animate="fade_in"].featured-media-under-header + .row .content-inner:has(.nectar-scrolling-tabs){transform:translateY(0px);animation:nectar_featured_media_load_simple 1s cubic-bezier(0.25,1,0.5,1) forwards;}[data-animate="fade_in"] .featured-media-under-header__cat-wrap{animation-delay:0.1s;}[data-animate="fade_in"].featured-media-under-header .entry-title{animation-delay:0.2s;}[data-animate="fade_in"] .featured-media-under-header__excerpt{animation-delay:0.3s;}[data-animate="fade_in"] .featured-media-under-header__meta-wrap{animation-delay:0.3s;}[data-animate="fade_in"] .featured-media-under-header__featured-media{animation-delay:0.4s;}[data-animate="fade_in"].featured-media-under-header + .row .content-inner{animation-delay:0.5s;}}@keyframes nectar_featured_media_load{0%{transform:translateY(50px);opacity:0;}100%{transform:translateY(0px);opacity:1;}}@keyframes nectar_featured_media_load_simple{0%{opacity:0;}100%{opacity:1;}}.featured-media-under-header__content{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:1000px;margin:0 auto;}@media only screen and (min-width:691px){.featured-media-under-header__excerpt{max-width:75%;}}.featured-media-under-header__meta-wrap .meta-author img{margin-right:15px;width:50px;}.featured-media-under-header__meta-wrap .meta-author > span{text-align:left;line-height:1.5;}.featured-media-under-header__meta-wrap .meta-author > span span:not(.rich-snippet-hidden){display:block;}.featured-media-under-header__meta-wrap .meta-date,.featured-media-under-header__meta-wrap .meta-reading-time{font-size:.85em;}#header-space{background-color:#000000}@media only screen and (min-width:1000px){body #ajax-content-wrap.no-scroll{min-height:calc(100vh - 100px);height:calc(100vh - 100px)!important;}}@media only screen and (min-width:1000px){#page-header-wrap.fullscreen-header,#page-header-wrap.fullscreen-header #page-header-bg,html:not(.nectar-box-roll-loaded) .nectar-box-roll > #page-header-bg.fullscreen-header,.nectar_fullscreen_zoom_recent_projects,#nectar_fullscreen_rows:not(.afterLoaded) > div{height:calc(100vh - 99px);}.wpb_row.vc_row-o-full-height.top-level,.wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:calc(100vh - 99px);}html:not(.nectar-box-roll-loaded) .nectar-box-roll > #page-header-bg.fullscreen-header{top:100px;}.nectar-slider-wrap[data-fullscreen="true"]:not(.loaded),.nectar-slider-wrap[data-fullscreen="true"]:not(.loaded) .swiper-container{height:calc(100vh - 98px)!important;}.admin-bar .nectar-slider-wrap[data-fullscreen="true"]:not(.loaded),.admin-bar .nectar-slider-wrap[data-fullscreen="true"]:not(.loaded) .swiper-container{height:calc(100vh - 98px - 32px)!important;}}.admin-bar[class*="page-template-template-no-header"] .wpb_row.vc_row-o-full-height.top-level,.admin-bar[class*="page-template-template-no-header"] .wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:calc(100vh - 32px);}body[class*="page-template-template-no-header"] .wpb_row.vc_row-o-full-height.top-level,body[class*="page-template-template-no-header"] .wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:100vh;}@media only screen and (max-width:999px){.using-mobile-browser #nectar_fullscreen_rows:not(.afterLoaded):not([data-mobile-disable="on"]) > div{height:calc(100vh - 100px);}.using-mobile-browser .wpb_row.vc_row-o-full-height.top-level,.using-mobile-browser .wpb_row.vc_row-o-full-height.top-level > .col.span_12,[data-permanent-transparent="1"].using-mobile-browser .wpb_row.vc_row-o-full-height.top-level,[data-permanent-transparent="1"].using-mobile-browser .wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:calc(100vh - 100px);}html:not(.nectar-box-roll-loaded) .nectar-box-roll > #page-header-bg.fullscreen-header,.nectar_fullscreen_zoom_recent_projects,.nectar-slider-wrap[data-fullscreen="true"]:not(.loaded),.nectar-slider-wrap[data-fullscreen="true"]:not(.loaded) .swiper-container,#nectar_fullscreen_rows:not(.afterLoaded):not([data-mobile-disable="on"]) > div{height:calc(100vh - 47px);}.wpb_row.vc_row-o-full-height.top-level,.wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:calc(100vh - 47px);}body[data-transparent-header="false"] #ajax-content-wrap.no-scroll{min-height:calc(100vh - 47px);height:calc(100vh - 47px);}}@media only screen and (min-width:1000px){#header-outer .column-margin-4pct.wpb_row > .span_12,#ajax-content-wrap .column-margin-4pct.wpb_row > .span_12,#ajax-content-wrap .column-margin-4pct.wpb_row .full-page-inner > .container > .span_12,#ajax-content-wrap .column-margin-4pct.wpb_row .full-page-inner > .span_12{margin-left:calc(4%/-2);margin-right:calc(4%/-2);}#header-outer .column-margin-4pct .wpb_column:not(.child_column),#header-outer .column-margin-4pct.inner_row > div > .child_column,#ajax-content-wrap .column-margin-4pct .wpb_column:not(.child_column),#ajax-content-wrap .column-margin-4pct.inner_row > div > .child_column{padding-left:calc(4%/2);padding-right:calc(4%/2);}}.wpb_column.el_spacing_30px > .vc_column-inner > .wpb_wrapper > div:not(:last-child),.wpb_column.el_spacing_30px > .n-sticky > .vc_column-inner > .wpb_wrapper > div:not(:last-child){margin-bottom:30px;}@media only screen and (min-width:1000px){html body{overflow:visible;}.vc_row:not(.vc_row-o-equal-height) .nectar-sticky-column-css.vc_column_container > .n-sticky{height:100%;}.nectar-sticky-column-css.vc_column_container > .n-sticky{width:100%;}.nectar-sticky-column-css.vc_column_container > .n-sticky > .vc_column-inner{position:sticky;top:var(--nectar-sticky-top-distance);}}.wpb_column.el_spacing_20px > .vc_column-inner > .wpb_wrapper > div:not(:last-child),.wpb_column.el_spacing_20px > .n-sticky > .vc_column-inner > .wpb_wrapper > div:not(:last-child){margin-bottom:20px;}.wpb_column.child_column.el_spacing_5px > .vc_column-inner > .wpb_wrapper > div:not(:last-child),.wpb_column.child_column.el_spacing_5px > .n-sticky > .vc_column-inner > .wpb_wrapper > div:not(:last-child){margin-bottom:5px;}.wpb_column.child_column.el_spacing_10px > .vc_column-inner > .wpb_wrapper > div:not(:last-child),.wpb_column.child_column.el_spacing_10px > .n-sticky > .vc_column-inner > .wpb_wrapper > div:not(:last-child){margin-bottom:10px;}.img-with-aniamtion-wrap[data-border-radius="20px"] .img-with-animation,.img-with-aniamtion-wrap[data-border-radius="20px"] .inner,.img-with-aniamtion-wrap[data-border-radius="20px"] .hover-wrap{border-radius:20px;}.img-with-aniamtion-wrap[data-border-radius="20px"]{--nectar-radius:20px;}.nectar-meta-category-el{display:flex;flex-wrap:wrap;gap:10px;}.nectar-meta-category-el a{color:inherit;position:relative;}@media only screen,print{.nectar-meta-category-el.alignment_left_desktop{justify-content:flex-start;}}.nectar-meta-category-el.style-default > a:before{height:1px;width:100%;background-color:currentColor;content:"";position:absolute;bottom:0;left:0;transform:scaleX(0);transition:transform 0.4s ease;transform-origin:right;}.nectar-meta-category-el.style-default > a:hover:before{transform:scaleX(1);transform-origin:left;}#ajax-content-wrap .nectar-responsive-text *,body .nectar-responsive-text *{margin-bottom:0;color:inherit;}#ajax-content-wrap .nectar-responsive-text[class*="font_size"] *,body .nectar-responsive-text[class*="font_size"] *{font-size:inherit;line-height:inherit;}.nectar-responsive-text.nectar-link-underline-effect a{text-decoration:none;}.nectar-responsive-text[data-inherit-heading-family] > *{font-family:inherit;font-weight:inherit;font-size:inherit;line-height:inherit;text-transform:inherit;letter-spacing:inherit;}@media only screen,print{body #ajax-content-wrap .font_size_desktop_3vw.font_size_max_54px.nectar-responsive-text,body .font_size_desktop_3vw.font_size_max_54px.nectar-responsive-text{font-size:min(54px,3vw);}}@media only screen,print{body #ajax-content-wrap .font_size_desktop_3vw.font_size_max_54px.nectar-responsive-text,body .font_size_desktop_3vw.font_size_max_54px.nectar-responsive-text,body #header-outer .font_size_desktop_3vw.font_size_max_54px.nectar-responsive-text{font-size:min(54px,3vw);}}@media only screen and (max-width:999px){body #ajax-content-wrap .font_size_tablet_5vw.font_size_max_54px.nectar-responsive-text,body .font_size_tablet_5vw.font_size_max_54px.nectar-responsive-text{font-size:min(54px,5vw);}}@media only screen and (max-width:999px){body #ajax-content-wrap .container-wrap .font_size_tablet_5vw.font_size_max_54px.nectar-responsive-text,body .container-wrap .font_size_tablet_5vw.font_size_max_54px.nectar-responsive-text,body #header-outer .font_size_tablet_5vw.font_size_max_54px.nectar-responsive-text{font-size:min(54px,5vw);}}@media only screen and (max-width:690px){html body #ajax-content-wrap .font_size_phone_34px.font_size_max_54px.nectar-responsive-text,html body .font_size_phone_34px.font_size_max_54px.nectar-responsive-text{font-size:min(54px,34px);}}@media only screen and (max-width:690px){html body #ajax-content-wrap .container-wrap .font_size_phone_34px.font_size_max_54px.nectar-responsive-text,html body .container-wrap .font_size_phone_34px.font_size_max_54px.nectar-responsive-text,html body #header-outer .font_size_phone_34px.font_size_max_54px.nectar-responsive-text{font-size:min(54px,34px);}}#ajax-content-wrap .font_line_height_1-1.nectar-responsive-text,body .font_line_height_1-1.nectar-responsive-text{line-height:1.1;}#ajax-content-wrap .font_line_height_1-2.nectar-responsive-text,body .font_line_height_1-2.nectar-responsive-text{line-height:1.2;}@media only screen and (max-width:999px){.nectar-meta-category-el.alignment_default_tablet{justify-content:flex-start;}}@media only screen and (max-width:999px){#ajax-content-wrap .column-margin-4pct.wpb_row > .span_12:has( > [class*="vc_col-xs"]:not(.vc_col-xs-12)){margin-left:calc(4%/-2);margin-right:calc(4%/-2);}#ajax-content-wrap .column-margin-4pct .wpb_column[class*="vc_col-xs"]:not(.vc_col-xs-12):not(.child_column),#ajax-content-wrap .column-margin-4pct.inner_row > div > .child_column[class*="vc_col-xs"]:not(.vc_col-xs-12){padding-left:calc(4%/2);padding-right:calc(4%/2);}}@media only screen and (max-width:999px) and (min-width:691px){#ajax-content-wrap .column-margin-4pct.wpb_row > .span_12:has(> [data-t-w-inherits="small_desktop"]){margin-left:calc(4%/-2);margin-right:calc(4%/-2);}#ajax-content-wrap .column-margin-4pct.wpb_row > .span_12:has(> [data-t-w-inherits="small_desktop"]) > .wpb_column{padding-left:calc(4%/2);padding-right:calc(4%/2);}}@media only screen and (max-width:999px){.nectar-sticky-column-css.vc_column_container > .n-sticky:not(.nectar-sticky-column-wrap--mobile) > .vc_column-inner{position:relative;}}@media only screen and (max-width:690px){.nectar-meta-category-el.alignment_default_phone{justify-content:flex-start;}}@media only screen and (max-width:690px){body .vc_row.top_padding_phone_10px{padding-top:10px!important;}}.screen-reader-text,.nectar-skip-to-content:not(:focus){border:0;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute!important;width:1px;word-wrap:normal!important;}.row .col img:not([srcset]){width:auto;}.row .col img.img-with-animation.nectar-lazy:not([srcset]){width:100%;}
 
-<?= $this->Html->css(['evento_view'.'.css?ver=1']) ?>
+    .nectar-post-grid .nectar-post-grid-item .nectar-post-grid-item-bg, .nectar-post-grid[data-hover-effect=slow_zoom] .nectar-post-grid-item:hover .nectar-post-grid-item-bg, .nectar-post-grid[data-hover-effect=zoom] .nectar-post-grid-item:hover .nectar-post-grid-item-bg {
+        opacity: 0.6 !important;
+    }
+
+    @media only screen and (max-width: 690px) {
+    body .vc_row.top_padding_phone_10px
+ {
+        padding-top: 78px !important;
+    }
+}
+</style>
+
+<style>
+/* CSS del template Nectar - CRÍTICO para sticky y espaciado */
+@media only screen and (min-width:1000px){
+    html body{overflow:visible;}
+    .vc_row:not(.vc_row-o-equal-height) .nectar-sticky-column-css.vc_column_container > .n-sticky{height:100%;}
+    .nectar-sticky-column-css.vc_column_container > .n-sticky{width:100%;}
+    .nectar-sticky-column-css.vc_column_container > .n-sticky > .vc_column-inner{
+        position:sticky;
+        top:var(--nectar-sticky-top-distance);
+    }
+}
+
+.wpb_column.el_spacing_30px > .vc_column-inner > .wpb_wrapper > div:not(:last-child),
+.wpb_column.el_spacing_30px > .n-sticky > .vc_column-inner > .wpb_wrapper > div:not(:last-child){
+    margin-bottom:30px;
+}
+
+.wpb_column.el_spacing_20px > .vc_column-inner > .wpb_wrapper > div:not(:last-child),
+.wpb_column.el_spacing_20px > .n-sticky > .vc_column-inner > .wpb_wrapper > div:not(:last-child){
+    margin-bottom:20px;
+}
+
+@media only screen and (max-width:999px){
+    .nectar-sticky-column-css.vc_column_container > .n-sticky:not(.nectar-sticky-column-wrap--mobile) > .vc_column-inner{
+        position:relative;
+    }
+}
+
+/* Estilos para Grid de Posts Nectar - Eliminados (ya vienen del template) */
+
+/* Enlaces de filtro */
+.filter-link {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 0;
+    display: block;
+    transition: opacity 0.3s;
+}
+
+.filter-link:hover {
+    opacity: 0.7;
+}
+
+.filter-link.active {
+    font-weight: bold;
+    opacity: 1;
+}
+</style>
 
 
-<div class="" style="margin-top: 100px;">
 
-<nav aria-label="breadcrumb" class="bc-enhanced__nav">
-    <ol class="bc-enhanced__list">
-        <!-- Casita siempre presente - Home Global -->
-        <li class="bc-enhanced__item">
-            <a href="/" class="bc-enhanced__link" title="Inicio Global">🏠</a>
-        </li>
+<div class="container-wrap" data-nav-pos="none" data-rm-header="true">
+    <div class="container main-content">
+        <div class="">
 
-        <?php if (!empty($categoryId) && isset($breadcrumbCategories[$categoryId])): ?>
-            <!-- Navegación en categorías: 🏠 | EventType | Tema -->
-            <li class="bc-enhanced__item">
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>" class="bc-enhanced__link">
-                    <?= h($eventType->name) ?>
-                </a>
-            </li>
-            <li class="bc-enhanced__item <?= empty($subcategorySlug) ? 'bc-enhanced__item--active' : '' ?>">
-                <?php if (!empty($subcategorySlug)): ?>
-                    <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($categorySlug) ?>" class="bc-enhanced__link">
-                        Tema: <?= h($breadcrumbCategories[$categoryId]) ?>
-                    </a>
-                <?php else: ?>
-                    <span class="bc-enhanced__text">
-                        Tema: <?= h($breadcrumbCategories[$categoryId]) ?>
-                    </span>
-                <?php endif; ?>
-            </li>
-
-            <?php if (!empty($subcategorySlug)): ?>
-                <li class="bc-enhanced__item bc-enhanced__item--active">
-                    <span class="bc-enhanced__text">
-                        Subtema: <?= h($subcategorySlug) ?>
-                    </span>
-                </li>
-            <?php endif; ?>
-
-        <?php elseif (!empty($tagId) && isset($breadcrumbTags[$tagId])): ?>
-            <!-- Navegación en etiquetas: 🏠 | EventType | Etiqueta -->
-            <li class="bc-enhanced__item">
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>" class="bc-enhanced__link">
-                    <?= h($eventType->name) ?>
-                </a>
-            </li>
-            <li class="bc-enhanced__item bc-enhanced__item--active">
-                <span class="bc-enhanced__text">
-                    Etiqueta: <?= h($breadcrumbTags[$tagId]) ?>
-                </span>
-            </li>
-
-        <?php elseif ($show === 'categories'): ?>
-            <!-- Vista de todas las categorías: 🏠 | EventType | Todos los temas -->
-            <li class="bc-enhanced__item">
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>" class="bc-enhanced__link">
-                    <?= h($eventType->name) ?>
-                </a>
-            </li>
-            <li class="bc-enhanced__item bc-enhanced__item--active">
-                <span class="bc-enhanced__text">
-                    Todos los temas
-                </span>
-            </li>
-
-        <?php elseif ($show === 'tags'): ?>
-            <!-- Vista de todas las etiquetas: 🏠 | EventType | Todas las etiquetas -->
-            <li class="bc-enhanced__item">
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>" class="bc-enhanced__link">
-                    <?= h($eventType->name) ?>
-                </a>
-            </li>
-            <li class="bc-enhanced__item bc-enhanced__item--active">
-                <span class="bc-enhanced__text">
-                    Todas las etiquetas
-                </span>
-            </li>
-
-        <?php else: ?>
-            <!-- Vista principal: 🏠 | Ver todos los temas | Ver todas las etiquetas | 🔽 Cambiar trabajo -->
-            <li class="bc-enhanced__item">
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas" class="bc-enhanced__link">
-                    Ver todos los temas
-                </a>
-            </li>
-            <li class="bc-enhanced__item">
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas" class="bc-enhanced__link">
-                    Ver todas las etiquetas
-                </a>
-            </li>
-            <li class="bc-enhanced__item">
-                <div class="dropdown">
-                    <button class="bc-enhanced__link dropdown-toggle" type="button" data-toggle="dropdown" style="background:none;border:none;color:inherit;">
-                        Cambiar trabajo
-                    </button>
-                    <div class="dropdown-menu">
-                        <?php if (isset($allEventTypes)): ?>
-                            <?php foreach ($allEventTypes as $type): ?>
-                                <a class="dropdown-item <?= $type->id == $eventType->id ? 'active' : '' ?>" 
-                                   href="/portafolio/<?= h($type->eventoslug) ?>">
-                                    <?= h($type->name) ?>
-                                </a>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </li>
-        <?php endif; ?>
-    </ol>
-</nav>
-    
-
-    <?php if ($show === 'categories'): ?>
-    <!-- SOLO Vista de todas las categorías/temas -->
-    <div class="mb-4">
-        <h2 class="mb-2">Explora todos los temas de <?= h($eventType->name) ?></h2>
-        <p class="text-muted">Descubre contenido organizado por temas específicos</p>
-    </div>
-
-    <div class="row">
-        <?php foreach ($blogCategories as $cat): ?>
-        <div class="col-md-4 mb-4">
-            <div class="glass-card p-4 h-100 d-flex flex-column">
-                <?php if (!empty($cat->image)): ?>
-                <div class="mb-3 text-center">
-                    <img src="/img/<?= h($cat->image) ?>" alt="<?= h($cat->name) ?>" class="img-fluid rounded"
-                        style="max-height: 120px; object-fit: cover;">
-                </div>
-                <?php endif; ?>
-
-                <div class="flex-grow-1">
-                    <h5 class="card-title">
-                        <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($cat->slug) ?>"
-                            class="text-decoration-none text-dark">
-                            <?= h($cat->name) ?>
-                        </a>
-                    </h5>
-
-                    <?php if (!empty($cat->description)): ?>
-                    <p class="card-text text-muted small"><?= h($cat->description) ?></p>
-                    <?php endif; ?>
-                </div>
-
-                <div class="mt-auto">
-                    <span class="badge bg-primary">
-                        <?= $cat->count ?> artículo<?= $cat->count > 1 ? 's' : '' ?>
-                    </span>
-                    <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($cat->slug) ?>"
-                        class="btn btn-outline-primary btn-sm mt-2 w-100">
-                        Ver artículos
-                    </a>
+<!-- Container Principal -->
+<div class="">
+    <div id="portfolio-extra">
+        
+        <!-- Row Principal -->
+        <div id="fws_68d461f0f07aa" 
+             data-column-margin="custom" 
+             data-midnight="light"
+             class="wpb_row vc_row-fluid vc_row full-width-section column-margin-4pct top_padding_phone_10px"
+             style="padding-top: 140px; padding-bottom: 80px;">
+            
+            <!-- Background Layer -->
+            <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false">
+                <div class="inner-wrap row-bg-layer">
+                    <div class="row-bg viewport-desktop using-bg-color" style="background-color: #000000;"></div>
                 </div>
             </div>
-        </div>
-        <?php endforeach; ?>
-    </div>
 
-    <?php elseif ($show === 'tags'): ?>
-    <!-- SOLO Vista de todas las etiquetas -->
-    <div class="mb-4">
-        <h2 class="mb-2">Explora todas las etiquetas de <?= h($eventType->name) ?></h2>
-        <p class="text-muted">Encuentra contenido por etiquetas específicas</p>
-    </div>
-
-    <div class="row">
-        <?php foreach ($blogTags as $tag): ?>
-        <div class="col-md-3 mb-3">
-            <div class="glass-card p-3 text-center h-100">
-                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas/<?= h($tag->slug) ?>"
-                    class="stretched-link text-decoration-none">
-                    <div class="mb-2">
-                        <span class="badge fs-6">#<?= h($tag->name) ?></span>
-                    </div>
-                    <small class="text-muted">
-                        <?= $tag->count ?> post<?= $tag->count > 1 ? 's' : '' ?>
-                    </small>
-                </a>
-            </div>
-        </div>
-        <?php endforeach; ?>
-    </div>
-
-    <?php else: ?>
-    <!-- Vista normal de posts -->
-    <div class="">
-        <!-- Header -->
-        <div class="blog-header">
-            <h1 class="section-title"><?= h($pageTitle) ?></h1>
-            <?php if (!empty($pageDescription)): ?>
-            <p class="section-subtitle"><?= h($pageDescription) ?></p>
-            <?php endif; ?>
-        </div>
-
-        <!-- Main Layout -->
-        <div class="blog-layout">
-            <!-- Posts Grid -->
-            <main class="posts-section">
-                <div class="posts-grid">
-                    <?php foreach ($posts as $post): ?>
-                    <article class="post-card animate-fade-in">
-                        <a href="/portafolio/<?= h($eventType->eventoslug) ?>/<?= h($post->slug) ?>">
-                            <img src="/img/<?= h($post->banner) ?>" alt="<?= h($post->title) ?>" class="post-card-image"
-                                loading="lazy">
-                            <div class="post-category">
-                                <span><?= h($post->blog_category->name ?? '-') ?></span>
-                            </div>
-                            <div class="post-title-overlay">
-                                <h3><?= h($post->title) ?></h3>
-                            </div>
-                            <!-- NUEVO: Preview con blur background -->
-                            <div class="post-preview-overlay">
-                                <p class="preview-text">
-                                    <?= h(substr(preg_replace('/[#*`_~\[\]()>-]/', '', strip_tags($post->body)), 0, 120)) ?>...
-                                </p>
-                                </p>
-                                <span class="read-more-btn">Leer más</span>
-                            </div>
-                            <button class="post-arrow-btn"></button>
-                            <div class="post-tags">
-                                <?php foreach ($post->blog_tags as $tag): ?>
-                                <span class="tag-badge">🔖 <?= h($tag->name) ?></span>
-                                <?php endforeach; ?>
-                            </div>
-                        </a>
-                    </article>
-                    <?php endforeach; ?>
-                </div>
-
-                <div class="pagination-wrapper">
-                    <ul class="pagination">
-                        <?= $this->Paginator->first('« Primera') ?>
-                        <?= $this->Paginator->prev('← Anterior') ?>
-                        <?= $this->Paginator->numbers() ?>
-                        <?= $this->Paginator->next('Siguiente →') ?>
-                        <?= $this->Paginator->last('Última »') ?>
-                    </ul>
-                </div>
-            </main>
-
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <!-- Categorías y subcategorías con contador -->
-                <div class="v2-sidebar-section">
-                    <h3 class="v2-sidebar-title">
-                        <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas"
-                            class="text-decoration-none v2-sidebar-title-link">
-                            Temas Populares
-                        </a>
-                    </h3>
-                    <div class="v2-accordion" id="accordionCategorias">
-                        <?php foreach ($blogCategories as $category): ?>
-                        <?php
-                $catId = $category->id;
-                $subcats = $organizedSubcategories[$catId] ?? [];
-                $subcatCount = count($subcats);
-                $accordionId = 'cat_' . $catId;
-
-                $isActiveCat = ($categorySlug === $category->slug);
-                $shouldShowAccordion = ($activeCategoryId == $catId);
-
-                $categoryUrl = "/portafolio/{$eventType->eventoslug}/temas/{$category->slug}";
-                $collapseId = "collapse_{$accordionId}";
-                $headingId = "heading_{$accordionId}";
-            ?>
-                        <div class="v2-accordion-item <?= $isActiveCat ? 'v2-accordion-item-active' : '' ?>">
-                            <div class="v2-accordion-header d-flex justify-content-between align-items-center"
-                                id="<?= $headingId ?>">
-                                <a href="<?= h($categoryUrl) ?>"
-                                    class="text-decoration-none v2-category-link <?= $isActiveCat ? 'v2-category-link-active' : '' ?>">
-                                    <?= h($category->name) ?>
-                                </a>
-                                <?php if ($subcatCount > 0): ?>
-                                <button class="v2-accordion-toggle btn btn-sm btn-link text-dark" type="button"
-                                    data-toggle="collapse" data-target="#<?= $collapseId ?>"
-                                    aria-expanded="<?= $shouldShowAccordion ? 'true' : 'false' ?>"
-                                    aria-controls="<?= $collapseId ?>">
-                                    <i
-                                        class="fas <?= $shouldShowAccordion ? 'fa-chevron-up' : 'fa-chevron-down' ?>"></i>
-                                </button>
-                                <?php endif; ?>
-                            </div>
-
-                            <?php if ($subcatCount > 0): ?>
-                            <div id="<?= $collapseId ?>"
-                                class="v2-accordion-body collapse <?= $shouldShowAccordion ? 'show' : '' ?>"
-                                aria-labelledby="<?= $headingId ?>" data-parent="#accordionCategorias">
-                                <ul class="v2-sub-list list-group list-group-flush">
-                                    <?php foreach ($subcats as $subcat): ?>
-                                    <?php
-                                    $isActiveSubcat = ($subcategorySlug === $subcat->slug && $categorySlug === $category->slug);
-                                    $subcatUrl = "/portafolio/{$eventType->eventoslug}/temas/{$category->slug}/{$subcat->slug}";
-                                ?>
-                                    <li
-                                        class="v2-sub-item list-group-item d-flex justify-content-between align-items-center <?= $isActiveSubcat ? 'v2-sub-item-active' : '' ?>">
-                                        <a href="<?= h($subcatUrl) ?>"
-                                            class="v2-sub-link <?= $isActiveSubcat ? 'v2-sub-link-active' : '' ?>">
-                                            <?= $isActiveSubcat ? '<i class="fas fa-check-circle v2-active-check"></i> ' : '' ?><?= h($subcat->name) ?>
-                                        </a>
-                                        <span class="v2-sub-count badge badge-pill"><?= $subcat->count ?></span>
-                                    </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                            <?php endif; ?>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-
-                <!-- Posts Más Vistos -->
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">Posts Más Vistos 🔥</h3>
-                    <div class="popular-posts">
-                        <?php if (!empty($mostViewedPosts)): ?>
-                        <?php foreach ($mostViewedPosts as $post): ?>
-                        <div class="popular-post">
-                            <a href="/portafolio/<?= h($eventType->eventoslug) ?>/<?= h($post->slug) ?>">
-                                <img src="/img/<?= h($post->banner) ?>" alt="Post popular" class="popular-post-image">
-                            </a>
-                            <a href="/portafolio/<?= h($eventType->eventoslug) ?>/<?= h($post->slug) ?>">
-                                <div class="popular-post-content">
-                                    <h4><?= h($post->title) ?></h4>
-                                    <p class="popular-post-meta">
-                                        <?= $this->Time->timeAgoInSpanish($post->modified) ?>
-                                        • <?= formatNumberShort($post->views) ?> vistas
-                                        <?php if (!empty($post->blog_author)): ?>
-                                        • Por <?= h($post->blog_author->name ?? 'Autor Desconocido') ?>
-                                        <?php endif; ?>
+            <!-- Contenedor de Columnas -->
+            <div class="row_col_wrap_12 col span_12 light left">
+                
+                <!-- ========== COLUMNA IZQUIERDA (STICKY) - FILTROS ========== -->
+                <div class="vc_col-sm-4 wpb_column column_container vc_column_container col nectar-sticky-column-css has-animation no-extra-padding el_spacing_30px inherit_tablet inherit_phone"
+                     data-padding-pos="all" 
+                     data-has-bg-color="false" 
+                     data-bg-color="" 
+                     data-bg-opacity="1"
+                     data-animation="fade-in" 
+                     data-delay="0">
+                    
+                    <div class="n-sticky">
+                        <div class="vc_column-inner">
+                            <div class="wpb_wrapper">
+                                
+                                <!-- 1. TÍTULO DEL EVENTTYPE -->
+                                <div class="nectar-responsive-text font_size_max_54px font_size_desktop_3vw font_size_tablet_5vw font_size_phone_34px font_line_height_1-1 nectar-link-underline-effect">
+                                    <h3><?= h($eventType->name) ?></h3>
+                                    <p style="font-size: 16px; opacity: 0.7; margin-top: 10px;">
+                                        <?= count($posts) ?> proyecto<?= count($posts) != 1 ? 's' : '' ?> disponible<?= count($posts) != 1 ? 's' : '' ?>
                                     </p>
                                 </div>
-                            </a>
+
+                                <!-- 2. FILTROS POR CATEGORÍA -->
+                                <?php if (!empty($blogCategories)): ?>
+                                <div id="fws_categories_filter" 
+                                     data-midnight="" 
+                                     data-column-margin="default"
+                                     class="wpb_row vc_row-fluid vc_row inner_row">
+                                    <div class="row-bg-wrap">
+                                        <div class="row-bg"></div>
+                                    </div>
+                                    <div class="row_col_wrap_12_inner col span_12 left">
+                                        <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding el_spacing_10px inherit_tablet inherit_phone"
+                                             data-padding-pos="all" 
+                                             data-has-bg-color="false"
+                                             data-bg-color="" 
+                                             data-bg-opacity="1" 
+                                             data-animation=""
+                                             data-delay="0">
+                                            <div class="vc_column-inner">
+                                                <div class="wpb_wrapper">
+                                                    <div class="nectar-responsive-text font_line_height_1-2 nectar-link-underline-effect">
+                                                        <h5>CATEGORÍAS</h5>
+                                                    </div>
+                                                    <div class="nectar-responsive-text nectar-link-underline-effect" style="margin-top: 15px;">
+                                                        <a href="/portafolio/<?= h($eventType->eventoslug) ?>" 
+                                                           class="filter-link <?= empty($categorySlug) && empty($tagSlug) ? 'active' : '' ?>">
+                                                            Todas (<?= count($posts) ?>)
+                                                        </a>
+                                                        <?php foreach ($blogCategories as $cat): ?>
+                                                            <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($cat->slug) ?>" 
+                                                               class="filter-link <?= ($categorySlug === $cat->slug) ? 'active' : '' ?>">
+                                                                <?= h($cat->name) ?> (<?= $cat->count ?? 0 ?>)
+                                                            </a>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
+                                <!-- 3. FILTROS POR TAGS/TÉCNICAS -->
+                                <?php if (!empty($blogTags)): ?>
+                                <div id="fws_tags_filter" 
+                                     data-midnight="" 
+                                     data-column-margin="default"
+                                     class="wpb_row vc_row-fluid vc_row inner_row">
+                                    <div class="row-bg-wrap">
+                                        <div class="row-bg"></div>
+                                    </div>
+                                    <div class="row_col_wrap_12_inner col span_12 left">
+                                        <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding el_spacing_10px inherit_tablet inherit_phone"
+                                             data-padding-pos="all" 
+                                             data-has-bg-color="false"
+                                             data-bg-color="" 
+                                             data-bg-opacity="1" 
+                                             data-animation=""
+                                             data-delay="0">
+                                            <div class="vc_column-inner">
+                                                <div class="wpb_wrapper">
+                                                    <div class="nectar-responsive-text font_line_height_1-2 nectar-link-underline-effect">
+                                                        <h5>TÉCNICAS</h5>
+                                                    </div>
+                                                    <div class="nectar-responsive-text nectar-link-underline-effect" style="margin-top: 15px;">
+                                                        <?php $tagCount = 0; ?>
+                                                        <?php foreach ($blogTags as $tag): ?>
+                                                            <?php if ($tagCount < 10): // Mostrar máximo 10 tags ?>
+                                                                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas/<?= h($tag->slug) ?>" 
+                                                                   class="filter-link <?= ($tagSlug === $tag->slug) ? 'active' : '' ?>">
+                                                                    #<?= h($tag->name) ?> (<?= $tag->count ?>)
+                                                                </a>
+                                                                <?php $tagCount++; ?>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                        
+                                                        <?php if (count($blogTags) > 10): ?>
+                                                            <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas" 
+                                                               class="filter-link" 
+                                                               style="font-style: italic; opacity: 0.8;">
+                                                                Ver todas las técnicas →
+                                                            </a>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
+                            </div>
                         </div>
-                        <?php endforeach; ?>
-                        <?php endif; ?>
                     </div>
                 </div>
+                <!-- FIN COLUMNA IZQUIERDA -->
 
-                <!-- Tags Disponibles -->
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">
-                        <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas" class="text-decoration-none">
-                            Explora por etiquetas
-                        </a>
-                    </h3>
-                    <div class="tag-cloud">
-                        <?php foreach ($blogTags as $tag): ?>
-                        <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas/<?= h($tag->slug) ?>">
-                            <span class="tag-badge2">
-                                <?= h($tag->name) ?>
-                                <span class="category-count">(<?= $tag->count ?>)</span>
-                            </span>
-                        </a>
-                        <?php endforeach; ?>
+                <!-- ========== COLUMNA DERECHA - GRID DE POSTS ========== -->
+                <div class="vc_col-sm-8 wpb_column column_container vc_column_container col has-animation no-extra-padding el_spacing_20px inherit_tablet inherit_phone"
+                     data-padding-pos="all" 
+                     data-has-bg-color="false" 
+                     data-bg-color="" 
+                     data-bg-opacity="1"
+                     data-animation="fade-in" 
+                     data-delay="150">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper">
+                            
+                            <?php if (!empty($posts)): ?>
+                            <!-- Grid de Posts Nectar - Estructura EXACTA del view -->
+                            <div class='nectar-post-grid-wrap text-color-light spacing-10px'
+                                data-el-settings='{"post_type":"portfolio","pagination":"none","image_size":"large","parallax_scrolling":"yes","aspect_ratio_image_size":"","category_position":"default","category_display":"parent_only","display_categories":"yes","display_excerpt":"0","excerpt_length":"20","display_date":"0","display_estimated_reading_time":"0","display_author":"0","author_functionality":"default","author_position":"default","color_overlay":"#000000","color_overlay_opacity":"0.1","color_overlay_hover_opacity":"0.2","card_bg_color":"","grid_style":"content_overlaid","hover_effect":"zoom","post_title_overlay":"","heading_tag":"default","heading_tag_render":"default","enable_gallery_lightbox":"0","category_style":"button","overlay_secondary_project_image":"","vertical_list_hover_effect":"none","vertical_list_read_more":"","vertical_list_read_more_style":"text","read_more_button":"0","animation":"none","custom_fields":"","custom_fields_location":"before_post_meta","display_type":"grid","text_content_layout":"corners"}'
+                                data-style='content_overlaid'
+                                data-query='{"post_type":"portfolio","posts_per_page":"12","order":"DESC","orderby":"date","offset":"0","cpt_name":"post","custom_query_tax":"","ignore_sticky_posts":"","exclude_current_post":""}'
+                                data-load-more-color='black' data-load-more-text='Load More'>
+                               
+                                <div class="nectar-post-grid custom_font_size_3vw font_size_max_54px font_size_tablet_5vw font_size_phone_34px text-opacity-1 text-opacity-hover-1 overlaid-aspect-ratio-image-size-1-1 category-position-before-title category-button-color-rgba__10_10_10_0--2__ "
+                                    data-indicator="" data-indicator-style="default"
+                                    data-indicator-text-color="#fff" data-indicator-color="#000"
+                                    data-indicator-text="View" data-columns="2" data-hover-effect="zoom"
+                                    data-text-style="default" data-border-radius="25px"
+                                    data-grid-item-height="30vh" data-grid-spacing="10px"
+                                    data-text-layout="corners" data-text-color="light"
+                                    data-text-hover-color="light" data-shadow-hover="" data-animation="none"
+                                    data-animation-stagger="90" data-cat-click="static"
+                                    style="--post-grid-border-radius:25px;">
+
+                                    <?php foreach ($posts as $post): ?>
+                                    <!-- Post Card -->
+                                    <div class="nectar-post-grid-item" data-post-id="<?= $post->id ?>"
+                                        data-has-img="true">
+                                        <div class="inner">
+                                            <div class="nectar-post-grid-item-bg-wrap">
+                                                <div class="nectar-el-parallax-scroll"
+                                                    data-scroll-animation="true"
+                                                    data-scroll-animation-mobile="true"
+                                                    data-scroll-animation-intensity="-0.75"
+                                                    data-scroll-animation-lerp="1">
+                                                    <div class="nectar-post-grid-item-bg-wrap-inner">
+                                                        <div class="nectar-post-grid-item-bg">
+                                                            <img decoding="async" width="2048"
+                                                                height="2048"
+                                                                src="/img/<?= h($post->banner) ?>"
+                                                                class="nectar-post-grid-item-bg__media"
+                                                                alt="<?= h($post->title) ?>"
+                                                                loading="lazy" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="content">
+                                                <span class="nectar-post-grid__arrow-indicator">
+                                                    <svg stroke="currentColor" fill="currentColor"
+                                                        stroke-width="0" viewBox="60 58 140 140"
+                                                        height="200px" width="200px"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M198,64V168a6,6,0,0,1-12,0V78.48L68.24,196.24a6,6,0,0,1-8.48-8.48L177.52,70H88a6,6,0,0,1,0-12H192A6,6,0,0,1,198,64Z">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                                <a class="nectar-post-grid-link"
+                                                    href="/portafolio/<?= h($eventType->eventoslug) ?>/<?= h($post->slug) ?>">
+                                                    <span class="screen-reader-text"><?= h($post->title) ?></span>
+                                                </a>
+                                                <span class="meta-category">
+                                                    <a class="style-button"
+                                                        href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($post->blog_category->slug ?? '#') ?>">
+                                                        <?= h($post->blog_category->name ?? 'Sin categoría') ?>
+                                                    </a>
+                                                </span>
+                                                <div class="item-main">
+                                                    <h3 class="post-heading">
+                                                        <span><?= h($post->title) ?></span>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+
+                            <!-- Paginación -->
+                            <?php if ($this->Paginator->total() > 1): ?>
+                            <div style="margin-top: 40px; text-align: center;">
+                                <div class="pagination-wrapper">
+                                    <?= $this->Paginator->first('« Primera', ['class' => 'filter-link']) ?>
+                                    <?= $this->Paginator->prev('← Anterior', ['class' => 'filter-link']) ?>
+                                    <?= $this->Paginator->numbers(['class' => 'filter-link']) ?>
+                                    <?= $this->Paginator->next('Siguiente →', ['class' => 'filter-link']) ?>
+                                    <?= $this->Paginator->last('Última »', ['class' => 'filter-link']) ?>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+
+                            <?php else: ?>
+                            <!-- Mensaje cuando no hay posts -->
+                            <div style="text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.6);">
+                                <h3>No hay proyectos disponibles</h3>
+                                <p>Prueba con otro filtro o categoría</p>
+                            </div>
+                            <?php endif; ?>
+
+                        </div>
                     </div>
                 </div>
-            </aside>
-        </div>
+                <!-- FIN COLUMNA DERECHA -->
 
-        <!-- Sección: Categorías (solo en vista principal) -->
-        <?php if (empty($categoryId) && empty($tagId)): ?>
-        <h3 class="section-title text-center">Temas populares</h3>
-
-        <div class="d-flex flex-wrap justify-content-center gap-4 mb-5">
-            <?php foreach ($blogCategories as $category): ?>
-            <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($category->slug) ?>"
-                class="text-decoration-none text-center" style="width: 120px;">
-                <div class="mx-auto rounded-circle overflow-hidden shadow"
-                    style="width: 100px; height: 100px; background: white;">
-                    <?php if (!empty($category->image)): ?>
-                    <img src="/img/<?= h($category->image) ?>" alt="<?= h($category->name) ?>"
-                        style="width: 100%; height: 100%; object-fit: cover;">
-                    <?php else: ?>
-                    <div style="width: 100%; height: 100%; background: #eee;"></div>
-                    <?php endif; ?>
-                </div>
-                <div class="mt-2" style="font-size: 0.95rem; color: #333;">
-                    <?= h($category->name) ?>
-                </div>
-                <span class="badge badge-pill badge-primary"><?= $category->count ?></span>
-            </a>
-            <?php endforeach; ?>
+            </div>
         </div>
-        <?php endif; ?>
+        <!-- FIN ROW PRINCIPAL -->
 
     </div>
-
-    <?php endif; ?>
-
 </div>
+<!-- FIN CONTAINER PRINCIPAL -->
 
-<script>
-// Auto-detect title lines and adjust arrow button position
-document.addEventListener('DOMContentLoaded', function() {
-    const postCards = document.querySelectorAll('.post-card');
-
-    // JavaScript mejorado para coordinar preview y botón
-    postCards.forEach(card => {
-        const titleOverlay = card.querySelector('.post-title-overlay');
-        const title = titleOverlay.querySelector('h3');
-        const arrowBtn = card.querySelector('.post-arrow-btn');
-        const previewOverlay = card.querySelector('.post-preview-overlay');
-
-        // Calcular la altura del título para determinar cuántas líneas tiene
-        const titleHeight = title.offsetHeight;
-
-        // Mantener el preview centrado con pequeños ajustes según el título
-        let previewOffset;
-        if (titleHeight <= 24) { // Una línea
-            previewOffset = -10; // Ligeramente hacia arriba
-        } else if (titleHeight <= 48) { // Dos líneas
-            previewOffset = 0; // Centro perfecto
-        } else { // Tres líneas o más
-            previewOffset = 10; // Ligeramente hacia abajo
-        }
-
-        // Establecer posición del preview (mantiene centrado)
-        previewOverlay.style.top = '50%';
-        previewOverlay.style.transform = `translate(-50%, calc(-50% + ${previewOffset}px))`;
-
-        // ===== AQUÍ ES DONDE AJUSTAMOS LA POSICIÓN DEL BOTÓN =====
-
-        // Obtener las medidas del preview y de la tarjeta
-        const previewRect = previewOverlay.getBoundingClientRect();
-        const cardRect = card.getBoundingClientRect();
-
-        // Calcular el centro del preview como porcentaje de la tarjeta
-        const previewCenterY = ((previewRect.top + previewRect.height / 2 - cardRect.top) / cardRect
-            .height) * 100;
-
-        // AJUSTE PRINCIPAL: Cambiar este valor para mover el botón más abajo
-        // Valores más altos = botón más abajo
-        // Valores más bajos = botón más arriba
-        const buttonOffset = 13; // 🔧 CAMBIA ESTE NÚMERO:
-        //    8 = más arriba (original)
-        //    15 = moderadamente abajo
-        //    20 = bastante abajo
-        //    25 = muy abajo
-
-        // Calcular posición final del botón (con límite máximo del 85% para evitar los tags)
-        const arrowTopPercent = Math.min(previewCenterY + buttonOffset, 85);
-
-        // Aplicar la posición al botón
-        arrowBtn.style.top = `${arrowTopPercent}%`;
-
-        // ===== MÉTODO ALTERNATIVO (más directo) =====
-        // Si quieres un control más directo, puedes usar posiciones fijas:
-
-        /*
-        // Descomenta este bloque y comenta el código de arriba si prefieres posiciones fijas
-        if (titleHeight <= 24) { // Una línea
-            arrowBtn.style.top = '70%'; // Posición fija para títulos de una línea
-        } else if (titleHeight <= 48) { // Dos líneas
-            arrowBtn.style.top = '72%'; // Posición fija para títulos de dos líneas
-        } else { // Tres líneas o más
-            arrowBtn.style.top = '75%'; // Posición fija para títulos de tres líneas
-        }
-        */
-
-        // Agregar clases CSS para coordinación de estilos
-        if (titleHeight <= 24) {
-            titleOverlay.className = 'post-title-overlay single-line';
-        } else if (titleHeight <= 48) {
-            titleOverlay.className = 'post-title-overlay two-lines';
-        } else {
-            titleOverlay.className = 'post-title-overlay three-lines';
-        }
-    });
-
-
-    // Handle smooth scroll and click navigation for tags
-    document.querySelectorAll('.post-tags').forEach(container => {
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-
-        // Mouse events for drag scrolling
-        container.addEventListener('mousedown', (e) => {
-            isDown = true;
-            container.style.cursor = 'grabbing';
-            startX = e.pageX - container.offsetLeft;
-            scrollLeft = container.scrollLeft;
-        });
-
-        container.addEventListener('mouseleave', () => {
-            isDown = false;
-            container.style.cursor = 'grab';
-        });
-
-        container.addEventListener('mouseup', () => {
-            isDown = false;
-            container.style.cursor = 'grab';
-        });
-
-        container.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - container.offsetLeft;
-            const walk = (x - startX) * 2;
-            container.scrollLeft = scrollLeft - walk;
-        });
-
-        // Touch events for mobile
-        container.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].pageX - container.offsetLeft;
-            scrollLeft = container.scrollLeft;
-        });
-
-        container.addEventListener('touchmove', (e) => {
-            if (!startX) return;
-            const x = e.touches[0].pageX - container.offsetLeft;
-            const walk = (x - startX) * 2;
-            container.scrollLeft = scrollLeft - walk;
-        });
-
-        // Wheel scrolling
-        container.addEventListener('wheel', (e) => {
-            if (container.scrollWidth > container.clientWidth) {
-                e.preventDefault();
-                container.scrollLeft += e.deltaY;
-            }
-        });
-
-        // Set cursor style
-        container.style.cursor = 'grab';
-    });
-
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const accordions = document.querySelectorAll('#accordionCategorias .collapse');
-
-    accordions.forEach(collapse => {
-        collapse.addEventListener('shown.bs.collapse', function() {
-            const button = this.previousElementSibling.querySelector('button .toggle-icon');
-            if (button) button.textContent = '▲';
-        });
-        collapse.addEventListener('hidden.bs.collapse', function() {
-            const button = this.previousElementSibling.querySelector('button .toggle-icon');
-            if (button) button.textContent = '▼';
-        });
-    });
-});
-</script>
-<script>
-// JavaScript para manejar la rotación de las flechas del acordeón
-$(document).ready(function() {
-    // Escuchar el evento 'show.bs.collapse' de Bootstrap
-    $('#accordionCategorias').on('show.bs.collapse', function(e) {
-        // Encontrar el botón que activó el colapso
-        const toggleButton = $(e.target).prev('.v2-accordion-header').find('.v2-accordion-toggle');
-        // Quitar la clase de flecha hacia abajo y agregar la de flecha hacia arriba
-        toggleButton.find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-        // Añadir la clase para rotar el icono
-        toggleButton.addClass('v2-accordion-toggle-rotated');
-    });
-
-    // Escuchar el evento 'hide.bs.collapse' de Bootstrap
-    $('#accordionCategorias').on('hide.bs.collapse', function(e) {
-        // Encontrar el botón que activó el colapso
-        const toggleButton = $(e.target).prev('.v2-accordion-header').find('.v2-accordion-toggle');
-        // Quitar la clase de flecha hacia arriba y agregar la de flecha hacia abajo
-        toggleButton.find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-        // Quitar la clase para rotar el icono
-        toggleButton.removeClass('v2-accordion-toggle-rotated');
-    });
-
-    // Inicializar el estado de las flechas al cargar la página si hay categorías abiertas
-    $('.v2-accordion-body.show').each(function() {
-        const toggleButton = $(this).prev('.v2-accordion-header').find('.v2-accordion-toggle');
-        toggleButton.find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-        toggleButton.addClass('v2-accordion-toggle-rotated');
-    });
-});
-</script>
+        </div>
+    </div>
+</div>

@@ -31,17 +31,20 @@ class BlogController extends AppController
         //}
     }
 
-    public function beforeRender(\Cake\Event\EventInterface $event)
-        {
-            parent::beforeRender($event);
-            
-            // Datos para el menú inteligente - disponibles en todas las vistas
-            $this->loadModel('EventTypes');
-            $allEventTypes = $this->EventTypes->find()->orderAsc('name')->toArray();
-            $this->set(compact('allEventTypes'));
-            
-            $this->buildBlogMenu();
-        }
+public function beforeRender(\Cake\Event\EventInterface $event)
+{
+    parent::beforeRender($event);
+    
+    $this->loadModel('EventTypes');
+    
+    // ⭐ NO pasar allEventTypes si estamos en view
+    if ($this->request->getParam('action') !== 'view') {
+        $allEventTypes = $this->EventTypes->find()->orderAsc('name')->toArray();
+        $this->set(compact('allEventTypes'));
+    }
+    
+    $this->buildBlogMenu();
+}
     
 public function index()
 {
@@ -124,6 +127,8 @@ public function index()
 
 public function eventoView($eventoslug = null, $param2 = null, $param3 = null)
 {
+    $this->viewBuilder()->setLayout('ui-layout'); // ← Usar nuevo layout
+    
     $this->loadModel('EventTypes');
     $this->loadModel('BlogPosts');
     $this->loadModel('BlogCategories');
@@ -411,121 +416,73 @@ public function eventoView($eventoslug = null, $param2 = null, $param3 = null)
     ));
 }
 
-    public function view($eventoslug = null, $slug = null)
+public function view($eventoslug = null, $slug = null)
 {
+    $this->viewBuilder()->setLayout('ui-layout');
     $this->request->allowMethod(['get']);
 
-    // Obtener el tipo de evento por slug
+    // 1. Obtener el tipo de evento por slug
     $eventType = $this->BlogPosts->EventTypes->find()
         ->where(['eventoslug' => $eventoslug])
         ->firstOrFail();
 
-    // Buscar el post actual
+    // 2. Buscar el post actual con sus relaciones (SIN BlogAuthors)
     $blogPost = $this->loadModel('BlogPosts')->find()
         ->where([
             'BlogPosts.slug' => $slug,
             'BlogPosts.event_type_id' => $eventType->id,
             'BlogPosts.status' => 'activo',
         ])
-        ->contain(['BlogAuthors', 'EventTypes', 'BlogTags', 'BlogCategories'])
+        ->contain(['EventTypes', 'BlogTags', 'BlogCategories'])
         ->firstOrFail();
 
-    // Aumentar vistas
+    // 3. Aumentar contador de vistas
     $this->BlogPosts->getConnection()->execute(
         'UPDATE blog_posts SET views = views + 1 WHERE id = ?',
         [$blogPost->id]
     );
 
-    // Marcar notificaciones como leídas
-    $user = $this->request->getAttribute('identity');
-    if ($user) {
-        $this->loadModel('Notifications');
-        $notifications = $this->Notifications->find()
-            ->where([
-                'user_id' => $user->id,
-                'target_type' => 'blog_post',
-                'target_id' => $blogPost->id,
-                'is_read' => false
-            ])
-            ->all();
-        foreach ($notifications as $notification) {
-            $notification->is_read = true;
-            $this->Notifications->save($notification);
-        }
-    }
-
-    // Post anterior (dentro de la misma categoría preferentemente)
+    // 4. Obtener post anterior (mismo EventType)
     $prevPost = $this->BlogPosts->find()
         ->where([
+            'BlogPosts.event_type_id' => $eventType->id,
             'BlogPosts.status' => 'activo',
-            'BlogPosts.id <' => $blogPost->id,
-            'BlogPosts.event_type_id' => $blogPost->event_type_id,
-            'BlogPosts.blog_category_id' => $blogPost->blog_category_id
+            'BlogPosts.created <' => $blogPost->created
         ])
-        ->order(['BlogPosts.id' => 'DESC'])
+        ->order(['BlogPosts.created' => 'DESC'])
         ->first();
 
-    if (!$prevPost) {
-        // Si no hay más en la misma categoría, buscar dentro del mismo tipo de evento
-        $prevPost = $this->BlogPosts->find()
-            ->where([
-                'BlogPosts.status' => 'activo',
-                'BlogPosts.id <' => $blogPost->id,
-                'BlogPosts.event_type_id' => $blogPost->event_type_id
-            ])
-            ->order(['BlogPosts.id' => 'DESC'])
-            ->first();
-    }
-
-    // Post siguiente (dentro de la misma categoría preferentemente)
+    // 5. Obtener post siguiente (mismo EventType)
     $nextPost = $this->BlogPosts->find()
         ->where([
+            'BlogPosts.event_type_id' => $eventType->id,
             'BlogPosts.status' => 'activo',
-            'BlogPosts.id >' => $blogPost->id,
-            'BlogPosts.event_type_id' => $blogPost->event_type_id,
-            'BlogPosts.blog_category_id' => $blogPost->blog_category_id
+            'BlogPosts.created >' => $blogPost->created
         ])
-        ->order(['BlogPosts.id' => 'ASC'])
+        ->order(['BlogPosts.created' => 'ASC'])
         ->first();
 
-    if (!$nextPost) {
-        // Si no hay más en la misma categoría, buscar dentro del mismo tipo de evento
-        $nextPost = $this->BlogPosts->find()
+    // 6. Posts relacionados por categoría (excluyendo el actual)
+    $relatedPosts = [];
+    if (!empty($blogPost->blog_category_id)) {
+        $relatedPosts = $this->BlogPosts->find()
             ->where([
                 'BlogPosts.status' => 'activo',
-                'BlogPosts.id >' => $blogPost->id,
-                'BlogPosts.event_type_id' => $blogPost->event_type_id
+                'BlogPosts.blog_category_id' => $blogPost->blog_category_id,
+                'BlogPosts.id !=' => $blogPost->id,
+                'BlogPosts.banner IS NOT' => null
             ])
-            ->order(['BlogPosts.id' => 'ASC'])
-            ->first();
+            ->order(['BlogPosts.created' => 'DESC'])
+            ->limit(3)
+            ->contain(['BlogCategories', 'EventTypes'])
+            ->all();
     }
 
-    // Posts relacionados por categoría (excluyendo el actual)
-    $relatedPosts = $this->BlogPosts->find()
-        ->where([
-            'BlogPosts.status' => 'activo',
-            'BlogPosts.id !=' => $blogPost->id,
-            'BlogPosts.event_type_id' => $blogPost->event_type_id,
-            'BlogPosts.blog_category_id' => $blogPost->blog_category_id
-        ])
-        ->limit(4)
-        ->order(['BlogPosts.created' => 'DESC'])
-        ->all();
-
-    // Posts populares (más vistos dentro del mismo tipo de evento)
-    $popularPosts = $this->BlogPosts->find()
-        ->where([
-            'BlogPosts.status' => 'activo',
-            'BlogPosts.event_type_id' => $blogPost->event_type_id
-        ])
-        ->order(['BlogPosts.views' => 'DESC'])
-        ->limit(4)
-        ->all();
-
-    // Posts por tags en común
-    $tagIds = collection($blogPost->blog_tags)->extract('id')->toList();
+    // 7. Posts relacionados por tags (si tiene tags y necesitamos más relacionados)
     $tagPosts = [];
-    if (!empty($tagIds)) {
+    if (!empty($blogPost->blog_tags) && count($relatedPosts) < 3) {
+        $tagIds = collection($blogPost->blog_tags)->extract('id')->toArray();
+        
         $tagPosts = $this->BlogPosts->find()
             ->matching('BlogTags', function ($q) use ($tagIds) {
                 return $q->where(['BlogTags.id IN' => $tagIds]);
@@ -533,30 +490,69 @@ public function eventoView($eventoslug = null, $param2 = null, $param3 = null)
             ->where([
                 'BlogPosts.status' => 'activo',
                 'BlogPosts.id !=' => $blogPost->id,
-                'BlogPosts.event_type_id' => $blogPost->event_type_id
+                'BlogPosts.event_type_id' => $blogPost->event_type_id,
+                'BlogPosts.banner IS NOT' => null
             ])
             ->distinct(['BlogPosts.id'])
-            ->limit(4)
-            ->all();
-    }
-
-    // Posts del mismo autor (excluyendo el actual)
-    $authorPosts = [];
-    if (!empty($blogPost->blog_author_id)) {
-        $authorPosts = $this->BlogPosts->find()
-            ->where([
-                'BlogPosts.status' => 'activo',
-                'BlogPosts.blog_author_id' => $blogPost->blog_author_id,
-                'BlogPosts.id !=' => $blogPost->id,
-                'BlogPosts.event_type_id' => $blogPost->event_type_id
-            ])
-            ->order(['BlogPosts.created' => 'DESC'])
-            ->limit(4)
+            ->limit(3 - count($relatedPosts))
             ->contain(['BlogCategories', 'EventTypes'])
             ->all();
     }
 
-    $this->set(compact('blogPost', 'eventType', 'relatedPosts', 'popularPosts', 'tagPosts', 'nextPost', 'prevPost', 'authorPosts'));
+   // 8. Obtener todos los EventTypes disponibles
+$allEventTypes = $this->BlogPosts->EventTypes->find()
+    ->orderAsc('EventTypes.name')
+    ->toArray();
+
+// 9. Para cada EventType, agregar datos completos
+$allEventTypesComplete = [];
+foreach ($allEventTypes as $type) {
+    // Obtener posts del tipo
+    $posts = $this->BlogPosts->find()
+        ->contain(['BlogCategories'])
+        ->where([
+            'BlogPosts.status' => 'activo',
+            'BlogPosts.event_type_id' => $type->id,
+            'BlogPosts.banner IS NOT' => null
+        ])
+        ->order(['BlogPosts.views' => 'DESC'])
+        ->toArray();
+    
+    if (!empty($posts)) {
+        // Featured image del post más visto
+        $type->featured_image = $posts[0]->banner;
+        
+        // Categorías (máximo 3)
+        $type->categories = $this->BlogPosts->BlogCategories
+            ->find()
+            ->matching('BlogPosts', function ($q) use ($type) {
+                return $q->where([
+                    'BlogPosts.status' => 'activo',
+                    'BlogPosts.event_type_id' => $type->id
+                ]);
+            })
+            ->distinct(['BlogCategories.id'])
+            ->orderAsc('BlogCategories.name')
+            ->limit(3)
+            ->toArray();
+        
+        $type->posts_count = count($posts);
+        $allEventTypesComplete[] = $type;
+    }
+}
+
+$allEventTypes = $allEventTypesComplete;
+
+// 10. Pasar variables a la vista
+$this->set(compact(
+    'blogPost',
+    'eventType',
+    'prevPost',
+    'nextPost',
+    'relatedPosts',
+    'tagPosts',
+    'allEventTypes'
+));
 }
 
     private function buildBlogMenu()
