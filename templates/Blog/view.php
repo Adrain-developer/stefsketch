@@ -436,7 +436,7 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
 /* Full Width cuando solo hay un botón */
 .project-nav-item.full-width {
     grid-column: 1 / -1;
-    height: 450px; /* Altura menor cuando es full-width */
+    height: 250px; /* Altura menor cuando es full-width */
 }
 
 /* Background Image */
@@ -484,11 +484,7 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.3) 0%,
-        rgba(0, 0, 0, 0.7) 100%
-    );
+    background: linear-gradient(to bottom, rgb(0 0 0 / 36%) 0%, rgb(0 0 0) 100%);
     z-index: 2;
     transition: background 0.3s ease;
 }
@@ -506,8 +502,8 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
     position: relative;
     z-index: 3;
     text-align: center;
-    padding: 2rem;
-    max-width: 80%;
+    padding: 0.3rem;
+    max-width: 90%;
 }
 
 .project-nav-label {
@@ -575,7 +571,7 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
     }
     
     .project-nav-item.full-width {
-        height: 350px;
+        height: 240px;
     }
     
     .project-nav-title {
@@ -593,7 +589,7 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
     }
     
     .project-nav-item.full-width {
-        height: 300px;
+        height: 150px;
     }
     
     .project-nav-title {

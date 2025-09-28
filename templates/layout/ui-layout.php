@@ -452,12 +452,11 @@ if ($user) {
                             <ul class="menu">
                                 <li
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-9 current_page_item menu-item-237">
-                                    <a href="index.html" aria-current="page">Work</a>
+                                    <a href="/" aria-current="page">Work</a>
                                 </li>
-                                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-236"><a
-                                        href="about/index.html">About</a></li>
-                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-425"><a
-                                        target="_blank" href="">Demos</a></li>
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-236">
+                                    <a href="/historia">About</a>
+                                </li>
 
                             </ul>
 

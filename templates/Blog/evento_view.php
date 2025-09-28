@@ -91,13 +91,84 @@ function formatNumberShort($n) {
 <!-- Container Principal -->
 <div class="">
     <div id="portfolio-extra">
+
+
+<div id="fws_68d45a3a446ee" data-column-margin="default" data-midnight="light"
+                        class="wpb_row vc_row-fluid vc_row top-level full-width-section"
+                        style="padding-top: 0px; padding-bottom: 0px; ">
+                        <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay=""
+                            data-bg-overlay="false">
+                            <div class="inner-wrap row-bg-layer">
+                                <div class="row-bg viewport-desktop using-bg-color" style="background-color: #000000; ">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row_col_wrap_12 col span_12 light left">
+                            <div class="vc_col-sm-12 wpb_column column_container vc_column_container col has-animation el_spacing_20px bottom_padding_desktop_20px "
+                                data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1"
+                                data-animation="slight-fade-in-from-bottom" data-delay="0">
+                                <div class="vc_column-inner">
+                                    <div class="wpb_wrapper">
+                                        <div id="fws_68d45a3a44aad" data-midnight="" data-column-margin="default"
+                                            class="wpb_row vc_row-fluid vc_row inner_row  top_padding_tablet_20px bottom_padding_tablet_0px"
+                                            style="padding-top: 10px; padding-bottom: 10px; ">
+                                            <div class="row-bg-wrap">
+                                                <div class="row-bg"></div>
+                                            </div>
+                                            <div class="row_col_wrap_12_inner col span_12  left">
+                                                <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding inherit_tablet inherit_phone "
+                                                    data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
+                                                    data-bg-opacity="1" data-animation="" data-delay="0">
+                                                    <div class="vc_column-inner">
+                                                        <div class="wpb_wrapper">
+                                                            <div class="nectar-split-heading " data-align="default"
+                                                                data-m-align="inherit" data-text-effect="none"
+                                                                data-animation-type="line-reveal-by-space"
+                                                                data-animation-delay="0" data-animation-offset=""
+                                                                data-m-rm-animation="" data-stagger=""
+                                                                data-custom-font-size="false" data-has-fit-text="true">
+                                                                <h1><?= h($eventType->name) ?></h1>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="fws_68d45a3a44d21" data-midnight="" data-column-margin="default"
+                                            class="wpb_row vc_row-fluid vc_row inner_row">
+                                            <div class="row-bg-wrap">
+                                                <div class="row-bg"></div>
+                                            </div>
+                                            <div class="row_col_wrap_12_inner col span_12  left">
+                                                <div class="vc_col-sm-8 wpb_column column_container vc_column_container col child_column no-extra-padding force-phone-text-align-center inherit_tablet inherit_phone "
+                                                    data-t-w-inherits="small_desktop" data-padding-pos="all"
+                                                    data-has-bg-color="false" data-bg-color="" data-bg-opacity="1"
+                                                    data-animation="" data-delay="0">
+                                                    <div class="vc_column-inner">
+                                                        <div class="wpb_wrapper">
+                                                            <div
+                                                                class="nectar-responsive-text font_line_height_1-5 nectar-link-underline-effect">
+                                                                <p><?= count($posts) ?> proyecto<?= count($posts) != 1 ? 's' : '' ?> disponible<?= count($posts) != 1 ? 's' : '' ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
         
         <!-- Row Principal -->
         <div id="fws_68d461f0f07aa" 
              data-column-margin="custom" 
              data-midnight="light"
              class="wpb_row vc_row-fluid vc_row full-width-section column-margin-4pct top_padding_phone_10px"
-             style="padding-top: 140px; padding-bottom: 80px;">
+             style="padding-bottom: 80px;">
             
             <!-- Background Layer -->
             <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false">
@@ -121,26 +192,22 @@ function formatNumberShort($n) {
                     <div class="n-sticky">
                         <div class="vc_column-inner">
                             <div class="wpb_wrapper">
-                                
-                                <!-- 1. TÍTULO DEL EVENTTYPE -->
-                                <div class="nectar-responsive-text font_size_max_54px font_size_desktop_3vw font_size_tablet_5vw font_size_phone_34px font_line_height_1-1 nectar-link-underline-effect">
-                                    <h3><?= h($eventType->name) ?></h3>
-                                    <p style="font-size: 16px; opacity: 0.7; margin-top: 10px;">
-                                        <?= count($posts) ?> proyecto<?= count($posts) != 1 ? 's' : '' ?> disponible<?= count($posts) != 1 ? 's' : '' ?>
-                                    </p>
-                                </div>
+                              
 
-                                <!-- 2. FILTROS POR CATEGORÍA -->
-                                <?php if (!empty($blogCategories)): ?>
-                                <div id="fws_categories_filter" 
+                               <!-- 2. INNER ROW: Categorías y Tags -->
+                                <div id="fws_68d461f0f0bc8" 
                                      data-midnight="" 
                                      data-column-margin="default"
-                                     class="wpb_row vc_row-fluid vc_row inner_row">
+                                     class="wpb_row vc_row-fluid vc_row inner_row" 
+                                     style="">
                                     <div class="row-bg-wrap">
                                         <div class="row-bg"></div>
                                     </div>
                                     <div class="row_col_wrap_12_inner col span_12 left">
-                                        <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding el_spacing_10px inherit_tablet inherit_phone"
+
+                                        <!-- 3. FILTROS POR CATEGORÍA -->
+                                        <?php if (!empty($blogCategories)): ?>
+                                             <div class="vc_col-sm-6 vc_col-xs-6 wpb_column column_container vc_column_container col child_column no-extra-padding el_spacing_5px inherit_tablet inherit_phone"
                                              data-padding-pos="all" 
                                              data-has-bg-color="false"
                                              data-bg-color="" 
@@ -151,37 +218,27 @@ function formatNumberShort($n) {
                                                 <div class="wpb_wrapper">
                                                     <div class="nectar-responsive-text font_line_height_1-2 nectar-link-underline-effect">
                                                         <h5>CATEGORÍAS</h5>
-                                                    </div>
-                                                    <div class="nectar-responsive-text nectar-link-underline-effect" style="margin-top: 15px;">
-                                                        <a href="/portafolio/<?= h($eventType->eventoslug) ?>" 
-                                                           class="filter-link <?= empty($categorySlug) && empty($tagSlug) ? 'active' : '' ?>">
-                                                            Todas (<?= count($posts) ?>)
-                                                        </a>
-                                                        <?php foreach ($blogCategories as $cat): ?>
-                                                            <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($cat->slug) ?>" 
-                                                               class="filter-link <?= ($categorySlug === $cat->slug) ? 'active' : '' ?>">
-                                                                <?= h($cat->name) ?> (<?= $cat->count ?? 0 ?>)
+                                                        </div>
+                                                        <div class="nectar-responsive-text nectar-link-underline-effect" style="width: fit-content;">
+                                                            <a href="/portafolio/<?= h($eventType->eventoslug) ?>" 
+                                                            class="filter-link <?= empty($categorySlug) && empty($tagSlug) ? 'active' : '' ?>">
+                                                                Todas (<?= count($posts) ?>)
                                                             </a>
-                                                        <?php endforeach; ?>
+                                                            <?php foreach ($blogCategories as $cat): ?>
+                                                                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($cat->slug) ?>" 
+                                                                class="filter-link <?= ($categorySlug === $cat->slug) ? 'active' : '' ?>">
+                                                                    <?= h($cat->name) ?> (<?= $cat->count ?? 0 ?>)
+                                                                </a>
+                                                            <?php endforeach; ?>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
+                                        <?php endif; ?>
 
-                                <!-- 3. FILTROS POR TAGS/TÉCNICAS -->
-                                <?php if (!empty($blogTags)): ?>
-                                <div id="fws_tags_filter" 
-                                     data-midnight="" 
-                                     data-column-margin="default"
-                                     class="wpb_row vc_row-fluid vc_row inner_row">
-                                    <div class="row-bg-wrap">
-                                        <div class="row-bg"></div>
-                                    </div>
-                                    <div class="row_col_wrap_12_inner col span_12 left">
-                                        <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding el_spacing_10px inherit_tablet inherit_phone"
+                                        <!-- 4. FILTROS POR TAGS/TÉCNICAS -->
+                                        <?php if (!empty($blogTags)): ?>
+                                            <div class="vc_col-sm-6 vc_col-xs-6 wpb_column column_container vc_column_container col child_column no-extra-padding el_spacing_5px inherit_tablet inherit_phone"
                                              data-padding-pos="all" 
                                              data-has-bg-color="false"
                                              data-bg-color="" 
@@ -192,34 +249,34 @@ function formatNumberShort($n) {
                                                 <div class="wpb_wrapper">
                                                     <div class="nectar-responsive-text font_line_height_1-2 nectar-link-underline-effect">
                                                         <h5>TÉCNICAS</h5>
-                                                    </div>
-                                                    <div class="nectar-responsive-text nectar-link-underline-effect" style="margin-top: 15px;">
-                                                        <?php $tagCount = 0; ?>
-                                                        <?php foreach ($blogTags as $tag): ?>
-                                                            <?php if ($tagCount < 10): // Mostrar máximo 10 tags ?>
-                                                                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas/<?= h($tag->slug) ?>" 
-                                                                   class="filter-link <?= ($tagSlug === $tag->slug) ? 'active' : '' ?>">
-                                                                    #<?= h($tag->name) ?> (<?= $tag->count ?>)
+                                                        </div>
+                                                        <div class="nectar-responsive-text nectar-link-underline-effect" style="width: fit-content;">
+                                                            <?php $tagCount = 0; ?>
+                                                            <?php foreach ($blogTags as $tag): ?>
+                                                                <?php if ($tagCount < 10): // Mostrar máximo 10 tags ?>
+                                                                    <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas/<?= h($tag->slug) ?>" 
+                                                                    class="filter-link <?= ($tagSlug === $tag->slug) ? 'active' : '' ?>">
+                                                                        #<?= h($tag->name) ?> (<?= $tag->count ?>)
+                                                                    </a>
+                                                                    <?php $tagCount++; ?>
+                                                                <?php endif; ?>
+                                                            <?php endforeach; ?>
+                                                            
+                                                            <?php if (count($blogTags) > 10): ?>
+                                                                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas" 
+                                                                class="filter-link" 
+                                                                style="font-style: italic; opacity: 0.8;">
+                                                                    Ver todas las técnicas →
                                                                 </a>
-                                                                <?php $tagCount++; ?>
                                                             <?php endif; ?>
-                                                        <?php endforeach; ?>
-                                                        
-                                                        <?php if (count($blogTags) > 10): ?>
-                                                            <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas" 
-                                                               class="filter-link" 
-                                                               style="font-style: italic; opacity: 0.8;">
-                                                                Ver todas las técnicas →
-                                                            </a>
-                                                        <?php endif; ?>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
-                                <?php endif; ?>
-
+                                
                             </div>
                         </div>
                     </div>
