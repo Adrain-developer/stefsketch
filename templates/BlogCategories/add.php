@@ -480,7 +480,7 @@ body {
     <div class="form-container">
         <div class="form-header">
             <h1 class="form-title"><?= $this->fetch('title') ?: 'Nueva Categoría' ?></h1>
-            <p class="form-subtitle">Completa los datos para crear una nueva categoría</p>
+            <p class="form-subtitle">Ej: Personajes, Paisajes, Concept Art</p>
         </div>
 
         <?= $this->Form->create($blogCategory, [
@@ -490,7 +490,7 @@ body {
         ]) ?>
 
         <div class="form-group">
-            <label class="form-label" for="name">Nombre de la categoría</label>
+            <label class="form-label" for="name">Nombre</label>
             <?= $this->Form->control('name', [
                 'label' => false,
                 'class' => 'form-input',
@@ -514,7 +514,7 @@ body {
         </div>
 
         <div class="form-group">
-            <label class="form-label">Imagen de la categoría</label>
+            <label class="form-label">Imagen</label>
             
             <div class="drag-drop-zone" id="dragDropZone">
                 <div class="upload-icon">📁</div>

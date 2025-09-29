@@ -38,28 +38,23 @@ $user = $this->request->getAttribute('identity');
                 'escape' => false
             ]) ?>
 
-            <?= $this->Html->link('<i class="fas fa-folder-open"></i>Temas', ['controller' => 'BlogCategories', 'action' => 'index'], [
+            <?= $this->Html->link('<i class="fas fa-calendar-alt"></i>Eventos', ['controller' => 'EventTypes', 'action' => 'index'], [
                 'class' => 'admin-btn btn-info',
                 'escape' => false
             ]) ?>
 
-            <?= $this->Html->link('<i class="fas fa-calendar-alt"></i>Eventos', ['controller' => 'EventTypes', 'action' => 'index'], [
+                <?= $this->Html->link('<i class="fas fa-folder-open"></i>Temas', ['controller' => 'BlogCategories', 'action' => 'index'], [
                 'class' => 'admin-btn btn-warning',
                 'escape' => false
             ]) ?>
-
-            <?php if ($user->role === 'admin'): ?>
-                <?= $this->Html->link('<i class="fas fa-sitemap"></i>SubCategorías', ['controller' => 'BlogSubcategories', 'action' => 'index'], [
-                    'class' => 'admin-btn btn-secondary',
-                    'escape' => false
-                ]) ?>
+               
 
                 <?= $this->Html->link('<i class="fas fa-tags"></i>Tags', ['controller' => 'BlogTags', 'action' => 'index'], [
-                    'class' => 'admin-btn btn-info',
+                    'class' => 'admin-btn btn-primary',
                     'escape' => false
                 ]) ?>
 
-                <?= $this->Html->link('<i class="fas fa-users"></i>Autores', ['controller' => 'BlogAuthors', 'action' => 'index'], [
+                <!--<?= $this->Html->link('<i class="fas fa-users"></i>Autores', ['controller' => 'BlogAuthors', 'action' => 'index'], [
                     'class' => 'admin-btn btn-primary',
                     'escape' => false
                 ]) ?>
@@ -67,8 +62,8 @@ $user = $this->request->getAttribute('identity');
                 <?= $this->Html->link('<i class="fas fa-user-plus"></i>Agregar Autor', ['controller' => 'Users', 'action' => 'add-author'], [
                     'class' => 'admin-btn btn-warning',
                     'escape' => false
-                ]) ?>
-            <?php endif; ?>
+                ]) ?>-->
+           
 
             <?= $this->Html->link('<i class="fas fa-sign-out-alt"></i>Cerrar Sesión', ['controller' => 'Users', 'action' => 'logout'], [
                 'class' => 'admin-btn btn-danger',

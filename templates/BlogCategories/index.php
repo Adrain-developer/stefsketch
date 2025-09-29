@@ -328,7 +328,7 @@ body {
 <div class="main-content">
     <div class="container-categories">
         <div class="header">
-            <h1 class="title">Categorías del Blog</h1>
+            <h1 class="title">Categoría</h1>
             <?= $this->Html->link(
                 '<div class="add-icon">+</div>Nueva Categoría',
                 ['action' => 'add'],
