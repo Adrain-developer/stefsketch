@@ -68,6 +68,93 @@ color: rgb(239 39 39) !important;
     width: 100%;
     margin-bottom: 15px;
 }
+
+/* ========================================
+   ⏳ LOADING OVERLAY
+   ======================================== */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.loading-content {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px 60px;
+    text-align: center;
+    box-shadow: 
+        8px 8px 20px rgba(0, 0, 0, 0.3),
+        -8px -8px 20px rgba(255, 255, 255, 0.1);
+    animation: scaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid #e0e0e0;
+    border-top: 5px solid #4299e1;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: spin 1s linear infinite;
+}
+
+.loading-text {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 10px;
+}
+
+.loading-subtext {
+    font-size: 14px;
+    color: #718096;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { 
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .loading-content {
+        padding: 30px 40px;
+    }
+    
+    .loading-text {
+        font-size: 18px;
+    }
+    
+    .loading-subtext {
+        font-size: 12px;
+    }
+}
 </style>
 
 <?php
@@ -96,18 +183,9 @@ $scheduledDateTime = $hasScheduling ? $blogPost->scheduled_at->format('Y-m-d\TH:
         <!-- OCULTAR SUBTÍTULO - NO ES NECESARIO PARA PORTAFOLIO -->
         <?= $this->Form->hidden('subtitle', ['value' => '']) ?>
         
-        <?php if ($this->request->getAttribute('identity')->role === 'admin'): ?>
-          <?= $this->Form->control('blog_author_id', [
-              'label' => 'Ilustrador',
-              'options' => $blogAuthors,
-              'empty' => 'Seleccione un ilustrador',
-              'class' => 'neo-select'
-          ]) ?>
-        <?php else: ?>
-          <?= $this->Form->hidden('blog_author_id', [
-              'value' => $this->request->getAttribute('identity')->blog_author_id
-          ]) ?>
-        <?php endif; ?>
+        <?= $this->Form->hidden('blog_author_id', [
+            'value' => $blogPost->blog_author_id
+        ]) ?>
       </div>
 
       <div class="col-md-6">
@@ -773,4 +851,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 });
+
+// ========================================
+// ⏳ LOADING OVERLAY AL ENVIAR FORMULARIO
+// ========================================
+const form = document.querySelector('form');
+const submitButton = document.getElementById('submit-button');
+
+if (form && submitButton) {
+    form.addEventListener('submit', function(e) {
+        // Crear overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'loading-overlay';
+        overlay.innerHTML = `
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">⏳ Editando proyecto...</div>
+                <div class="loading-subtext">Por favor espera, esto puede tardar unos segundos</div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+
+        // Desactivar botón
+        submitButton.disabled = true;
+        submitButton.textContent = '⌛ Guardando...';
+        submitButton.style.opacity = '0.6';
+        submitButton.style.cursor = 'not-allowed';
+    });
+}
 </script>

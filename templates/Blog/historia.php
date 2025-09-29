@@ -135,7 +135,7 @@
                                   <img decoding="async" 
                                       class="nectar-lazy nectar-text-inline-images__image"
                                       src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201024%20768&#039;%2F%3E"
-                                      data-nectar-img-src="<?= $this->Image->getOptimizedUrl($img1, 'medium', 'webp') ?>"
+                                      data-nectar-img-src="<?= $this->Image->getOptimizedUrl($img1, 'thumb', 'webp') ?>"
                                       alt="Proyecto destacado" 
                                       width="1024" 
                                       height="768" />
@@ -148,7 +148,7 @@
                                 <img decoding="async" 
                                     class="nectar-lazy nectar-text-inline-images__image"
                                     src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%20724%201024&#039;%2F%3E"
-                                    data-nectar-img-src="<?= $this->Image->getOptimizedUrl($img2, 'medium', 'webp') ?>"
+                                    data-nectar-img-src="<?= $this->Image->getOptimizedUrl($img2, 'thumb', 'webp') ?>"
                                     alt="Proyecto destacado" 
                                     width="724" 
                                     height="1024" />
@@ -161,7 +161,7 @@
                                 <img decoding="async" 
                                     class="nectar-lazy nectar-text-inline-images__image"
                                     src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%20576%201024&#039;%2F%3E"
-                                    data-nectar-img-src="<?= $this->Image->getOptimizedUrl($img3, 'medium', 'webp') ?>"
+                                    data-nectar-img-src="<?= $this->Image->getOptimizedUrl($img3, 'thumb', 'webp') ?>"
                                     alt="Proyecto destacado" 
                                     width="576" 
                                     height="1024" />

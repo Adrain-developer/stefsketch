@@ -142,9 +142,7 @@ public function add()
         $data = $this->request->getData();
 
         // Asignar blog_author_id si es autor
-        if ($user->role === 'author') {
-            $data['blog_author_id'] = $user->blog_author_id;
-        }
+        $data['blog_author_id'] = $user->blog_author_id;
 
         // 1. Generar slug si está vacío
         if (empty($data['slug'])) {
@@ -177,7 +175,7 @@ public function add()
                     }
                     
                     // Cargar datos del formulario para no perder lo ingresado
-                    $blogAuthors = ($user->role === 'admin') ? $this->BlogPosts->BlogAuthors->find('list')->toArray() : [];
+                    $blogAuthors = [];
                     $eventTypes = $this->BlogPosts->EventTypes->find('list')->toArray();
                     $blogCategories = $this->BlogPosts->BlogCategories->find('list')->toArray();
                     $blogTags = $this->BlogPosts->BlogTags->find('list')->toArray();
@@ -211,7 +209,7 @@ public function add()
                 Log::error("Error procesando banner: " . $e->getMessage(), ['scope' => 'blog_posts']);
                 
                 // Cargar datos del formulario
-                $blogAuthors = ($user->role === 'admin') ? $this->BlogPosts->BlogAuthors->find('list')->toArray() : [];
+                $blogAuthors = [];
                 $eventTypes = $this->BlogPosts->EventTypes->find('list')->toArray();
                 $blogCategories = $this->BlogPosts->BlogCategories->find('list')->toArray();
                 $blogTags = $this->BlogPosts->BlogTags->find('list')->toArray();
@@ -393,7 +391,7 @@ public function add()
         $this->Flash->error(__('El post no se pudo guardar. Intenta nuevamente.'));
     }
 
-    $blogAuthors = ($user->role === 'admin') ? $this->BlogPosts->BlogAuthors->find('list')->toArray() : [];
+    $blogAuthors = [];
     $eventTypes = $this->BlogPosts->EventTypes->find('list')->toArray();
     $blogCategories = $this->BlogPosts->BlogCategories->find('list')->toArray();
     $blogTags = $this->BlogPosts->BlogTags->find('list')->toArray();
@@ -422,9 +420,6 @@ public function edit($id = null)
     if ($this->request->is(['patch', 'post', 'put'])) {
         $data = $this->request->getData();
 
-        if ($user->role === 'author') {
-            $data['blog_author_id'] = $user->blog_author_id;
-        }
 
         if (!empty($data['title']) && $data['title'] !== $blogPost->title) {
             $slugBase = Text::slug(strtolower($data['title']));
@@ -668,7 +663,7 @@ public function edit($id = null)
     }
 
     // Cargar datos para el formulario (siempre se ejecuta si no hay redirección)
-    $blogAuthors = ($user->role === 'admin') ? $this->BlogPosts->BlogAuthors->find('list')->toArray() : [];
+    $blogAuthors = [];
     $eventTypes = $this->BlogPosts->EventTypes->find('list')->toArray();
     $blogCategories = $this->BlogPosts->BlogCategories->find('list')->toArray();
     $blogTags = $this->BlogPosts->BlogTags->find('list')->toArray();
