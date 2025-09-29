@@ -376,7 +376,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
 </div>
 
 
-                    <!-- Grid de EventTypes -->
+                    <!-- Grid de EventTypes --
                     <div id="fws_68d45a3a452d0" data-column-margin="default" data-midnight="dark"
                         class="wpb_row vc_row-fluid vc_row full-width-section"
                         style="padding-top: 0px; padding-bottom: 0px; ">
@@ -408,7 +408,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                         Design</a></div>
                                             </div>
 
-                                            <!-- Nectar Post Grid - Clases exactas del diseño -->
+                                            <!-- Nectar Post Grid - Clases exactas del diseño --
                                             <div class="nectar-post-grid custom_font_size_3vw font_size_max_54px font_size_tablet_5vw font_size_phone_34px text-opacity-1 text-opacity-hover-1 overlaid-aspect-ratio-image-size-1-1 layout-default_alt category-position-before-title category-button-color-rgba__10_10_10_0--2__"
                                                 data-lazy-skip="3" data-indicator="" data-indicator-style="default"
                                                 data-indicator-text-color="#fff" data-indicator-color="#000"
@@ -421,12 +421,12 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                 data-cat-click="static" style="--post-grid-border-radius:25px;">
 
                                                 <?php foreach ($eventTypesWithPosts as $eventType): ?>
-                                                <!-- EventType Card - Estructura EXACTA del diseño -->
+                                                <!-- EventType Card - Estructura EXACTA del diseño --
                                                 <div class="nectar-post-grid-item" data-post-id="<?= $eventType->id ?>"
                                                     data-has-img="true">
                                                     <div class="inner">
 
-                                                        <!-- Background Image Wrap - Estructura EXACTA -->
+                                                        <!-- Background Image Wrap - Estructura EXACTA --
                                                         <div class="nectar-post-grid-item-bg-wrap">
                                                             <div class="nectar-el-parallax-scroll"
                                                                 data-scroll-animation="true"
@@ -459,15 +459,15 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                             </div>
                                                         </div>
 
-                                                        <!-- Overlay - Estructura EXACTA -->
+                                                        <!-- Overlay - Estructura EXACTA --
                                                         <div class="bg-overlay" style="background-color: #0a0a0a;"
                                                             data-opacity="0" data-hover-opacity="0.2">
                                                         </div>
 
-                                                        <!-- Content - Estructura EXACTA -->
+                                                        <!-- Content - Estructura EXACTA --
                                                         <div class="content">
 
-                                                            <!-- Arrow Indicator - Clase EXACTA -->
+                                                            <!-- Arrow Indicator - Clase EXACTA --
                                                             <span class="nectar-post-grid__arrow-indicator">
                                                                 <svg stroke="currentColor" fill="currentColor"
                                                                     stroke-width="0" viewBox="60 58 140 140"
@@ -479,14 +479,14 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                                 </svg>
                                                             </span>
 
-                                                            <!-- Link Principal -->
+                                                            <!-- Link Principal --
                                                             <a class="nectar-post-grid-link"
                                                                 href="/portafolio/<?= h($eventType->eventoslug) ?>">
                                                                 <span
                                                                     class="screen-reader-text"><?= h($eventType->name) ?></span>
                                                             </a>
 
-                                                            <!-- Categorías - Estructura EXACTA -->
+                                                            <!-- Categorías - Estructura EXACTA --
                                                             <?php if (!empty($eventType->categories)): ?>
                                                             <span class="meta-category">
                                                                 <?php foreach ($eventType->categories as $category): ?>
@@ -498,7 +498,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                             </span>
                                                             <?php endif; ?>
 
-                                                            <!-- Item Main - Estructura EXACTA -->
+                                                            <!-- Item Main - Estructura EXACTA --
                                                             <div class="item-main">
                                                                 <h3 class="post-heading">
                                                                     <span><?= h($eventType->name) ?></span>
@@ -522,7 +522,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>

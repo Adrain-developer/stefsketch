@@ -45,6 +45,7 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
 
 </style>
 
+
 <div class="container-wrap" data-nav-pos="none" data-rm-header="true">
     <div class="container main-content">
         <div class="">
@@ -322,96 +323,35 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
                   </div>
                 </div>
 
-
-
-<!-- ========== NAVEGACIÓN PREVIOUS / NEXT ========== -->
-<?php if (isset($prevPost) || isset($nextPost)): ?>
-<div class="project-navigation-wrap">
-    <div class="project-navigation-grid">
-        
-        <!-- PREVIOUS PROJECT -->
-        <?php if ($prevPost): ?>
-        <a href="/portafolio/<?= h($eventType->eventoslug) ?>/<?= h($prevPost->slug) ?>" 
-           class="project-nav-item prev-project <?= !$nextPost ? 'full-width' : '' ?>">
-            <!-- Background Image -->
-            <div class="project-nav-bg">
-                <div class="project-nav-bg-inner">
-                    <?php if (!empty($prevPost->banner)): ?>
-                        <img src="/img/<?= h($prevPost->banner) ?>" 
-                             alt="<?= h($prevPost->title) ?>" 
-                             class="project-nav-img" />
-                    <?php endif; ?>
+              <div id="fws_68d46b1958a23" data-column-margin="default" data-midnight="light"
+                class="wpb_row vc_row-fluid vc_row full-width-section" style="padding-top: 0px; padding-bottom: 0px; ">
+                <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false">
+                  <div class="inner-wrap row-bg-layer">
+                    <div class="row-bg viewport-desktop using-bg-color" style="background-color: #000000; "></div>
+                  </div>
                 </div>
-            </div>
-            
-            <!-- Overlay Gradient -->
-            <div class="project-nav-overlay"></div>
-            
-            <!-- Content -->
-            <div class="project-nav-content">
-                <span class="project-nav-label">Previous Project</span>
-                <h3 class="project-nav-title"><?= h($prevPost->title) ?></h3>
-                
-                <!-- Arrow Left -->
-                <span class="project-nav-arrow arrow-left">
-                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                         viewBox="0 0 256 256" height="48px" width="48px"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
-                    </svg>
-                </span>
-            </div>
-        </a>
-        <?php endif; ?>
-        
-        <!-- NEXT PROJECT -->
-        <?php if ($nextPost): ?>
-        <a href="/portafolio/<?= h($eventType->eventoslug) ?>/<?= h($nextPost->slug) ?>" 
-           class="project-nav-item next-project <?= !$prevPost ? 'full-width' : '' ?>">
-            <!-- Background Image -->
-            <div class="project-nav-bg">
-                <div class="project-nav-bg-inner">
-                    <?php if (!empty($nextPost->banner)): ?>
-                        <img src="/img/<?= h($nextPost->banner) ?>" 
-                             alt="<?= h($nextPost->title) ?>" 
-                             class="project-nav-img" />
-                    <?php endif; ?>
+                <div class="row_col_wrap_12 col span_12 light left">
+                  <div
+                    class="vc_col-sm-12 wpb_column column_container vc_column_container col no-extra-padding inherit_tablet inherit_phone "
+                    data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1"
+                    data-animation="" data-delay="0">
+                    <div class="vc_column-inner">
+                      <div class="wpb_wrapper">
+                        <div class="divider-wrap" style="opacity: 0.25;" data-alignment="default">
+                          <div style="margin-top: 12.5px; height: 1px; margin-bottom: 12.5px;" data-width="100%"
+                            data-animate="yes" data-animation-delay="" data-color="white" class="divider-border"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-            </div>
-            
-            <!-- Overlay Gradient -->
-            <div class="project-nav-overlay"></div>
-            
-            <!-- Content -->
-            <div class="project-nav-content">
-                <span class="project-nav-label">Next Project</span>
-                <h3 class="project-nav-title"><?= h($nextPost->title) ?></h3>
-                
-                <!-- Arrow Right -->
-                <span class="project-nav-arrow arrow-right">
-                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                         viewBox="0 0 256 256" height="48px" width="48px"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
-                    </svg>
-                </span>
-            </div>
-        </a>
-        <?php endif; ?>
-        
-    </div>
-</div>
-<?php endif; ?>
+              </div>
+
 
 <!-- CSS para Navegación Previous/Next -->
 <style>
 /* Container Principal */
-.project-navigation-wrap {
-    width: 100%;
-    margin-top: 80px;
-    margin-bottom: 0;
-    background-color: #000;
-}
+
 
 .project-navigation-grid {
     display: grid;
@@ -600,6 +540,125 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
         font-size: 12px;
     }
 }
+
+/* Estilos para las imágenes de los posts */
+.project-images {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+    z-index: 2;
+}
+
+.project-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.3);
+    transition: transform 0.3s ease;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.project-image:hover {
+    transform: scale(1.1);
+}
+
+/* Botón Ver Proyecto - Mejor posicionado */
+.project-button {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    z-index: 2;
+    /* Asegurar que no se superponga */
+    margin-left: 20px;
+}
+
+.project-button:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.5);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+/* Asegurar posición relativa en el contenedor */
+.nectar-hor-list-item {
+    position: relative;
+    /* Dar espacio suficiente para el botón */
+    min-height: 150px;
+    padding-bottom: 80px; /* Espacio para el botón */
+}
+
+/* Ajustar contenido para evitar superposición */
+.nectar-hor-list-item .vc_column-inner {
+    /* Dar margen a la derecha para evitar superposición con imágenes */
+    margin-right: 280px; /* Espacio para las 4 imágenes */
+    padding-right: 20px;
+}
+
+@media (max-width: 999px) {
+    .nectar-hor-list-item .vc_column-inner {
+        margin-right: 200px; /* Menos espacio en tablet */
+    }
+    
+    .project-button {
+        bottom: 25px;
+        right: 25px;
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 690px) {
+    .project-images {
+        top: 15px;
+        right: 15px;
+        gap: 6px;
+        /* Reorganizar en móvil */
+        flex-direction: column;
+        max-width: 60px;
+    }
+    
+    .project-image {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .project-button {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 18px;
+        font-size: 12px;
+        /* Reducir margen en móvil */
+        margin-left: 10px;
+    }
+    
+    .nectar-hor-list-item {
+        min-height: 120px;
+        padding-bottom: 60px;
+    }
+    
+    .nectar-hor-list-item .vc_column-inner {
+        /* Menos margen en móvil */
+        margin-right: 80px;
+        padding-right: 15px;
+    }
+}
 </style>
 
 <div class="nectar-global-section salient_portfolio_hook_single_after_content">
@@ -656,85 +715,190 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
                                             </div>
                                         </div>
                                     </div>
-                                    <div class='nectar-post-grid-wrap text-color-light spacing-10px'
-                                        data-el-settings='{"post_type":"portfolio","pagination":"none","image_size":"large","parallax_scrolling":"yes","aspect_ratio_image_size":"","category_position":"default","category_display":"parent_only","display_categories":"yes","display_excerpt":"0","excerpt_length":"20","display_date":"0","display_estimated_reading_time":"0","display_author":"0","author_functionality":"default","author_position":"default","color_overlay":"#000000","color_overlay_opacity":"0.1","color_overlay_hover_opacity":"0.2","card_bg_color":"","grid_style":"content_overlaid","hover_effect":"zoom","post_title_overlay":"","heading_tag":"default","heading_tag_render":"default","enable_gallery_lightbox":"0","category_style":"button","overlay_secondary_project_image":"","vertical_list_hover_effect":"none","vertical_list_read_more":"","vertical_list_read_more_style":"text","read_more_button":"0","animation":"none","custom_fields":"","custom_fields_location":"before_post_meta","display_type":"grid","text_content_layout":"corners"}'
-                                        data-style='content_overlaid'
-                                        data-query='{"post_type":"portfolio","posts_per_page":"2","order":"DESC","orderby":"rand","offset":"0","cpt_name":"post","custom_query_tax":"","ignore_sticky_posts":"","exclude_current_post":"yes"}'
-                                        data-load-more-color='black' data-load-more-text='Load More'>
-                                       
-                                        <div class="nectar-post-grid custom_font_size_3vw font_size_max_54px font_size_tablet_5vw font_size_phone_34px text-opacity-1 text-opacity-hover-1 overlaid-aspect-ratio-image-size-1-1 category-position-before-title category-button-color-rgba__10_10_10_0--2__ "
-                                            data-indicator="" data-indicator-style="default"
-                                            data-indicator-text-color="#fff" data-indicator-color="#000"
-                                            data-indicator-text="View" data-columns="4" data-hover-effect="zoom"
-                                            data-text-style="default" data-border-radius="25px"
-                                            data-grid-item-height="30vh" data-grid-spacing="10px"
-                                            data-text-layout="corners" data-text-color="light"
-                                            data-text-hover-color="light" data-shadow-hover="" data-animation="none"
-                                            data-animation-stagger="90" data-cat-click="static"
-                                            style="--post-grid-border-radius:25px;">
 
-                                            <?php foreach ($allEventTypes as $eventType): ?>
-                                                <!-- EventType Card -->
-                                                <div class="nectar-post-grid-item" data-post-id="<?= $eventType->id ?>"
-                                                    data-has-img="true">
-                                                    <div class="inner">
-                                                        <div class="nectar-post-grid-item-bg-wrap">
-                                                            <div class="nectar-el-parallax-scroll"
-                                                                data-scroll-animation="true"
-                                                                data-scroll-animation-mobile="true"
-                                                                data-scroll-animation-intensity="-0.75"
-                                                                data-scroll-animation-lerp="1">
-                                                                <div class="nectar-post-grid-item-bg-wrap-inner">
-                                                                    <div class="nectar-post-grid-item-bg">
-                                                                        <img decoding="async" width="2048"
-                                                                            height="2048"
-                                                                            src="/img/<?= h($eventType->featured_image ?? 'default-placeholder.jpg') ?>"
-                                                                            class="nectar-post-grid-item-bg__media"
-                                                                            alt="<?= h($eventType->name) ?>"
-                                                                            srcset="/img/<?= h($eventType->featured_image ?? 'default-placeholder.jpg') ?> 2048w, 
-                                                                                /img/<?= h($eventType->featured_image ?? 'default-placeholder.jpg') ?> 1024w, 
-                                                                                /img/<?= h($eventType->featured_image ?? 'default-placeholder.jpg') ?> 768w, 
-                                                                                /img/<?= h($eventType->featured_image ?? 'default-placeholder.jpg') ?> 480w">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="content">
-                                                            <span class="nectar-post-grid__arrow-indicator">
-                                                                <svg stroke="currentColor" fill="currentColor"
-                                                                    stroke-width="0" viewBox="60 58 140 140"
-                                                                    height="200px" width="200px"
-                                                                    xmlns="http://www.w3.org/2000/svg">
-                                                                    <path
-                                                                        d="M198,64V168a6,6,0,0,1-12,0V78.48L68.24,196.24a6,6,0,0,1-8.48-8.48L177.52,70H88a6,6,0,0,1,0-12H192A6,6,0,0,1,198,64Z">
-                                                                    </path>
-                                                                </svg>
-                                                            </span>
-                                                            <a class="nectar-post-grid-link"
-                                                                href="/portafolio/<?= h($eventType->eventoslug) ?>">
-                                                                <span class="screen-reader-text"><?= h($eventType->name) ?></span>
-                                                            </a>
-                                                            <span class="meta-category">
-                                                                <?php if (!empty($eventType->categories)): ?>
-                                                                    <?php foreach (array_slice($eventType->categories, 0, 1) as $cat): ?>
-                                                                        <a class="style-button"
-                                                                            href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($cat->slug) ?>">
-                                                                            <?= h($cat->name) ?>
-                                                                        </a>
-                                                                    <?php endforeach; ?>
-                                                                <?php endif; ?>
-                                                            </span>
-                                                            <div class="item-main">
-                                                                <h3 class="post-heading">
-                                                                    <span><?= h($eventType->name) ?></span>
-                                                                </h3>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                         <?php endforeach; ?>
-                                        </div>
+<!-- ========== NAVEGACIÓN PREVIOUS / NEXT ========== -->
+<?php if (isset($prevPost) || isset($nextPost)): ?>
+<div class="project-navigation-wrap">
+    <div class="project-navigation-grid">
+        
+        <!-- PREVIOUS PROJECT -->
+        <?php if ($prevPost): ?>
+        <a href="/portafolio/<?= h($eventType->eventoslug) ?>/<?= h($prevPost->slug) ?>" 
+           class="project-nav-item prev-project <?= !$nextPost ? 'full-width' : '' ?>">
+            <!-- Background Image -->
+            <div class="project-nav-bg">
+                <div class="project-nav-bg-inner">
+                    <?php if (!empty($prevPost->banner)): ?>
+                        <img src="/img/<?= h($prevPost->banner) ?>" 
+                             alt="<?= h($prevPost->title) ?>" 
+                             class="project-nav-img" />
+                    <?php endif; ?>
+                </div>
+            </div>
+            
+            <!-- Overlay Gradient -->
+            <div class="project-nav-overlay"></div>
+            
+            <!-- Content -->
+            <div class="project-nav-content">
+                <span class="project-nav-label">Previous Project</span>
+                <h3 class="project-nav-title"><?= h($prevPost->title) ?></h3>
+                
+                <!-- Arrow Left -->
+                <span class="project-nav-arrow arrow-left">
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                         viewBox="0 0 256 256" height="48px" width="48px"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+                    </svg>
+                </span>
+            </div>
+        </a>
+        <?php endif; ?>
+        
+        <!-- NEXT PROJECT -->
+        <?php if ($nextPost): ?>
+        <a href="/portafolio/<?= h($eventType->eventoslug) ?>/<?= h($nextPost->slug) ?>" 
+           class="project-nav-item next-project <?= !$prevPost ? 'full-width' : '' ?>">
+            <!-- Background Image -->
+            <div class="project-nav-bg">
+                <div class="project-nav-bg-inner">
+                    <?php if (!empty($nextPost->banner)): ?>
+                        <img src="/img/<?= h($nextPost->banner) ?>" 
+                             alt="<?= h($nextPost->title) ?>" 
+                             class="project-nav-img" />
+                    <?php endif; ?>
+                </div>
+            </div>
+            
+            <!-- Overlay Gradient -->
+            <div class="project-nav-overlay"></div>
+            
+            <!-- Content -->
+            <div class="project-nav-content">
+                <span class="project-nav-label">Next Project</span>
+                <h3 class="project-nav-title"><?= h($nextPost->title) ?></h3>
+                
+                <!-- Arrow Right -->
+                <span class="project-nav-arrow arrow-right">
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                         viewBox="0 0 256 256" height="48px" width="48px"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
+                    </svg>
+                </span>
+            </div>
+        </a>
+        <?php endif; ?>
+        
+    </div>
+</div>
+<?php endif; ?>
+
+
+<div id="fws_68d46b1958e71" data-column-margin="custom" data-midnight="light" data-top-percent="8%"
+  data-bottom-percent="8%" class="wpb_row vc_row-fluid vc_row full-width-section  column-margin-7pct"
+  style="padding-top: calc(100vw * 0.08); padding-bottom: calc(100vw * 0.08); ">
+  <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false">
+    <div class="inner-wrap row-bg-layer">
+      <div class="row-bg viewport-desktop using-bg-color" style="background-color: #000000; "></div>
+    </div>
+  </div>
+  <div class="row_col_wrap_12 col span_12 light left">
+    <div
+      class="vc_col-sm-4 wpb_column column_container vc_column_container col nectar-sticky-column-css no-extra-padding inherit_tablet inherit_phone "
+      data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1" data-animation=""
+      data-delay="0">
+      <div class="n-sticky">
+        <div class="vc_column-inner">
+          <div class="wpb_wrapper">
+            <div
+              class="nectar-responsive-text font_size_max_90px font_size_desktop_5vw font_size_tablet_7vw font_line_height_1px nectar-link-underline-effect">
+              <h3>Proyectos</h3>
+            </div>
+            <div class="nectar-responsive-text nectar-link-underline-effect" style="color: rgba(255,255,255,0.6);">
+              <p>Colores brillantes, elementos de la naturaleza y retratos femeninos. Disfruto experimentar con distintos medios, desde lo tradicional como acuarelas o pintura acrílica hasta ilustraciones digitales.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="vc_col-sm-8 wpb_column column_container vc_column_container col no-extra-padding inherit_tablet inherit_phone "
+    data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1" data-animation=""
+    data-delay="0">
+    <div class="vc_column-inner">
+        <div class="wpb_wrapper">
+            <?php foreach ($allEventTypes as $eventType): ?>
+            <div id="fws_68d46b19595e0" data-midnight="" data-column-margin="custom"
+                class="wpb_row vc_row-fluid vc_row inner_row  column-margin-7pct" style="">
+                <div class="row-bg-wrap">
+                    <div class="row-bg"></div>
+                </div>
+                <div class="row_col_wrap_12_inner col span_12  left">
+                    <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column has-animation no-extra-padding el_spacing_5px inherit_tablet inherit_phone "
+                        data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1"
+                        data-animation="slight-fade-in-from-bottom" data-delay="0">
+                        <div
+                            class="nectar-hor-list-item   has_border_animation nectar-waypoint-el border_color_424242 multiple-columns ">
+                            
+                            <!-- 1. IMÁGENES DE LOS POSTS (top-right) -->
+                            <div class="project-images">
+                                <?php if (isset($eventType->recent_posts) && !empty($eventType->recent_posts)): ?>
+                                    <?php foreach (array_slice($eventType->recent_posts, 0, 4) as $post): ?>
+                                        <?php if (!empty($post->banner)): ?>
+                                            <div class="project-image">
+                                                <img src="/img/<?= h($post->banner) ?>" 
+                                                     alt="<?= h($post->title) ?>" 
+                                                     loading="lazy">
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php elseif (!empty($eventType->featured_image)): ?>
+                                    <!-- Fallback: usar featured_image si no hay recent_posts -->
+                                    <div class="project-image">
+                                        <img src="/img/<?= h($eventType->featured_image) ?>" 
+                                             alt="<?= h($eventType->name) ?>" 
+                                             loading="lazy">
                                     </div>
+                                <?php endif; ?>
+                            </div>
+                            
+                            <div class="vc_column-inner">
+                                <div class="wpb_wrapper ">
+                                    <div class="nectar-responsive-text nectar-link-underline-effect"
+                                        style="color: rgba(255,255,255,0.6);">
+                                        <h6><?= $eventType->posts_count ?> proyectos</h6>
+                                    </div>
+                                    <div class="nectar-responsive-text nectar-link-underline-effect">
+                                        <h4><?= h($eventType->name) ?></h4>
+                                    </div>
+                                    <div class="nectar-responsive-text nectar-link-underline-effect">
+                                        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 2. BOTÓN VER PROYECTO (bottom-right) -->
+                            <a href="/portafolio/<?= h($eventType->eventoslug) ?>" class="project-button">
+                                Ver Proyecto
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+
+
+  </div>
+</div>
+
+
+
+
                                 </div>
                             </div>
                         </div>
