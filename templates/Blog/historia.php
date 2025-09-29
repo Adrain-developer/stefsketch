@@ -1,12 +1,11 @@
 <?php
-  
     $this->assign('title', 'Acerca de');
-
-    // Asegurar que tenemos 3 imágenes (usar placeholders si faltan)
-    $img1 = $randomImages[0]->banner ?? 'placeholder.jpg';
-    $img2 = $randomImages[1]->banner ?? 'placeholder.jpg';
-    $img3 = $randomImages[2]->banner ?? 'placeholder.jpg';
-?>  
+    
+    // Las imágenes vienen limpias del controller
+    $img1 = $images[0];
+    $img2 = $images[1];
+    $img3 = $images[2];
+?>
     
     <?= $this->Html->css([
         'ui/build/elements/element-horizontal-list-item0583',
@@ -62,7 +61,7 @@
                                     data-animation-type="line-reveal-by-space" data-animation-delay="0"
                                     data-animation-offset="" data-m-rm-animation="" data-stagger=""
                                     data-custom-font-size="true" style="font-size: 11vw; line-height: 12.1vw;">
-                                    <h1>Ilustraciones<br>Cool</h1>
+                                    <h1>Acerca de mi</h1>
                                   </div>
                                 </div>
                               </div>
@@ -129,40 +128,46 @@
                         <div class="nectar-text-inline-images nectar-link-underline-effect font_size_desktop_4vw font_size_tablet_6vw font_size_phone_7vw nectar-text-inline-images--animation_none nectar-text-inline-images--roundness--10px font_line_height_1-4">
                     <div class="nectar-text-inline-images__inner">
                         <h3>
-                            I'm 
+                            Hola, soy Estefania, artista e ilustradora.
                             <span class="nectar-text-inline-images__marker" data-img-size="large__h_rect">
                                 &nbsp;
-                                <img decoding="async" 
-                                    class="nectar-lazy nectar-text-inline-images__image"
-                                    src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201024%20768&#039;%2F%3E"
-                                    data-nectar-img-src="/img/<?= h($img1) ?>"
-                                    alt="" 
-                                    width="1024" 
-                                    height="768" />
+                                <?php if ($img1): ?>
+                                  <img decoding="async" 
+                                      class="nectar-lazy nectar-text-inline-images__image"
+                                      src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201024%20768&#039;%2F%3E"
+                                      data-nectar-img-src="<?= $this->Image->getOptimizedUrl($img1, 'medium', 'webp') ?>"
+                                      alt="Proyecto destacado" 
+                                      width="1024" 
+                                      height="768" />
+                                  <?php endif; ?>
                             </span> 
-                            passionate about creating seamless digital experiences, and I collaborate with businesses and agencies 
+                            Me dedico a crear arte que conecta con las personas a través de murales, ilustraciones y talleres de pintura. 
                             <span class="nectar-text-inline-images__marker" data-img-size="large__h_rect">
                                 &nbsp;
+                                <?php if ($img2): ?>
                                 <img decoding="async" 
                                     class="nectar-lazy nectar-text-inline-images__image"
                                     src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%20724%201024&#039;%2F%3E"
-                                    data-nectar-img-src="/img/<?= h($img2) ?>"
-                                    alt="" 
+                                    data-nectar-img-src="<?= $this->Image->getOptimizedUrl($img2, 'medium', 'webp') ?>"
+                                    alt="Proyecto destacado" 
                                     width="724" 
                                     height="1024" />
+                                <?php endif; ?>
                             </span> 
-                            worldwide to bring their visions to life through innovative 
+                            Mi misión es compartir el arte de una manera accesible y relajante para todos, enseñando técnicas que te ayuden a expresar tu creatividad, aunque no te consideres "artista". 
                             <span class="nectar-text-inline-images__marker" data-img-size="large__h_rect">
                                 &nbsp;
+                                <?php if ($img3): ?>
                                 <img decoding="async" 
                                     class="nectar-lazy nectar-text-inline-images__image"
                                     src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%20576%201024&#039;%2F%3E"
-                                    data-nectar-img-src="/img/<?= h($img3) ?>"
-                                    alt="" 
+                                    data-nectar-img-src="<?= $this->Image->getOptimizedUrl($img3, 'medium', 'webp') ?>"
+                                    alt="Proyecto destacado" 
                                     width="576" 
                                     height="1024" />
+                                <?php endif; ?>
                             </span> 
-                            web solutions.
+                            Para mí, el arte es una herramienta para el autoconocimiento, y me encanta guiar a otros en este proceso.
                         </h3>
                     </div>
                 </div>
@@ -212,12 +217,11 @@
                         <div class="wpb_wrapper">
                           <div
                             class="nectar-responsive-text font_size_max_90px font_size_desktop_5vw font_size_tablet_7vw font_line_height_1px nectar-link-underline-effect">
-                            <h3>Services</h3>
+                            <h3>PROYECTOS DESTACADOS</h3>
                           </div>
                           <div class="nectar-responsive-text nectar-link-underline-effect"
                             style="color: rgba(255,255,255,0.6);">
-                            <p>I offer a comprehensive range of web services, carefully tailored to meet each client’s
-                              unique needs and their project budgets.</p>
+                            <p></p>
                           </div>
                         </div>
                       </div>
@@ -247,11 +251,10 @@
                                     <h6>01</h6>
                                   </div>
                                   <div class="nectar-responsive-text nectar-link-underline-effect">
-                                    <h4>Responsive Design</h4>
+                                    <h4>NESTLÉ</h4>
                                   </div>
                                   <div class="nectar-responsive-text nectar-link-underline-effect">
-                                    <p>Websites that function flawlessly on all devices, while also being optimized for
-                                      speed, SEO, and accessibility.</p>
+                                    <p>Mural en Av. Insurgentes Sur, Ciudad de México.</p>
                                   </div>
                                 </div>
                               </div>
@@ -268,11 +271,13 @@
                                     <h6>02</h6>
                                   </div>
                                   <div class="nectar-responsive-text nectar-link-underline-effect">
-                                    <h4>eCommerce</h4>
+                                    <h4>NESCAFÉ</h4>
                                   </div>
                                   <div class="nectar-responsive-text nectar-link-underline-effect">
-                                    <p>Secure, user-friendly online stores that streamline sales, manage inventory, and
-                                      enhance the shopping experience.</p>
+                                    <p>Colección de tazas ilustradas 2025</p>
+                                  </div>
+                                  <div class="nectar-responsive-text nectar-link-underline-effect">
+                                    <p>Creación de una taza ilustrada de edición especial para Nescafé, como parte de su primera colaboración con artistas mexicanos.</p>
                                   </div>
                                 </div>
                               </div>
@@ -297,11 +302,10 @@
                                     <h6>03</h6>
                                   </div>
                                   <div class="nectar-responsive-text nectar-link-underline-effect">
-                                    <h4>Maintenance</h4>
+                                    <h4>ADIDAS</h4>
                                   </div>
                                   <div class="nectar-responsive-text nectar-link-underline-effect">
-                                    <p>I provide ongoing technical support, updates, and performance optimization to
-                                      keep your website running smoothly.</p>
+                                    <p>ilustración digital para el lanzamiento de la tienda Adidas Masaryk en Polanco, Ciudad de México. </p>
                                   </div>
                                 </div>
                               </div>
@@ -318,11 +322,10 @@
                                     <h6>04</h6>
                                   </div>
                                   <div class="nectar-responsive-text nectar-link-underline-effect">
-                                    <h4>Development</h4>
+                                    <h4>Coca-Cola</h4>
                                   </div>
                                   <div class="nectar-responsive-text nectar-link-underline-effect">
-                                    <p>Fully customized websites using the latest technologies to match your brand and
-                                      business goals, ensuring a unique online presence.</p>
+                                    <p>Taller de pintura para corporativo con temática navideña.</p>
                                   </div>
                                 </div>
                               </div>
@@ -357,119 +360,7 @@
                   </div>
                 </div>
               </div>
-              <div id="fws_68d46b195ac96" data-column-margin="custom" data-midnight="light" data-top-percent="8%"
-                data-bottom-percent="8%" class="wpb_row vc_row-fluid vc_row full-width-section  column-margin-7pct"
-                style="padding-top: calc(100vw * 0.08); padding-bottom: calc(100vw * 0.08); ">
-                <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false">
-                  <div class="inner-wrap row-bg-layer">
-                    <div class="row-bg viewport-desktop using-bg-color" style="background-color: #000000; "></div>
-                  </div>
-                </div>
-                <div class="row_col_wrap_12 col span_12 light left">
-                  <div
-                    class="vc_col-sm-4 wpb_column column_container vc_column_container col nectar-sticky-column-css no-extra-padding el_spacing_30px inherit_tablet inherit_phone "
-                    data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1"
-                    data-animation="" data-delay="0">
-                    <div class="n-sticky">
-                      <div class="vc_column-inner">
-                        <div class="wpb_wrapper">
-                          <div
-                            class="nectar-responsive-text font_size_max_90px font_size_desktop_5vw font_size_tablet_7vw font_line_height_1px nectar-link-underline-effect">
-                            <h3>Awards</h3>
-                          </div>
-                          <div class="nectar-responsive-text nectar-link-underline-effect"
-                            style="color: rgba(255,255,255,0.6);">
-                            <p>I provide ongoing technical support, updates, and performance optimization to keep your
-                              website running smoothly.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    class="vc_col-sm-8 wpb_column column_container vc_column_container col no-extra-padding inherit_tablet inherit_phone "
-                    data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1"
-                    data-animation="" data-delay="0">
-                    <div class="vc_column-inner">
-                      <div class="wpb_wrapper">
-                        <div id="fws_68d46b195b2db" data-midnight="" data-column-margin="none"
-                          class="wpb_row vc_row-fluid vc_row inner_row" style="">
-                          <div class="row-bg-wrap">
-                            <div class="row-bg"></div>
-                          </div>
-                          <div class="row_col_wrap_12_inner col span_12  left">
-                            <div
-                              class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding inherit_tablet inherit_phone "
-                              data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1"
-                              data-animation="" data-delay="0">
-                              <div class="vc_column-inner">
-                                <div class="wpb_wrapper">
-                                  <div
-                                    class="nectar-hor-list-item   has_border_animation nectar-waypoint-el border_color_424242 multiple-columns "
-                                    data-hover-effect="none" data-br="0px" data-font-family="p"
-                                    data-color="accent-color" data-columns="4" data-column-layout="even">
-                                    <div class="nectar-list-item" data-icon="false" data-text-align="left">
-                                      <h3>Nectar Studio</h3>
-                                    </div>
-                                    <div class="nectar-list-item" data-text-align="left">AWWWARDS</div>
-                                    <div class="nectar-list-item" data-text-align="left">Site Of The Day</div>
-                                    <div class="nectar-list-item" data-text-align="right">2024</div>
-                                  </div>
-                                  <div
-                                    class="nectar-hor-list-item   has_border_animation nectar-waypoint-el border_color_424242 multiple-columns "
-                                    data-hover-effect="none" data-br="0px" data-font-family="p"
-                                    data-color="accent-color" data-columns="4" data-column-layout="even">
-                                    <div class="nectar-list-item" data-icon="false" data-text-align="left">
-                                      <h3>DesignWave</h3>
-                                    </div>
-                                    <div class="nectar-list-item" data-text-align="left">AWWWARDS</div>
-                                    <div class="nectar-list-item" data-text-align="left">Site Of The Day</div>
-                                    <div class="nectar-list-item" data-text-align="right">2023</div>
-                                  </div>
-                                  <div
-                                    class="nectar-hor-list-item   has_border_animation nectar-waypoint-el border_color_424242 multiple-columns "
-                                    data-hover-effect="none" data-br="0px" data-font-family="p"
-                                    data-color="accent-color" data-columns="4" data-column-layout="even">
-                                    <div class="nectar-list-item" data-icon="false" data-text-align="left">
-                                      <h3>Visionary</h3>
-                                    </div>
-                                    <div class="nectar-list-item" data-text-align="left">Web Awards</div>
-                                    <div class="nectar-list-item" data-text-align="left">Best Innovation</div>
-                                    <div class="nectar-list-item" data-text-align="right">2023</div>
-                                  </div>
-                                  <div
-                                    class="nectar-hor-list-item   has_border_animation nectar-waypoint-el border_color_424242 multiple-columns "
-                                    data-hover-effect="none" data-br="0px" data-font-family="p"
-                                    data-color="accent-color" data-columns="4" data-column-layout="even">
-                                    <div class="nectar-list-item" data-icon="false" data-text-align="left">
-                                      <h3>Lunar</h3>
-                                    </div>
-                                    <div class="nectar-list-item" data-text-align="left">MUSE Awards</div>
-                                    <div class="nectar-list-item" data-text-align="left">Platinum Winner</div>
-                                    <div class="nectar-list-item" data-text-align="right">2023</div>
-                                  </div>
-                                  <div
-                                    class="nectar-hor-list-item   has_border_animation nectar-waypoint-el border_color_424242 multiple-columns "
-                                    data-hover-effect="none" data-br="0px" data-font-family="p"
-                                    data-color="accent-color" data-columns="4" data-column-layout="even">
-                                    <div class="nectar-list-item" data-icon="false" data-text-align="left">
-                                      <h3>Pixel Forged</h3>
-                                    </div>
-                                    <div class="nectar-list-item" data-text-align="left">CSS Awards</div>
-                                    <div class="nectar-list-item" data-text-align="left">Top UI Design</div>
-                                    <div class="nectar-list-item" data-text-align="right">2022</div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            
             </div>
           </div>
         </div>

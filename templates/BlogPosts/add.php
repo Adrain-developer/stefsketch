@@ -723,87 +723,309 @@ $user = $this->request->getAttribute('identity');
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // PREVIEW DEL BANNER
-    const bannerInput = document.getElementById('bannerInput');
-    const bannerPreview = document.getElementById('bannerPreview');
-    
-    if (bannerInput) {
-        bannerInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    bannerPreview.src = e.target.result;
-                    bannerPreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+document.addEventListener('DOMContentLoaded', async () => {
+    // ========================================
+    // ⏳ ESPERAR CARGA DE HEIC CONVERTER
+    // ========================================
+    console.log('⏳ Esperando carga de HEIC Converter...');
+    let attempts = 0;
+    while (!window.heicConverter && attempts < 50) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        attempts++;
+    }
+    if (window.heicConverter) {
+        console.log('✅ HEIC Converter cargado correctamente');
+    } else {
+        console.warn('⚠️ HEIC Converter no disponible');
     }
 
-    // GALERÍA MÚLTIPLE CON DRAG & DROP
+    // ========================================
+// 🎨 BANNER CON DRAG & DROP + DETECCIÓN HEIC
+// ========================================
+const bannerDragDrop = document.getElementById('bannerDragDrop');
+const bannerInput = document.getElementById('bannerInput');
+const bannerPreview = document.getElementById('bannerPreview');
+
+console.log('🔍 Elementos banner:', {
+    dragDrop: !!bannerDragDrop,
+    input: !!bannerInput,
+    preview: !!bannerPreview
+});
+
+// Función para procesar archivo
+async function processBannerFile(file) {
+    alert('🚀 FUNCIÓN LLAMADA: ' + file.name); // Test temporal
+    console.log('🚀 processBannerFile LLAMADO');
+    console.log('📁 Archivo:', file.name, file.type || 'sin tipo MIME');
+    
+    try {
+        // Detectar HEIC por extensión
+        const extension = file.name.toLowerCase().split('.').pop();
+        console.log('📁 Extensión detectada:', extension);
+        
+        if (extension === 'heic' || extension === 'heif') {
+            console.log('❌ HEIC detectado, rechazando...');
+            
+            // Limpiar el input
+            bannerInput.value = '';
+            
+            // Mostrar mensaje de error
+            alert(
+                '❌ Formato HEIC (iPhone) no soportado\n\n' +
+                '📱 Para subir fotos de iPhone:\n\n' +
+                '1️⃣ Cambia el formato de cámara:\n' +
+                '   Ajustes > Cámara > Formatos > "Más compatible"\n\n' +
+                '2️⃣ O convierte la foto a JPG antes de subirla'
+            );
+            
+            return; // Detener
+        }
+
+        console.log('✅ Archivo válido, procesando...');
+
+        // Mostrar preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (bannerPreview) {
+                bannerPreview.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview" style="width:100%; height:100%; object-fit:cover;" />
+                    <button type="button" class="remove-banner" onclick="removeBanner()">×</button>
+                `;
+                bannerPreview.style.display = 'block';
+                if (bannerDragDrop) bannerDragDrop.style.display = 'none';
+            }
+        };
+        reader.readAsDataURL(file);
+
+    } catch (error) {
+        console.error('❌ ERROR:', error);
+        alert('Error: ' + error.message);
+    }
+}
+
+// Registrar event listeners SOLO si los elementos existen
+if (bannerInput) {
+    console.log('✅ Registrando event listener en bannerInput');
+    
+    bannerInput.addEventListener('change', async function(e) {
+        console.log('🔥 CHANGE EVENT DISPARADO en bannerInput');
+        console.log('🔥 Archivos:', e.target.files.length);
+        
+        if (e.target.files && e.target.files.length > 0) {
+            await processBannerFile(e.target.files[0]);
+        }
+    });
+} else {
+    console.error('❌ bannerInput NO encontrado');
+}
+
+if (bannerDragDrop) {
+    console.log('✅ Registrando eventos drag & drop');
+    
+    bannerDragDrop.addEventListener('click', () => {
+        console.log('🖱️ Click en drag drop zone');
+        if (bannerInput) bannerInput.click();
+    });
+
+    bannerDragDrop.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        bannerDragDrop.classList.add('dragover');
+    });
+
+    bannerDragDrop.addEventListener('dragleave', () => {
+        bannerDragDrop.classList.remove('dragover');
+    });
+
+    bannerDragDrop.addEventListener('drop', async (e) => {
+        e.preventDefault();
+        bannerDragDrop.classList.remove('dragover');
+        
+        console.log('📥 DROP event');
+        if (e.dataTransfer.files.length > 0) {
+            await processBannerFile(e.dataTransfer.files[0]);
+        }
+    });
+} else {
+    console.error('❌ bannerDragDrop NO encontrado');
+}
+
+async function processBannerFile(file) {
+    console.log('🚀 processBannerFile LLAMADO');
+    console.log('📁 Archivo:', file.name, file.type || 'sin tipo MIME');
+    
+    try {
+        // ❌ RECHAZAR HEIC con mensaje amigable
+        if (window.heicConverter && window.heicConverter.isHEIC(file)) {
+            console.log('❌ Archivo HEIC detectado');
+            
+            // Limpiar el input
+            bannerInput.value = '';
+            
+            // Mostrar mensaje de error con instrucciones
+            alert(
+                '❌ Formato HEIC (iPhone) no soportado\n\n' +
+                '📱 Para subir fotos de iPhone:\n\n' +
+                '1️⃣ Cambia el formato de cámara:\n' +
+                '   Ajustes > Cámara > Formatos > "Más compatible"\n\n' +
+                '2️⃣ O convierte la foto:\n' +
+                '   • Abre la foto en la app Fotos\n' +
+                '   • Compártela por Mail/Mensajes\n' +
+                '   • Se convertirá automáticamente a JPG\n\n' +
+                '3️⃣ Usa una app de conversión:\n' +
+                '   • "HEIC to JPG" (App Store)\n' +
+                '   • O sitios web como heictojpg.com'
+            );
+            
+            return; // Detener el proceso
+        }
+
+        // Si no es HEIC, procesar normalmente
+        console.log('✅ Archivo válido, procesando...');
+
+        // Asignar archivo al input
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        bannerInput.files = dataTransfer.files;
+
+        console.log('✅ Archivo asignado:', bannerInput.files[0].name, bannerInput.files[0].type);
+
+        // Mostrar preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (bannerPreview) {
+                bannerPreview.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview" style="width:100%; height:100%; object-fit:cover;" />
+                    <button type="button" class="remove-banner" onclick="removeBanner()">×</button>
+                `;
+                bannerPreview.style.display = 'block';
+                bannerDragDrop.style.display = 'none';
+            }
+        };
+        reader.readAsDataURL(file);
+
+    } catch (error) {
+        console.error('❌ ERROR:', error);
+        alert('Error al procesar imagen: ' + error.message);
+    }
+}
+
+    window.removeBanner = function() {
+        if (bannerInput) bannerInput.value = '';
+        if (bannerPreview) bannerPreview.style.display = 'none';
+        if (bannerDragDrop) bannerDragDrop.style.display = 'block';
+    }
+
+    // ========================================
+    // 🖼️ GALERÍA CON DRAG & DROP + CONVERSIÓN HEIC
+    // ========================================
     const dragDropZone = document.getElementById('multiImageDragDrop');
     const galleryInput = document.getElementById('galleryInput');
     const imagesGrid = document.getElementById('imagesGrid');
     let selectedFiles = [];
 
-    // Eventos de Drag & Drop
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dragDropZone.addEventListener(eventName, preventDefaults, false);
-    });
+    if (dragDropZone && galleryInput) {
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dragDropZone.addEventListener(eventName, preventDefaults, false);
+        });
 
-    ['dragenter', 'dragover'].forEach(eventName => {
-        dragDropZone.addEventListener(eventName, highlight, false);
-    });
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dragDropZone.addEventListener(eventName, () => {
+                dragDropZone.classList.add('dragover');
+            }, false);
+        });
 
-    ['dragleave', 'drop'].forEach(eventName => {
-        dragDropZone.addEventListener(eventName, unhighlight, false);
-    });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dragDropZone.addEventListener(eventName, () => {
+                dragDropZone.classList.remove('dragover');
+            }, false);
+        });
 
-    dragDropZone.addEventListener('drop', handleDrop, false);
-    dragDropZone.addEventListener('click', () => galleryInput.click());
-    galleryInput.addEventListener('change', handleInputChange);
+        dragDropZone.addEventListener('drop', (e) => {
+            handleFiles(e.dataTransfer.files);
+        }, false);
+
+        dragDropZone.addEventListener('click', () => galleryInput.click());
+        
+        galleryInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+    }
 
     function preventDefaults(e) {
         e.preventDefault();
         e.stopPropagation();
     }
 
-    function highlight(e) {
-        dragDropZone.classList.add('dragover');
-    }
+    async function handleFiles(files) {
+    try {
+        console.log(`📸 ${files.length} archivo(s) para galería`);
 
-    function unhighlight(e) {
-        dragDropZone.classList.remove('dragover');
-    }
+        // Filtrar archivos HEIC
+        const validFiles = [];
+        const heicFiles = [];
 
-    function handleDrop(e) {
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        handleFiles(files);
-    }
-
-    function handleInputChange(e) {
-        const files = e.target.files;
-        handleFiles(files);
-    }
-
-    function handleFiles(files) {
-        ([...files]).forEach(addFile);
-        updateGalleryInput();
-        renderImages();
-    }
-
-    function addFile(file) {
-        if (selectedFiles.length >= 10) {
-            alert('Máximo 10 imágenes permitidas');
-            return;
+        for (const file of Array.from(files)) {
+            if (window.heicConverter && window.heicConverter.isHEIC(file)) {
+                heicFiles.push(file.name);
+            } else {
+                validFiles.push(file);
+            }
         }
-        
-        if (file.type.startsWith('image/')) {
-            selectedFiles.push(file);
+
+        // Si hay archivos HEIC, mostrar advertencia
+        if (heicFiles.length > 0) {
+            alert(
+                `❌ ${heicFiles.length} archivo(s) HEIC detectado(s):\n\n` +
+                heicFiles.join('\n') + '\n\n' +
+                '📱 Estos archivos NO son compatibles.\n\n' +
+                'Por favor convierte las fotos a JPG primero:\n' +
+                '• Ajustes > Cámara > Formatos > "Más compatible"\n' +
+                '• O usa una app de conversión HEIC to JPG'
+            );
         }
+
+        // Procesar solo archivos válidos
+        if (validFiles.length > 0) {
+            console.log(`✅ ${validFiles.length} archivos válidos`);
+
+            for (const file of validFiles) {
+                if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+                    selectedFiles.push(file);
+                }
+            }
+            
+            updateGalleryInput();
+            renderImages();
+        }
+
+    } catch (error) {
+        console.error('❌ Error:', error);
+        alert('Error: ' + error.message);
+    }
+}
+
+    function updateGalleryInput() {
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(file => dataTransfer.items.add(file));
+        galleryInput.files = dataTransfer.files;
+        console.log(`💾 ${galleryInput.files.length} archivos en input`);
+    }
+
+    function renderImages() {
+        imagesGrid.innerHTML = '';
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const div = document.createElement('div');
+                div.className = 'grid-image';
+                div.innerHTML = `
+                    <img src="${e.target.result}" alt="Imagen ${index + 1}" />
+                    <button type="button" class="remove-image" onclick="removeFile(${index})">×</button>
+                `;
+                imagesGrid.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        });
     }
 
     function removeFile(index) {
@@ -812,35 +1034,12 @@ document.addEventListener('DOMContentLoaded', () => {
         renderImages();
     }
 
-    function updateGalleryInput() {
-        const dt = new DataTransfer();
-        selectedFiles.forEach(file => dt.items.add(file));
-        galleryInput.files = dt.files;
-    }
-
-    function renderImages() {
-        imagesGrid.innerHTML = '';
-        selectedFiles.forEach((file, index) => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imageDiv = document.createElement('div');
-                imageDiv.className = 'grid-image';
-                imageDiv.innerHTML = `
-                    <img src="${e.target.result}" alt="Imagen ${index + 1}">
-                    <button type="button" class="remove-image" onclick="removeFile(${index})">×</button>
-                `;
-                imagesGrid.appendChild(imageDiv);
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-
-    // Hacer removeFile global para que funcione desde el HTML
     window.removeFile = removeFile;
 
-    // SELECTIZE PARA CAMPOS EDITABLES
+    // ========================================
+    // 🏷️ SELECTIZE - CÓDIGO ORIGINAL SIN TOCAR
+    // ========================================
     if (typeof $ !== 'undefined' && $.fn.selectize) {
-        // Tags (múltiple con creación)
         $('#tagInput').selectize({
             plugins: ['remove_button'],
             delimiter: ',',
@@ -854,7 +1053,6 @@ document.addEventListener('DOMContentLoaded', () => {
             placeholder: 'Escriba tags/técnicas'
         });
 
-        // Tipo de Trabajo (single con creación)
         $('#eventTypeInput').selectize({
             create: function(input) {
                 return {
@@ -866,7 +1064,6 @@ document.addEventListener('DOMContentLoaded', () => {
             persist: false
         });
 
-        // Categoría Principal (single con creación) 
         $('#categoryInput').selectize({
             create: function(input) {
                 return {
@@ -879,7 +1076,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ✅ EDITOR MARKDOWN - EasyMDE
+    // ========================================
+    // 📝 EASYMDE - CÓDIGO ORIGINAL SIN TOCAR
+    // ========================================
     const editorElement = document.getElementById("markdown-editor");
     if (editorElement && typeof EasyMDE !== 'undefined') {
         const easyMDE = new EasyMDE({
@@ -905,7 +1104,6 @@ document.addEventListener('DOMContentLoaded', () => {
             placeholder: "Describe tu proyecto: proceso creativo, inspiración, técnicas utilizadas..."
         });
 
-        // Sincronizar contenido del editor al enviar el formulario
         document.querySelector('form').addEventListener('submit', function() {
             document.getElementById("markdown-editor").value = easyMDE.value();
             easyMDE.codemirror.save();

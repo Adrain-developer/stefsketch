@@ -59,42 +59,70 @@ public function index()
     
     // Para cada EventType, obtener datos completos
     foreach ($allEventTypes as $eventType) {
-        // Obtener posts del EventType
-        $posts = $this->BlogPosts->find()
-            ->contain(['BlogCategories'])
-            ->where([
-                'BlogPosts.status' => 'activo',
-                'BlogPosts.event_type_id' => $eventType->id,
-                'BlogPosts.banner IS NOT' => null
-            ])
-            ->order(['BlogPosts.created' => 'DESC'])
+    // Obtener posts del EventType
+    $posts = $this->BlogPosts->find()
+        ->contain(['BlogCategories'])
+        ->where([
+            'BlogPosts.status' => 'activo',
+            'BlogPosts.event_type_id' => $eventType->id,
+            'BlogPosts.banner IS NOT' => null
+        ])
+        ->order(['BlogPosts.created' => 'DESC'])
+        ->toArray();
+    
+    if (!empty($posts)) {
+        // Obtener la primera imagen (post más reciente)
+        $eventType->featured_image = !empty($posts[0]->banner) ? $posts[0]->banner : null;
+        
+        // Contar posts totales
+        $eventType->posts_count = count($posts);
+        
+        // ✅ AGREGAR ESTO: Obtener las últimas 4 imágenes
+        $allImages = [];
+        
+        // Usar los posts ya obtenidos
+        foreach ($posts as $post) {
+            // Agregar banner si existe
+            if (!empty($post->banner)) {
+                $allImages[] = $post->banner;
+            }
+            
+            // Agregar imágenes de galería si existen
+            if (!empty($post->gallery)) {
+                $gallery = json_decode($post->gallery, true);
+                if (is_array($gallery)) {
+                    foreach ($gallery as $galleryImage) {
+                        if (!empty($galleryImage)) {
+                            $allImages[] = $galleryImage;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Obtener las últimas 4 imágenes únicas
+        $allImages = array_unique($allImages);
+        $eventType->recent_images = array_slice($allImages, 0, 4);
+        // ✅ FIN AGREGAR
+        
+        // Obtener categorías únicas del EventType
+        $categories = $this->BlogPosts->BlogCategories
+            ->find()
+            ->matching('BlogPosts', function ($q) use ($eventType) {
+                return $q->where([
+                    'BlogPosts.status' => 'activo',
+                    'BlogPosts.event_type_id' => $eventType->id
+                ]);
+            })
+            ->distinct(['BlogCategories.id'])
+            ->orderAsc('BlogCategories.name')
+            ->limit(3) // Máximo 3 categorías para no saturar
             ->toArray();
         
-        if (!empty($posts)) {
-            // Obtener la primera imagen (post más reciente)
-            $eventType->featured_image = !empty($posts[0]->banner) ? $posts[0]->banner : null;
-            
-            // Contar posts totales
-            $eventType->posts_count = count($posts);
-            
-            // Obtener categorías únicas del EventType
-            $categories = $this->BlogPosts->BlogCategories
-                ->find()
-                ->matching('BlogPosts', function ($q) use ($eventType) {
-                    return $q->where([
-                        'BlogPosts.status' => 'activo',
-                        'BlogPosts.event_type_id' => $eventType->id
-                    ]);
-                })
-                ->distinct(['BlogCategories.id'])
-                ->orderAsc('BlogCategories.name')
-                ->limit(3) // Máximo 3 categorías para no saturar
-                ->toArray();
-            
-            $eventType->categories = $categories;
-            $eventTypesWithPosts[] = $eventType;
-        }
+        $eventType->categories = $categories;
+        $eventTypesWithPosts[] = $eventType;
     }
+}
 
     // ✨ Post random por sesión
     $session = $this->request->getSession();
@@ -628,20 +656,28 @@ $this->set(compact(
 }
 
     public function historia()
-{
-    $this->viewBuilder()->setLayout('ui-layout');
+    {
+        $this->viewBuilder()->setLayout('ui-layout');
 
-    $randomImages = $this->BlogPosts->find()
-        ->select(['banner'])
-        ->where([
-            'BlogPosts.status' => 'activo',
-            'BlogPosts.banner IS NOT' => null
-        ])
-        ->order(['RAND()'])
-        ->limit(3)
-        ->toArray();
-    
-    $this->set(compact('randomImages'));
-}
+        // Obtener 3 posts aleatorios con banners
+        $randomPosts = $this->BlogPosts->find()
+            ->select(['id', 'title', 'banner'])
+            ->where([
+                'BlogPosts.status' => 'activo',
+                'BlogPosts.banner IS NOT' => null
+            ])
+            ->order(['RAND()'])
+            ->limit(3)
+            ->toArray();
+        
+        // Asegurar que siempre tengamos 3 elementos (usar placeholder si faltan)
+        $images = [
+            $randomPosts[0]->banner ?? null,
+            $randomPosts[1]->banner ?? null,
+            $randomPosts[2]->banner ?? null
+        ];
+        
+        $this->set(compact('images'));
+    }
 
 }

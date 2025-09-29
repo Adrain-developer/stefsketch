@@ -41,6 +41,9 @@ class AppView extends View
 
     // Carga tu helper personalizado
     $this->loadHelper('Blog');
+    
+    // Agregar el ImageHelper
+    $this->loadHelper('Image');
 
     }
 }

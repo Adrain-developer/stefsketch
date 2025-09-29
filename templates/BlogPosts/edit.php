@@ -224,7 +224,7 @@ $scheduledDateTime = $hasScheduling ? $blogPost->scheduled_at->format('Y-m-d\TH:
       <!-- Mostrar galería existente con opción de eliminar -->
       <div id="galleryPreview" class="gallery-grid">
         <?php
-        $images = json_decode($blogPost->gallery, true);
+        $images = json_decode($blogPost->gallery ?? '[]', true);
         if (is_array($images)) {
           foreach ($images as $index => $img): ?>
             <div class="existing-image" id="existing-img-<?= $index ?>">
@@ -457,152 +457,250 @@ $scheduledDateTime = $hasScheduling ? $blogPost->scheduled_at->format('Y-m-d\TH:
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // PREVIEW DEL BANNER
+document.addEventListener('DOMContentLoaded', async () => {
+    // ========================================
+    // ⏳ ESPERAR CARGA DE HEIC CONVERTER
+    // ========================================
+    console.log('⏳ Esperando carga de HEIC Converter...');
+    let attempts = 0;
+    while (!window.heicConverter && attempts < 50) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        attempts++;
+    }
+    if (window.heicConverter) {
+        console.log('✅ HEIC Converter cargado correctamente');
+    } else {
+        console.warn('⚠️ HEIC Converter no disponible');
+    }
+
+    // ========================================
+    // 🎨 BANNER CON DETECCIÓN HEIC
+    // ========================================
     const bannerInput = document.getElementById('bannerInput');
     const bannerPreview = document.getElementById('bannerPreview');
-    
-    if (bannerInput) {
-        bannerInput.addEventListener('change', function(e) {
+
+    console.log('🔍 Elementos banner:', {
+        input: !!bannerInput,
+        preview: !!bannerPreview
+    });
+
+    if (bannerInput && bannerPreview) {
+        console.log('✅ Registrando event listener en bannerInput (EDIT)');
+        
+        bannerInput.addEventListener('change', async function(e) {
+            console.log('🔥 CHANGE EVENT DISPARADO en bannerInput (EDIT)');
+            
             const file = e.target.files[0];
-            if (file) {
+            if (!file) return;
+            
+            console.log('📁 Archivo:', file.name, file.type || 'sin tipo MIME');
+            
+            try {
+                // Detectar HEIC por extensión
+                const extension = file.name.toLowerCase().split('.').pop();
+                console.log('📁 Extensión detectada:', extension);
+                
+                if (extension === 'heic' || extension === 'heif') {
+                    console.log('❌ HEIC detectado, rechazando...');
+                    
+                    // Limpiar el input
+                    bannerInput.value = '';
+                    
+                    // Mostrar mensaje de error
+                    alert(
+                        '❌ Formato HEIC (iPhone) no soportado\n\n' +
+                        '📱 Para subir fotos de iPhone:\n\n' +
+                        '1️⃣ Cambia el formato de cámara:\n' +
+                        '   Ajustes > Cámara > Formatos > "Más compatible"\n\n' +
+                        '2️⃣ O convierte la foto a JPG antes de subirla'
+                    );
+                    
+                    return;
+                }
+
+                console.log('✅ Archivo válido, mostrando preview...');
+
+                // Mostrar preview
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     bannerPreview.src = e.target.result;
                     bannerPreview.style.display = 'block';
                 };
                 reader.readAsDataURL(file);
+
+            } catch (error) {
+                console.error('❌ ERROR:', error);
+                alert('Error al procesar imagen: ' + error.message);
             }
         });
+    } else {
+        console.error('❌ Elementos banner NO encontrados en EDIT');
     }
 
-    // GALERÍA MÚLTIPLE CON DRAG & DROP (NUEVAS IMÁGENES)
+    // ========================================
+    // 🗑️ ELIMINACIÓN DE IMÁGENES EXISTENTES
+    // ========================================
+    const removeImagesInput = document.getElementById('removeImagesInput');
+    let imagesToRemove = [];
+
+    window.removeExistingImage = function(index, imagePath) {
+        console.log('🗑️ Eliminando imagen:', imagePath);
+        
+        const imageElement = document.getElementById(`existing-img-${index}`);
+        const inputElement = document.getElementById(`existing-input-${index}`);
+        
+        if (imageElement && inputElement) {
+            // Agregar clase de eliminación
+            imageElement.classList.add('removing');
+            
+            // Agregar a la lista de imágenes a eliminar
+            imagesToRemove.push(imagePath);
+            if (removeImagesInput) {
+                removeImagesInput.value = JSON.stringify(imagesToRemove);
+            }
+            
+            // Remover del DOM después de animación
+            setTimeout(() => {
+                imageElement.remove();
+                inputElement.remove();
+            }, 300);
+        }
+    }
+
+    // ========================================
+    // 🖼️ GALERÍA (NUEVAS IMÁGENES) CON DETECCIÓN HEIC
+    // ========================================
     const dragDropZone = document.getElementById('multiImageDragDrop');
     const galleryInput = document.getElementById('galleryInput');
     const imagesGrid = document.getElementById('imagesGrid');
     let selectedFiles = [];
 
-    // Eventos de Drag & Drop
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dragDropZone.addEventListener(eventName, preventDefaults, false);
+    console.log('🔍 Elementos galería:', {
+        dragDrop: !!dragDropZone,
+        input: !!galleryInput,
+        grid: !!imagesGrid
     });
 
-    ['dragenter', 'dragover'].forEach(eventName => {
-        dragDropZone.addEventListener(eventName, highlight, false);
-    });
+    if (dragDropZone && galleryInput) {
+        console.log('✅ Registrando eventos de galería (EDIT)');
 
-    ['dragleave', 'drop'].forEach(eventName => {
-        dragDropZone.addEventListener(eventName, unhighlight, false);
-    });
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dragDropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
 
-    dragDropZone.addEventListener('drop', handleDrop, false);
-    dragDropZone.addEventListener('click', () => galleryInput.click());
-    galleryInput.addEventListener('change', handleInputChange);
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dragDropZone.addEventListener(eventName, () => {
+                dragDropZone.classList.add('dragover');
+            }, false);
+        });
 
-    function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
+        ['dragleave', 'drop'].forEach(eventName => {
+            dragDropZone.addEventListener(eventName, () => {
+                dragDropZone.classList.remove('dragover');
+            }, false);
+        });
 
-    function highlight(e) {
-        dragDropZone.classList.add('dragover');
-    }
+        dragDropZone.addEventListener('drop', (e) => {
+            console.log('📥 DROP en galería');
+            handleFiles(e.dataTransfer.files);
+        }, false);
 
-    function unhighlight(e) {
-        dragDropZone.classList.remove('dragover');
-    }
-
-    function handleDrop(e) {
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        handleFiles(files);
-    }
-
-    function handleInputChange(e) {
-        const files = e.target.files;
-        handleFiles(files);
+        dragDropZone.addEventListener('click', () => {
+            console.log('🖱️ Click en galería drag zone');
+            galleryInput.click();
+        });
+        
+        galleryInput.addEventListener('change', (e) => {
+            console.log('🔥 CHANGE en galleryInput');
+            handleFiles(e.target.files);
+        });
+    } else {
+        console.error('❌ Elementos de galería NO encontrados');
     }
 
     function handleFiles(files) {
-        ([...files]).forEach(addFile);
-        updateGalleryInput();
-        renderImages();
-    }
+        console.log(`📸 ${files.length} archivo(s) recibidos en galería`);
 
-    function addFile(file) {
-        if (selectedFiles.length >= 10) {
-            alert('Máximo 10 imágenes nuevas permitidas');
-            return;
-        }
-        
-        if (file.type.startsWith('image/')) {
-            selectedFiles.push(file);
-        }
-    }
+        const validFiles = [];
+        const heicFiles = [];
 
-    function removeFile(index) {
-        selectedFiles.splice(index, 1);
-        updateGalleryInput();
-        renderImages();
+        for (const file of Array.from(files)) {
+            const extension = file.name.toLowerCase().split('.').pop();
+            
+            if (extension === 'heic' || extension === 'heif') {
+                heicFiles.push(file.name);
+            } else {
+                validFiles.push(file);
+            }
+        }
+
+        // Si hay archivos HEIC, mostrar advertencia
+        if (heicFiles.length > 0) {
+            alert(
+                `❌ ${heicFiles.length} archivo(s) HEIC detectado(s):\n\n` +
+                heicFiles.join('\n') + '\n\n' +
+                '📱 Estos archivos NO son compatibles.\n\n' +
+                'Por favor convierte las fotos a JPG primero:\n' +
+                '• Ajustes > Cámara > Formatos > "Más compatible"\n' +
+                '• O usa una app de conversión HEIC to JPG'
+            );
+        }
+
+        // Procesar solo archivos válidos
+        if (validFiles.length > 0) {
+            console.log(`✅ ${validFiles.length} archivos válidos`);
+
+            for (const file of validFiles) {
+                if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+                    selectedFiles.push(file);
+                }
+            }
+            
+            updateGalleryInput();
+            renderImages();
+        }
     }
 
     function updateGalleryInput() {
-        const dt = new DataTransfer();
-        selectedFiles.forEach(file => dt.items.add(file));
-        galleryInput.files = dt.files;
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(file => dataTransfer.items.add(file));
+        galleryInput.files = dataTransfer.files;
+        console.log(`💾 ${galleryInput.files.length} archivos en input de galería`);
     }
 
     function renderImages() {
         imagesGrid.innerHTML = '';
         selectedFiles.forEach((file, index) => {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                const imageDiv = document.createElement('div');
-                imageDiv.className = 'grid-image';
-                imageDiv.innerHTML = `
-                    <img src="${e.target.result}" alt="Nueva imagen ${index + 1}">
-                    <button type="button" class="remove-image" onclick="removeFile(${index})">×</button>
+            reader.onload = (e) => {
+                const div = document.createElement('div');
+                div.className = 'grid-image';
+                div.innerHTML = `
+                    <img src="${e.target.result}" alt="Nueva imagen ${index + 1}" />
+                    <button type="button" class="remove-image" onclick="removeNewImage(${index})">×</button>
                 `;
-                imagesGrid.appendChild(imageDiv);
+                imagesGrid.appendChild(div);
             };
             reader.readAsDataURL(file);
         });
     }
 
-    // Hacer removeFile global para que funcione desde el HTML
-    window.removeFile = removeFile;
+    window.removeNewImage = function(index) {
+        console.log('🗑️ Removiendo nueva imagen:', index);
+        selectedFiles.splice(index, 1);
+        updateGalleryInput();
+        renderImages();
+    }
 
-    // ✅ FUNCIÓN PARA ELIMINAR IMÁGENES EXISTENTES
-    let imagesToRemove = [];
-    
-    window.removeExistingImage = function(index, imagePath) {
-        if (confirm('¿Estás seguro de que quieres eliminar esta imagen?')) {
-            // Agregar imagen a la lista de eliminación
-            imagesToRemove.push(imagePath);
-            
-            // Actualizar campo oculto con imágenes a eliminar
-            document.getElementById('removeImagesInput').value = JSON.stringify(imagesToRemove);
-            
-            // Marcar visualmente como eliminando
-            const imageDiv = document.getElementById('existing-img-' + index);
-            imageDiv.classList.add('removing');
-            
-            // Deshabilitar el input hidden de esta imagen
-            const hiddenInput = document.getElementById('existing-input-' + index);
-            if (hiddenInput) {
-                hiddenInput.disabled = true;
-            }
-            
-            // Opcional: Ocultar después de un momento
-            setTimeout(() => {
-                imageDiv.style.display = 'none';
-            }, 1000);
-        }
-    };
-
-    // SELECTIZE PARA CAMPOS EDITABLES
+    // ========================================
+    // 🏷️ SELECTIZE - CÓDIGO ORIGINAL SIN TOCAR
+    // ========================================
     if (typeof $ !== 'undefined' && $.fn.selectize) {
-        // Tags (múltiple con creación y valores pre-seleccionados)
+        console.log('✅ Inicializando Selectize (EDIT)');
+
         $('#tagInput').selectize({
             plugins: ['remove_button'],
             delimiter: ',',
@@ -616,7 +714,6 @@ document.addEventListener('DOMContentLoaded', () => {
             placeholder: 'Escriba tags/técnicas'
         });
 
-        // Tipo de Trabajo (single con creación)
         $('#eventTypeInput').selectize({
             create: function(input) {
                 return {
@@ -628,7 +725,6 @@ document.addEventListener('DOMContentLoaded', () => {
             persist: false
         });
 
-        // Categoría Principal (single con creación)
         $('#categoryInput').selectize({
             create: function(input) {
                 return {
@@ -641,9 +737,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ✅ EDITOR MARKDOWN - EasyMDE
+    // ========================================
+    // 📝 EASYMDE - CÓDIGO ORIGINAL SIN TOCAR
+    // ========================================
     const editorElement = document.getElementById("markdown-editor");
     if (editorElement && typeof EasyMDE !== 'undefined') {
+        console.log('✅ Inicializando EasyMDE (EDIT)');
+        
         const easyMDE = new EasyMDE({
             element: editorElement,
             spellChecker: false,
@@ -667,7 +767,6 @@ document.addEventListener('DOMContentLoaded', () => {
             placeholder: "Describe tu proyecto: proceso creativo, inspiración, técnicas utilizadas..."
         });
 
-        // Sincronizar contenido del editor al enviar el formulario
         document.querySelector('form').addEventListener('submit', function() {
             document.getElementById("markdown-editor").value = easyMDE.value();
             easyMDE.codemirror.save();

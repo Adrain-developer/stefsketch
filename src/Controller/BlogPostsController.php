@@ -1,9 +1,11 @@
 <?php
 namespace App\Controller;
+
 use Cake\Utility\Text;
 use Cake\I18n\FrozenTime;
 use Cake\Queue\QueueManager;
 use Cake\Log\Log;
+use App\Service\ImageProcessorService;
 
 
 class BlogPostsController extends AppController
@@ -24,15 +26,15 @@ public function initialize(): void
     
     $this->loadComponent('Flash');
     $this->loadComponent('Authentication.Authentication');
-    //$this->loadComponent('Notification'); //nuevo para Notificaciones
+    //$this->loadComponent('Notification'); 
 
-    // ✨ NUEVO: Cargar el componente de auto-publicación
+    // ✨ Cargar el componente de auto-publicación
     //$this->loadComponent('WebScheduler', [
     //    'throttleMinutes' => 5, // Solo ejecutar cada 5 minutos
     //    'logFile' => 'web_scheduler'
     //]);
     
-    // ✨ NUEVO: Ejecutar auto-publicación en cada carga de página
+    // ✨ Ejecutar auto-publicación en cada carga de página
     //try {
     //    $this->WebScheduler->publishScheduledPosts();
     //} catch (\Exception $e) {
@@ -129,6 +131,7 @@ public function beforeFilter(\Cake\Event\EventInterface $event)
 
 /**
  * Add method
+ * ✨ ACTUALIZADO: Ahora usa ImageProcessorService para compresión inteligente
  */
 public function add()
 {
@@ -157,26 +160,118 @@ public function add()
             $data['slug'] = $slug;
         }
 
-        // 2. Subir imagen principal
+        // ========================================
+        // 🎨 NUEVO: PROCESAMIENTO DE IMAGEN PRINCIPAL (BANNER)
+        // ========================================
         if (!empty($data['banner']) && $data['banner']->getError() === UPLOAD_ERR_OK) {
-            $banner = $data['banner'];
-            $bannerName = time() . '_' . $banner->getClientFilename();
-            $bannerPath = WWW_ROOT . 'img' . DS . 'bannersBlog' . DS . $bannerName;
-            $banner->moveTo($bannerPath);
-            $data['banner'] = 'bannersBlog/' . $bannerName;
+            try {
+                $imageProcessor = new ImageProcessorService();
+                
+                // Validar imagen antes de procesar
+                $validation = $imageProcessor->validateImage($data['banner']);
+                
+                if (!$validation['valid']) {
+                    // Mostrar todos los errores de validación
+                    foreach ($validation['errors'] as $error) {
+                        $this->Flash->error($error);
+                    }
+                    
+                    // Cargar datos del formulario para no perder lo ingresado
+                    $blogAuthors = ($user->role === 'admin') ? $this->BlogPosts->BlogAuthors->find('list')->toArray() : [];
+                    $eventTypes = $this->BlogPosts->EventTypes->find('list')->toArray();
+                    $blogCategories = $this->BlogPosts->BlogCategories->find('list')->toArray();
+                    $blogTags = $this->BlogPosts->BlogTags->find('list')->toArray();
+                    $blogSubcategories = $this->BlogPosts->BlogSubcategories->find('list')->toArray();
+                    
+                    $this->set(compact('blogPost', 'blogAuthors', 'eventTypes', 'blogCategories', 'blogTags', 'blogSubcategories'));
+                    return;
+                }
+                
+                // Mostrar warnings si existen
+                if (!empty($validation['warnings'])) {
+                    foreach ($validation['warnings'] as $warning) {
+                        $this->Flash->warning($warning);
+                    }
+                }
+                
+                // Procesar imagen (genera full, medium, thumb en WebP + fallback JPEG)
+                $processedImages = $imageProcessor->processImage(
+                    $data['banner'],
+                    'banner',
+                    'bannersBlog'
+                );
+                
+                // Guardar la ruta de la versión full WebP (la mejor calidad/peso)
+                $data['banner'] = $processedImages['full'];
+                
+                Log::info("Banner procesado exitosamente: {$processedImages['full']}", ['scope' => 'blog_posts']);
+                
+            } catch (\Exception $e) {
+                $this->Flash->error('Error al procesar el banner: ' . $e->getMessage());
+                Log::error("Error procesando banner: " . $e->getMessage(), ['scope' => 'blog_posts']);
+                
+                // Cargar datos del formulario
+                $blogAuthors = ($user->role === 'admin') ? $this->BlogPosts->BlogAuthors->find('list')->toArray() : [];
+                $eventTypes = $this->BlogPosts->EventTypes->find('list')->toArray();
+                $blogCategories = $this->BlogPosts->BlogCategories->find('list')->toArray();
+                $blogTags = $this->BlogPosts->BlogTags->find('list')->toArray();
+                $blogSubcategories = $this->BlogPosts->BlogSubcategories->find('list')->toArray();
+                
+                $this->set(compact('blogPost', 'blogAuthors', 'eventTypes', 'blogCategories', 'blogTags', 'blogSubcategories'));
+                return;
+            }
         } else {
             unset($data['banner']);
         }
 
-        // 3. Subir galería de imágenes
+        // ========================================
+        // 🖼️ NUEVO: PROCESAMIENTO DE GALERÍA
+        // ========================================
         $galleryPaths = [];
         if (!empty($data['gallery']) && is_array($data['gallery'])) {
+            $imageProcessor = new ImageProcessorService();
+            $errors = [];
+            $processedCount = 0;
+            
             foreach ($data['gallery'] as $img) {
                 if ($img->getError() === UPLOAD_ERR_OK) {
-                    $name = time() . '-' . $img->getClientFilename();
-                    $img->moveTo(WWW_ROOT . 'img' . DS . 'gallery' . DS . $name);
-                    $galleryPaths[] = 'gallery/' . $name;
+                    try {
+                        // Validar cada imagen
+                        $validation = $imageProcessor->validateImage($img);
+                        
+                        if (!$validation['valid']) {
+                            $errors = array_merge($errors, $validation['errors']);
+                            continue; // Saltar esta imagen pero continuar con las demás
+                        }
+                        
+                        // Procesar imagen
+                        $processedImages = $imageProcessor->processImage(
+                            $img,
+                            'gallery',
+                            'gallery'
+                        );
+                        
+                        // Guardar solo la ruta full (WebP optimizado)
+                        $galleryPaths[] = $processedImages['full'];
+                        $processedCount++;
+                        
+                    } catch (\Exception $e) {
+                        $errors[] = "Error con imagen {$img->getClientFilename()}: " . $e->getMessage();
+                        Log::error("Error procesando imagen de galería: " . $e->getMessage(), ['scope' => 'blog_posts']);
+                    }
                 }
+            }
+            
+            // Mostrar errores si hubo
+            if (!empty($errors)) {
+                foreach ($errors as $error) {
+                    $this->Flash->error($error);
+                }
+            }
+            
+            // Mostrar resumen
+            if ($processedCount > 0) {
+                $this->Flash->success("{$processedCount} imagen(es) procesada(s) y optimizada(s) exitosamente.");
             }
         }
 
@@ -309,6 +404,7 @@ public function add()
 
 /**
  * Edit method
+ * ✨ ACTUALIZADO: Ahora usa ImageProcessorService para compresión inteligente
  */
 public function edit($id = null)
 {
@@ -342,44 +438,107 @@ public function edit($id = null)
             $data['slug'] = $slug;
         }
 
+        // ========================================
+        // 🎨 NUEVO: PROCESAMIENTO DE BANNER
+        // ========================================
         if (!empty($data['banner']) && $data['banner']->getError() === UPLOAD_ERR_OK) {
-            $banner = $data['banner'];
-            $bannerName = time() . '_' . $banner->getClientFilename();
-            $bannerPath = WWW_ROOT . 'img' . DS . 'bannersBlog' . DS . $bannerName;
-            $banner->moveTo($bannerPath);
-            $data['banner'] = 'bannersBlog/' . $bannerName;
+            try {
+                $imageProcessor = new ImageProcessorService();
+                
+                // Validar imagen
+                $validation = $imageProcessor->validateImage($data['banner']);
+                
+                if (!$validation['valid']) {
+                    foreach ($validation['errors'] as $error) {
+                        $this->Flash->error($error);
+                    }
+                    // NO hacer return aquí, continuar al final del método
+                } else {
+                    // Eliminar banner antiguo si existe
+                    if (!empty($blogPost->banner)) {
+                        $imageProcessor->deleteImage($blogPost->banner);
+                    }
+                    
+                    // Procesar nuevo banner
+                    $processedImages = $imageProcessor->processImage(
+                        $data['banner'],
+                        'banner',
+                        'bannersBlog'
+                    );
+                    
+                    $data['banner'] = $processedImages['full'];
+                    
+                    Log::info("Banner actualizado exitosamente: {$processedImages['full']}", ['scope' => 'blog_posts']);
+                }
+                
+            } catch (\Exception $e) {
+                $this->Flash->error('Error al procesar el banner: ' . $e->getMessage());
+                Log::error("Error procesando banner en edit: " . $e->getMessage(), ['scope' => 'blog_posts']);
+            }
         } else {
             unset($data['banner']);
         }
 
+        // ========================================
+        // 🖼️ NUEVO: PROCESAMIENTO DE GALERÍA CON ELIMINACIÓN
+        // ========================================
         $galleryPaths = [];
+        $imageProcessor = new ImageProcessorService();
+        
+        // Procesar nuevas imágenes de galería
         if (!empty($data['gallery']) && is_array($data['gallery'])) {
+            $errors = [];
+            $processedCount = 0;
+            
             foreach ($data['gallery'] as $img) {
                 if ($img->getError() === UPLOAD_ERR_OK) {
-                    $name = time() . '-' . $img->getClientFilename();
-                    $img->moveTo(WWW_ROOT . 'img' . DS . 'gallery' . DS . $name);
-                    $galleryPaths[] = 'gallery/' . $name;
+                    try {
+                        $validation = $imageProcessor->validateImage($img);
+                        
+                        if (!$validation['valid']) {
+                            $errors = array_merge($errors, $validation['errors']);
+                            continue;
+                        }
+                        
+                        $processedImages = $imageProcessor->processImage(
+                            $img,
+                            'gallery',
+                            'gallery'
+                        );
+                        
+                        $galleryPaths[] = $processedImages['full'];
+                        $processedCount++;
+                        
+                    } catch (\Exception $e) {
+                        $errors[] = "Error con imagen {$img->getClientFilename()}: " . $e->getMessage();
+                        Log::error("Error procesando imagen de galería en edit: " . $e->getMessage(), ['scope' => 'blog_posts']);
+                    }
                 }
+            }
+            
+            if (!empty($errors)) {
+                foreach ($errors as $error) {
+                    $this->Flash->error($error);
+                }
+            }
+            
+            if ($processedCount > 0) {
+                $this->Flash->success("{$processedCount} imagen(es) nueva(s) procesada(s) exitosamente.");
             }
         }
 
-        if (!empty($galleryPaths)) {
-            $data['gallery'] = json_encode($galleryPaths);
-        } else {
-            unset($data['gallery']);
-        }
-
-
         // Manejar eliminación de imágenes existentes
         if (!empty($data['remove_images'])) {
-            $imagesToRemove = json_decode($data['remove_images'], true);
-            $currentImages = json_decode($blogPost->gallery, true) ?? [];
+        $imagesToRemove = json_decode($data['remove_images'], true);
+        $currentImages = !empty($blogPost->gallery) ? json_decode($blogPost->gallery, true) : [];
             
-            // Eliminar físicamente los archivos del servidor
+            // Eliminar físicamente los archivos del servidor usando ImageProcessor
             foreach ($imagesToRemove as $imageToRemove) {
-                $filePath = WWW_ROOT . 'img' . DS . $imageToRemove;
-                if (file_exists($filePath)) {
-                    unlink($filePath);
+                try {
+                    $imageProcessor->deleteImage($imageToRemove);
+                    Log::info("Imagen eliminada: {$imageToRemove}", ['scope' => 'blog_posts']);
+                } catch (\Exception $e) {
+                    Log::error("Error eliminando imagen {$imageToRemove}: " . $e->getMessage(), ['scope' => 'blog_posts']);
                 }
                 
                 // Remover de la lista actual
@@ -398,13 +557,14 @@ public function edit($id = null)
             $data['gallery'] = !empty($allImages) ? json_encode($allImages) : null;
         } else {
             // Si no hay eliminaciones, mantener lógica original de combinar
-            if (!empty($galleryPaths)) {
-                $currentImages = json_decode($blogPost->gallery, true) ?? [];
+           if (!empty($galleryPaths)) {
+                $currentImages = !empty($blogPost->gallery) ? json_decode($blogPost->gallery, true) : [];
                 $allImages = array_merge($currentImages, $galleryPaths);
                 $data['gallery'] = json_encode($allImages);
             }
         }
 
+        // Manejo de subcategorías
         if (!empty($data['blog_subcategories']['_ids']) && is_array($data['blog_subcategories']['_ids'])) {
             $subcatsArray = [];
             foreach ($data['blog_subcategories']['_ids'] as $subcategoriesValue) {
@@ -428,6 +588,7 @@ public function edit($id = null)
             $data['blog_subcategories']['_ids'] = $subcatsArray;
         }
 
+        // Manejo de tags
         if (!empty($data['blog_tags']['_ids']) && is_array($data['blog_tags']['_ids'])) {
             $tagsArray = [];
             foreach ($data['blog_tags']['_ids'] as $tagValue) {
@@ -451,13 +612,14 @@ public function edit($id = null)
             $data['blog_tags']['_ids'] = $tagsArray;
         }
 
+        // Programación
         if (!empty($data['enable_scheduling']) && !empty($data['scheduled_at']) && $data['status'] !== 'borrador') {
             $data['scheduled_at'] = $data['scheduled_at'];
         } else {
             $data['scheduled_at'] = null;
         }
 
-        // 7. Manejar creación de nuevo EventType
+        // Manejar creación de nuevo EventType
         if (!empty($data['event_type_id']) && !is_numeric($data['event_type_id'])) {
             $newEventType = $this->BlogPosts->EventTypes->newEntity([
                 'name' => $data['event_type_id'],
@@ -486,12 +648,16 @@ public function edit($id = null)
         ]);
 
         if ($this->BlogPosts->save($blogPost)) {
-            $this->ensureCategorySubcategoryLinks($blogPost->blog_category_id, []);
+            $this->ensureCategorySubcategoryLinks($blogPost->blog_category_id, $data['blog_subcategories']['_ids'] ?? []);
 
             // Enviar notificaciones si el post pasa a activo
             if ($blogPost->status === 'activo' && ($blogPost->isDirty('status') || $blogPost->isDirty('scheduled_at'))) {
-                $notificationService = new \App\Service\NotificationService();
-                $notificationService->sendNewPostNotification($blogPost, $user->id);
+                try {
+                    $notificationService = new \App\Service\NotificationService();
+                    $notificationService->sendNewPostNotification($blogPost, $user->id);
+                } catch (\Exception $e) {
+                    Log::error("Error enviando notificaciones: " . $e->getMessage(), ['scope' => 'blog_posts']);
+                }
             }
 
             $this->Flash->success("✅ Post \"{$blogPost->title}\" actualizado correctamente.");
@@ -501,6 +667,7 @@ public function edit($id = null)
         $this->Flash->error(__('El post no se pudo actualizar. Intenta nuevamente.'));
     }
 
+    // Cargar datos para el formulario (siempre se ejecuta si no hay redirección)
     $blogAuthors = ($user->role === 'admin') ? $this->BlogPosts->BlogAuthors->find('list')->toArray() : [];
     $eventTypes = $this->BlogPosts->EventTypes->find('list')->toArray();
     $blogCategories = $this->BlogPosts->BlogCategories->find('list')->toArray();
@@ -510,52 +677,47 @@ public function edit($id = null)
     $this->set(compact('blogPost', 'blogAuthors', 'eventTypes', 'blogCategories', 'blogTags', 'blogSubcategories'));
 }
 
-public function delete($id = null)
-{
-    $this->request->allowMethod(['post', 'delete']);
-    
-    // Obtener el blog post con las relaciones N:M (muchos a muchos)
-    $blogPost = $this->BlogPosts->get($id, [
-        'contain' => [
-            'BlogTags',           // Relación N:M con tags
-            'BlogSubcategories'   // Relación N:M con subcategorías
-        ]
-    ]);
+ /**
+     * Delete method
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $blogPost = $this->BlogPosts->get($id);
 
-    try {
-        // Comenzar transacción para asegurar consistencia
-        $connection = $this->BlogPosts->getConnection();
-        $connection->begin();
-
-        // Desvincular relación N:M con tags (sin eliminar los tags)
-        if (!empty($blogPost->blog_tags)) {
-            $this->BlogPosts->BlogTags->unlink($blogPost, $blogPost->blog_tags);
+        // 🗑️ NUEVO: Eliminar imágenes asociadas antes de borrar el post
+        try {
+            $imageProcessor = new ImageProcessorService();
+            
+            // Eliminar banner
+            if (!empty($blogPost->banner)) {
+                $imageProcessor->deleteImage($blogPost->banner);
+                Log::info("Banner eliminado al borrar post: {$blogPost->banner}", ['scope' => 'blog_posts']);
+            }
+            
+            // Eliminar galería
+            if (!empty($blogPost->gallery)) {
+                $galleryImages = json_decode($blogPost->gallery, true);
+                if (is_array($galleryImages)) {
+                    foreach ($galleryImages as $imagePath) {
+                        $imageProcessor->deleteImage($imagePath);
+                        Log::info("Imagen de galería eliminada: {$imagePath}", ['scope' => 'blog_posts']);
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error("Error eliminando imágenes al borrar post: " . $e->getMessage(), ['scope' => 'blog_posts']);
+            // Continuar con la eliminación del post aunque falle la eliminación de imágenes
         }
 
-        // Desvincular relación N:M con subcategorías (sin eliminar las subcategorías)
-        if (!empty($blogPost->blog_subcategories)) {
-            $this->BlogPosts->BlogSubcategories->unlink($blogPost, $blogPost->blog_subcategories);
-        }
-        
-        // La relación con blog_categories es belongsTo (blog_category_id en blog_posts)
-        // Se eliminará automáticamente al eliminar el post, sin eliminar la categoría
-
-        // Eliminar el blog post
         if ($this->BlogPosts->delete($blogPost)) {
-            $connection->commit();
-            $this->Flash->success(__('El post fue eliminado correctamente.'));
+            $this->Flash->success(__('Post eliminado.'));
         } else {
-            $connection->rollback();
-            $this->Flash->error(__('El post no pudo ser eliminado. Intenta nuevamente.'));
+            $this->Flash->error(__('No se pudo eliminar el post.'));
         }
 
-    } catch (\Exception $e) {
-        $connection->rollback();
-        $this->Flash->error(__('Error al eliminar el post: ' . $e->getMessage()));
+        return $this->redirect(['action' => 'index']);
     }
-
-    return $this->redirect(['action' => 'index']);
-}
 
 public function bulk()
 {
@@ -786,8 +948,16 @@ public function toggleStatusActivo($id)
     }
 
 
-private function ensureCategorySubcategoryLinks($categoryId, array $subcatIds): void
+/**
+ * Asegura los vínculos entre categorías y subcategorías
+ */
+private function ensureCategorySubcategoryLinks($categoryId, $subcatIds): void
 {
+    // Convertir a array si viene como string vacío o null
+    if (!is_array($subcatIds)) {
+        $subcatIds = [];
+    }
+    
     if (empty($categoryId) || empty($subcatIds)) {
         return;
     }
@@ -811,6 +981,7 @@ private function ensureCategorySubcategoryLinks($categoryId, array $subcatIds): 
         }
     }
 }
+
 
 
 }
