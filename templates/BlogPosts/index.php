@@ -194,6 +194,16 @@ $this->assign('title', 'Admin | Proyectos');
         width: 100%;
         text-align: center;
     }
+}.btn-action.btn-disabled {
+    background: #e2e8f0;
+    color: #a0aec0;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.btn-action.btn-disabled:hover {
+    background: #e2e8f0;
+    transform: none;
 }
 </style>
 
@@ -317,7 +327,7 @@ $this->assign('title', 'Admin | Proyectos');
                         </td>
                         
                         <td><?= h($post->title) ?></td>
-                        <td><?= $post->event_type->name ?? '<span style="color:#aaa;">Sin evento</span>' ?></td>
+                        <td><?= $post->event_type->name ?? '<span style="color:#aaa;">Sin Tipo Trabajo</span>' ?></td>
                         
                         <td><?= $post->blog_category->name ?? '<span style="color:#aaa;">Sin categoría</span>' ?></td>
 
@@ -336,47 +346,69 @@ $this->assign('title', 'Admin | Proyectos');
                         <td><?= $post->created->format('d M, y') ?></td>
                        
                         <td>
-                            <div class="action-buttons">
-                                <!-- Botón Ver -->
-                                <?= $this->Html->link(
-                                    '<i class="fas fa-eye"></i>', 
-                                    ['controller' => 'portafolio', 'action' => h($post->event_type->eventoslug) . '/' . $post->slug], 
-                                    [
-                                        'class' => 'btn-action btn-view',
-                                        'data-tooltip' => 'Ver post',
-                                        'escape' => false
-                                    ]
-                                ) ?>
-                                
-                                <!-- Botón Editar -->
-                                <?= $this->Html->link(
-                                    '<i class="fas fa-edit"></i>', 
-                                    '/portafolio/edit/' . $post->id, 
-                                    [
-                                        'class' => 'btn-action btn-edit',
-                                        'data-tooltip' => 'Editar',
-                                        'escape' => false
-                                    ]
-                                ) ?>
-                                
-                                <!-- Botón Compartir -->
-                                <button type="button" 
-                                        class="btn-action btn-share share-btn" 
-                                        data-tooltip="Compartir"
-                                        data-url="<?= $this->Url->build('/portafolio/' . h($post->event_type->eventoslug) . '/' . $post->slug, ['fullBase' => true]) ?>">
-                                    <i class="fas fa-share-alt"></i>
-                                </button>
-
-                                <button type="button" 
-                                        class="btn-action btn-delete" 
-                                        data-tooltip="Eliminar"
-                                        data-post-id="<?= $post->id ?>"
-                                        data-post-title="<?= h($post->title) ?>"
-                                        onclick="confirmDelete(this)">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
+    <div class="action-buttons">
+        <?php if (isset($post->event_type) && $post->event_type): ?>
+            <!-- Botón Ver -->
+            <?= $this->Html->link(
+                '<i class="fas fa-eye"></i>', 
+                ['controller' => 'portafolio', 'action' => h($post->event_type->eventoslug) . '/' . h($post->slug)],
+                [
+                    'class' => 'btn-action btn-view',
+                    'data-tooltip' => 'Ver post',
+                    'escape' => false
+                ]
+            ) ?>
+            
+            <!-- Botón Compartir -->
+            <button type="button" 
+                    class="btn-action btn-share share-btn" 
+                    data-tooltip="Compartir"
+                    data-url="<?= $this->Url->build('/portafolio/' . h($post->event_type->eventoslug) . '/' . $post->slug, ['fullBase' => true]) ?>">
+                <i class="fas fa-share-alt"></i>
+            </button>
+        <?php else: ?>
+            <!-- Botones deshabilitados si no hay event_type -->
+            <button type="button" class="btn-action btn-disabled" disabled title="Requiere tipo de trabajo">
+                <i class="fas fa-eye"></i>
+            </button>
+            <button type="button" class="btn-action btn-disabled" disabled title="Requiere tipo de trabajo">
+                <i class="fas fa-share-alt"></i>
+            </button>
+        <?php endif; ?>
+        
+        <!-- Botón Editar (siempre visible) -->
+        <?= $this->Html->link(
+            '<i class="fas fa-edit"></i>', 
+            '/portafolio/edit/' . $post->id, 
+            [
+                'class' => 'btn-action btn-edit',
+                'data-tooltip' => 'Editar',
+                'escape' => false
+            ]
+        ) ?>
+        
+        <!-- Botón Eliminar (siempre visible) -->
+        <?php 
+        $canDelete = false;
+        if ($identity && $identity->role === 'admin') {
+            $canDelete = true;
+        } elseif ($identity && $post->status === 'borrador') {
+            $canDelete = true;
+        }
+        ?>
+        
+        <?php if ($canDelete): ?>
+            <button type="button" 
+                    class="btn-action btn-delete" 
+                    data-tooltip="Eliminar"
+                    data-post-id="<?= $post->id ?>"
+                    data-post-title="<?= h($post->title) ?>"
+                    onclick="confirmDelete(this)">
+                <i class="fas fa-trash"></i>
+            </button>
+        <?php endif; ?>
+    </div>
+</td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -409,12 +441,18 @@ $this->assign('title', 'Admin | Proyectos');
                                 <p class="card-text mb-1" style="font-size: 12px; color: #34495e; font-weight: 500;"><?= $post->event_type->name ?? 'Sin tipo' ?></p>
                                 <p class="card-text mb-2" style="font-size: 11px; color: #7f8c8d;"><?= $post->blog_category->name ?? '<span style="color:#bdc3c7;">Sin categoría</span>' ?></p>                                                                    
                                 <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
-                                    <?= $this->Html->link('<i class="fas fa-eye"></i>', ['controller' => 'portafolio', 'action' => h($post->event_type->eventoslug) . '/' . $post->slug], [
-                                        'class' => 'btn btn-primary', 
-                                        'escape' => false, 
-                                        'title' => 'Ver', 
-                                        'style' => ' font-size: 12px; border-radius: 8px; margin-right: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.12);'
-                                    ]) ?>
+                                    <?php if (isset($post->event_type) && $post->event_type): ?>
+                                        <?= $this->Html->link('<i class="fas fa-eye"></i>', ['controller' => 'portafolio', 'action' => h($post->event_type->eventoslug) . '/' . $post->slug], [
+                                            'class' => 'btn btn-primary', 
+                                            'escape' => false, 
+                                            'title' => 'Ver', 
+                                            'style' => ' font-size: 12px; border-radius: 8px; margin-right: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.12);'
+                                        ]) ?>
+                                    <?php else: ?>
+                                        <button class="btn" disabled title="Requiere tipo de trabajo" style="font-size: 12px; border-radius: 8px; margin-right: 10px; opacity: 0.5; background-color: #cbd5e0; border-color: #cbd5e0; color: #6b7280;">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    <?php endif; ?>
                                     
                                     <?= $this->Html->link('<i class="fas fa-edit"></i>', ['action' => 'edit', $post->id], [
                                         'class' => 'btn btn-secondary', 
@@ -423,22 +461,27 @@ $this->assign('title', 'Admin | Proyectos');
                                         'style' => ' font-size: 12px; border-radius: 8px; margin-right: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.12);'
                                     ]) ?>
                                     
-                                    <a href="javascript:void(0);" class="btn btn-info share-btn" 
-                                       data-url="<?= $this->Url->build('/portafolio/' . h($post->event_type->eventoslug) . '/' . $post->slug, ['fullBase' => true]) ?>" 
-                                       title="Compartir" 
-                                       style=" font-size: 12px; border-radius: 8px; margin-right: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.12);">
-                                        <i class="fas fa-share-alt"></i>
-                                    </a>
-                                    
-                                        <button type="button" class="btn btn-danger" 
-                                                data-post-id="<?= $post->id ?>"
-                                                data-post-title="<?= h($post->title) ?>"
-                                                onclick="confirmDelete(this)"
-                                                title="Eliminar"
-                                                style="font-size: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.12);">
-                                            <i class="fas fa-trash"></i>
+                                    <?php if (isset($post->event_type) && $post->event_type): ?>
+                                        <a href="javascript:void(0);" class="btn btn-info share-btn" 
+                                        data-url="<?= $this->Url->build('/portafolio/' . h($post->event_type->eventoslug) . '/' . $post->slug, ['fullBase' => true]) ?>" 
+                                        title="Compartir" 
+                                        style=" font-size: 12px; border-radius: 8px; margin-right: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.12);">
+                                            <i class="fas fa-share-alt"></i>
+                                        </a>
+                                    <?php else: ?>
+                                        <button class="btn " disabled title="Requiere tipo de trabajo" style="font-size: 12px; border-radius: 8px; margin-right: 10px; opacity: 0.5; background-color: #cbd5e0; border-color: #cbd5e0; color: #6b7280;">
+                                            <i class="fas fa-share-alt"></i>
                                         </button>
-
+                                    <?php endif; ?>
+                                    
+                                    <button type="button" class="btn btn-danger" 
+                                            data-post-id="<?= $post->id ?>"
+                                            data-post-title="<?= h($post->title) ?>"
+                                            onclick="confirmDelete(this)"
+                                            title="Eliminar"
+                                            style="font-size: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.12);">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -505,26 +548,14 @@ $this->assign('title', 'Admin | Proyectos');
 </div>
 
 <!-- Forms ocultos para eliminación individual -->
-<div id="hidden-forms">
+<div id="hidden-forms" style="display: none;">
     <?php foreach ($blogPosts as $post): ?>
-       
-        
-            <?= $this->Form->create(null, [
-                'id' => 'delete-form-' . $post->id,
-                'url' => ['action' => 'delete', $post->id],
-                'method' => 'post',
-                'style' => 'display: none;'
-            ]) ?>
-            <?= $this->Form->end() ?>
-
-        
-            <?= $this->Form->create(null, [
-                'id' => 'toggle-form-' . $post->id,
-                'url' => ['action' => 'toggleStatusActivo', $post->id],
-                'method' => 'post',
-                'style' => 'display: none;'
-            ]) ?>
-
+        <?= $this->Form->create(null, [
+            'id' => 'delete-form-' . $post->id,
+            'url' => ['action' => 'delete', $post->id],
+            'method' => 'post'
+        ]) ?>
+        <?= $this->Form->end() ?>
     <?php endforeach; ?>
 </div>
 
@@ -808,10 +839,18 @@ function executeDelete() {
     if (deleteData) {
         const form = document.getElementById(`delete-form-${deleteData.postId}`);
         if (form) {
-            form.submit();
+            console.log('Enviando formulario de eliminación para post:', deleteData.postId);
+            
+            // Forzar submit del formulario
+            HTMLFormElement.prototype.submit.call(form);
+            
+            // Cerrar modal
+            closeConfirmModal();
+        } else {
+            console.error('No se encontró el formulario:', `delete-form-${deleteData.postId}`);
+            alert('Error: No se pudo encontrar el formulario de eliminación');
         }
     }
-    closeConfirmModal();
 }
 
 // Función mejorada para mostrar notificaciones
