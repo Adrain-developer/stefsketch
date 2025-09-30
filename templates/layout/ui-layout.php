@@ -202,7 +202,7 @@ if ($user) {
                                             <a href="/" aria-current="page"><span class="menu-title-text"><span
                                                         class="nectar-text-reveal-button"><span
                                                             class="nectar-text-reveal-button__text"
-                                                            data-text="Work">Work's</span></span></span></a>
+                                                            data-text="Work's">Work's</span></span></span></a>
                                         </li>
                                         <li id="menu-item-236"
                                             class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-236">
@@ -210,6 +210,13 @@ if ($user) {
                                                         class="nectar-text-reveal-button"><span
                                                             class="nectar-text-reveal-button__text"
                                                             data-text="About">About</span></span></span></a>
+                                        </li>
+                                        <li id="menu-item-236"
+                                            class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-236">
+                                            <a href="/portafolio-posts"><span class="menu-title-text"><span
+                                                        class="nectar-text-reveal-button"><span
+                                                            class="nectar-text-reveal-button__text"
+                                                            data-text="Admin">Admin</span></span></span></a>
                                         </li>
                                         <li
                                             class="menu-item menu-item-type-custom menu-item-object-custom menu-item-btn-style-button_extra-color-1 menu-item-hover-text-reveal nectar-regular-menu-item menu-item-364">
@@ -457,6 +464,10 @@ if ($user) {
                                 <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-236">
                                     <a href="/historia">About</a>
                                 </li>
+                                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-236">
+                                    <a href="/portafolio-posts">Admin</a>
+                                </li>
+                                
 
                             </ul>
 

@@ -7,6 +7,7 @@
  */
 
 $user = $this->request->getAttribute('identity');
+$this->assign('title', 'Admin | Proyectos');
 
 ?>
 
@@ -25,51 +26,238 @@ $user = $this->request->getAttribute('identity');
     background-color: #48bb78 !important;
     color: white !important;
 }
+/* ========================================
+   BOTÓN COLAPSABLE CONFIGURACIÓN
+   ======================================== */
+.button-container {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+/* Botón principal más grande */
+.admin-btn.btn-large {
+    font-size: 18px;
+    padding: 14px 28px;
+    font-weight: 700;
+}
+
+/* Menú colapsable */
+.config-menu {
+    flex: 1;
+    min-width: 250px;
+}
+
+.config-summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    list-style: none;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.config-summary::-webkit-details-marker {
+    display: none;
+}
+
+.config-summary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.chevron-icon {
+    transition: transform 0.3s ease;
+    font-size: 14px;
+}
+
+.config-menu[open] .chevron-icon {
+    transform: rotate(180deg);
+}
+
+/* Contenido del menú */
+.config-content {
+    margin-top: 10px;
+    padding: 15px;
+    background: #f7fafc;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.config-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 10px;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #4a5568;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.config-btn i {
+    font-size: 24px;
+    color: #667eea;
+}
+
+.config-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: #667eea;
+    text-decoration: none;
+    color: #667eea;
+}
+
+/* Botón cerrar sesión */
+.admin-btn.btn-logout {
+    background: linear-gradient(135deg, #f56565 0%, #c53030 100%);
+    border-color: transparent;
+}
+
+.admin-btn.btn-logout:hover {
+    background: linear-gradient(135deg, #c53030 0%, #9b2c2c 100%);
+    transform: translateY(-2px);
+}
+
+/* Responsive móvil */
+@media (max-width: 768px) {
+    .button-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .admin-btn.btn-large {
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+        padding: 12px 20px;
+    }
+    
+    .config-menu {
+        width: 100%;
+    }
+    
+    .config-summary {
+        font-size: 15px;
+        padding: 12px 18px;
+    }
+    
+    .config-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .config-btn {
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+    
+    .config-btn i {
+        font-size: 20px;
+    }
+    
+    .admin-btn.btn-logout {
+        width: 100%;
+        text-align: center;
+    }
+}
 </style>
 
 <section id="ventajas" class="como-funciona" style="background-color: #ffffff;">
     <div class="my-4 glass-card" style="padding: 18px;">
         <h2 class="mb-3">Hola <?= $blogAuthorName ?? '<span style="color:#aaa;">Sin autor</span>' ?> | Administra tus Proyectos</h2>
 
-        <!-- Botones modernos con diseño mejorado -->
-        <div class="button-container">
-            <?= $this->Html->link('<i class="fas fa-plus-circle"></i>Agregar Proyecto', '/portafolio/add', [
-                'class' => 'admin-btn btn-primary',
-                'escape' => false
-            ]) ?>
+<!-- Botones principales -->
+<div class="button-container">
+    <!-- Botón principal: Agregar Proyecto -->
+    <?= $this->Html->link(
+        '<i class="fas fa-plus-circle"></i>Agregar Proyecto', 
+        '/portafolio/add',
+        ['class' => 'admin-btn btn-primary btn-large', 'escape' => false]
+    ) ?>
 
-            <?= $this->Html->link('<i class="fas fa-wand-magic-sparkles"></i>Trabajos', ['controller' => 'EventTypes', 'action' => 'index'], [
-                'class' => 'admin-btn btn-info',
-                'escape' => false
-            ]) ?>
+    <!-- Menú colapsable: Configuración -->
+    <details class="config-menu">
+        <summary class="config-summary">
+            <i class="fas fa-cog"></i> Extras
+            <i class="fas fa-chevron-down chevron-icon"></i>
+        </summary>
+        
+        <div class="config-content">
+            <div class="config-grid">
+                <!-- Gestionar Tipos de Trabajo -->
+                <?= $this->Html->link(
+                    '<i class="fas fa-palette"></i><span>Tipos de Trabajo</span>', 
+                    ['controller' => 'EventTypes', 'action' => 'index'],
+                    ['class' => 'config-btn', 'escape' => false]
+                ) ?>
+                <!-- Gestionar Temas -->
+                <?= $this->Html->link(
+                    '<i class="fas fa-paint-roller"></i><span>Categorias</span>', 
+                    ['controller' => 'BlogCategories', 'action' => 'index'],
+                    ['class' => 'config-btn', 'escape' => false]
+                ) ?>
 
-                <?= $this->Html->link('<i class="fas fa-paint-roller"></i>Temas', ['controller' => 'BlogCategories', 'action' => 'index'], [
-                'class' => 'admin-btn btn-warning',
-                'escape' => false
-            ]) ?>
-               
+                <!-- Gestionar Tags -->
+                <?= $this->Html->link(
+                    '<i class="fas fa-tags"></i><span>Tags</span>', 
+                    ['controller' => 'BlogTags', 'action' => 'index'],
+                    ['class' => 'config-btn', 'escape' => false]
+                ) ?>
 
-                <?= $this->Html->link('<i class="fas fa-tags"></i>Tags', ['controller' => 'BlogTags', 'action' => 'index'], [
-                    'class' => 'admin-btn btn-primary',
-                    'escape' => false
-                ]) ?>
-
-                <!--<?= $this->Html->link('<i class="fas fa-users"></i>Autores', ['controller' => 'BlogAuthors', 'action' => 'index'], [
-                    'class' => 'admin-btn btn-primary',
-                    'escape' => false
-                ]) ?>
-
-                <?= $this->Html->link('<i class="fas fa-user-plus"></i>Agregar Autor', ['controller' => 'Users', 'action' => 'add-author'], [
-                    'class' => 'admin-btn btn-warning',
-                    'escape' => false
-                ]) ?>-->
-           
-
-            <?= $this->Html->link('<i class="fas fa-sign-out-alt"></i>Cerrar Sesión', ['controller' => 'Users', 'action' => 'logout'], [
-                'class' => 'admin-btn btn-danger',
-                'escape' => false
-            ]) ?>
+                
+                    <!-- Ver Leads -->
+                    <?= $this->Html->link(
+                        '<i class="fas fa-envelope"></i><span>Leads</span>', 
+                        ['controller' => 'Leads', 'action' => 'index'],
+                        ['class' => 'config-btn', 'escape' => false]
+                    ) ?>
+                
+            </div>
         </div>
+    </details>
+
+        <!-- Botón: Cerrar Sesión -->
+    <?= $this->Html->link(
+        '<i class="fas fa-sign-out-alt"></i>Cerrar Sesión', 
+        ['controller' => 'Users', 'action' => 'logout'],
+        ['class' => 'admin-btn btn-logout', 'escape' => false]
+    ) ?>
+</div>
 
         <!-- Filtros -->
         <?= $this->Form->create(null, ['type' => 'get', 'class' => 'form-row mb-3']) ?>
@@ -178,16 +366,15 @@ $user = $this->request->getAttribute('identity');
                                         data-url="<?= $this->Url->build('/portafolio/' . h($post->event_type->eventoslug) . '/' . $post->slug, ['fullBase' => true]) ?>">
                                     <i class="fas fa-share-alt"></i>
                                 </button>
-                                
-                               
-                                    <button type="button" 
-                                            class="btn-action btn-delete" 
-                                            data-tooltip="Eliminar"
-                                            data-post-id="<?= $post->id ?>"
-                                            data-post-title="<?= h($post->title) ?>"
-                                            onclick="confirmDelete(this)">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+
+                                <button type="button" 
+                                        class="btn-action btn-delete" 
+                                        data-tooltip="Eliminar"
+                                        data-post-id="<?= $post->id ?>"
+                                        data-post-title="<?= h($post->title) ?>"
+                                        onclick="confirmDelete(this)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -196,9 +383,8 @@ $user = $this->request->getAttribute('identity');
             </table>
         </div>
 
-        <?php if ($user->role === 'admin'): ?>
             <?= $this->Form->end() ?>
-        <?php endif; ?>
+
 
        <!-- VERSIÓN MÓVIL -->
         <div class="d-block d-md-none mt-4">

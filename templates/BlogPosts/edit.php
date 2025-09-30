@@ -1,7 +1,7 @@
 <?php
 
 $user = $this->request->getAttribute('identity');
-
+$this->assign('title', 'Editando: ' . h($blogPost->title));
 ?>
 
 <style>
@@ -67,6 +67,69 @@ color: rgb(239 39 39) !important;
     box-shadow: inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff;
     width: 100%;
     margin-bottom: 15px;
+}
+
+        /* ========================================
+   BOTÓN SUBMIT FIJO EN PARTE INFERIOR
+   ======================================== */
+.submit-button-container {
+    position: sticky !important;
+    bottom: 12px !important;
+    left: 0 !important;
+    right: 0 !important;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 999 !important;
+    display: table-row-group;
+    align-items: center;
+    border-top: 1px solid #e2e8f0;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.submit-button-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.submit-button-container .neo-button {
+    min-width: 250px;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1faf4d;
+    background-color: #ebfff0;
+}
+.btn-primary:hover {
+    color: #fff;
+    background-color: #00d948ff !important;
+    border-color: #00d948ff !important;
+}
+
+.btn-primary.focus,.btn-primary:focus {
+    color: #fff;
+    background-color: #00d948ff !important;
+    border-color: #00d948ff !important;
+    box-shadow: 0 0 0 .2rem rgba(38,143,255,.5)
+}
+
+/* Espacio al final del formulario para que no se tape contenido */
+.blogPostForm {
+    padding-bottom: 100px;
+}
+
+/* Responsive móvil */
+@media (max-width: 768px) {
+    .submit-button-container {
+        padding: 12px 15px;
+    }
+    
+    .submit-button-container .neo-button {
+        min-width: 100%;
+        font-size: 16px;
+        padding: 14px 20px;
+    }
 }
 
 /* ========================================
@@ -169,7 +232,6 @@ $scheduledDateTime = $hasScheduling ? $blogPost->scheduled_at->format('Y-m-d\TH:
 
   <fieldset>
     <legend>🎨 <strong>Editar Proyecto</strong></legend>
-    <a href="javascript:history.back()" class="back-button">←</a>
 
     <!-- SECCIÓN 1: Información Principal -->
     <div class="row">
@@ -188,24 +250,34 @@ $scheduledDateTime = $hasScheduling ? $blogPost->scheduled_at->format('Y-m-d\TH:
         ]) ?>
       </div>
 
-      <div class="col-md-6">
-        <?= $this->Form->control('banner', [
-          'type' => 'file',
-          'accept' => 'image/*',
-          'label' => 'Imagen Principal del Proyecto',
-          'class' => 'neo-input',
-          'id' => 'bannerInput'
-        ]) ?>
-
-        <div id="bannerPreviewContainer">
-          <?php if (!empty($blogPost->banner)) : ?>
-            <img id="bannerPreview" src="/img/<?= h($blogPost->banner) ?>" alt="Banner actual" style="max-width: 100%; margin-top: 10px; border-radius: 8px;" />
-          <?php else : ?>
-            <img id="bannerPreview" src="#" style="display:none; max-width: 100%; margin-top:10px; border-radius: 8px;" />
-          <?php endif; ?>
+<div class="col-md-6">
+    <!-- ZONA DRAG & DROP (oculta si ya hay banner) -->
+    <div class="banner-drag-drop-zone" id="bannerDragDrop" style="<?= !empty($blogPost->banner) ? 'display:none;' : '' ?>">
+        <div class="upload-icon">🖼️</div>
+        <div class="upload-text">
+            <div class="upload-title">Imagen Principal del Proyecto</div>
+            <div class="upload-subtitle">Arrastra aquí o haz clic para seleccionar</div>
         </div>
-      </div>
     </div>
+    
+    <?= $this->Form->control('banner', [
+        'type' => 'file',
+        'accept' => 'image/*',
+        'label' => false,
+        'style' => 'display: none;',
+        'id' => 'bannerInput'
+    ]) ?>
+    
+    <!-- PREVIEW (muestra imagen existente o nueva) -->
+    <div id="bannerPreviewContainer" style="margin-top: 15px; <?= empty($blogPost->banner) ? 'display:none;' : '' ?>">
+        <div style="position: relative;">
+            <img id="bannerPreview" 
+                 src="<?= !empty($blogPost->banner) ? '/img/' . h($blogPost->banner) : '#' ?>" 
+                 style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px; display: block;" />
+            <button type="button" class="remove-banner" onclick="removeBanner()">×</button>
+        </div>
+    </div>
+</div>
     
     <hr class="my-4">
   </fieldset>
@@ -342,10 +414,11 @@ $scheduledDateTime = $hasScheduling ? $blogPost->scheduled_at->format('Y-m-d\TH:
   <?= $this->Form->hidden('enable_scheduling', ['value' => false]) ?>
 
   <!-- BOTÓN DE ENVÍO -->
-  <div class="text-center mt-4">
+<div class="submit-button-container">
     <?= $this->Form->button('💾 Actualizar Proyecto', [
         'class' => 'neo-button btn-primary',
-        'id' => 'submit-button'
+        'id' => 'submit-button',
+        'type' => 'submit'
     ]) ?>
   </div>
 
@@ -353,6 +426,51 @@ $scheduledDateTime = $hasScheduling ? $blogPost->scheduled_at->format('Y-m-d\TH:
 </div>
 
 <style>
+    /* DRAG & DROP BANNER */
+.banner-drag-drop-zone {
+    border: 2px dashed #cbd5e0;
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+}
+
+.banner-drag-drop-zone:hover {
+    border-color: #4299e1;
+    background: #ebf8ff;
+}
+
+.banner-drag-drop-zone.dragover {
+    border-color: #3182ce;
+    background: #bee3f8;
+}
+
+.remove-banner {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.remove-banner:hover {
+    background: #c53030;
+    transform: scale(1.1);
+}
 /* ESTILOS ESPECÍFICOS PARA PORTAFOLIO */
 .multi-drag-drop-zone {
     border: 2px dashed #e2e8f0;
@@ -489,34 +607,6 @@ $scheduledDateTime = $hasScheduling ? $blogPost->scheduled_at->format('Y-m-d\TH:
     background: #c53030;
 }
 
-.back-button {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 50px;
-    height: 50px;
-    background: #4299e1;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.back-button:hover {
-    background: #3182ce;
-    transform: scale(1.1);
-    color: white;
-    text-decoration: none;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
     .images-grid, .gallery-grid {
@@ -535,84 +625,82 @@ $scheduledDateTime = $hasScheduling ? $blogPost->scheduled_at->format('Y-m-d\TH:
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', async () => {
-    // ========================================
-    // ⏳ ESPERAR CARGA DE HEIC CONVERTER
-    // ========================================
-    console.log('⏳ Esperando carga de HEIC Converter...');
-    let attempts = 0;
-    while (!window.heicConverter && attempts < 50) {
-        await new Promise(resolve => setTimeout(resolve, 100));
-        attempts++;
-    }
-    if (window.heicConverter) {
-        console.log('✅ HEIC Converter cargado correctamente');
-    } else {
-        console.warn('⚠️ HEIC Converter no disponible');
-    }
-
-    // ========================================
-    // 🎨 BANNER CON DETECCIÓN HEIC
-    // ========================================
+// ========================================
+// 🎨 FUNCIONES GLOBALES DEL BANNER
+// ========================================
+window.removeBanner = function() {
     const bannerInput = document.getElementById('bannerInput');
     const bannerPreview = document.getElementById('bannerPreview');
+    const bannerPreviewContainer = document.getElementById('bannerPreviewContainer');
+    const bannerDragDrop = document.getElementById('bannerDragDrop');
+    
+    if (bannerInput) bannerInput.value = '';
+    if (bannerPreview) bannerPreview.src = '#';
+    if (bannerPreviewContainer) bannerPreviewContainer.style.display = 'none';
+    if (bannerDragDrop) bannerDragDrop.style.display = 'block';
+}
 
-    console.log('🔍 Elementos banner:', {
-        input: !!bannerInput,
-        preview: !!bannerPreview
-    });
+document.addEventListener('DOMContentLoaded', async () => {
 
-    if (bannerInput && bannerPreview) {
-        console.log('✅ Registrando event listener en bannerInput (EDIT)');
-        
-        bannerInput.addEventListener('change', async function(e) {
-            console.log('🔥 CHANGE EVENT DISPARADO en bannerInput (EDIT)');
-            
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            console.log('📁 Archivo:', file.name, file.type || 'sin tipo MIME');
-            
-            try {
-                // Detectar HEIC por extensión
-                const extension = file.name.toLowerCase().split('.').pop();
-                console.log('📁 Extensión detectada:', extension);
-                
-                if (extension === 'heic' || extension === 'heif') {
-                    console.log('❌ HEIC detectado, rechazando...');
-                    
-                    // Limpiar el input
-                    bannerInput.value = '';
-                    
-                    // Mostrar mensaje de error
-                    alert(
-                        '❌ Formato HEIC (iPhone) no soportado\n\n' +
-                        '📱 Para subir fotos de iPhone:\n\n' +
-                        '1️⃣ Cambia el formato de cámara:\n' +
-                        '   Ajustes > Cámara > Formatos > "Más compatible"\n\n' +
-                        '2️⃣ O convierte la foto a JPG antes de subirla'
-                    );
-                    
-                    return;
-                }
+    // ========================================
+    // 🎨 BANNER DRAG & DROP
+    // ========================================
+    const bannerDragDrop = document.getElementById('bannerDragDrop');
+    const bannerInput = document.getElementById('bannerInput');
+    const bannerPreview = document.getElementById('bannerPreview');
+    const bannerPreviewContainer = document.getElementById('bannerPreviewContainer');
 
-                console.log('✅ Archivo válido, mostrando preview...');
+    if (bannerDragDrop && bannerInput) {
+        ['dragenter', 'dragover'].forEach(e => {
+            bannerDragDrop.addEventListener(e, (evt) => {
+                evt.preventDefault();
+                evt.stopPropagation();
+                bannerDragDrop.classList.add('dragover');
+            });
+        });
 
-                // Mostrar preview
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    bannerPreview.src = e.target.result;
-                    bannerPreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
+        ['dragleave', 'drop'].forEach(e => {
+            bannerDragDrop.addEventListener(e, (evt) => {
+                evt.preventDefault();
+                evt.stopPropagation();
+                bannerDragDrop.classList.remove('dragover');
+            });
+        });
 
-            } catch (error) {
-                console.error('❌ ERROR:', error);
-                alert('Error al procesar imagen: ' + error.message);
+        bannerDragDrop.addEventListener('drop', (e) => {
+            if (e.dataTransfer.files.length > 0) {
+                updateBanner(e.dataTransfer.files[0]);
             }
         });
-    } else {
-        console.error('❌ Elementos banner NO encontrados en EDIT');
+
+        bannerDragDrop.addEventListener('click', () => bannerInput.click());
+
+        bannerInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                updateBanner(e.target.files[0]);
+            }
+        });
+
+        function updateBanner(file) {
+            const ext = file.name.toLowerCase().split('.').pop();
+            if (ext === 'heic' || ext === 'heif') {
+                bannerInput.value = '';
+                alert('❌ Formato HEIC no soportado');
+                return;
+            }
+
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            bannerInput.files = dt.files;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                bannerPreview.src = e.target.result;
+                bannerPreviewContainer.style.display = 'block';
+                bannerDragDrop.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
     }
 
     // ========================================
@@ -622,22 +710,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     let imagesToRemove = [];
 
     window.removeExistingImage = function(index, imagePath) {
-        console.log('🗑️ Eliminando imagen:', imagePath);
-        
         const imageElement = document.getElementById(`existing-img-${index}`);
         const inputElement = document.getElementById(`existing-input-${index}`);
         
         if (imageElement && inputElement) {
-            // Agregar clase de eliminación
             imageElement.classList.add('removing');
-            
-            // Agregar a la lista de imágenes a eliminar
             imagesToRemove.push(imagePath);
             if (removeImagesInput) {
                 removeImagesInput.value = JSON.stringify(imagesToRemove);
             }
-            
-            // Remover del DOM después de animación
             setTimeout(() => {
                 imageElement.remove();
                 inputElement.remove();
@@ -646,22 +727,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ========================================
-    // 🖼️ GALERÍA (NUEVAS IMÁGENES) CON DETECCIÓN HEIC
+    // 🖼️ GALERÍA (NUEVAS IMÁGENES)
     // ========================================
     const dragDropZone = document.getElementById('multiImageDragDrop');
     const galleryInput = document.getElementById('galleryInput');
     const imagesGrid = document.getElementById('imagesGrid');
     let selectedFiles = [];
 
-    console.log('🔍 Elementos galería:', {
-        dragDrop: !!dragDropZone,
-        input: !!galleryInput,
-        grid: !!imagesGrid
-    });
-
     if (dragDropZone && galleryInput) {
-        console.log('✅ Registrando eventos de galería (EDIT)');
-
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dragDropZone.addEventListener(eventName, (e) => {
                 e.preventDefault();
@@ -682,32 +755,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         dragDropZone.addEventListener('drop', (e) => {
-            console.log('📥 DROP en galería');
             handleFiles(e.dataTransfer.files);
         }, false);
 
-        dragDropZone.addEventListener('click', () => {
-            console.log('🖱️ Click en galería drag zone');
-            galleryInput.click();
-        });
+        dragDropZone.addEventListener('click', () => galleryInput.click());
         
         galleryInput.addEventListener('change', (e) => {
-            console.log('🔥 CHANGE en galleryInput');
             handleFiles(e.target.files);
         });
-    } else {
-        console.error('❌ Elementos de galería NO encontrados');
     }
 
     function handleFiles(files) {
-        console.log(`📸 ${files.length} archivo(s) recibidos en galería`);
-
         const validFiles = [];
         const heicFiles = [];
 
         for (const file of Array.from(files)) {
             const extension = file.name.toLowerCase().split('.').pop();
-            
             if (extension === 'heic' || extension === 'heif') {
                 heicFiles.push(file.name);
             } else {
@@ -715,28 +778,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        // Si hay archivos HEIC, mostrar advertencia
         if (heicFiles.length > 0) {
             alert(
                 `❌ ${heicFiles.length} archivo(s) HEIC detectado(s):\n\n` +
                 heicFiles.join('\n') + '\n\n' +
-                '📱 Estos archivos NO son compatibles.\n\n' +
-                'Por favor convierte las fotos a JPG primero:\n' +
-                '• Ajustes > Cámara > Formatos > "Más compatible"\n' +
-                '• O usa una app de conversión HEIC to JPG'
+                '📱 Convierte las fotos a JPG primero.'
             );
         }
 
-        // Procesar solo archivos válidos
         if (validFiles.length > 0) {
-            console.log(`✅ ${validFiles.length} archivos válidos`);
-
             for (const file of validFiles) {
                 if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
                     selectedFiles.push(file);
                 }
             }
-            
             updateGalleryInput();
             renderImages();
         }
@@ -746,7 +801,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const dataTransfer = new DataTransfer();
         selectedFiles.forEach(file => dataTransfer.items.add(file));
         galleryInput.files = dataTransfer.files;
-        console.log(`💾 ${galleryInput.files.length} archivos en input de galería`);
     }
 
     function renderImages() {
@@ -767,37 +821,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     window.removeNewImage = function(index) {
-        console.log('🗑️ Removiendo nueva imagen:', index);
         selectedFiles.splice(index, 1);
         updateGalleryInput();
         renderImages();
     }
 
     // ========================================
-    // 🏷️ SELECTIZE - CÓDIGO ORIGINAL SIN TOCAR
+    // 🏷️ SELECTIZE
     // ========================================
     if (typeof $ !== 'undefined' && $.fn.selectize) {
-        console.log('✅ Inicializando Selectize (EDIT)');
-
         $('#tagInput').selectize({
             plugins: ['remove_button'],
             delimiter: ',',
             persist: false,
             create: function(input) {
-                return {
-                    value: input,
-                    text: input
-                };
+                return { value: input, text: input };
             },
             placeholder: 'Escriba tags/técnicas'
         });
 
         $('#eventTypeInput').selectize({
             create: function(input) {
-                return {
-                    value: input,
-                    text: input
-                };
+                return { value: input, text: input };
             },
             placeholder: 'Seleccione o escriba nuevo tipo',
             persist: false
@@ -805,10 +850,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         $('#categoryInput').selectize({
             create: function(input) {
-                return {
-                    value: input,
-                    text: input
-                };
+                return { value: input, text: input };
             },
             placeholder: 'Seleccione o escriba nueva categoría',
             persist: false
@@ -816,12 +858,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ========================================
-    // 📝 EASYMDE - CÓDIGO ORIGINAL SIN TOCAR
+    // 📝 EASYMDE
     // ========================================
     const editorElement = document.getElementById("markdown-editor");
     if (editorElement && typeof EasyMDE !== 'undefined') {
-        console.log('✅ Inicializando EasyMDE (EDIT)');
-        
         const easyMDE = new EasyMDE({
             element: editorElement,
             spellChecker: false,
@@ -853,14 +893,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // ========================================
-// ⏳ LOADING OVERLAY AL ENVIAR FORMULARIO
+// ⏳ LOADING OVERLAY
 // ========================================
 const form = document.querySelector('form');
 const submitButton = document.getElementById('submit-button');
 
 if (form && submitButton) {
     form.addEventListener('submit', function(e) {
-        // Crear overlay
         const overlay = document.createElement('div');
         overlay.id = 'loading-overlay';
         overlay.innerHTML = `
@@ -872,11 +911,72 @@ if (form && submitButton) {
         `;
         document.body.appendChild(overlay);
 
-        // Desactivar botón
         submitButton.disabled = true;
         submitButton.textContent = '⌛ Guardando...';
         submitButton.style.opacity = '0.6';
         submitButton.style.cursor = 'not-allowed';
     });
 }
+
+// ========================================
+// MOSTRAR BOTÓN AL HACER SCROLL
+// ========================================
+(function() {
+    const submitButton = document.querySelector('.submit-button-container');
+    let scrollThreshold = 50; // Píxeles de scroll para mostrar
+    
+    if (submitButton) {
+        // Mostrar después de un pequeño scroll
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > scrollThreshold) {
+                submitButton.classList.add('visible');
+            } else {
+                submitButton.classList.remove('visible');
+            }
+        });
+        
+        // También mostrar si hace scroll dentro del formulario
+        window.addEventListener('load', function() {
+            if (window.scrollY > scrollThreshold) {
+                submitButton.classList.add('visible');
+            }
+        });
+    }
+})();
+
+// ========================================
+// SCROLL AUTOMÁTICO EN INPUTS SELECTIZE (MÓVIL)
+// ========================================
+(function() {
+    // Detectar si es móvil
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        // Esperar a que Selectize esté inicializado
+        setTimeout(function() {
+            const selectizeInputs = document.querySelectorAll('.selectize-control');
+            
+            selectizeInputs.forEach(function(selectizeControl) {
+                const input = selectizeControl.querySelector('.selectize-input');
+                
+                if (input) {
+                    input.addEventListener('click', function() {
+                        // Pequeño delay para que el dropdown se abra primero
+                        setTimeout(function() {
+                            // Calcular posición del input
+                            const inputRect = input.getBoundingClientRect();
+                            const inputTop = inputRect.top + window.scrollY;
+                            
+                            // Scroll suave hacia el input dejando espacio arriba
+                            window.scrollTo({
+                                top: inputTop - 100, // 100px de margen superior
+                                behavior: 'smooth'
+                            });
+                        }, 100);
+                    });
+                }
+            });
+        }, 500); // Esperar a que Selectize se inicialice
+    }
+})();
 </script>

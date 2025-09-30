@@ -1,10 +1,15 @@
 <?php
 
 $user = $this->request->getAttribute('identity');
-
+$this->assign('title', 'Nuevo Proyecto');
 ?>
 
     <style>
+        .blogPostForm {
+    padding-bottom: 100px;
+    position: static !important; /* Permitir que los hijos usen position: fixed */
+    overflow: visible !important; /* No cortar el botón fijo */
+}
         .glass-card {
     background: rgba(255, 255, 255, 0.15);
     border-radius: 16px;
@@ -81,32 +86,6 @@ $user = $this->request->getAttribute('identity');
     color: rgb(197 52 52 / 50%) !important;
     padding: 20px !important;
 }
-/* Botón de retroceso */
-.back-button {
-    position: fixed;
-    top: 1.5rem;
-    left: 0rem;
-    z-index: 999999;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    border: none;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    transition: all 0.3s ease;
-    text-decoration: none;
-}
-
-.back-button:hover {
-    background: rgba(0, 0, 0, 0.8);
-    transform: scale(1.1);
-}
 
 /* Estilos base heredados de tu diseño actual */
         .form-group {
@@ -120,6 +99,79 @@ $user = $this->request->getAttribute('identity');
             color: #374151;
             font-size: 16px;
         }
+        /* DRAG & DROP BANNER */
+.banner-drag-drop-zone {
+    border: 2px dashed #cbd5e0;
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+    margin-bottom: 10px;
+}
+
+.banner-drag-drop-zone:hover {
+    border-color: #4299e1;
+    background: #ebf8ff;
+}
+
+.banner-drag-drop-zone.dragover {
+    border-color: #3182ce;
+    background: #bee3f8;
+    transform: scale(1.02);
+}
+/* ========================================
+   BANNER PREVIEW CON ESTILOS
+   ======================================== */
+#bannerPreview {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    display: none;
+    margin-top: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+#bannerPreview img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+    display: block;
+}
+
+.remove-banner {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.remove-banner:hover {
+    background: #c53030;
+    transform: scale(1.1);
+}
+
+/* Ocultar zona drag cuando hay preview */
+.banner-drag-drop-zone[style*="display: none"] {
+    display: none !important;
+}
 
         /* Multi-Image Drag & Drop Zone */
         .multi-drag-drop-zone {
@@ -427,6 +479,69 @@ $user = $this->request->getAttribute('identity');
         }
 
         /* ========================================
+   BOTÓN SUBMIT FIJO EN PARTE INFERIOR
+   ======================================== */
+.submit-button-container {
+    position: sticky !important;
+    bottom: 12px !important;
+    left: 0 !important;
+    right: 0 !important;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 999 !important;
+    display: table-row-group;
+    align-items: center;
+    border-top: 1px solid #e2e8f0;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.submit-button-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.submit-button-container .neo-button {
+    min-width: 250px;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1faf4d;
+    background-color: #ebfff0;
+}
+.btn-primary:hover {
+    color: #fff;
+    background-color: #00d948ff !important;
+    border-color: #00d948ff !important;
+}
+
+.btn-primary.focus,.btn-primary:focus {
+    color: #fff;
+    background-color: #00d948ff !important;
+    border-color: #00d948ff !important;
+    box-shadow: 0 0 0 .2rem rgba(38,143,255,.5)
+}
+
+/* Espacio al final del formulario para que no se tape contenido */
+.blogPostForm {
+    padding-bottom: 100px;
+}
+
+/* Responsive móvil */
+@media (max-width: 768px) {
+    .submit-button-container {
+        padding: 12px 15px;
+    }
+    
+    .submit-button-container .neo-button {
+        min-width: 100%;
+        font-size: 16px;
+        padding: 14px 20px;
+    }
+}
+
+        /* ========================================
    ⏳ LOADING OVERLAY
    ======================================== */
 #loading-overlay {
@@ -523,7 +638,7 @@ $user = $this->request->getAttribute('identity');
 
 <fieldset>
     <legend>🎨 <strong>Agregar Proyecto</strong></legend>
-    <a href="javascript:history.back()" class="back-button">←</a>
+    
     
     <!-- SECCIÓN 1: Información Principal -->
     <div class="row">
@@ -542,19 +657,32 @@ $user = $this->request->getAttribute('identity');
             ]) ?>
         </div>
 
-        <div class="col-md-6">
-            <?= $this->Form->control('banner', [
-                'type' => 'file',
-                'accept' => 'image/*',
-                'label' => 'Imagen Principal del Proyecto',
-                'class' => 'neo-input',
-                'id' => 'bannerInput'
-            ]) ?>
-            <div id="bannerPreviewContainer">
-                <img id="bannerPreview" src="#" style="display:none; max-width: 100%; margin-top:10px; border-radius: 8px;" />
-            </div>
+<div class="col-md-6">
+    <!-- ZONA DRAG & DROP PARA BANNER -->
+    <div class="banner-drag-drop-zone" id="bannerDragDrop">
+        <div class="upload-icon">🖼️</div>
+        <div class="upload-text">
+            <div class="upload-title">Imagen Principal del Proyecto</div>
+            <div class="upload-subtitle">Arrastra aquí o haz clic para seleccionar</div>
         </div>
     </div>
+    
+    <?= $this->Form->control('banner', [
+        'type' => 'file',
+        'accept' => 'image/*',
+        'label' => false,
+        'style' => 'display: none;',
+        'id' => 'bannerInput'
+    ]) ?>
+    
+    <!-- PREVIEW DEL BANNER -->
+    <div id="bannerPreviewContainer" style="margin-top: 15px; display: none;">
+        <div style="position: relative;">
+            <img id="bannerPreview" src="#" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px; display: block;" />
+            <button type="button" class="remove-banner" onclick="removeBanner()">×</button>
+        </div>
+    </div>
+</div>
     
     <hr class="my-4">
 </fieldset>
@@ -657,16 +785,17 @@ $user = $this->request->getAttribute('identity');
     </div>
 </fieldset>
 
-<!-- CAMPOS OCULTOS PARA SIMPLIFICAR -->
+<!-- CAMPOS OCULTOS -->
 <?= $this->Form->hidden('status', ['value' => 'activo']) ?>
 <?= $this->Form->hidden('scheduled_at', ['value' => null]) ?>
 <?= $this->Form->hidden('enable_scheduling', ['value' => false]) ?>
 
-<!-- BOTÓN DE ENVÍO -->
-<div class="text-center mt-4">
+<!-- BOTÓN DENTRO DEL FORM -->
+<div class="submit-button-container">
     <?= $this->Form->button('🚀 Publicar Proyecto', [
         'class' => 'neo-button btn-primary',
-        'id' => 'submit-button'
+        'id' => 'submit-button',
+        'type' => 'submit'
     ]) ?>
 </div>
 
@@ -755,33 +884,6 @@ $user = $this->request->getAttribute('identity');
     background: #c53030;
 }
 
-.back-button {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 50px;
-    height: 50px;
-    background: #4299e1;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.back-button:hover {
-    background: #3182ce;
-    transform: scale(1.1);
-    color: white;
-    text-decoration: none;
-}
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -802,6 +904,7 @@ $user = $this->request->getAttribute('identity');
 
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
+
     // ========================================
     // ⏳ ESPERAR CARGA DE HEIC CONVERTER
     // ========================================
@@ -818,128 +921,56 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ========================================
-// 🎨 BANNER CON DRAG & DROP + DETECCIÓN HEIC
-// ========================================
-const bannerDragDrop = document.getElementById('bannerDragDrop');
-const bannerInput = document.getElementById('bannerInput');
-const bannerPreview = document.getElementById('bannerPreview');
+    // 🎨 BANNER CON DRAG & DROP
+    // ========================================
+    const bannerDragDrop = document.getElementById('bannerDragDrop');
+    const bannerInput = document.getElementById('bannerInput');
+    const bannerPreview = document.getElementById('bannerPreview');
 
-console.log('🔍 Elementos banner:', {
-    dragDrop: !!bannerDragDrop,
-    input: !!bannerInput,
-    preview: !!bannerPreview
-});
+    if (bannerDragDrop && bannerInput && bannerPreview) {
+        // Eventos Drag & Drop
+        ['dragenter', 'dragover'].forEach(e => {
+            bannerDragDrop.addEventListener(e, (evt) => {
+                evt.preventDefault();
+                evt.stopPropagation();
+                bannerDragDrop.classList.add('dragover');
+            });
+        });
 
-// Función para procesar archivo
-async function processBannerFile(file) {
-    alert('🚀 FUNCIÓN LLAMADA: ' + file.name); // Test temporal
-    console.log('🚀 processBannerFile LLAMADO');
-    console.log('📁 Archivo:', file.name, file.type || 'sin tipo MIME');
-    
-    try {
-        // Detectar HEIC por extensión
-        const extension = file.name.toLowerCase().split('.').pop();
-        console.log('📁 Extensión detectada:', extension);
-        
-        if (extension === 'heic' || extension === 'heif') {
-            console.log('❌ HEIC detectado, rechazando...');
-            
-            // Limpiar el input
-            bannerInput.value = '';
-            
-            // Mostrar mensaje de error
-            alert(
-                '❌ Formato HEIC (iPhone) no soportado\n\n' +
-                '📱 Para subir fotos de iPhone:\n\n' +
-                '1️⃣ Cambia el formato de cámara:\n' +
-                '   Ajustes > Cámara > Formatos > "Más compatible"\n\n' +
-                '2️⃣ O convierte la foto a JPG antes de subirla'
-            );
-            
-            return; // Detener
-        }
+        ['dragleave', 'drop'].forEach(e => {
+            bannerDragDrop.addEventListener(e, (evt) => {
+                evt.preventDefault();
+                evt.stopPropagation();
+                bannerDragDrop.classList.remove('dragover');
+            });
+        });
 
-        console.log('✅ Archivo válido, procesando...');
-
-        // Mostrar preview
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            if (bannerPreview) {
-                bannerPreview.innerHTML = `
-                    <img src="${e.target.result}" alt="Preview" style="width:100%; height:100%; object-fit:cover;" />
-                    <button type="button" class="remove-banner" onclick="removeBanner()">×</button>
-                `;
-                bannerPreview.style.display = 'block';
-                if (bannerDragDrop) bannerDragDrop.style.display = 'none';
+        // Drop event
+        bannerDragDrop.addEventListener('drop', async (e) => {
+            if (e.dataTransfer.files.length > 0) {
+                await processBannerFile(e.dataTransfer.files[0]);
             }
-        };
-        reader.readAsDataURL(file);
+        });
 
-    } catch (error) {
-        console.error('❌ ERROR:', error);
-        alert('Error: ' + error.message);
+        // Click para abrir selector
+        bannerDragDrop.addEventListener('click', () => bannerInput.click());
+
+        // Change event del input
+        bannerInput.addEventListener('change', async (e) => {
+            if (e.target.files.length > 0) {
+                await processBannerFile(e.target.files[0]);
+            }
+        });
     }
-}
 
-// Registrar event listeners SOLO si los elementos existen
-if (bannerInput) {
-    console.log('✅ Registrando event listener en bannerInput');
-    
-    bannerInput.addEventListener('change', async function(e) {
-        console.log('🔥 CHANGE EVENT DISPARADO en bannerInput');
-        console.log('🔥 Archivos:', e.target.files.length);
-        
-        if (e.target.files && e.target.files.length > 0) {
-            await processBannerFile(e.target.files[0]);
-        }
-    });
-} else {
-    console.error('❌ bannerInput NO encontrado');
-}
-
-if (bannerDragDrop) {
-    console.log('✅ Registrando eventos drag & drop');
-    
-    bannerDragDrop.addEventListener('click', () => {
-        console.log('🖱️ Click en drag drop zone');
-        if (bannerInput) bannerInput.click();
-    });
-
-    bannerDragDrop.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        bannerDragDrop.classList.add('dragover');
-    });
-
-    bannerDragDrop.addEventListener('dragleave', () => {
-        bannerDragDrop.classList.remove('dragover');
-    });
-
-    bannerDragDrop.addEventListener('drop', async (e) => {
-        e.preventDefault();
-        bannerDragDrop.classList.remove('dragover');
-        
-        console.log('📥 DROP event');
-        if (e.dataTransfer.files.length > 0) {
-            await processBannerFile(e.dataTransfer.files[0]);
-        }
-    });
-} else {
-    console.error('❌ bannerDragDrop NO encontrado');
-}
-
-async function processBannerFile(file) {
-    console.log('🚀 processBannerFile LLAMADO');
-    console.log('📁 Archivo:', file.name, file.type || 'sin tipo MIME');
+    async function processBannerFile(file) {
+    console.log('🚀 Procesando banner:', file.name);
     
     try {
-        // ❌ RECHAZAR HEIC con mensaje amigable
-        if (window.heicConverter && window.heicConverter.isHEIC(file)) {
-            console.log('❌ Archivo HEIC detectado');
-            
-            // Limpiar el input
+        // Detectar HEIC
+        const extension = file.name.toLowerCase().split('.').pop();
+        if (extension === 'heic' || extension === 'heif') {
             bannerInput.value = '';
-            
-            // Mostrar mensaje de error con instrucciones
             alert(
                 '❌ Formato HEIC (iPhone) no soportado\n\n' +
                 '📱 Para subir fotos de iPhone:\n\n' +
@@ -948,36 +979,25 @@ async function processBannerFile(file) {
                 '2️⃣ O convierte la foto:\n' +
                 '   • Abre la foto en la app Fotos\n' +
                 '   • Compártela por Mail/Mensajes\n' +
-                '   • Se convertirá automáticamente a JPG\n\n' +
-                '3️⃣ Usa una app de conversión:\n' +
-                '   • "HEIC to JPG" (App Store)\n' +
-                '   • O sitios web como heictojpg.com'
+                '   • Se convertirá automáticamente a JPG'
             );
-            
-            return; // Detener el proceso
+            return;
         }
-
-        // Si no es HEIC, procesar normalmente
-        console.log('✅ Archivo válido, procesando...');
 
         // Asignar archivo al input
         const dataTransfer = new DataTransfer();
         dataTransfer.items.add(file);
         bannerInput.files = dataTransfer.files;
 
-        console.log('✅ Archivo asignado:', bannerInput.files[0].name, bannerInput.files[0].type);
-
         // Mostrar preview
         const reader = new FileReader();
         reader.onload = (e) => {
-            if (bannerPreview) {
-                bannerPreview.innerHTML = `
-                    <img src="${e.target.result}" alt="Preview" style="width:100%; height:100%; object-fit:cover;" />
-                    <button type="button" class="remove-banner" onclick="removeBanner()">×</button>
-                `;
-                bannerPreview.style.display = 'block';
-                bannerDragDrop.style.display = 'none';
-            }
+            const previewContainer = document.getElementById('bannerPreviewContainer');
+            const previewImg = document.getElementById('bannerPreview');
+            
+            previewImg.src = e.target.result;
+            previewContainer.style.display = 'block';
+            bannerDragDrop.style.display = 'none';
         };
         reader.readAsDataURL(file);
 
@@ -987,14 +1007,18 @@ async function processBannerFile(file) {
     }
 }
 
-    window.removeBanner = function() {
-        if (bannerInput) bannerInput.value = '';
-        if (bannerPreview) bannerPreview.style.display = 'none';
-        if (bannerDragDrop) bannerDragDrop.style.display = 'block';
-    }
+window.removeBanner = function() {
+    const previewContainer = document.getElementById('bannerPreviewContainer');
+    const previewImg = document.getElementById('bannerPreview');
+    
+    if (bannerInput) bannerInput.value = '';
+    if (previewImg) previewImg.src = '#';
+    if (previewContainer) previewContainer.style.display = 'none';
+    if (bannerDragDrop) bannerDragDrop.style.display = 'block';
+}
 
     // ========================================
-    // 🖼️ GALERÍA CON DRAG & DROP + CONVERSIÓN HEIC
+    // 🖼️ GALERÍA CON DRAG & DROP
     // ========================================
     const dragDropZone = document.getElementById('multiImageDragDrop');
     const galleryInput = document.getElementById('galleryInput');
@@ -1035,75 +1059,55 @@ async function processBannerFile(file) {
     }
 
     async function handleFiles(files) {
-    try {
-        console.log(`📸 ${files.length} archivo(s) para galería`);
+        try {
+            console.log(`📸 ${files.length} archivo(s) para galería`);
 
-        // Filtrar archivos HEIC
-        const validFiles = [];
-        const heicFiles = [];
+            // Filtrar archivos HEIC
+            const validFiles = [];
+            const heicFiles = [];
 
-        for (const file of Array.from(files)) {
-            if (window.heicConverter && window.heicConverter.isHEIC(file)) {
-                heicFiles.push(file.name);
-            } else {
-                validFiles.push(file);
-            }
-        }
-
-        // Si hay archivos HEIC, mostrar advertencia
-        if (heicFiles.length > 0) {
-            alert(
-                `❌ ${heicFiles.length} archivo(s) HEIC detectado(s):\n\n` +
-                heicFiles.join('\n') + '\n\n' +
-                '📱 Estos archivos NO son compatibles.\n\n' +
-                'Por favor convierte las fotos a JPG primero:\n' +
-                '• Ajustes > Cámara > Formatos > "Más compatible"\n' +
-                '• O usa una app de conversión HEIC to JPG'
-            );
-        }
-
-        // Procesar solo archivos válidos
-        if (validFiles.length > 0) {
-            console.log(`✅ ${validFiles.length} archivos válidos`);
-
-            for (const file of validFiles) {
-                if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
-                    selectedFiles.push(file);
+            for (const file of Array.from(files)) {
+                const extension = file.name.toLowerCase().split('.').pop();
+                if (extension === 'heic' || extension === 'heif') {
+                    heicFiles.push(file.name);
+                } else {
+                    validFiles.push(file);
                 }
             }
-            
+
+            // Si hay archivos HEIC, mostrar advertencia
+            if (heicFiles.length > 0) {
+                alert(
+                    `❌ ${heicFiles.length} archivo(s) HEIC detectado(s):\n\n` +
+                    heicFiles.join('\n') + '\n\n' +
+                    '📱 Estos archivos NO son compatibles.\n\n' +
+                    'Por favor convierte las fotos a JPG primero.'
+                );
+            }
+
+            // Procesar solo archivos válidos
+            for (const file of validFiles) {
+                addFile(file);
+            }
+
             updateGalleryInput();
             renderImages();
+
+        } catch (error) {
+            console.error('❌ Error en galería:', error);
+            alert('Error al procesar imágenes: ' + error.message);
         }
-
-    } catch (error) {
-        console.error('❌ Error:', error);
-        alert('Error: ' + error.message);
-    }
-}
-
-    function updateGalleryInput() {
-        const dataTransfer = new DataTransfer();
-        selectedFiles.forEach(file => dataTransfer.items.add(file));
-        galleryInput.files = dataTransfer.files;
-        console.log(`💾 ${galleryInput.files.length} archivos en input`);
     }
 
-    function renderImages() {
-        imagesGrid.innerHTML = '';
-        selectedFiles.forEach((file, index) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const div = document.createElement('div');
-                div.className = 'grid-image';
-                div.innerHTML = `
-                    <img src="${e.target.result}" alt="Imagen ${index + 1}" />
-                    <button type="button" class="remove-image" onclick="removeFile(${index})">×</button>
-                `;
-                imagesGrid.appendChild(div);
-            };
-            reader.readAsDataURL(file);
-        });
+    function addFile(file) {
+        if (selectedFiles.length >= 10) {
+            alert('Máximo 10 imágenes permitidas');
+            return;
+        }
+        
+        if (file.type.startsWith('image/')) {
+            selectedFiles.push(file);
+        }
     }
 
     function removeFile(index) {
@@ -1112,12 +1116,37 @@ async function processBannerFile(file) {
         renderImages();
     }
 
+    function updateGalleryInput() {
+        const dt = new DataTransfer();
+        selectedFiles.forEach(file => dt.items.add(file));
+        galleryInput.files = dt.files;
+    }
+
+    function renderImages() {
+        imagesGrid.innerHTML = '';
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'grid-image';
+                imageDiv.innerHTML = `
+                    <img src="${e.target.result}" alt="Imagen ${index + 1}">
+                    <button type="button" class="remove-image" onclick="removeFile(${index})">×</button>
+                `;
+                imagesGrid.appendChild(imageDiv);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
     window.removeFile = removeFile;
 
     // ========================================
-    // 🏷️ SELECTIZE - CÓDIGO ORIGINAL SIN TOCAR
+    // 🏷️ SELECTIZE PARA CAMPOS EDITABLES
     // ========================================
     if (typeof $ !== 'undefined' && $.fn.selectize) {
+        console.log('✅ Inicializando Selectize (EDIT)');
+
         $('#tagInput').selectize({
             plugins: ['remove_button'],
             delimiter: ',',
@@ -1155,22 +1184,21 @@ async function processBannerFile(file) {
     }
 
     // ========================================
-    // 📝 EASYMDE - CÓDIGO ORIGINAL SIN TOCAR
+    // ✏️ MARKDOWN EDITOR
     // ========================================
-    const editorElement = document.getElementById("markdown-editor");
-    if (editorElement && typeof EasyMDE !== 'undefined') {
+    const markdownElement = document.getElementById("markdown-editor");
+    if (markdownElement) {
         const easyMDE = new EasyMDE({
-            element: editorElement,
+            element: markdownElement,
             spellChecker: false,
             toolbar: [
-                "bold", "italic", "strikethrough", "heading", "|",
-                "ordered-list", "unordered-list", "|",
-                "quote", "code", "horizontal-rule", "link", "|",
-                "preview", "side-by-side", "fullscreen", "|",
+                "bold", "italic", "heading", "|",
+                "quote", "unordered-list", "ordered-list", "|",
+                "link", "preview", "|",
                 {
-                    name: "insertImageShortcode",
-                    action: function customFunction(editor) {
-                        let index = prompt("¿Qué número de imagen deseas insertar? (Ejemplo: 0 para [img:0])");
+                    name: "insert-gallery-image",
+                    action: function(editor) {
+                        const index = prompt("Ingresa el índice de la imagen de la galería\n(Ejemplo: 0 para [img:0])");
                         if (index !== null && index !== "") {
                             editor.codemirror.replaceSelection("[img:" + index + "]");
                         }
@@ -1191,7 +1219,7 @@ async function processBannerFile(file) {
 </script>
 
 <script>
-    // ========================================
+// ========================================
 // ⏳ LOADING OVERLAY AL ENVIAR FORMULARIO
 // ========================================
 const form = document.querySelector('form');
@@ -1199,7 +1227,6 @@ const submitButton = document.getElementById('submit-button');
 
 if (form && submitButton) {
     form.addEventListener('submit', function(e) {
-        // Crear overlay
         const overlay = document.createElement('div');
         overlay.id = 'loading-overlay';
         overlay.innerHTML = `
@@ -1211,12 +1238,73 @@ if (form && submitButton) {
         `;
         document.body.appendChild(overlay);
 
-        // Desactivar botón
         submitButton.disabled = true;
         submitButton.textContent = '⌛ Guardando...';
         submitButton.style.opacity = '0.6';
         submitButton.style.cursor = 'not-allowed';
     });
 }
+
+// ========================================
+// MOSTRAR BOTÓN AL HACER SCROLL
+// ========================================
+(function() {
+    const submitButton = document.querySelector('.submit-button-container');
+    let scrollThreshold = 50; // Píxeles de scroll para mostrar
+    
+    if (submitButton) {
+        // Mostrar después de un pequeño scroll
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > scrollThreshold) {
+                submitButton.classList.add('visible');
+            } else {
+                submitButton.classList.remove('visible');
+            }
+        });
+        
+        // También mostrar si hace scroll dentro del formulario
+        window.addEventListener('load', function() {
+            if (window.scrollY > scrollThreshold) {
+                submitButton.classList.add('visible');
+            }
+        });
+    }
+})();
+
+// ========================================
+// SCROLL AUTOMÁTICO EN INPUTS SELECTIZE (MÓVIL)
+// ========================================
+(function() {
+    // Detectar si es móvil
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        // Esperar a que Selectize esté inicializado
+        setTimeout(function() {
+            const selectizeInputs = document.querySelectorAll('.selectize-control');
+            
+            selectizeInputs.forEach(function(selectizeControl) {
+                const input = selectizeControl.querySelector('.selectize-input');
+                
+                if (input) {
+                    input.addEventListener('click', function() {
+                        // Pequeño delay para que el dropdown se abra primero
+                        setTimeout(function() {
+                            // Calcular posición del input
+                            const inputRect = input.getBoundingClientRect();
+                            const inputTop = inputRect.top + window.scrollY;
+                            
+                            // Scroll suave hacia el input dejando espacio arriba
+                            window.scrollTo({
+                                top: inputTop - 100, // 100px de margen superior
+                                behavior: 'smooth'
+                            });
+                        }, 100);
+                    });
+                }
+            });
+        }, 500); // Esperar a que Selectize se inicialice
+    }
+})();
 </script>
 

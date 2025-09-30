@@ -54,6 +54,73 @@ $cakeDescription = 'Stefsketch';
     <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
     <?= $this->Html->script('heic-converter') ?>
 
+<style>
+/* ========================================
+   BOTÓN GLOBAL ATRÁS (APARECE CON SCROLL)
+   ======================================== */
+.global-back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #1d27513d 0%, #0000006b 100%);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    
+    /* Animación suave */
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.global-back-button.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.global-back-button:hover {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    color: white;
+    text-decoration: none;
+}
+
+.global-back-button:active {
+    transform: scale(0.95);
+}
+.glass-card {
+    padding: 190px 20px 10px 20px !important;
+}
+
+/* Responsive móvil */
+@media (max-width: 768px) {
+    .global-back-button {
+        width: 35px;
+        height: 35px;
+        top: 15px;
+        left: 15px;
+        font-size: 18px;
+    }
+    .glass-card {
+    padding: 150px 20px 10px 20px !important;
+}
+}
+</style>
+
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
@@ -63,6 +130,11 @@ $cakeDescription = 'Stefsketch';
 
 <body>
 
+<!-- BOTÓN GLOBAL ATRÁS -->
+<a href="javascript:history.back()" class="global-back-button" title="Volver atrás">
+    <i class="fas fa-arrow-left"></i>
+</a>
+
 <header>
         <div class="container">
             <div class="row">
@@ -71,7 +143,7 @@ $cakeDescription = 'Stefsketch';
                     <div class="logo">
                         
                         <a href="https://stefsketch.com/" >
-                            <?php echo $this->Html->image('.png', ['class' => 'parallax-slider', 'alt' => 'LOGO', 'width' => '180']); ?>
+                            <?php echo $this->Html->image('stefsketch.png', ['class' => 'parallax-slider', 'alt' => 'LOGO', 'width' => '180']); ?>
                         </a>
                        
                     </div>
@@ -212,10 +284,25 @@ $cakeDescription = 'Stefsketch';
             });
         });
         </script>
-
-
+<script>
+// ========================================
+// MOSTRAR BOTÓN ATRÁS AL HACER SCROLL
+// ========================================
+(function() {
+    const backButton = document.querySelector('.global-back-button');
+    let scrollThreshold = 100; // Píxeles de scroll para mostrar el botón
+    
+    if (backButton) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > scrollThreshold) {
+                backButton.classList.add('visible');
+            } else {
+                backButton.classList.remove('visible');
+            }
+        });
+    }
+})();
 </script>
-
 
 
 </body>
