@@ -29,7 +29,7 @@ $user = $this->request->getAttribute('identity');
 
 <section id="ventajas" class="como-funciona" style="background-color: #ffffff;">
     <div class="my-4 glass-card" style="padding: 18px;">
-        <h2 class="mb-3">Hola <?= $blogAuthorName ?? '<span style="color:#aaa;">Sin autor</span>' ?> | Proyectos</h2>
+        <h2 class="mb-3">Hola <?= $blogAuthorName ?? '<span style="color:#aaa;">Sin autor</span>' ?> | Administra tus Proyectos</h2>
 
         <!-- Botones modernos con diseño mejorado -->
         <div class="button-container">
@@ -38,12 +38,12 @@ $user = $this->request->getAttribute('identity');
                 'escape' => false
             ]) ?>
 
-            <?= $this->Html->link('<i class="fas fa-calendar-alt"></i>Eventos', ['controller' => 'EventTypes', 'action' => 'index'], [
+            <?= $this->Html->link('<i class="fas fa-wand-magic-sparkles"></i>Trabajos', ['controller' => 'EventTypes', 'action' => 'index'], [
                 'class' => 'admin-btn btn-info',
                 'escape' => false
             ]) ?>
 
-                <?= $this->Html->link('<i class="fas fa-folder-open"></i>Temas', ['controller' => 'BlogCategories', 'action' => 'index'], [
+                <?= $this->Html->link('<i class="fas fa-paint-roller"></i>Temas', ['controller' => 'BlogCategories', 'action' => 'index'], [
                 'class' => 'admin-btn btn-warning',
                 'escape' => false
             ]) ?>
@@ -179,20 +179,7 @@ $user = $this->request->getAttribute('identity');
                                     <i class="fas fa-share-alt"></i>
                                 </button>
                                 
-                                <!-- Botón Eliminar (Admin siempre, usuarios normales solo en borrador) -->
-                                <?php 
-                                $canDelete = false;
-
-                                if ($identity && $identity->role === 'admin') {
-                                    // Admin puede eliminar en cualquier estado
-                                    $canDelete = true;
-                                } elseif ($identity && $post->status === 'borrador') {
-                                    // Usuario normal solo puede eliminar si está en borrador
-                                    $canDelete = true;
-                                }
-                                ?>
-
-                                <?php if ($canDelete): ?>
+                               
                                     <button type="button" 
                                             class="btn-action btn-delete" 
                                             data-tooltip="Eliminar"
@@ -201,7 +188,6 @@ $user = $this->request->getAttribute('identity');
                                             onclick="confirmDelete(this)">
                                         <i class="fas fa-trash"></i>
                                     </button>
-                                <?php endif; ?>
                             </div>
                         </td>
                     </tr>
@@ -237,7 +223,7 @@ $user = $this->request->getAttribute('identity');
                                 <p class="card-text mb-1" style="font-size: 12px; color: #34495e; font-weight: 500;"><?= $post->event_type->name ?? 'Sin tipo' ?></p>
                                 <p class="card-text mb-2" style="font-size: 11px; color: #7f8c8d;"><?= $post->blog_category->name ?? '<span style="color:#bdc3c7;">Sin categoría</span>' ?></p>                                                                    
                                 <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
-                                    <?= $this->Html->link('<i class="fas fa-eye"></i>', ['controller' => 'blog', 'action' => h($post->event_type->eventoslug) . '/' . $post->slug], [
+                                    <?= $this->Html->link('<i class="fas fa-eye"></i>', ['controller' => 'portafolio', 'action' => h($post->event_type->eventoslug) . '/' . $post->slug], [
                                         'class' => 'btn btn-primary', 
                                         'escape' => false, 
                                         'title' => 'Ver', 
@@ -252,13 +238,12 @@ $user = $this->request->getAttribute('identity');
                                     ]) ?>
                                     
                                     <a href="javascript:void(0);" class="btn btn-info share-btn" 
-                                       data-url="<?= $this->Url->build('/blog/' . h($post->event_type->eventoslug) . '/' . $post->slug, ['fullBase' => true]) ?>" 
+                                       data-url="<?= $this->Url->build('/portafolio/' . h($post->event_type->eventoslug) . '/' . $post->slug, ['fullBase' => true]) ?>" 
                                        title="Compartir" 
                                        style=" font-size: 12px; border-radius: 8px; margin-right: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.12);">
                                         <i class="fas fa-share-alt"></i>
                                     </a>
                                     
-                                    <?php if ($identity && $identity->role === 'admin'): ?>
                                         <button type="button" class="btn btn-danger" 
                                                 data-post-id="<?= $post->id ?>"
                                                 data-post-title="<?= h($post->title) ?>"
@@ -267,7 +252,7 @@ $user = $this->request->getAttribute('identity');
                                                 style="font-size: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.12);">
                                             <i class="fas fa-trash"></i>
                                         </button>
-                                    <?php endif; ?>
+
                                 </div>
                             </div>
                         </div>
@@ -336,18 +321,8 @@ $user = $this->request->getAttribute('identity');
 <!-- Forms ocultos para eliminación individual -->
 <div id="hidden-forms">
     <?php foreach ($blogPosts as $post): ?>
-        <?php
-        // Determinar si puede eliminar (misma lógica que el botón)
-        $canDelete = false;
-        if ($identity && $identity->role === 'admin') {
-            $canDelete = true;
-        } elseif ($identity && $post->status === 'borrador') {
-            $canDelete = true;
-        }
-        ?>
+       
         
-        <!-- Form para eliminar (Admin siempre, usuarios normales solo en borrador) -->
-        <?php if ($canDelete): ?>
             <?= $this->Form->create(null, [
                 'id' => 'delete-form-' . $post->id,
                 'url' => ['action' => 'delete', $post->id],
@@ -355,18 +330,15 @@ $user = $this->request->getAttribute('identity');
                 'style' => 'display: none;'
             ]) ?>
             <?= $this->Form->end() ?>
-        <?php endif; ?>
+
         
-        <!-- Form para toggle status (solo para admin y si no es borrador) -->
-        <?php if ($identity && $identity->role === 'admin' && $post->status !== 'borrador'): ?>
             <?= $this->Form->create(null, [
                 'id' => 'toggle-form-' . $post->id,
                 'url' => ['action' => 'toggleStatusActivo', $post->id],
                 'method' => 'post',
                 'style' => 'display: none;'
             ]) ?>
-            <?= $this->Form->end() ?>
-        <?php endif; ?>
+
     <?php endforeach; ?>
 </div>
 

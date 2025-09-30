@@ -39,7 +39,7 @@ body {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+    background: linear-gradient(90deg, #020a2d, #1494a9, #2b9359, #d1b52c);
     background-size: 300% 300%;
     animation: gradientShift 3s ease infinite;
 }
@@ -57,7 +57,7 @@ body {
 .form-title {
     font-size: clamp(28px, 5vw, 36px);
     font-weight: 800;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #000000 0%, #7a6bf1 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -534,8 +534,7 @@ body {
 <div class="main-content">
     <div class="author-form-container">
         <div class="form-header">
-            <h1 class="form-title">Registro de Autor</h1>
-            <p class="form-subtitle">Agrega tu información para comenzar a escribir post maravillosos y todo el 🌍 los pueda ver</p>
+            <h1 class="form-title">Registro</h1>
         </div>
 
         <?= $this->Form->create(null, [
@@ -547,7 +546,7 @@ body {
         <div class="form-grid">
             <!-- Nombre completo -->
             <div class="form-group">
-                <label class="form-label" for="name">Nombre completo</label>
+                <label class="form-label" for="name">Nombre</label>
                 <?= $this->Form->control('name', [
                     'label' => false,
                     'class' => 'form-input',
@@ -565,7 +564,7 @@ body {
                     'type' => 'email',
                     'label' => false,
                     'class' => 'form-input',
-                    'placeholder' => 'será tu usuario de acceso',
+                    'placeholder' => 'Será tu usuario de acceso',
                     'required' => true,
                     'id' => 'email'
                 ]) ?>
@@ -579,7 +578,7 @@ body {
                     'type' => 'textarea',
                     'label' => false,
                     'class' => 'form-textarea',
-                    'placeholder' => 'Cuéntanos sobre ti, tu experiencia y lo que te apasiona escribir...',
+                    'placeholder' => 'Cuéntanos sobre ti, tu experiencia y lo que te apasiona como ilustradora...',
                     'id' => 'bio'
                 ]) ?>
                 <div class="error-message" id="bio-error"></div>
