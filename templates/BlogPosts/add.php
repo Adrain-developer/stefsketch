@@ -637,7 +637,7 @@ $this->assign('title', 'Nuevo Proyecto');
 <?= $this->Form->create($blogPost, ['type' => 'file']) ?>
 
 <fieldset>
-    <legend>🎨 <strong>Agregar Proyecto</strong></legend>
+    <legend>🖌 <strong>Agregar Proyecto</strong></legend>
     
     
     <!-- SECCIÓN 1: Información Principal -->
@@ -689,7 +689,7 @@ $this->assign('title', 'Nuevo Proyecto');
 
 <!-- SECCIÓN 2: Categorización Simplificada -->
 <fieldset>
-    <legend>📂 <strong>Categorización</strong></legend>
+    <legend>🎨 <strong>Categorización</strong></legend>
     <div class="row">
         <div class="col-md-4">
             <?= $this->Form->control('event_type_id', [
@@ -748,13 +748,11 @@ $this->assign('title', 'Nuevo Proyecto');
             'type' => 'textarea',
             'id' => 'markdown-editor',
             'required' => false,
-            'label' => 'Describe tu proyecto',
+            'label' => false,
             'placeholder' => 'Cuéntanos sobre tu proceso creativo, inspiración, técnicas utilizadas...',
             'rows' => 6
         ]) ?>
-        <small class="form-text text-muted">
-            Opcional: Describe el proceso, inspiración, cliente, etc.
-        </small>
+        
     </div>
     
     <hr class="my-4">
@@ -765,7 +763,6 @@ $this->assign('title', 'Nuevo Proyecto');
     <legend>🖼️ <strong>Galería del Proyecto</strong></legend>
     
     <div class="form-group">
-        <label class="form-label">Imágenes del Proceso/Variaciones</label>
         <div class="multi-drag-drop-zone" id="multiImageDragDrop">
             <div class="upload-icon">🖼️</div>
             <div class="upload-text">
@@ -1194,18 +1191,7 @@ window.removeBanner = function() {
             toolbar: [
                 "bold", "italic", "heading", "|",
                 "quote", "unordered-list", "ordered-list", "|",
-                "link", "preview", "|",
-                {
-                    name: "insert-gallery-image",
-                    action: function(editor) {
-                        const index = prompt("Ingresa el índice de la imagen de la galería\n(Ejemplo: 0 para [img:0])");
-                        if (index !== null && index !== "") {
-                            editor.codemirror.replaceSelection("[img:" + index + "]");
-                        }
-                    },
-                    className: "fa fa-image",
-                    title: "Insertar imagen de galería"
-                }
+                "link", 
             ],
             placeholder: "Describe tu proyecto: proceso creativo, inspiración, técnicas utilizadas..."
         });

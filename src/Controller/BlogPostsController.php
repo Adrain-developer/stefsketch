@@ -474,12 +474,13 @@ public function edit($id = null)
             unset($data['banner']);
         }
 
+        
         // ========================================
-        // 🖼️ NUEVO: PROCESAMIENTO DE GALERÍA CON ELIMINACIÓN
+        // 🖼️ PROCESAMIENTO DE GALERÍA CON ELIMINACIÓN - CORREGIDO
         // ========================================
         $galleryPaths = [];
         $imageProcessor = new ImageProcessorService();
-        
+
         // Procesar nuevas imágenes de galería
         if (!empty($data['gallery']) && is_array($data['gallery'])) {
             $errors = [];
@@ -522,12 +523,14 @@ public function edit($id = null)
             }
         }
 
+        // 🔧 OBTENER IMÁGENES ACTUALES (SIEMPRE)
+        $currentImages = !empty($blogPost->gallery) ? json_decode($blogPost->gallery, true) : [];
+
         // Manejar eliminación de imágenes existentes
         if (!empty($data['remove_images'])) {
-        $imagesToRemove = json_decode($data['remove_images'], true);
-        $currentImages = !empty($blogPost->gallery) ? json_decode($blogPost->gallery, true) : [];
+            $imagesToRemove = json_decode($data['remove_images'], true);
             
-            // Eliminar físicamente los archivos del servidor usando ImageProcessor
+            // Eliminar físicamente los archivos del servidor
             foreach ($imagesToRemove as $imageToRemove) {
                 try {
                     $imageProcessor->deleteImage($imageToRemove);
@@ -541,23 +544,13 @@ public function edit($id = null)
                     return $img !== $imageToRemove;
                 });
             }
-            
-            // Combinar imágenes existentes (que no se eliminaron) con las nuevas
-            if (!empty($galleryPaths)) {
-                $allImages = array_merge(array_values($currentImages), $galleryPaths);
-            } else {
-                $allImages = array_values($currentImages);
-            }
-            
-            $data['gallery'] = !empty($allImages) ? json_encode($allImages) : null;
-        } else {
-            // Si no hay eliminaciones, mantener lógica original de combinar
-           if (!empty($galleryPaths)) {
-                $currentImages = !empty($blogPost->gallery) ? json_decode($blogPost->gallery, true) : [];
-                $allImages = array_merge($currentImages, $galleryPaths);
-                $data['gallery'] = json_encode($allImages);
-            }
         }
+
+        // 🔧 COMBINAR: existentes (menos eliminadas) + nuevas
+        $allImages = array_merge(array_values($currentImages), $galleryPaths);
+
+        // 🔧 ASIGNAR AL DATA (SIEMPRE)
+        $data['gallery'] = !empty($allImages) ? json_encode($allImages) : null;
 
         // Manejo de subcategorías
         if (!empty($data['blog_subcategories']['_ids']) && is_array($data['blog_subcategories']['_ids'])) {

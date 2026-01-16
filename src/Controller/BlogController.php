@@ -455,14 +455,23 @@ public function view($eventoslug = null, $slug = null)
         ->firstOrFail();
 
     // 2. Buscar el post actual con sus relaciones (SIN BlogAuthors)
-    $blogPost = $this->loadModel('BlogPosts')->find()
-        ->where([
-            'BlogPosts.slug' => $slug,
-            'BlogPosts.event_type_id' => $eventType->id,
-            'BlogPosts.status' => 'activo',
-        ])
-        ->contain(['EventTypes', 'BlogTags', 'BlogCategories'])
-        ->firstOrFail();
+    try {
+        $blogPost = $this->loadModel('BlogPosts')->find()
+            ->where([
+                'BlogPosts.slug' => $slug,
+                'BlogPosts.event_type_id' => $eventType->id,
+                'BlogPosts.status' => 'activo',
+            ])
+            ->contain(['EventTypes', 'BlogTags', 'BlogCategories'])
+            ->firstOrFail();
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            // Guardar mensaje en sesión para mostrarlo como toast
+            $this->request->getSession()->write('toast', [
+                'message' => 'Este proyecto ya no está disponible.',
+                'type' => 'error'
+            ]);
+            return $this->redirect('/');
+        }
 
     // 3. Aumentar contador de vistas
     $this->BlogPosts->getConnection()->execute(

@@ -219,212 +219,6 @@ color: rgb(239 39 39) !important;
     }
 }
 </style>
-
-<?php
-// Verificar si el post ya tiene programación activa
-$hasScheduling = !empty($blogPost->scheduled_at);
-$scheduledDateTime = $hasScheduling ? $blogPost->scheduled_at->format('Y-m-d\TH:i') : '';
-?>
-
-<!-- FORMULARIO EDIT SIMPLIFICADO PARA PORTAFOLIO -->
-<div class="blogPostForm glass-card">
-  <?= $this->Form->create($blogPost, ['type' => 'file']) ?>
-
-  <fieldset>
-    <legend>🎨 <strong>Editar Proyecto</strong></legend>
-
-    <!-- SECCIÓN 1: Información Principal -->
-    <div class="row">
-      <div class="col-md-6">
-        <?= $this->Form->control('title', [
-            'label' => 'Nombre del Proyecto', 
-            'class' => 'neo-input',
-            'placeholder' => 'Ej: Ilustración Fantasy Dragon'
-        ]) ?>
-        
-        <!-- OCULTAR SUBTÍTULO - NO ES NECESARIO PARA PORTAFOLIO -->
-        <?= $this->Form->hidden('subtitle', ['value' => '']) ?>
-        
-        <?= $this->Form->hidden('blog_author_id', [
-            'value' => $blogPost->blog_author_id
-        ]) ?>
-      </div>
-
-<div class="col-md-6">
-    <!-- ZONA DRAG & DROP (oculta si ya hay banner) -->
-    <div class="banner-drag-drop-zone" id="bannerDragDrop" style="<?= !empty($blogPost->banner) ? 'display:none;' : '' ?>">
-        <div class="upload-icon">🖼️</div>
-        <div class="upload-text">
-            <div class="upload-title">Imagen Principal del Proyecto</div>
-            <div class="upload-subtitle">Arrastra aquí o haz clic para seleccionar</div>
-        </div>
-    </div>
-    
-    <?= $this->Form->control('banner', [
-        'type' => 'file',
-        'accept' => 'image/*',
-        'label' => false,
-        'style' => 'display: none;',
-        'id' => 'bannerInput'
-    ]) ?>
-    
-    <!-- PREVIEW (muestra imagen existente o nueva) -->
-    <div id="bannerPreviewContainer" style="margin-top: 15px; <?= empty($blogPost->banner) ? 'display:none;' : '' ?>">
-        <div style="position: relative;">
-            <img id="bannerPreview" 
-                 src="<?= !empty($blogPost->banner) ? '/img/' . h($blogPost->banner) : '#' ?>" 
-                 style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px; display: block;" />
-            <button type="button" class="remove-banner" onclick="removeBanner()">×</button>
-        </div>
-    </div>
-</div>
-    
-    <hr class="my-4">
-  </fieldset>
-
-  <!-- SECCIÓN 2: Categorización Simplificada -->
-  <fieldset>
-    <legend>📂 <strong>Categorización</strong></legend>
-    <div class="row">
-      <div class="col-md-4">
-        <?= $this->Form->control('event_type_id', [
-          'label' => 'Tipo de Trabajo',
-          'options' => $eventTypes,
-          'empty' => 'Seleccione o escriba nuevo tipo',
-          'class' => 'select-tags selectize-tags',
-          'id' => 'eventTypeInput'
-        ]) ?>
-        <small class="form-text text-muted">
-          Ej: Digital Art, Traditional, Commissions
-        </small>
-      </div>
-      
-      <div class="col-md-4">
-        <?= $this->Form->control('blog_category_id', [
-          'label' => 'Categoría Principal',
-          'options' => $blogCategories,
-          'empty' => 'Seleccione o escriba nueva categoría',
-          'class' => 'select-tags selectize-tags',
-          'id' => 'categoryInput'
-        ]) ?>
-        <small class="form-text text-muted">
-          Ej: Personajes, Paisajes, Concept Art
-        </small>
-      </div>
-      
-      <div class="col-md-4">
-        <?php
-        $selectedTags = [];
-        if (!empty($blogPost->blog_tags)) {
-            foreach ($blogPost->blog_tags as $tag) {
-                $selectedTags[] = $tag->id;
-            }
-        }
-        ?>
-        <?= $this->Form->control('blog_tags._ids', [
-          'label' => 'Tags/Técnicas',
-          'options' => $blogTags,
-          'multiple' => true,
-          'class' => 'select-tags selectize-tags',
-          'id' => 'tagInput',
-          'value' => $selectedTags
-        ]) ?>
-        <small class="form-text text-muted">
-          Ej: #Photoshop, #Procreate, #Digital
-        </small>
-      </div>
-    </div>
-
-    <!-- OCULTAR SUBCATEGORÍAS - NO NECESARIAS PARA PORTAFOLIO -->
-    <?= $this->Form->hidden('blog_subcategories._ids', ['value' => '']) ?>
-    
-    <!-- SLUG OCULTO - SE GENERA AUTOMÁTICAMENTE -->
-    <?= $this->Form->control('slug', ['type' => 'hidden']) ?>
-    
-    <hr class="my-4">
-  </fieldset>
-
-  <!-- SECCIÓN 3: Descripción del Proyecto -->
-  <fieldset>
-    <legend>📝 <strong>Descripción del Proyecto</strong></legend>
-    <div class="form-group">
-      <?= $this->Form->control('body', [
-        'type' => 'textarea',
-        'id' => 'markdown-editor',
-        'required' => false,
-        'label' => 'Describe tu proyecto',
-        'placeholder' => 'Cuéntanos sobre tu proceso creativo, inspiración, técnicas utilizadas...',
-        'rows' => 6
-      ]) ?>
-      <small class="form-text text-muted">
-        Opcional: Describe el proceso, inspiración, cliente, etc.
-      </small>
-    </div>
-    
-    <hr class="my-4">
-  </fieldset>
-
-  <!-- SECCIÓN 4: Galería del Proceso -->
-  <fieldset>
-    <legend>🖼️ <strong>Galería del Proyecto</strong></legend>
-    
-    <div class="form-group">
-      <label class="form-label">Imágenes del Proceso/Variaciones</label>
-      
-      <!-- Mostrar galería existente con opción de eliminar -->
-      <div id="galleryPreview" class="gallery-grid">
-        <?php
-        $images = json_decode($blogPost->gallery ?? '[]', true);
-        if (is_array($images)) {
-          foreach ($images as $index => $img): ?>
-            <div class="existing-image" id="existing-img-<?= $index ?>">
-              <img src="/img/<?= h($img) ?>" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;" />
-              <button type="button" class="remove-existing-image" onclick="removeExistingImage(<?= $index ?>, '<?= h($img) ?>')">×</button>
-              <input type="hidden" name="existing_gallery[]" value="<?= h($img) ?>" id="existing-input-<?= $index ?>">
-            </div>
-          <?php endforeach;
-        } ?>
-      </div>
-      
-      <!-- Campo oculto para imágenes a eliminar -->
-      <input type="hidden" name="remove_images" id="removeImagesInput" value="">
-      
-      <div class="multi-drag-drop-zone" id="multiImageDragDrop">
-        <div class="upload-icon">🖼️</div>
-        <div class="upload-text">
-          <div class="upload-title">Agregar más imágenes del proceso</div>
-          <div class="upload-subtitle">Arrastra nuevas imágenes aquí o haz clic para seleccionar</div>
-        </div>
-        <input type="file" id="galleryInput" name="gallery[]" multiple accept="image/*" style="display: none;">
-      </div>
-      
-      <div class="images-grid" id="imagesGrid">
-        <!-- Las nuevas imágenes seleccionadas aparecerán aquí -->
-      </div>
-      
-      <small class="form-text text-muted">
-        Nuevas imágenes: sketches, WIP, versiones alternativas, detalles, etc.
-      </small>
-    </div>
-  </fieldset>
-
-  <!-- CAMPOS OCULTOS PARA SIMPLIFICAR -->
-  <?= $this->Form->hidden('status', ['value' => 'activo']) ?>
-  <?= $this->Form->hidden('scheduled_at', ['value' => null]) ?>
-  <?= $this->Form->hidden('enable_scheduling', ['value' => false]) ?>
-
-  <!-- BOTÓN DE ENVÍO -->
-<div class="submit-button-container">
-    <?= $this->Form->button('💾 Actualizar Proyecto', [
-        'class' => 'neo-button btn-primary',
-        'id' => 'submit-button',
-        'type' => 'submit'
-    ]) ?>
-  </div>
-
-  <?= $this->Form->end() ?>
-</div>
-
 <style>
     /* DRAG & DROP BANNER */
 .banner-drag-drop-zone {
@@ -624,6 +418,208 @@ $scheduledDateTime = $hasScheduling ? $blogPost->scheduled_at->format('Y-m-d\TH:
 }
 </style>
 
+<?php
+// Verificar si el post ya tiene programación activa
+$hasScheduling = !empty($blogPost->scheduled_at);
+$scheduledDateTime = $hasScheduling ? $blogPost->scheduled_at->format('Y-m-d\TH:i') : '';
+?>
+
+<!-- FORMULARIO EDIT SIMPLIFICADO PARA PORTAFOLIO -->
+<div class="blogPostForm glass-card">
+  <?= $this->Form->create($blogPost, ['type' => 'file']) ?>
+
+  <fieldset>
+    <legend>🖌 <strong>Editar Proyecto</strong></legend>
+
+    <!-- SECCIÓN 1: Información Principal -->
+    <div class="row">
+      <div class="col-md-6">
+        <?= $this->Form->control('title', [
+            'label' => 'Nombre del Proyecto', 
+            'class' => 'neo-input',
+            'placeholder' => 'Ej: Ilustración Fantasy Dragon'
+        ]) ?>
+        
+        <!-- OCULTAR SUBTÍTULO - NO ES NECESARIO PARA PORTAFOLIO -->
+        <?= $this->Form->hidden('subtitle', ['value' => '']) ?>
+        
+        <?= $this->Form->hidden('blog_author_id', [
+            'value' => $blogPost->blog_author_id
+        ]) ?>
+      </div>
+
+<div class="col-md-6">
+    <!-- ZONA DRAG & DROP (oculta si ya hay banner) -->
+    <div class="banner-drag-drop-zone" id="bannerDragDrop" style="<?= !empty($blogPost->banner) ? 'display:none;' : '' ?>">
+        <div class="upload-icon">🖼️</div>
+        <div class="upload-text">
+            <div class="upload-title">Imagen Principal del Proyecto</div>
+            <div class="upload-subtitle">Arrastra aquí o haz clic para seleccionar</div>
+        </div>
+    </div>
+    
+    <?= $this->Form->control('banner', [
+        'type' => 'file',
+        'accept' => 'image/*',
+        'label' => false,
+        'style' => 'display: none;',
+        'id' => 'bannerInput'
+    ]) ?>
+    
+    <!-- PREVIEW (muestra imagen existente o nueva) -->
+    <div id="bannerPreviewContainer" style="margin-top: 15px; <?= empty($blogPost->banner) ? 'display:none;' : '' ?>">
+        <div style="position: relative;">
+            <img id="bannerPreview" 
+                 src="<?= !empty($blogPost->banner) ? '/img/' . h($blogPost->banner) : '#' ?>" 
+                 style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 12px; display: block;" />
+            <button type="button" class="remove-banner" onclick="removeBanner()">×</button>
+        </div>
+    </div>
+</div>
+    
+    <hr class="my-4">
+  </fieldset>
+
+  <!-- SECCIÓN 2: Categorización Simplificada -->
+  <fieldset>
+    <legend>🎨 <strong>Categorización</strong></legend>
+    <div class="row">
+      <div class="col-md-4">
+        <?= $this->Form->control('event_type_id', [
+          'label' => 'Tipo de Trabajo',
+          'options' => $eventTypes,
+          'empty' => 'Seleccione o escriba nuevo tipo',
+          'class' => 'select-tags selectize-tags',
+          'id' => 'eventTypeInput'
+        ]) ?>
+        <small class="form-text text-muted">
+          Ej: Digital Art, Traditional, Commissions
+        </small>
+      </div>
+      
+      <div class="col-md-4">
+        <?= $this->Form->control('blog_category_id', [
+          'label' => 'Categoría Principal',
+          'options' => $blogCategories,
+          'empty' => 'Seleccione o escriba nueva categoría',
+          'class' => 'select-tags selectize-tags',
+          'id' => 'categoryInput'
+        ]) ?>
+        <small class="form-text text-muted">
+          Ej: Personajes, Paisajes, Concept Art
+        </small>
+      </div>
+      
+      <div class="col-md-4">
+        <?php
+        $selectedTags = [];
+        if (!empty($blogPost->blog_tags)) {
+            foreach ($blogPost->blog_tags as $tag) {
+                $selectedTags[] = $tag->id;
+            }
+        }
+        ?>
+        <?= $this->Form->control('blog_tags._ids', [
+          'label' => 'Tags/Técnicas',
+          'options' => $blogTags,
+          'multiple' => true,
+          'class' => 'select-tags selectize-tags',
+          'id' => 'tagInput',
+          'value' => $selectedTags
+        ]) ?>
+        <small class="form-text text-muted">
+          Ej: #Photoshop, #Procreate, #Digital
+        </small>
+      </div>
+    </div>
+
+    <!-- OCULTAR SUBCATEGORÍAS - NO NECESARIAS PARA PORTAFOLIO -->
+    <?= $this->Form->hidden('blog_subcategories._ids', ['value' => '']) ?>
+    
+    <!-- SLUG OCULTO - SE GENERA AUTOMÁTICAMENTE -->
+    <?= $this->Form->control('slug', ['type' => 'hidden']) ?>
+    
+    <hr class="my-4">
+  </fieldset>
+
+  <!-- SECCIÓN 3: Descripción del Proyecto -->
+  <fieldset>
+    <legend>📝 <strong>Descripción del Proyecto</strong></legend>
+    <div class="form-group">
+      <?= $this->Form->control('body', [
+        'type' => 'textarea',
+        'id' => 'markdown-editor',
+        'required' => false,
+        'label' => false,
+        'placeholder' => 'Cuéntanos sobre tu proceso creativo, inspiración, técnicas utilizadas...',
+        'rows' => 6
+      ]) ?>
+      
+    </div>
+    
+    <hr class="my-4">
+  </fieldset>
+
+  <!-- SECCIÓN 4: Galería del Proceso -->
+  <fieldset>
+    <legend>🖼️ <strong>Galería del Proyecto</strong></legend>
+    
+    <div class="form-group">    
+      <!-- Mostrar galería existente con opción de eliminar -->
+      <div id="galleryPreview" class="gallery-grid">
+        <?php
+        $images = json_decode($blogPost->gallery ?? '[]', true);
+        if (is_array($images)) {
+          foreach ($images as $index => $img): ?>
+            <div class="existing-image" id="existing-img-<?= $index ?>">
+              <img src="/img/<?= h($img) ?>" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;" />
+              <button type="button" class="remove-existing-image" onclick="removeExistingImage(<?= $index ?>, '<?= h($img) ?>')">×</button>
+              <input type="hidden" name="existing_gallery[]" value="<?= h($img) ?>" id="existing-input-<?= $index ?>">
+            </div>
+          <?php endforeach;
+        } ?>
+      </div>
+      
+      <!-- Campo oculto para imágenes a eliminar -->
+      <input type="hidden" name="remove_images" id="removeImagesInput" value="">
+      
+      <div class="multi-drag-drop-zone" id="multiImageDragDrop">
+        <div class="upload-icon">🖼️</div>
+        <div class="upload-text">
+          <div class="upload-title">Agregar más imágenes del proceso</div>
+          <div class="upload-subtitle">Arrastra nuevas imágenes aquí o haz clic para seleccionar</div>
+        </div>
+        <input type="file" id="galleryInput" name="gallery[]" multiple accept="image/*" style="display: none;">
+      </div>
+      
+      <div class="images-grid" id="imagesGrid">
+        <!-- Las nuevas imágenes seleccionadas aparecerán aquí -->
+      </div>
+      
+      <small class="form-text text-muted">
+        Nuevas imágenes: sketches, WIP, versiones alternativas, detalles, etc.
+      </small>
+    </div>
+  </fieldset>
+
+  <!-- CAMPOS OCULTOS PARA SIMPLIFICAR -->
+  <?= $this->Form->hidden('status', ['value' => 'activo']) ?>
+  <?= $this->Form->hidden('scheduled_at', ['value' => null]) ?>
+  <?= $this->Form->hidden('enable_scheduling', ['value' => false]) ?>
+
+  <!-- BOTÓN DE ENVÍO -->
+<div class="submit-button-container">
+    <?= $this->Form->button('💾 Actualizar Proyecto', [
+        'class' => 'neo-button btn-primary',
+        'id' => 'submit-button',
+        'type' => 'submit'
+    ]) ?>
+  </div>
+
+  <?= $this->Form->end() ?>
+</div>
+
+
 <script>
 // ========================================
 // 🎨 FUNCIONES GLOBALES DEL BANNER
@@ -711,17 +707,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     window.removeExistingImage = function(index, imagePath) {
         const imageElement = document.getElementById(`existing-img-${index}`);
-        const inputElement = document.getElementById(`existing-input-${index}`);
         
-        if (imageElement && inputElement) {
+        if (imageElement) {
+            // Ocultar visualmente con animación
             imageElement.classList.add('removing');
-            imagesToRemove.push(imagePath);
+            
+            // Agregar a la lista de eliminación
+            if (!imagesToRemove.includes(imagePath)) {
+                imagesToRemove.push(imagePath);
+            }
+            
             if (removeImagesInput) {
                 removeImagesInput.value = JSON.stringify(imagesToRemove);
             }
+            
+            // Después de la animación, ocultar completamente
             setTimeout(() => {
-                imageElement.remove();
-                inputElement.remove();
+                imageElement.style.display = 'none';
             }, 300);
         }
     }
@@ -870,17 +872,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 "ordered-list", "unordered-list", "|",
                 "quote", "code", "horizontal-rule", "link", "|",
                 "preview", "side-by-side", "fullscreen", "|",
-                {
-                    name: "insertImageShortcode",
-                    action: function customFunction(editor) {
-                        let index = prompt("¿Qué número de imagen deseas insertar? (Ejemplo: 0 para [img:0])");
-                        if (index !== null && index !== "") {
-                            editor.codemirror.replaceSelection("[img:" + index + "]");
-                        }
-                    },
-                    className: "fa fa-image",
-                    title: "Insertar imagen de galería"
-                }
+                
             ],
             placeholder: "Describe tu proyecto: proceso creativo, inspiración, técnicas utilizadas..."
         });
@@ -923,10 +915,9 @@ if (form && submitButton) {
 // ========================================
 (function() {
     const submitButton = document.querySelector('.submit-button-container');
-    let scrollThreshold = 50; // Píxeles de scroll para mostrar
+    let scrollThreshold = 50;
     
     if (submitButton) {
-        // Mostrar después de un pequeño scroll
         window.addEventListener('scroll', function() {
             if (window.scrollY > scrollThreshold) {
                 submitButton.classList.add('visible');
@@ -935,7 +926,6 @@ if (form && submitButton) {
             }
         });
         
-        // También mostrar si hace scroll dentro del formulario
         window.addEventListener('load', function() {
             if (window.scrollY > scrollThreshold) {
                 submitButton.classList.add('visible');
@@ -948,11 +938,9 @@ if (form && submitButton) {
 // SCROLL AUTOMÁTICO EN INPUTS SELECTIZE (MÓVIL)
 // ========================================
 (function() {
-    // Detectar si es móvil
     const isMobile = window.innerWidth <= 768;
     
     if (isMobile) {
-        // Esperar a que Selectize esté inicializado
         setTimeout(function() {
             const selectizeInputs = document.querySelectorAll('.selectize-control');
             
@@ -961,22 +949,19 @@ if (form && submitButton) {
                 
                 if (input) {
                     input.addEventListener('click', function() {
-                        // Pequeño delay para que el dropdown se abra primero
                         setTimeout(function() {
-                            // Calcular posición del input
                             const inputRect = input.getBoundingClientRect();
                             const inputTop = inputRect.top + window.scrollY;
                             
-                            // Scroll suave hacia el input dejando espacio arriba
                             window.scrollTo({
-                                top: inputTop - 100, // 100px de margen superior
+                                top: inputTop - 100,
                                 behavior: 'smooth'
                             });
                         }, 100);
                     });
                 }
             });
-        }, 500); // Esperar a que Selectize se inicialice
+        }, 500);
     }
 })();
 </script>

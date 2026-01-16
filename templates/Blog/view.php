@@ -122,7 +122,7 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <?php if (!empty($blogPost->blog_category)): ?>
                                         <!-- Categoría -->
                                         <div class="vc_col-sm-6 vc_col-xs-6 wpb_column column_container vc_column_container col child_column no-extra-padding el_spacing_5px inherit_tablet inherit_phone"
                                              data-padding-pos="all" 
@@ -142,10 +142,11 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php endif; ?>
 
                                     </div>
                                 </div>
-
+                                <?php if (!empty($bodyHtml)): ?>
                                 <!-- 3. DESCRIPCIÓN DEL PROYECTO -->
                                 <div id="fws_68d461f0f11cf" 
                                      data-midnight="" 
@@ -169,17 +170,17 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
                                                         <h5>DESCRIPCIÓN</h5>
                                                     </div>
                                                     <div class="nectar-responsive-text nectar-link-underline-effect">
-                                                        <?php if (!empty($bodyHtml)): ?>
+                                                        
                                                             <?= $bodyHtml ?>
-                                                        <?php else: ?>
-                                                            <p>Sin descripción disponible.</p>
-                                                        <?php endif; ?>
+                                                        
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <?php endif; ?>
 
                                 <!-- 4. GRID DE TAGS/TÉCNICAS (NUEVO) -->
                                 <?php if (!empty($blogPost->blog_tags)): ?>
@@ -222,11 +223,6 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
                                     </div>
                                 </div>
                                 <?php endif; ?>
-
-
-
-
-                                
 
                             </div>
                         </div>

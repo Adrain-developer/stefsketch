@@ -24,6 +24,9 @@ function formatNumberShort($n) {
     .nectar-post-grid .nectar-post-grid-item .nectar-post-grid-item-bg, .nectar-post-grid[data-hover-effect=slow_zoom] .nectar-post-grid-item:hover .nectar-post-grid-item-bg, .nectar-post-grid[data-hover-effect=zoom] .nectar-post-grid-item:hover .nectar-post-grid-item-bg {
         opacity: 0.6 !important;
     }
+    body[data-header-resize="0"] .container-wrap, body[data-header-resize="0"] .project-title{
+    padding-top: 60px !important;
+}
 
     @media only screen and (max-width: 690px) {
     body .vc_row.top_padding_phone_10px
@@ -266,7 +269,16 @@ function formatNumberShort($n) {
                     </div>
 
 
-        
+
+
+<?php 
+$hasCategories = !empty($blogCategories) && (is_array($blogCategories) ? count($blogCategories) : $blogCategories->count()) > 0;
+$hasTags = !empty($blogTags) && (is_array($blogTags) ? count($blogTags) : $blogTags->count()) > 0;
+$hasFilters = $hasCategories || $hasTags;
+?>          
+
+   <!-- Mostrar cuando hay filtros -->
+        <?php if ($hasFilters): ?>
         <!-- Row Principal -->
         <div id="fws_68d461f0f07aa" 
              data-column-margin="custom" 
@@ -309,108 +321,109 @@ function formatNumberShort($n) {
                                     </div>
                                     <div class="row_col_wrap_12_inner col span_12 left">
 
-                                       <?php if (!empty($blogCategories)): ?>
-    <div class="vc_col-sm-6 vc_col-xs-6 wpb_column column_container vc_column_container col child_column no-extra-padding el_spacing_5px inherit_tablet inherit_phone"
-         data-padding-pos="all" 
-         data-has-bg-color="false"
-         data-bg-color="" 
-         data-bg-opacity="1" 
-         data-animation=""
-         data-delay="0">
-        <div class="vc_column-inner">
-            <div class="wpb_wrapper">
-                <!-- Título para PC/Tablet (solo visible en desktop) -->
-                <div class="desktop-title nectar-responsive-text font_line_height_1-2 nectar-link-underline-effect">
-                    <h5>CATEGORÍAS</h5>
-                </div>
-                
-                <!-- Header del acordeón para móvil (título + flecha en misma línea) -->
-                <div class="mobile-accordion-header" onclick="toggleMobileAccordion('categories')">
-                    <div class="nectar-responsive-text font_line_height_1-2 nectar-link-underline-effect">
-                        <h5>CATEGORÍAS</h5>
-                    </div>
-                    <div class="mobile-accordion-arrow" id="categories-arrow">
-                        <svg stroke="currentColor" fill="currentColor"
-                             stroke-width="0" viewBox="60 58 140 140"
-                             height="16px" width="16px"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M198,64V168a6,6,0,0,1-12,0V78.48L68.24,196.24a6,6,0,0,1-8.48-8.48L177.52,70H88a6,6,0,0,1,0-12H192A6,6,0,0,1,198,64Z"></path>
-                        </svg>
-                    </div>
-                </div>
-                
-                <!-- Contenido colapsable -->
-                <div class="mobile-accordion-content" id="categories-content">
-                    <div class="nectar-responsive-text nectar-link-underline-effect" style="width: fit-content;">
-                        <?php $categoryCount = 0; ?>
-                        <?php foreach ($blogCategories as $category): ?>
-                            <?php if ($categoryCount < 10): // Mostrar máximo 10 categorías ?>
-                                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($category->slug) ?>" 
-                                   class="filter-link <?= ($categorySlug === $category->slug) ? 'active' : '' ?>">
-                                    <?= h($category->name) ?> (<?= $category->count ?? 0 ?>)
-                                </a>
-                                <?php $categoryCount++; ?>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
 
-<?php
-// SECCIÓN 4. FILTROS POR TAGS/TÉCNICAS - Con acordeón móvil
-?>
-<?php if (!empty($blogTags)): ?>
-    <div class="vc_col-sm-6 vc_col-xs-6 wpb_column column_container vc_column_container col child_column no-extra-padding el_spacing_5px inherit_tablet inherit_phone"
-         data-padding-pos="all" 
-         data-has-bg-color="false"
-         data-bg-color="" 
-         data-bg-opacity="1" 
-         data-animation=""
-         data-delay="0">
-        <div class="vc_column-inner">
-            <div class="wpb_wrapper">
-                <!-- Título para PC/Tablet (solo visible en desktop) -->
-                <div class="desktop-title nectar-responsive-text font_line_height_1-2 nectar-link-underline-effect">
-                    <h5>TÉCNICAS</h5>
-                </div>
-                
-                <!-- Header del acordeón para móvil (título + flecha en misma línea) -->
-                <div class="mobile-accordion-header" onclick="toggleMobileAccordion('tags')">
-                    <div class="nectar-responsive-text font_line_height_1-2 nectar-link-underline-effect">
-                        <h5>TÉCNICAS</h5>
-                    </div>
-                    <div class="mobile-accordion-arrow" id="tags-arrow">
-                        <svg stroke="currentColor" fill="currentColor"
-                             stroke-width="0" viewBox="60 58 140 140"
-                             height="16px" width="16px"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M198,64V168a6,6,0,0,1-12,0V78.48L68.24,196.24a6,6,0,0,1-8.48-8.48L177.52,70H88a6,6,0,0,1,0-12H192A6,6,0,0,1,198,64Z"></path>
-                        </svg>
-                    </div>
-                </div>
-                
-                <!-- Contenido colapsable -->
-                <div class="mobile-accordion-content" id="tags-content">
-                    <div class="nectar-responsive-text nectar-link-underline-effect" style="width: fit-content;">
-                        <?php $tagCount = 0; ?>
-                        <?php foreach ($blogTags as $tag): ?>
-                            <?php if ($tagCount < 10): // Mostrar máximo 10 tags ?>
-                                <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas/<?= h($tag->slug) ?>" 
-                                   class="filter-link <?= ($tagSlug === $tag->slug) ? 'active' : '' ?>">
-                                    <?= h($tag->name) ?> (<?= $tag->count ?? 0 ?>)
-                                </a>
-                                <?php $tagCount++; ?>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
+                                       <?php if (isset($blogCategories) && $blogCategories->count() > 0): ?>
+                                            <div class="vc_col-sm-6 vc_col-xs-6 wpb_column column_container vc_column_container col child_column no-extra-padding el_spacing_5px inherit_tablet inherit_phone"
+                                                data-padding-pos="all" 
+                                                data-has-bg-color="false"
+                                                data-bg-color="" 
+                                                data-bg-opacity="1" 
+                                                data-animation=""
+                                                data-delay="0">
+                                                <div class="vc_column-inner">
+                                                    <div class="wpb_wrapper">
+                                                        <!-- Título para PC/Tablet (solo visible en desktop) -->
+                                                        <div class="desktop-title nectar-responsive-text font_line_height_1-2 nectar-link-underline-effect">
+                                                            <h5>CATEGORÍAS</h5>
+                                                        </div>
+                                                        
+                                                        <!-- Header del acordeón para móvil (título + flecha en misma línea) -->
+                                                        <div class="mobile-accordion-header" onclick="toggleMobileAccordion('categories')">
+                                                            <div class="nectar-responsive-text font_line_height_1-2 nectar-link-underline-effect">
+                                                                <h5>CATEGORÍAS</h5>
+                                                            </div>
+                                                            <div class="mobile-accordion-arrow" id="categories-arrow">
+                                                                <svg stroke="currentColor" fill="currentColor"
+                                                                    stroke-width="0" viewBox="60 58 140 140"
+                                                                    height="16px" width="16px"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M198,64V168a6,6,0,0,1-12,0V78.48L68.24,196.24a6,6,0,0,1-8.48-8.48L177.52,70H88a6,6,0,0,1,0-12H192A6,6,0,0,1,198,64Z"></path>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <!-- Contenido colapsable -->
+                                                        <div class="mobile-accordion-content" id="categories-content">
+                                                            <div class="nectar-responsive-text nectar-link-underline-effect" style="width: fit-content;">
+                                                                <?php $categoryCount = 0; ?>
+                                                                <?php foreach ($blogCategories as $category): ?>
+                                                                    <?php if ($categoryCount < 10): // Mostrar máximo 10 categorías ?>
+                                                                        <a href="/portafolio/<?= h($eventType->eventoslug) ?>/temas/<?= h($category->slug) ?>" 
+                                                                        class="filter-link <?= ($categorySlug === $category->slug) ? 'active' : '' ?>">
+                                                                            <?= h($category->name) ?> (<?= $category->count ?? 0 ?>)
+                                                                        </a>
+                                                                        <?php $categoryCount++; ?>
+                                                                    <?php endif; ?>
+                                                                <?php endforeach; ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+
+
+                                        <!-- SECCIÓN 4. FILTROS POR TAGS/TÉCNICAS - Con acordeón móvil -->
+
+                                        <?php if (!empty($blogTags)): ?>
+                                            <div class="vc_col-sm-6 vc_col-xs-6 wpb_column column_container vc_column_container col child_column no-extra-padding el_spacing_5px inherit_tablet inherit_phone"
+                                                data-padding-pos="all" 
+                                                data-has-bg-color="false"
+                                                data-bg-color="" 
+                                                data-bg-opacity="1" 
+                                                data-animation=""
+                                                data-delay="0">
+                                                <div class="vc_column-inner">
+                                                    <div class="wpb_wrapper">
+                                                        <!-- Título para PC/Tablet (solo visible en desktop) -->
+                                                        <div class="desktop-title nectar-responsive-text font_line_height_1-2 nectar-link-underline-effect">
+                                                            <h5>TÉCNICAS</h5>
+                                                        </div>
+                                                        
+                                                        <!-- Header del acordeón para móvil (título + flecha en misma línea) -->
+                                                        <div class="mobile-accordion-header" onclick="toggleMobileAccordion('tags')">
+                                                            <div class="nectar-responsive-text font_line_height_1-2 nectar-link-underline-effect">
+                                                                <h5>TÉCNICAS</h5>
+                                                            </div>
+                                                            <div class="mobile-accordion-arrow" id="tags-arrow">
+                                                                <svg stroke="currentColor" fill="currentColor"
+                                                                    stroke-width="0" viewBox="60 58 140 140"
+                                                                    height="16px" width="16px"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M198,64V168a6,6,0,0,1-12,0V78.48L68.24,196.24a6,6,0,0,1-8.48-8.48L177.52,70H88a6,6,0,0,1,0-12H192A6,6,0,0,1,198,64Z"></path>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <!-- Contenido colapsable -->
+                                                        <div class="mobile-accordion-content" id="tags-content">
+                                                            <div class="nectar-responsive-text nectar-link-underline-effect" style="width: fit-content;">
+                                                                <?php $tagCount = 0; ?>
+                                                                <?php foreach ($blogTags as $tag): ?>
+                                                                    <?php if ($tagCount < 10): // Mostrar máximo 10 tags ?>
+                                                                        <a href="/portafolio/<?= h($eventType->eventoslug) ?>/etiquetas/<?= h($tag->slug) ?>" 
+                                                                        class="filter-link <?= ($tagSlug === $tag->slug) ? 'active' : '' ?>">
+                                                                            <?= h($tag->name) ?> (<?= $tag->count ?? 0 ?>)
+                                                                        </a>
+                                                                        <?php $tagCount++; ?>
+                                                                    <?php endif; ?>
+                                                                <?php endforeach; ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 
@@ -535,6 +548,129 @@ function formatNumberShort($n) {
             </div>
         </div>
         <!-- FIN ROW PRINCIPAL -->
+         <?php else: ?>
+               <!-- Mostrar cuando NO hay filtros -->
+                    <div id="fws_68d45a3a452d0" data-column-margin="default" data-midnight="dark"
+                        class="wpb_row vc_row-fluid vc_row full-width-section"
+                        style="padding-top: 0px; padding-bottom: 0px; ">
+                        <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay=""
+                            data-bg-overlay="false">
+                            <div class="inner-wrap row-bg-layer">
+                                <div class="row-bg viewport-desktop using-bg-color" style="background-color: #000000; ">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row_col_wrap_12 col span_12 dark left">
+                            <div class="vc_col-sm-12 wpb_column column_container vc_column_container col has-animation no-extra-padding inherit_tablet inherit_phone "
+                                data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1"
+                                data-animation="slight-fade-in-from-bottom" data-delay="100">
+                                <div class="vc_column-inner">
+                                    <div class="wpb_wrapper">
+                                        <div class='nectar-post-grid-wrap text-color-light spacing-10px'
+                                            data-el-settings='{"post_type":"portfolio","pagination":"none","image_size":"full","parallax_scrolling":"yes","aspect_ratio_image_size":"","category_position":"overlaid","category_display":"default","display_categories":"yes","display_excerpt":"0","excerpt_length":"20","display_date":"0","display_estimated_reading_time":"0","display_author":"0","author_functionality":"default","author_position":"default","color_overlay":"#0a0a0a","color_overlay_opacity":"0","color_overlay_hover_opacity":"0.2","card_bg_color":"","grid_style":"content_overlaid","hover_effect":"zoom","post_title_overlay":"","heading_tag":"default","heading_tag_render":"default","enable_gallery_lightbox":"0","category_style":"button","overlay_secondary_project_image":"","vertical_list_hover_effect":"none","vertical_list_read_more":"","vertical_list_read_more_style":"text","read_more_button":"0","animation":"none","custom_fields":"","custom_fields_location":"before_post_meta","display_type":"grid","text_content_layout":"corners"}'
+                                            data-style='content_overlaid'
+                                            data-query='{"post_type":"portfolio","posts_per_page":"-1","order":"DESC","orderby":"date","offset":"0","cpt_name":"post","custom_query_tax":"","ignore_sticky_posts":"","exclude_current_post":""}'
+                                            data-load-more-color='black' data-load-more-text='Load More'>
+                                            <div class="nectar-post-grid-filters" data-active-color="default"
+                                                data-align="default" data-animation="none" data-sortable="">
+                                                <div><a href="#" class="active all-filter" data-filter="-1"
+                                                        data-total-count="5">All</a><a href="#" data-filter="branding"
+                                                        data-total-count="1">Branding</a><a href="#"
+                                                        data-filter="photography" data-total-count="2">Photography</a><a
+                                                        href="#" data-filter="web-design" data-total-count="2">Web
+                                                        Design</a></div>
+                                            </div>
+
+                                            <div class="nectar-post-grid custom_font_size_3vw font_size_max_54px font_size_tablet_5vw font_size_phone_34px text-opacity-1 text-opacity-hover-1 overlaid-aspect-ratio-image-size-1-1 layout-default_alt category-position-before-title category-button-color-rgba__10_10_10_0--2__"
+                                                data-lazy-skip="3" data-indicator="" data-indicator-style="default"
+                                                data-indicator-text-color="#fff" data-indicator-color="#000"
+                                                data-indicator-text="View" data-masonry="yes" data-columns="2"
+                                                data-hover-effect="zoom" data-text-style="default"
+                                                data-border-radius="25px" data-grid-item-height="30vh"
+                                                data-grid-spacing="10px" data-text-layout="corners"
+                                                data-text-color="light" data-text-hover-color="light"
+                                                data-shadow-hover="" data-animation="none" data-animation-stagger="90"
+                                                data-cat-click="static" style="--post-grid-border-radius:25px;">
+
+                                                <?php foreach ($posts as $post): ?>
+                 
+                                                <div class="nectar-post-grid-item" data-post-id="<?= $eventType->id ?>"
+                                                    data-has-img="true">
+                                                    <div class="inner">
+                                                        <div class="nectar-post-grid-item-bg-wrap">
+                                                            <div class="nectar-el-parallax-scroll"
+                                                                data-scroll-animation="true"
+                                                                data-scroll-animation-mobile="true"
+                                                                data-scroll-animation-intensity="-0.75"
+                                                                data-scroll-animation-lerp="1">
+                                                                <div class="nectar-post-grid-item-bg-wrap">
+                                                                    <div class="nectar-el-parallax-scroll"
+                                                                        data-scroll-animation="true"
+                                                                        data-scroll-animation-mobile="true"
+                                                                        data-scroll-animation-intensity="-0.75"
+                                                                        data-scroll-animation-lerp="1">
+                                                                        <div
+                                                                            class="nectar-post-grid-item-bg-wrap-inner">
+                                                                            <div class="nectar-post-grid-item-bg">
+                                                                                <img decoding="async" width="2048"
+                                                                height="2048"
+                                                                src="/img/<?= h($post->banner) ?>"
+                                                                class="nectar-post-grid-item-bg__media"
+                                                                alt="<?= h($post->title) ?>"
+                                                                loading="lazy" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="bg-overlay" style="background-color: #0a0a0a;"
+                                                            data-opacity="0" data-hover-opacity="0.2">
+                                                        </div>
+
+
+                                                        <div class="content">
+
+                                                            <span class="nectar-post-grid__arrow-indicator">
+                                                                <svg stroke="currentColor" fill="currentColor"
+                                                                    stroke-width="0" viewBox="60 58 140 140"
+                                                                    height="200px" width="200px"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M198,64V168a6,6,0,0,1-12,0V78.48L68.24,196.24a6,6,0,0,1-8.48-8.48L177.52,70H88a6,6,0,0,1,0-12H192A6,6,0,0,1,198,64Z">
+                                                                    </path>
+                                                                </svg>
+                                                            </span>
+
+                        
+                                                            <a class="nectar-post-grid-link"
+                                                                href="/portafolio/<?= h($eventType->eventoslug) ?>/<?= h($post->slug) ?>">
+                                                                <span
+                                                                    class="screen-reader-text"><?= h($post->title) ?></span>
+                                                            </a>
+                                               
+                                                            <div class="item-main">
+                                                                <h3 class="post-heading">
+                                                                    <span><?= h($post->title) ?></span>
+                                                                </h3>
+                                                                
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php endforeach; ?>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
 
     </div>
 </div>
