@@ -318,6 +318,73 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
     }
 }
 
+/* Header Social Icons */
+.header-social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.header-social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border-radius: 50%;
+    color: #fff !important;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.header-social-icon:hover {
+    background: #28ebe3;
+    color: #000 !important;
+    border-color: #28ebe3;
+    transform: translateY(-2px);
+}
+
+.header-social-icon i {
+    line-height: 1;
+}
+
+/* Header Social Icons - Responsive */
+@media only screen and (max-width: 999px) {
+    .header-social-icons {
+        gap: 12px;
+        margin-top: 12px;
+    }
+
+    .header-social-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 690px) {
+    .header-social-icons {
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .header-social-icon {
+        width: 26px;
+        height: 26px;
+        font-size: 13px;
+    }
+}
+
+/* Ajuste para el logo cuando tiene social icons debajo */
+#header-outer #top #logo {
+    margin-bottom: 0;
+}
+
 /* Second Footer - Legal */
 .second-footer {
     background: #000;
@@ -480,6 +547,22 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
                                 <a id="logo" href="/" data-supplied-ml-starting-dark="false"
                                     data-supplied-ml-starting="false" data-supplied-ml="false" class="no-image">
                                     Stefsketch</a>
+
+                                <!-- Header Social Icons -->
+                                <div class="header-social-icons">
+                                    <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="header-social-icon" aria-label="Instagram">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="https://www.tiktok.com/" target="_blank" rel="noopener" class="header-social-icon" aria-label="TikTok">
+                                        <i class="fab fa-tiktok"></i>
+                                    </a>
+                                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="header-social-icon" aria-label="LinkedIn">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                    <a href="https://www.pinterest.com/" target="_blank" rel="noopener" class="header-social-icon" aria-label="Pinterest">
+                                        <i class="fab fa-pinterest-p"></i>
+                                    </a>
+                                </div>
                             </div>
                             <!--/span_3-->
 
