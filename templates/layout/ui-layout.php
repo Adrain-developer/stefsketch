@@ -198,6 +198,18 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
     font-size: 20px;
  }
  }
+
+  .wpb_column.instance-21 > .vc_column-inner > .column-bg-overlay-wrap > .column-bg-overlay {
+       background-image: url(webroot/img/footer_textura_morado.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: cover !important;
+ }
+
+ body #ajax-content-wrap .font_size_desktop_7vw.font_size_max_130px.nectar-cta *, body .font_size_desktop_7vw.font_size_max_130px.nectar-cta *, body #header-outer .font_size_desktop_7vw.font_size_max_130px.nectar-cta * {
+    font-size: min(130px, 7vw);
+    color: white;
+}
  
 </style>
 
@@ -329,9 +341,9 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
                             <div class="vc_col-sm-12 wpb_column column_container vc_column_container col el_spacing_20px tl_br_25px tr_br_25px bl_br_25px br_br_25px left_padding_desktop_30px top_padding_desktop_30px right_padding_desktop_30px bottom_padding_desktop_30px "
                                 data-using-bg="true" data-padding-pos="all" data-has-bg-color="true"
                                 data-bg-color="#ede8e4" data-bg-opacity="1" data-animation="" data-delay="0">
-                                <div class="vc_column-inner">
+                                <div class="vc_column-inner" style="background-image: url(webroot/img/footer_textura_morado.jpg) !important; background-repeat: no-repeat !important; background-position: center !important; background-size: cover !important;">
                                     <div class="column-bg-overlay-wrap column-bg-layer" data-bg-animation="none">
-                                        <div class="column-bg-overlay" style="opacity: 1; background-color: #ede8e4;">
+                                        <div class="column-bg-overlay" >
                                         </div>
                                     </div>
                                     <div class="wpb_wrapper">
@@ -343,28 +355,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
                                             <div class="row-bg-wrap">
                                                 <div class="row-bg"></div>
                                             </div>
-                                            <div class="row_col_wrap_12_inner col span_12  left">
-                                                <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding column_element_direction_desktop_horizontal force-desktop-text-align-center column_element_direction_tablet_horizontal column_element_direction_phone_horizontal el_spacing_10px inherit_tablet inherit_phone "
-                                                    data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
-                                                    data-bg-opacity="1" data-animation="" data-delay="0">
-                                                    <div class="vc_column-inner">
-                                                        <div class="wpb_wrapper">
-                                                            <div class="nectar_icon_wrap  nectar-pulsate"
-                                                                data-style="default" data-padding="0px"
-                                                                data-color="accent-color">
-                                                                <div class="nectar_icon icon_color_custom_55c91c "><i
-                                                                        style="font-size: 8px; line-height: 8px; height: 8px; width: 8px;"
-                                                                        class=""></i>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="nectar-responsive-text nectar-link-underline-effect">
-                                                                <p>Available for Work</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <div id="fws_68d45a3a47d6d" data-midnight="" data-column-margin="default"
                                             class="wpb_row vc_row-fluid vc_row inner_row">
@@ -386,10 +377,11 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
                                                                             class="link_text open-contact-modal"
                                                                             role="button" href="#"><span
                                                                                 class="text nectar-text-reveal-button__text"
-                                                                                data-text="¡Hablemos y hagámoslo realidad!">¿Tienes
+                                                                                data-text="¡Colaboremos para darle vida a tu idea!">¿Tienes
                                                                                 un proyecto en mente?</span></a></span>
                                                                 </h2>
                                                             </div>
+                                                          
                                                         </div>
                                                     </div>
                                                 </div>
@@ -490,13 +482,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
                     </div>
                 </div>
             </div>
-            <div id="footer-outer" data-midnight="light" data-cols="4" data-custom-color="false"
-                data-disable-copyright="true" data-matching-section-color="true" data-copyright-line="false"
-                data-using-bg-img="false" data-bg-img-overlay="0.8" data-full-width="false"
-                data-using-widget-area="false" data-link-hover="default">
 
-
-            </div>
             <!--/footer-outer-->
 
 
