@@ -513,25 +513,31 @@ font-size: 30px;
 /* Tamaños inteligentes según orientación */
 .stef-masonry-item.horizontal {
     grid-column: span 2;
+    min-height: 280px;
 }
 
 .stef-masonry-item.vertical {
     grid-row: span 2;
+    min-height: 580px; /* Más alto para mostrar ilustraciones verticales */
 }
 
 .stef-masonry-item.large {
     grid-column: span 2;
     grid-row: span 2;
+    min-height: 580px;
 }
 
-/* Imagen de fondo */
+/* Imagen de fondo - SIEMPRE cubre todo el contenedor */
 .stef-masonry-item__image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    min-width: 100%;
+    min-height: 100%;
     object-fit: cover;
+    object-position: center center;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
                 filter 0.4s ease;
     will-change: transform;
