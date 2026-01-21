@@ -486,6 +486,282 @@ font-size: 30px;
     }
 }
 
+/* ============================================
+   MASONRY GRID INTELIGENTE - REUTILIZABLE
+   ============================================ */
+
+.stef-masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding: 40px 0;
+    width: 100%;
+}
+
+.stef-masonry-item {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 280px;
+    background: #000;
+}
+
+/* Tamaños inteligentes según orientación */
+.stef-masonry-item.horizontal {
+    grid-column: span 2;
+}
+
+.stef-masonry-item.vertical {
+    grid-row: span 2;
+}
+
+.stef-masonry-item.large {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+/* Imagen de fondo */
+.stef-masonry-item__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.stef-masonry-item:hover .stef-masonry-item__image {
+    transform: scale(1.1);
+}
+
+/* Overlay morado con transparencia (solo desktop) */
+.stef-masonry-item__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(153, 0, 255, 0);
+    transition: background 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 30px;
+    z-index: 2;
+}
+
+/* En desktop: overlay aparece en hover */
+@media (min-width: 769px) {
+    .stef-masonry-item:hover .stef-masonry-item__overlay {
+        background: rgba(153, 0, 255, 0.85);
+    }
+
+    /* Contenido oculto por defecto en desktop */
+    .stef-masonry-item__content {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s ease;
+    }
+
+    .stef-masonry-item:hover .stef-masonry-item__content {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* En móvil: overlay siempre visible */
+@media (max-width: 768px) {
+    .stef-masonry-item__overlay {
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .stef-masonry-item__content {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Contenido del item */
+.stef-masonry-item__title {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 8px 0;
+    line-height: 1.2;
+}
+
+.stef-masonry-item__count {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 15px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stef-masonry-item__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.stef-masonry-item__button:hover {
+    background: #fff;
+    color: #9900ff;
+    transform: translateX(5px);
+}
+
+.stef-masonry-item__arrow {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.stef-masonry-item__button:hover .stef-masonry-item__arrow {
+    transform: translateX(5px);
+}
+
+/* Hover effect para todo el item */
+.stef-masonry-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(153, 0, 255, 0.3);
+}
+
+/* Responsive: Tablet */
+@media (max-width: 1024px) {
+    .stef-masonry-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 30px 0;
+    }
+
+    .stef-masonry-item__title {
+        font-size: 24px;
+    }
+
+    .stef-masonry-item.horizontal {
+        grid-column: span 2;
+    }
+
+    .stef-masonry-item.vertical {
+        grid-row: span 1;
+    }
+}
+
+/* Responsive: Móvil */
+@media (max-width: 768px) {
+    .stef-masonry-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 20px 0;
+    }
+
+    .stef-masonry-item {
+        min-height: 200px;
+    }
+
+    .stef-masonry-item__overlay {
+        padding: 20px;
+    }
+
+    .stef-masonry-item__title {
+        font-size: 18px;
+    }
+
+    .stef-masonry-item__count {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .stef-masonry-item__button {
+        padding: 10px 18px;
+        font-size: 12px;
+    }
+
+    /* En móvil: imagen horizontal toma toda la fila */
+    .stef-masonry-item.horizontal {
+        grid-column: span 2;
+        min-height: 180px;
+    }
+
+    /* En móvil: vertical ocupa 1 columna */
+    .stef-masonry-item.vertical {
+        grid-column: span 1;
+        grid-row: span 1;
+        min-height: 250px;
+    }
+
+    /* Large items en móvil */
+    .stef-masonry-item.large {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+}
+
+/* Extra pequeño (teléfonos pequeños) */
+@media (max-width: 480px) {
+    .stef-masonry-grid {
+        gap: 8px;
+    }
+
+    .stef-masonry-item {
+        min-height: 180px;
+    }
+
+    .stef-masonry-item__title {
+        font-size: 16px;
+    }
+
+    .stef-masonry-item__overlay {
+        padding: 15px;
+    }
+
+    .stef-masonry-item.vertical {
+        min-height: 220px;
+    }
+}
+
+/* Animaciones de entrada */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stef-masonry-item {
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.stef-masonry-item:nth-child(1) { animation-delay: 0.05s; }
+.stef-masonry-item:nth-child(2) { animation-delay: 0.1s; }
+.stef-masonry-item:nth-child(3) { animation-delay: 0.15s; }
+.stef-masonry-item:nth-child(4) { animation-delay: 0.2s; }
+.stef-masonry-item:nth-child(5) { animation-delay: 0.25s; }
+.stef-masonry-item:nth-child(6) { animation-delay: 0.3s; }
+.stef-masonry-item:nth-child(7) { animation-delay: 0.35s; }
+.stef-masonry-item:nth-child(8) { animation-delay: 0.4s; }
+.stef-masonry-item:nth-child(9) { animation-delay: 0.45s; }
+
 </style>
 
 <body
