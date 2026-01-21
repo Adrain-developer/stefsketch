@@ -772,103 +772,105 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
 <?php endif; ?>
 
 
-<div id="fws_68d46b1958e71" data-column-margin="custom" data-midnight="light" data-top-percent="8%"
-  data-bottom-percent="8%" class="wpb_row vc_row-fluid vc_row full-width-section  column-margin-7pct"
-  style="padding-top: calc(100vw * 0.08); padding-bottom: calc(100vw * 0.08); ">
-  <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="false">
-    <div class="inner-wrap row-bg-layer">
-      <div class="row-bg viewport-desktop using-bg-color" style="background-color: #000000; "></div>
-    </div>
-  </div>
-  <div class="row_col_wrap_12 col span_12 light left">
-    <div
-      class="vc_col-sm-4 wpb_column column_container vc_column_container col nectar-sticky-column-css no-extra-padding inherit_tablet inherit_phone "
-      data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1" data-animation=""
-      data-delay="0">
-      <div class="n-sticky">
-        <div class="vc_column-inner">
-          <div class="wpb_wrapper">
-            <div
-              class="nectar-responsive-text font_size_max_90px font_size_desktop_5vw font_size_tablet_7vw font_line_height_1px nectar-link-underline-effect">
-              <h3>Proyectos</h3>
-            </div>
-            <div class="nectar-responsive-text nectar-link-underline-effect" style="color: rgba(255,255,255,0.6);">
-              <p>Colores brillantes, elementos de la naturaleza y retratos femeninos. Disfruto experimentar con distintos medios, desde lo tradicional como acuarelas o pintura acrílica hasta ilustraciones digitales.</p>
-            </div>
+<!-- ============================================
+     MASONRY GRID INTELIGENTE - MÁS PROYECTOS
+     ============================================ -->
+<div id="fws_68d46b1958e71" data-column-margin="custom" data-midnight="light"
+  class="wpb_row vc_row-fluid vc_row full-width-section"
+  style="padding-top: 60px; padding-bottom: 60px; background-color: #000000;">
+
+  <div class="container">
+    <div class="row">
+      <div class="col span_12">
+
+        <!-- Título de sección -->
+        <div style="margin-bottom: 40px;">
+          <div class="nectar-responsive-text font_size_max_90px font_size_desktop_5vw font_size_tablet_7vw font_line_height_1px nectar-link-underline-effect">
+            <h2 style="color: #28ebe3 !important;">Más Proyectos</h2>
+          </div>
+          <div class="nectar-responsive-text nectar-link-underline-effect" style="color: rgba(255,255,255,0.6); max-width: 600px;">
+            <p>Explora más categorías de proyectos y descubre mi trabajo en diferentes estilos y técnicas.</p>
           </div>
         </div>
+
+        <!-- Masonry Grid -->
+        <div class="stef-masonry-grid">
+          <?php
+          // Helper function para detectar orientación de imagen
+          if (!function_exists('getImageOrientation')) {
+              function getImageOrientation($imagePath) {
+                  $fullPath = WWW_ROOT . 'img' . DS . $imagePath;
+                  if (file_exists($fullPath)) {
+                      $size = @getimagesize($fullPath);
+                      if ($size) {
+                          $width = $size[0];
+                          $height = $size[1];
+                          $ratio = $width / $height;
+
+                          // Horizontal: ratio > 1.3
+                          if ($ratio > 1.3) return 'horizontal';
+                          // Vertical: ratio < 0.7
+                          if ($ratio < 0.7) return 'vertical';
+                          // Cuadrado o casi cuadrado
+                          return 'square';
+                      }
+                  }
+                  return 'square'; // Default
+              }
+          }
+
+          // Iterar sobre event types
+          $index = 0;
+          foreach ($allEventTypes as $eventType):
+              $orientation = 'square';
+              $sizeClass = '';
+
+              // Detectar orientación de la imagen featured
+              if (!empty($eventType->featured_image)) {
+                  $orientation = getImageOrientation($eventType->featured_image);
+              }
+
+              // Variar tamaños para crear un grid más interesante
+              // Cada 5to elemento puede ser más grande
+              if ($index % 5 == 0 && $orientation !== 'vertical') {
+                  $sizeClass = 'large';
+              } else {
+                  $sizeClass = $orientation;
+              }
+
+              $index++;
+          ?>
+
+          <div class="stef-masonry-item <?= $sizeClass ?>"
+               onclick="window.location.href='/portafolio/<?= h($eventType->eventoslug) ?>'">
+
+            <!-- Imagen de fondo -->
+            <img src="/img/<?= h($eventType->featured_image) ?>"
+                 alt="<?= h($eventType->name) ?>"
+                 class="stef-masonry-item__image"
+                 loading="lazy">
+
+            <!-- Overlay con contenido -->
+            <div class="stef-masonry-item__overlay">
+              <div class="stef-masonry-item__content">
+                <h3 class="stef-masonry-item__title"><?= h($eventType->name) ?></h3>
+                <p class="stef-masonry-item__count"><?= $eventType->posts_count ?> PROYECTOS</p>
+                <a href="/portafolio/<?= h($eventType->eventoslug) ?>"
+                   class="stef-masonry-item__button"
+                   onclick="event.stopPropagation();">
+                  Ver más
+                  <span class="stef-masonry-item__arrow">→</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <?php endforeach; ?>
+        </div>
+
       </div>
     </div>
-
-<div class="vc_col-sm-8 wpb_column column_container vc_column_container col no-extra-padding inherit_tablet inherit_phone "
-    data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1" data-animation=""
-    data-delay="0">
-    <div class="vc_column-inner">
-        <div class="wpb_wrapper">
-            <?php foreach ($allEventTypes as $eventType): ?>
-            <div id="fws_68d46b19595e0" data-midnight="" data-column-margin="custom"
-                class="wpb_row vc_row-fluid vc_row inner_row  column-margin-7pct" style="">
-                <div class="row-bg-wrap">
-                    <div class="row-bg"></div>
-                </div>
-                <div class="row_col_wrap_12_inner col span_12  left">
-                    <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column has-animation no-extra-padding el_spacing_5px inherit_tablet inherit_phone "
-                        data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1"
-                        data-animation="slight-fade-in-from-bottom" data-delay="0">
-                        <div
-                            class="nectar-hor-list-item   has_border_animation nectar-waypoint-el border_color_424242 multiple-columns ">
-                            
-                            <!-- 1. IMÁGENES DE LOS POSTS (top-right) -->
-                            <div class="project-images">
-                                <?php if (isset($eventType->recent_posts) && !empty($eventType->recent_posts)): ?>
-                                    <?php foreach (array_slice($eventType->recent_posts, 0, 4) as $post): ?>
-                                        <?php if (!empty($post->banner)): ?>
-                                            <div class="project-image">
-                                                <img src="/img/<?= h($post->banner) ?>" 
-                                                     alt="<?= h($post->title) ?>" 
-                                                     loading="lazy">
-                                            </div>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                <?php elseif (!empty($eventType->featured_image)): ?>
-                                    <!-- Fallback: usar featured_image si no hay recent_posts -->
-                                    <div class="project-image">
-                                        <img src="/img/<?= h($eventType->featured_image) ?>" 
-                                             alt="<?= h($eventType->name) ?>" 
-                                             loading="lazy">
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                            
-                            <div class="vc_column-inner">
-                                <div class="wpb_wrapper ">
-                                    <div class="nectar-responsive-text nectar-link-underline-effect"
-                                        style="color: rgba(255,255,255,0.6);">
-                                        <h6><?= $eventType->posts_count ?> proyectos</h6>
-                                    </div>
-                                    <div class="nectar-responsive-text nectar-link-underline-effect">
-                                        <h4><?= h($eventType->name) ?></h4>
-                                    </div>
-                                    <div class="nectar-responsive-text nectar-link-underline-effect">
-                                        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- 2. BOTÓN VER PROYECTO (bottom-right) -->
-                            <a href="/portafolio/<?= h($eventType->eventoslug) ?>" class="project-button">
-                                Ver Proyecto
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</div>
-
-
   </div>
 </div>
 
