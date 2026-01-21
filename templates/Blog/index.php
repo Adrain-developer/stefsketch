@@ -261,7 +261,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
         <!-- Masonry Grid -->
         <div class="stef-masonry-grid">
           <?php
-          // Helper function para detectar orientación de imagen
+          // Helper function para detectar orientación de imagen (umbrales mejorados)
           function getImageOrientation($imagePath) {
               $fullPath = WWW_ROOT . 'img' . DS . $imagePath;
               if (file_exists($fullPath)) {
@@ -271,10 +271,10 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                       $height = $size[1];
                       $ratio = $width / $height;
 
-                      // Horizontal: ratio > 1.3
-                      if ($ratio > 1.3) return 'horizontal';
-                      // Vertical: ratio < 0.7
-                      if ($ratio < 0.7) return 'vertical';
+                      // Horizontal: ratio > 1.4 (más agresivo)
+                      if ($ratio > 1.4) return 'horizontal';
+                      // Vertical: ratio < 0.6 (más agresivo para mostrar verticales)
+                      if ($ratio < 0.6) return 'vertical';
                       // Cuadrado o casi cuadrado
                       return 'square';
                   }
@@ -336,6 +336,142 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
     </div>
   </div>
 </div>
+
+<script>
+// ============================================
+// MASONRY GRID INTELIGENTE - JavaScript
+// ============================================
+(function() {
+    'use strict';
+
+    function intelligentMasonryLayout() {
+        const grid = document.querySelector('.stef-masonry-grid');
+        if (!grid) return;
+
+        const items = Array.from(grid.querySelectorAll('.stef-masonry-item'));
+        if (items.length === 0) return;
+
+        // Detectar si estamos en desktop
+        const isDesktop = window.innerWidth > 768;
+
+        if (!isDesktop) return; // En móvil dejamos el CSS como está
+
+        let processedImages = 0;
+        const totalImages = items.length;
+
+        // Procesar cada item cuando su imagen cargue
+        items.forEach((item, index) => {
+            const img = item.querySelector('.stef-masonry-item__image');
+            if (!img) return;
+
+            const processImage = () => {
+                const imgWidth = img.naturalWidth;
+                const imgHeight = img.naturalHeight;
+
+                if (imgWidth === 0 || imgHeight === 0) return;
+
+                const ratio = imgWidth / imgHeight;
+
+                // Remover clases existentes
+                item.classList.remove('horizontal', 'vertical', 'square', 'large');
+
+                // Reclasificar según ratio real
+                if (ratio > 1.4) {
+                    item.classList.add('horizontal');
+                } else if (ratio < 0.6) {
+                    item.classList.add('vertical');
+                } else {
+                    item.classList.add('square');
+                }
+
+                processedImages++;
+
+                // Cuando todas las imágenes estén procesadas, optimizar el layout
+                if (processedImages === totalImages) {
+                    optimizeLayout(items);
+                }
+            };
+
+            if (img.complete && img.naturalWidth > 0) {
+                processImage();
+            } else {
+                img.addEventListener('load', processImage);
+                img.addEventListener('error', () => {
+                    processedImages++;
+                    if (processedImages === totalImages) {
+                        optimizeLayout(items);
+                    }
+                });
+            }
+        });
+    }
+
+    function optimizeLayout(items) {
+        if (window.innerWidth <= 768) return;
+
+        // Algoritmo para evitar huecos y balancear el grid
+        let currentRow = [];
+        let currentRowSpan = 0;
+        const maxSpanPerRow = 3;
+
+        items.forEach((item, index) => {
+            const isHorizontal = item.classList.contains('horizontal');
+            const isVertical = item.classList.contains('vertical');
+            const span = isHorizontal ? 2 : 1;
+
+            // Si el item actual no cabe en la fila, iniciamos nueva fila
+            if (currentRowSpan + span > maxSpanPerRow) {
+                // Si la fila actual solo tiene 1 span, intentar expandirlo
+                if (currentRowSpan === 1 && currentRow.length === 1) {
+                    // Convertir el último item a horizontal si es square
+                    const lastItem = currentRow[0];
+                    if (lastItem.classList.contains('square')) {
+                        lastItem.classList.remove('square');
+                        lastItem.classList.add('horizontal');
+                    }
+                }
+
+                // Reset para nueva fila
+                currentRow = [];
+                currentRowSpan = 0;
+            }
+
+            currentRow.push(item);
+            currentRowSpan += span;
+
+            // Cada 4to-5to elemento intentar hacer large si es cuadrado
+            if ((index % 4 === 0 || index % 5 === 0) &&
+                item.classList.contains('square') &&
+                currentRowSpan + 1 <= maxSpanPerRow) {
+
+                // Solo si tenemos espacio para un large (2x2)
+                const nextItem = items[index + 1];
+                if (nextItem && currentRowSpan <= 1) {
+                    item.classList.remove('square');
+                    item.classList.add('large');
+                }
+            }
+        });
+
+        // Forzar repaint para aplicar cambios
+        void grid.offsetWidth;
+    }
+
+    // Ejecutar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', intelligentMasonryLayout);
+    } else {
+        intelligentMasonryLayout();
+    }
+
+    // Re-ejecutar en resize (con debounce)
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(intelligentMasonryLayout, 250);
+    });
+})();
+</script>
 
 
                     <!-- Grid de EventTypes --
