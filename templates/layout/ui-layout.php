@@ -109,6 +109,11 @@ if ($user) {
         href='https://fonts.googleapis.com/css?family=Instrument+Sans%3A400%2C700%7CInstrument+Serif%3A400%7CPoppins%3A500%7CSource+Serif+Pro%3A400&amp;display=swap&amp;ver=6.8.2'
         type='text/css' media='all' />
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <script type="text/javascript">
         var root = document.getElementsByTagName("html")[0];
         root.setAttribute("class", "js");
@@ -310,6 +315,133 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
         width: 42px;
         height: 42px;
         font-size: 18px;
+    }
+}
+
+/* Second Footer - Legal */
+.second-footer {
+    background: #000;
+    color: #fff;
+    padding: 60px 20px 40px;
+    text-align: center;
+}
+
+.second-footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Logo y Marca */
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-logo {
+    max-width: 80px;
+    height: auto;
+    filter: brightness(0) invert(1);
+}
+
+.footer-brand-name {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+}
+
+/* Email */
+.footer-email {
+    font-size: 18px;
+}
+
+.footer-email a {
+    color: #28ebe3;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.footer-email a:hover {
+    color: #1fd4cc;
+    border-bottom-color: #1fd4cc;
+}
+
+/* Legal Text */
+.footer-legal {
+    max-width: 900px;
+    line-height: 1.8;
+}
+
+.footer-legal p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 12px 0;
+    font-weight: 300;
+}
+
+.footer-legal .current-year {
+    font-weight: 500;
+    color: #fff;
+}
+
+/* Responsive Second Footer */
+@media only screen and (max-width: 999px) {
+    .second-footer {
+        padding: 50px 20px 35px;
+    }
+
+    .footer-logo {
+        max-width: 70px;
+    }
+
+    .footer-brand-name {
+        font-size: 16px;
+    }
+
+    .footer-email {
+        font-size: 16px;
+    }
+
+    .footer-legal p {
+        font-size: 12px;
+        line-height: 1.7;
+    }
+}
+
+@media only screen and (max-width: 690px) {
+    .second-footer {
+        padding: 40px 15px 30px;
+    }
+
+    .second-footer-content {
+        gap: 25px;
+    }
+
+    .footer-logo {
+        max-width: 60px;
+    }
+
+    .footer-brand-name {
+        font-size: 15px;
+    }
+
+    .footer-email {
+        font-size: 15px;
+    }
+
+    .footer-legal p {
+        font-size: 11px;
+        line-height: 1.6;
+        margin: 10px 0;
     }
 }
 
@@ -589,6 +721,29 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
             </div>
 
             <!--/footer-outer-->
+
+            <!-- Second Footer - Legal Info -->
+            <div class="second-footer" role="contentinfo">
+                <div class="second-footer-content">
+                    <!-- Logo y Nombre -->
+                    <div class="footer-brand">
+                        <img src="/img/stefsketch.png" alt="Stef Sketch Logo" class="footer-logo">
+                        <p class="footer-brand-name">© Stef Sketch</p>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="footer-email">
+                        <a href="mailto:hola@stefsketch.com">hola@stefsketch.com</a>
+                    </div>
+
+                    <!-- Legal Text -->
+                    <div class="footer-legal">
+                        <p>Todo el contenido del sitio web © Stef Sketch está prohibido para uso o reproducción total o parcial. Derechos reservados <span class="current-year"><?= date('Y') ?></span>.</p>
+                        <p>Prohibido el uso o reproducción total o parcial de cualquier imagen del sitio. Derechos reservados <span class="current-year"><?= date('Y') ?></span>.</p>
+                        <p>The use or total or partial reproduction of any image of the site is prohibited. All rights reserved <span class="current-year"><?= date('Y') ?></span>.</p>
+                    </div>
+                </div>
+            </div>
 
 
             <div id="slide-out-widget-area-bg" class="fullscreen-alt solid">
