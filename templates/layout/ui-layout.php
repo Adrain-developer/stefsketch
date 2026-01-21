@@ -503,9 +503,11 @@ font-size: 30px;
     border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     min-height: 280px;
     background: #000;
+    will-change: transform;
 }
 
 /* Tamaños inteligentes según orientación */
@@ -530,11 +532,14 @@ font-size: 30px;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                filter 0.4s ease;
+    will-change: transform;
 }
 
 .stef-masonry-item:hover .stef-masonry-item__image {
-    transform: scale(1.1);
+    transform: scale(1.08);
+    filter: brightness(0.8);
 }
 
 /* Overlay morado con transparencia (solo desktop) */
@@ -545,7 +550,7 @@ font-size: 30px;
     width: 100%;
     height: 100%;
     background: rgba(153, 0, 255, 0);
-    transition: background 0.3s ease;
+    transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -556,14 +561,14 @@ font-size: 30px;
 /* En desktop: overlay aparece en hover */
 @media (min-width: 769px) {
     .stef-masonry-item:hover .stef-masonry-item__overlay {
-        background: rgba(153, 0, 255, 0.85);
+        background: rgba(153, 0, 255, 0.88);
     }
 
     /* Contenido oculto por defecto en desktop */
     .stef-masonry-item__content {
         opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.3s ease;
+        transform: translateY(25px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .stef-masonry-item:hover .stef-masonry-item__content {
@@ -572,10 +577,15 @@ font-size: 30px;
     }
 }
 
-/* En móvil: overlay siempre visible */
+/* En móvil: overlay siempre visible con más contraste */
 @media (max-width: 768px) {
     .stef-masonry-item__overlay {
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
+        background: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.95) 0%,
+            rgba(0, 0, 0, 0.6) 50%,
+            rgba(0, 0, 0, 0) 100%
+        );
     }
 
     .stef-masonry-item__content {
@@ -589,57 +599,92 @@ font-size: 30px;
     font-family: 'Instrument Sans', sans-serif;
     font-size: 28px;
     font-weight: 700;
-    color: #fff;
+    color: #28ebe3;
     margin: 0 0 8px 0;
     line-height: 1.2;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.stef-masonry-item:hover .stef-masonry-item__title {
+    color: #3ffff4;
+    transform: translateX(3px);
 }
 
 .stef-masonry-item__count {
     font-family: 'Instrument Sans', sans-serif;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+    color: #28ebe3;
+    opacity: 0.9;
     margin: 0 0 15px 0;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    transition: opacity 0.3s ease;
 }
 
+.stef-masonry-item:hover .stef-masonry-item__count {
+    opacity: 1;
+}
+
+/* Nuevo estilo de link con underline */
 .stef-masonry-item__button {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 24px;
+    padding: 0;
     background: transparent;
-    border: 2px solid #fff;
-    border-radius: 8px;
-    color: #fff;
+    border: none;
+    border-radius: 0;
+    color: #28ebe3;
     font-family: 'Instrument Sans', sans-serif;
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
+    letter-spacing: 1.5px;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Línea debajo del texto */
+.stef-masonry-item__button::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #28ebe3;
+    transform: scaleX(1);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.3s ease;
 }
 
 .stef-masonry-item__button:hover {
-    background: #fff;
-    color: #9900ff;
-    transform: translateX(5px);
+    color: #3ffff4;
+    transform: translateX(8px);
+}
+
+.stef-masonry-item__button:hover::after {
+    background: #3ffff4;
+    transform: scaleX(1.1);
 }
 
 .stef-masonry-item__arrow {
     font-size: 18px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
 }
 
 .stef-masonry-item__button:hover .stef-masonry-item__arrow {
-    transform: translateX(5px);
+    transform: translateX(5px) scale(1.1);
 }
 
 /* Hover effect para todo el item */
 .stef-masonry-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(153, 0, 255, 0.3);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(40, 235, 227, 0.2),
+                0 5px 15px rgba(153, 0, 255, 0.15);
 }
 
 /* Responsive: Tablet */
@@ -671,8 +716,9 @@ font-size: 30px;
         padding: 20px 0;
     }
 
+    /* Items square más grandes en móvil */
     .stef-masonry-item {
-        min-height: 200px;
+        min-height: 280px;
     }
 
     .stef-masonry-item__overlay {
@@ -681,35 +727,37 @@ font-size: 30px;
 
     .stef-masonry-item__title {
         font-size: 18px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     }
 
     .stef-masonry-item__count {
         font-size: 12px;
         margin-bottom: 10px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     }
 
     .stef-masonry-item__button {
-        padding: 10px 18px;
         font-size: 12px;
     }
 
     /* En móvil: imagen horizontal toma toda la fila */
     .stef-masonry-item.horizontal {
         grid-column: span 2;
-        min-height: 180px;
+        min-height: 200px;
     }
 
     /* En móvil: vertical ocupa 1 columna */
     .stef-masonry-item.vertical {
         grid-column: span 1;
         grid-row: span 1;
-        min-height: 250px;
+        min-height: 320px;
     }
 
     /* Large items en móvil */
     .stef-masonry-item.large {
         grid-column: span 2;
         grid-row: span 1;
+        min-height: 240px;
     }
 }
 
@@ -719,8 +767,9 @@ font-size: 30px;
         gap: 8px;
     }
 
+    /* Items square aún más grandes en pantallas pequeñas */
     .stef-masonry-item {
-        min-height: 180px;
+        min-height: 260px;
     }
 
     .stef-masonry-item__title {
@@ -732,26 +781,42 @@ font-size: 30px;
     }
 
     .stef-masonry-item.vertical {
-        min-height: 220px;
+        min-height: 300px;
+    }
+
+    .stef-masonry-item.horizontal {
+        min-height: 180px;
     }
 }
 
-/* Animaciones de entrada */
+/* Animaciones de entrada mejoradas con micro-interacciones */
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(40px) scale(0.95);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes floatIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) rotateX(10deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
     }
 }
 
 .stef-masonry-item {
-    animation: fadeInUp 0.6s ease-out backwards;
+    animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) backwards;
 }
 
+/* Delays escalonados con variación */
 .stef-masonry-item:nth-child(1) { animation-delay: 0.05s; }
 .stef-masonry-item:nth-child(2) { animation-delay: 0.1s; }
 .stef-masonry-item:nth-child(3) { animation-delay: 0.15s; }
@@ -761,6 +826,28 @@ font-size: 30px;
 .stef-masonry-item:nth-child(7) { animation-delay: 0.35s; }
 .stef-masonry-item:nth-child(8) { animation-delay: 0.4s; }
 .stef-masonry-item:nth-child(9) { animation-delay: 0.45s; }
+.stef-masonry-item:nth-child(10) { animation-delay: 0.5s; }
+.stef-masonry-item:nth-child(11) { animation-delay: 0.55s; }
+.stef-masonry-item:nth-child(12) { animation-delay: 0.6s; }
+
+/* Variación alterna para items pares */
+.stef-masonry-item:nth-child(even) {
+    animation-name: floatIn;
+}
+
+/* Micro-interacción: Pulse sutil en el conteo */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.stef-masonry-item:hover .stef-masonry-item__count {
+    animation: pulse 2s ease-in-out infinite;
+}
 
 </style>
 
