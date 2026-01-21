@@ -124,29 +124,84 @@ public function index()
     }
 }
 
-    // ✨ Post random por sesión
+    // ✨ Post random con rotación de 24 horas
     $session = $this->request->getSession();
     $featuredPostId = $session->read('featured_post_id');
-    
-    // Si no hay post en sesión o no existe, obtener uno nuevo
-    if (!$featuredPostId || !$this->BlogPosts->exists(['id' => $featuredPostId, 'status' => 'activo'])) {
-        $randomPost = $this->BlogPosts->find()
+    $featuredPostTimestamp = $session->read('featured_post_timestamp');
+    $currentTime = time();
+
+    // Validar si han pasado 24 horas (86400 segundos)
+    $needNewPost = false;
+    $randomPost = null;
+
+    if (!$featuredPostId || !$featuredPostTimestamp || ($currentTime - $featuredPostTimestamp) >= 86400) {
+        // No hay post en sesión o han pasado 24 horas
+        $needNewPost = true;
+    } else {
+        // Intentar cargar el post guardado en sesión con manejo de errores
+        try {
+            $randomPost = $this->BlogPosts->get($featuredPostId, [
+                'contain' => ['BlogCategories', 'EventTypes']
+            ]);
+
+            // Validar que el post siga cumpliendo todos los requisitos
+            if ($randomPost->status !== 'activo' ||
+                empty($randomPost->banner) ||
+                empty($randomPost->gallery) ||
+                empty($randomPost->blog_category) ||
+                empty($randomPost->event_type)) {
+                $needNewPost = true;
+                $randomPost = null;
+            } else {
+                // Validar que gallery tenga al menos 1 imagen válida
+                $gallery = json_decode($randomPost->gallery, true);
+                if (!is_array($gallery) || empty($gallery)) {
+                    $needNewPost = true;
+                    $randomPost = null;
+                }
+            }
+        } catch (\Exception $e) {
+            // Si el post fue eliminado o hay error, buscar uno nuevo
+            $needNewPost = true;
+            $randomPost = null;
+        }
+    }
+
+    // Si necesitamos un nuevo post, buscarlo
+    if ($needNewPost) {
+        // Buscar posts que cumplan TODOS los requisitos
+        $candidatePosts = $this->BlogPosts->find()
             ->contain(['BlogCategories', 'EventTypes'])
             ->where([
                 'BlogPosts.status' => 'activo',
-                'BlogPosts.banner IS NOT' => null
+                'BlogPosts.banner IS NOT' => null,
+                'BlogPosts.gallery IS NOT' => null,
+                'BlogPosts.blog_category_id IS NOT' => null,
+                'BlogPosts.event_type_id IS NOT' => null
             ])
             ->order(['RAND()'])
-            ->first();
-        
+            ->limit(20) // Obtener varios candidatos para filtrar
+            ->all();
+
+        // Filtrar posts que tengan gallery con al menos 1 imagen válida
+        $randomPost = null;
+        foreach ($candidatePosts as $post) {
+            $gallery = json_decode($post->gallery, true);
+
+            // Validar que gallery sea array válido con al menos 1 imagen
+            if (is_array($gallery) && !empty($gallery) &&
+                !empty($post->blog_category) &&
+                !empty($post->event_type)) {
+                $randomPost = $post;
+                break;
+            }
+        }
+
+        // Guardar en sesión si encontramos un post válido
         if ($randomPost) {
             $session->write('featured_post_id', $randomPost->id);
+            $session->write('featured_post_timestamp', $currentTime);
         }
-    } else {
-        // Cargar el post guardado en sesión
-        $randomPost = $this->BlogPosts->get($featuredPostId, [
-            'contain' => ['BlogCategories', 'EventTypes']
-        ]);
     }
     
     

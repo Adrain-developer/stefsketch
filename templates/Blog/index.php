@@ -489,9 +489,13 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
             </div>
         </div>
 
-        <?php if ($randomPost): 
-            // Decodificar galería
-            $gallery = !empty($randomPost->gallery) ? json_decode($randomPost->gallery, true) : [];
+        <?php if ($randomPost && !empty($randomPost->blog_category) && !empty($randomPost->event_type)):
+            // Decodificar galería con validación robusta
+            $gallery = [];
+            if (!empty($randomPost->gallery)) {
+                $decoded = json_decode($randomPost->gallery, true);
+                $gallery = (is_array($decoded) && !empty($decoded)) ? $decoded : [];
+            }
             $galleryImg1 = $gallery[0] ?? null;
             $galleryImg2 = $gallery[1] ?? null;
         ?>
@@ -615,7 +619,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                             
                                                             <h4 style="font-size: 38px;color: #3f3f3f;line-height: 46px;text-align: left"
                                                                 class="vc_custom_heading vc_do_custom_heading vc_custom_1484779752863">
-                                                                <?= h($randomPost->blog_category->name ?? 'Sin categoría') ?>
+                                                                <?= h($randomPost->blog_category->name) ?>
                                                             </h4>
                                                         </div>
                                                     </div>
@@ -659,7 +663,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                                 <h5 style="color: #ffffff;"> <span class="text">
                                                                     </span><span class="link_wrap"><a
                                                                             class="link_text" role="button"
-                                                                            href="/portafolio/<?= h($randomPost->event_type->eventoslug) ?>/<?= h($randomPost->slug) ?>">VER PROYECTO<span
+                                                                            href="/portafolio/<?= h($randomPost->event_type->eventoslug ?? 'proyecto') ?>/<?= h($randomPost->slug) ?>">VER PROYECTO<span
                                                                                 class="arrow"></span></a></span>
                                                                 </h5>
                                                             </div>
