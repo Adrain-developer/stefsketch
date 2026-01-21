@@ -252,6 +252,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
     gap: 20px;
     flex-wrap: wrap;
     margin: 20px 0;
+       
 }
 
 .social-icon-btn {
@@ -264,14 +265,14 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
     font-size: 30px;
     text-decoration: none;
     transition: all 0.3s ease;
+     border-radius: 50%;
 }
 
 .social-icon-btn:hover {
     background: #28ebe3;
     color: #000 !important;
     border-color: #28ebe3;
-    transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 5px 15px rgba(40, 235, 227, 0.4);
+    transform: translateY(-2px);
 }
 
 .social-icon-btn i {
@@ -318,6 +319,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
     flex-wrap: wrap;
     clear: both;
     width: 100%;
+    padding-bottom: 15px;
 }
 
 .header-social-icon {
@@ -332,7 +334,6 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
     font-size: 16px;
     text-decoration: none;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .header-social-icon:hover {
@@ -830,7 +831,7 @@ font-size: 30px;
     <div class="contact-modal-overlay" id="contactModal">
         <div class="contact-modal">
             <div class="contact-modal-header">
-                <h3><i class="fa-regular fa-pen-to-square"></i> <span style="color: #28ebe3 !important;margin-left: 10px;">¡Hablemos de tu proyecto! </span></h3>
+                <h3><i class="fa-regular fa-pen-to-square"></i> <span style="color: #28ebe3 !important;margin-left: 10px;">¡Tracemos algo maravilloso juntos! </span></h3>
                 <button type="button" class="contact-modal-close" id="closeModalBtn">&times;</button>
             </div>
             <div class="contact-modal-body">
@@ -873,7 +874,7 @@ font-size: 30px;
             <div class="contact-modal-footer">
                 <button type="button" class="btn-cancel" id="cancelModalBtn">Cerrar</button>
                 <button type="button" class="btn-submit" id="sendContactBtn">
-                    <i class="fa-regular fa-envelope"></i><span class="btn-text" style="margin-left: 10px;"> Enviar Mensaje</span>
+                    <i class="fa-regular fa-envelope"></i><span class="btn-text" style="margin-left: 10px;"> Enviar</span>
                     <span class="btn-loading" style="display: none;">
                         <span class="spinner"></span> Enviando...
                     </span>
@@ -1107,6 +1108,12 @@ font-size: 30px;
             font-size: 1.25rem;
         }
     }
+
+    @media only screen and (min-width: 1px) and (max-width: 999px) {
+    #header-outer #top .col.span_3 #logo {
+        display: contents;
+    }
+}
     </style>
 
 
