@@ -226,7 +226,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
     font-weight: 700;
     font-size: 18px;
     text-decoration: none;
-    border-radius: 50px;
+    border-radius: 14px;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -260,13 +260,10 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
     justify-content: center;
     width: 50px;
     height: 50px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
     color: #fff !important;
-    font-size: 22px;
+    font-size: 30px;
     text-decoration: none;
     transition: all 0.3s ease;
-    border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .social-icon-btn:hover {
@@ -291,12 +288,6 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
     .social-icons-container {
         gap: 15px;
     }
-
-    .social-icon-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 20px;
-    }
 }
 
 @media only screen and (max-width: 690px) {
@@ -310,19 +301,13 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
         gap: 12px;
         margin: 15px 0;
     }
-
-    .social-icon-btn {
-        width: 42px;
-        height: 42px;
-        font-size: 18px;
-    }
 }
 
 /* Second Footer - Legal */
 .second-footer {
     background: #000;
     color: #fff;
-    padding: 60px 20px 40px;
+    padding: 60px 20px 0px;
     text-align: center;
 }
 
@@ -344,17 +329,13 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
 }
 
 .footer-logo {
-    max-width: 80px;
+    max-width: 200px;
     height: auto;
-    filter: brightness(0) invert(1);
 }
 
 .footer-brand-name {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: #fff;
-    margin: 0;
+padding-bottom: 4px;
+font-size: 30px;
 }
 
 /* Email */
@@ -384,8 +365,8 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
 .footer-legal p {
     font-size: 13px;
     color: rgba(255, 255, 255, 0.7);
-    margin: 12px 0;
     font-weight: 300;
+    padding-bottom: 2px;
 }
 
 .footer-legal .current-year {
@@ -396,15 +377,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
 /* Responsive Second Footer */
 @media only screen and (max-width: 999px) {
     .second-footer {
-        padding: 50px 20px 35px;
-    }
-
-    .footer-logo {
-        max-width: 70px;
-    }
-
-    .footer-brand-name {
-        font-size: 16px;
+        padding: 50px 20px 0px;
     }
 
     .footer-email {
@@ -419,19 +392,11 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
 
 @media only screen and (max-width: 690px) {
     .second-footer {
-        padding: 40px 15px 30px;
+        padding: 40px 15px 0px;
     }
 
     .second-footer-content {
         gap: 25px;
-    }
-
-    .footer-logo {
-        max-width: 60px;
-    }
-
-    .footer-brand-name {
-        font-size: 15px;
     }
 
     .footer-email {
@@ -581,9 +546,6 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
                                         </div>
                                     </div>
                                     <div class="wpb_wrapper">
-                                        <div class="divider-wrap" data-alignment="default">
-                                            <div style="height: 4vw;" class="divider"></div>
-                                        </div>
                                         <div id="fws_68d45a3a478b5" data-midnight="" data-column-margin="default"
                                             class="wpb_row vc_row-fluid vc_row inner_row">
                                             <div class="row-bg-wrap">
@@ -623,9 +585,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
                                         </div>
 
                                         <!-- Botón Contáctame -->
-                                        <div class="divider-wrap" data-alignment="default">
-                                            <div style="height: 3vw;" class="divider"></div>
-                                        </div>
+                                       
                                         <div data-midnight="" data-column-margin="default" class="wpb_row vc_row-fluid vc_row inner_row">
                                             <div class="row-bg-wrap">
                                                 <div class="row-bg"></div>
@@ -675,43 +635,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="divider-wrap" data-alignment="default">
-                                            <div style="height: 3vw;" class="divider"></div>
-                                        </div>
-                                        <div id="fws_68d45a3a48572" data-midnight="" data-column-margin="10px"
-                                            class="wpb_row vc_row-fluid vc_row inner_row">
-                                            <div class="row-bg-wrap">
-                                                <div class="row-bg"></div>
-                                            </div>
-                                            <div class="row_col_wrap_12_inner col span_12  left">
-                                                <div class="vc_col-sm-6 wpb_column column_container vc_column_container col child_column no-extra-padding force-tablet-text-align-center force-phone-text-align-center inherit_tablet inherit_phone "
-                                                    data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
-                                                    data-bg-opacity="1" data-animation="" data-delay="0">
-                                                    <div class="vc_column-inner">
-                                                        <div class="wpb_wrapper">
-                                                            <div
-                                                                class="nectar-responsive-text font_line_height_1px nectar-link-underline-effect">
-                                                                <h6>© <span class="nectar-current-year">2025</span>. All
-                                                                    rights reserved.</h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="vc_col-sm-6 wpb_column column_container vc_column_container col child_column no-extra-padding force-desktop-text-align-right force-tablet-text-align-center force-phone-text-align-center inherit_tablet inherit_phone "
-                                                    data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
-                                                    data-bg-opacity="1" data-animation="" data-delay="0">
-                                                    <div class="vc_column-inner">
-                                                        <div class="wpb_wrapper">
-                                                            <div
-                                                                class="nectar-responsive-text font_line_height_1px nectar-link-underline-effect">
-                                                                <h6>Made by <a href="">DEMO</a></h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -727,8 +651,8 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
                 <div class="second-footer-content">
                     <!-- Logo y Nombre -->
                     <div class="footer-brand">
-                        <img src="/img/stefsketch.png" alt="Stef Sketch Logo" class="footer-logo">
                         <p class="footer-brand-name">© Stef Sketch</p>
+                        <img src="/img/stefsketch.png" alt="Stef Sketch Logo" class="footer-logo">
                     </div>
 
                     <!-- Email -->
@@ -741,7 +665,19 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
                         <p>Todo el contenido del sitio web © Stef Sketch está prohibido para uso o reproducción total o parcial. Derechos reservados <span class="current-year"><?= date('Y') ?></span>.</p>
                         <p>Prohibido el uso o reproducción total o parcial de cualquier imagen del sitio. Derechos reservados <span class="current-year"><?= date('Y') ?></span>.</p>
                         <p>The use or total or partial reproduction of any image of the site is prohibited. All rights reserved <span class="current-year"><?= date('Y') ?></span>.</p>
+                </div>
+                <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding force-desktop-text-align-center force-tablet-text-align-center force-phone-text-align-center inherit_tablet inherit_phone "
+                    data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
+                    data-bg-opacity="1" data-animation="" data-delay="0">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper">
+                            <div
+                                class="nectar-responsive-text font_line_height_1px nectar-link-underline-effect">
+                                <h6>Made by <a href="">ADN Tecnologías</a></h6>
+                            </div>
+                        </div>
                     </div>
+                </div>
                 </div>
             </div>
 
@@ -803,7 +739,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
     <div class="contact-modal-overlay" id="contactModal">
         <div class="contact-modal">
             <div class="contact-modal-header">
-                <h3>💬 ¡Hablemos de tu proyecto!</h3>
+                <h3><i class="fa-regular fa-pen-to-square"></i> <span style="color: #28ebe3 !important;margin-left: 10px;">¡Hablemos de tu proyecto! </span></h3>
                 <button type="button" class="contact-modal-close" id="closeModalBtn">&times;</button>
             </div>
             <div class="contact-modal-body">
@@ -846,7 +782,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
             <div class="contact-modal-footer">
                 <button type="button" class="btn-cancel" id="cancelModalBtn">Cerrar</button>
                 <button type="button" class="btn-submit" id="sendContactBtn">
-                    <span class="btn-text">📨 Enviar Mensaje</span>
+                    <i class="fa-regular fa-envelope"></i><span class="btn-text" style="margin-left: 10px;"> Enviar Mensaje</span>
                     <span class="btn-loading" style="display: none;">
                         <span class="spinner"></span> Enviando...
                     </span>
@@ -1009,7 +945,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
     }
 
     .btn-submit {
-        background: #fff;
+        background: #28ebe3;
         color: #1a1a1a;
     }
 
