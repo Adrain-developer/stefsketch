@@ -200,7 +200,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
  }
 
   .wpb_column.instance-21 > .vc_column-inner > .column-bg-overlay-wrap > .column-bg-overlay {
-       background-image: url(webroot/img/footer_textura_morado.jpg) !important;
+       background-image: url(/img/footer_textura_morado.jpg) !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
     background-size: cover !important;
@@ -210,7 +210,109 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
     font-size: min(130px, 7vw);
     color: white;
 }
- 
+
+/* Botón Contáctame */
+.contactame-button {
+    display: inline-block;
+    padding: 18px 50px;
+    background: #28ebe3;
+    color: #000 !important;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(40, 235, 227, 0.3);
+}
+
+.contactame-button:hover {
+    background: #1fd4cc;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 235, 227, 0.5);
+    color: #000 !important;
+}
+
+.contactame-button:active {
+    transform: translateY(0);
+}
+
+/* Iconos de Redes Sociales */
+.social-icons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.social-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #fff !important;
+    font-size: 22px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.social-icon-btn:hover {
+    background: #28ebe3;
+    color: #000 !important;
+    border-color: #28ebe3;
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 5px 15px rgba(40, 235, 227, 0.4);
+}
+
+.social-icon-btn i {
+    line-height: 1;
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 999px) {
+    .contactame-button {
+        padding: 16px 40px;
+        font-size: 16px;
+    }
+
+    .social-icons-container {
+        gap: 15px;
+    }
+
+    .social-icon-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+}
+
+@media only screen and (max-width: 690px) {
+    .contactame-button {
+        padding: 14px 35px;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+    }
+
+    .social-icons-container {
+        gap: 12px;
+        margin: 15px 0;
+    }
+
+    .social-icon-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+    }
+}
+
 </style>
 
 <body
@@ -341,7 +443,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
                             <div class="vc_col-sm-12 wpb_column column_container vc_column_container col el_spacing_20px tl_br_25px tr_br_25px bl_br_25px br_br_25px left_padding_desktop_30px top_padding_desktop_30px right_padding_desktop_30px bottom_padding_desktop_30px "
                                 data-using-bg="true" data-padding-pos="all" data-has-bg-color="true"
                                 data-bg-color="#ede8e4" data-bg-opacity="1" data-animation="" data-delay="0">
-                                <div class="vc_column-inner" style="background-image: url(webroot/img/footer_textura_morado.jpg) !important; background-repeat: no-repeat !important; background-position: center !important; background-size: cover !important;">
+                                <div class="vc_column-inner" style="background-image: url(/img/footer_textura_morado.jpg) !important; background-repeat: no-repeat !important; background-position: center !important; background-size: cover !important;">
                                     <div class="column-bg-overlay-wrap column-bg-layer" data-bg-animation="none">
                                         <div class="column-bg-overlay" >
                                         </div>
@@ -381,57 +483,60 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
                                                                                 un proyecto en mente?</span></a></span>
                                                                 </h2>
                                                             </div>
-                                                          
+
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="fws_68d45a3a48164" data-midnight="" data-column-margin="default"
-                                            class="wpb_row vc_row-fluid vc_row inner_row">
+
+                                        <!-- Botón Contáctame -->
+                                        <div class="divider-wrap" data-alignment="default">
+                                            <div style="height: 3vw;" class="divider"></div>
+                                        </div>
+                                        <div data-midnight="" data-column-margin="default" class="wpb_row vc_row-fluid vc_row inner_row">
                                             <div class="row-bg-wrap">
                                                 <div class="row-bg"></div>
                                             </div>
-                                            <div class="row_col_wrap_12_inner col span_12  left">
-                                                <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding column_element_direction_desktop_horizontal force-desktop-text-align-center column_element_direction_tablet_horizontal el_spacing_10px inherit_tablet inherit_phone "
+                                            <div class="row_col_wrap_12_inner col span_12 left">
+                                                <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding force-desktop-text-align-center inherit_tablet inherit_phone"
                                                     data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
                                                     data-bg-opacity="1" data-animation="" data-delay="0">
                                                     <div class="vc_column-inner">
                                                         <div class="wpb_wrapper">
-                                                            <div class="nectar-cta  alignment_tablet_default alignment_phone_default display_tablet_inherit display_phone_inherit "
-                                                                data-color="default" data-using-bg="false"
-                                                                data-display="block" data-style="underline"
-                                                                data-alignment="left" data-text-color="std"
-                                                                style="margin-right: 10px; margin-left: 10px; --nectar-button-color: var(--nectar-default); --nectar-icon-gap: 10px; ">
-                                                                <p> <span class="link_wrap"><a class="link_text"
-                                                                            role="button" href="">Behance</a></span></p>
-                                                            </div>
-                                                            <div class="nectar-cta  alignment_tablet_default alignment_phone_default display_tablet_inherit display_phone_inherit "
-                                                                data-color="default" data-using-bg="false"
-                                                                data-display="block" data-style="underline"
-                                                                data-alignment="left" data-text-color="std"
-                                                                style="margin-right: 10px; margin-left: 10px; --nectar-button-color: var(--nectar-default); --nectar-icon-gap: 10px; ">
-                                                                <p> <span class="link_wrap"><a class="link_text"
-                                                                            role="button" href="">Dribbble</a></span>
-                                                                </p>
-                                                            </div>
-                                                            <div class="nectar-cta  alignment_tablet_default alignment_phone_default display_tablet_inherit display_phone_inherit "
-                                                                data-color="default" data-using-bg="false"
-                                                                data-display="block" data-style="underline"
-                                                                data-alignment="left" data-text-color="std"
-                                                                style="margin-right: 10px; margin-left: 10px; --nectar-button-color: var(--nectar-default); --nectar-icon-gap: 10px; ">
-                                                                <p> <span class="link_wrap"><a class="link_text"
-                                                                            role="button" href="">Instagram</a></span>
-                                                                </p>
-                                                            </div>
-                                                            <div class="nectar-cta  alignment_tablet_default alignment_phone_default display_tablet_inherit display_phone_inherit "
-                                                                data-color="default" data-using-bg="false"
-                                                                data-display="block" data-style="underline"
-                                                                data-alignment="left" data-text-color="std"
-                                                                style="margin-right: 10px; margin-left: 10px; --nectar-button-color: var(--nectar-default); --nectar-icon-gap: 10px; ">
-                                                                <p> <span class="link_wrap"><a class="link_text"
-                                                                            role="button" href="">LinkedIn</a></span>
-                                                                </p>
+                                                            <a href="javascript:void(0);" class="open-contact-modal contactame-button">
+                                                                ¡CONTÁCTAME!
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="fws_68d45a3a48164" data-midnight="" data-column-margin="default"
+                                            class="wpb_row vc_row-fluid vc_row inner_row social-icons-row">
+                                            <div class="row-bg-wrap">
+                                                <div class="row-bg"></div>
+                                            </div>
+                                            <div class="row_col_wrap_12_inner col span_12 left">
+                                                <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding force-desktop-text-align-center inherit_tablet inherit_phone"
+                                                    data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
+                                                    data-bg-opacity="1" data-animation="" data-delay="0">
+                                                    <div class="vc_column-inner">
+                                                        <div class="wpb_wrapper">
+                                                            <div class="social-icons-container">
+                                                                <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Facebook">
+                                                                    <i class="fab fa-facebook-f"></i>
+                                                                </a>
+                                                                <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Instagram">
+                                                                    <i class="fab fa-instagram"></i>
+                                                                </a>
+                                                                <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="social-icon-btn" aria-label="YouTube">
+                                                                    <i class="fab fa-youtube"></i>
+                                                                </a>
+                                                                <a href="https://t.me/" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Telegram">
+                                                                    <i class="fab fa-telegram-plane"></i>
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </div>

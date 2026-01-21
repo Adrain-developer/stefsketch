@@ -482,7 +482,7 @@
 
 
                 .wpb_column.instance-21 > .vc_column-inner > .column-bg-overlay-wrap > .column-bg-overlay {
-       background-image: url(webroot/img/footer_textura_morado.jpg) !important;
+       background-image: url(/img/footer_textura_morado.jpg) !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
     background-size: cover !important;
