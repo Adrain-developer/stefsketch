@@ -319,12 +319,20 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
 }
 
 /* Header Social Icons */
+#header-outer .col.span_3 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .header-social-icons {
     display: flex;
     gap: 15px;
     margin-top: 15px;
     justify-content: flex-start;
     flex-wrap: wrap;
+    clear: both;
+    width: 100%;
 }
 
 .header-social-icon {
