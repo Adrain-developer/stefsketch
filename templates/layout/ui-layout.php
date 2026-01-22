@@ -155,6 +155,28 @@ if ($user) {
             visibility: visible !important;
         }
 
+        /* Texturas - Capa 3 (entre fondo y sirena) - Tamaño completo del banner */
+        .texturas-parallax-wrap {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            z-index: 3 !important;
+            pointer-events: none !important;
+            opacity: 0.5 !important;
+            visibility: visible !important;
+        }
+
+        .texturas-parallax-wrap img {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
         /* Asegurar que el texto esté por encima */
         #fws_68d462ae65ff8 .row_col_wrap_12 {
             position: relative !important;
@@ -184,18 +206,24 @@ if ($user) {
         }
     </style>
 
-    <!-- JavaScript PARALLAX INVERSO para sirena (sube = profundidad) -->
+    <!-- JavaScript PARALLAX INVERSO para 3 capas (texturas + sirena) -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sirenaWrap = document.querySelector('.sirena-parallax-wrap');
+            const texturasWrap = document.querySelector('.texturas-parallax-wrap');
             const banner = document.querySelector('#fws_68d462ae65ff8');
 
-            if (!sirenaWrap || !banner) {
-                console.log('❌ Elementos no encontrados');
+            if (!banner) {
+                console.log('❌ Banner no encontrado');
                 return;
             }
 
-            console.log('✅ Parallax ACTIVADO para sirena');
+            const hasSirena = !!sirenaWrap;
+            const hasTexturas = !!texturasWrap;
+
+            console.log('✅ Parallax ACTIVADO:');
+            console.log('   - Sirena:', hasSirena ? 'SÍ' : 'NO');
+            console.log('   - Texturas:', hasTexturas ? 'SÍ' : 'NO');
 
             let ticking = false;
 
@@ -206,21 +234,27 @@ if ($user) {
 
                 // Verificar si el banner está en viewport
                 if (bannerRect.bottom > 0 && bannerRect.top < window.innerHeight) {
-                    // PARALLAX INVERSO: Cuando scrolleas ABAJO, imagen sube (crea profundidad)
                     const relativeScroll = scrolled - bannerTop;
 
-                    // Multiplicador 0.25 = efecto notorio pero controlado
-                    // Negativo = movimiento HACIA ARRIBA
-                    const parallaxOffset = relativeScroll * -0.25;
+                    // TEXTURAS: Parallax SUTIL (movimiento lento)
+                    if (hasTexturas) {
+                        const texturasOffset = relativeScroll * -0.12; // Más sutil
+                        const texturasMaxMove = 80; // Límite más bajo
+                        const texturasLimited = Math.max(Math.min(texturasOffset, 0), -texturasMaxMove);
+                        texturasWrap.style.transform = `translateY(${texturasLimited}px)`;
+                    }
 
-                    // Limitar movimiento: máximo 150px arriba
-                    const maxMove = 150;
-                    const limitedOffset = Math.max(Math.min(parallaxOffset, 0), -maxMove);
-
-                    sirenaWrap.style.transform = `translateY(${limitedOffset}px)`;
+                    // SIRENA: Parallax NOTORIO (movimiento rápido)
+                    if (hasSirena) {
+                        const sirenaOffset = relativeScroll * -0.25; // Más notorio
+                        const sirenaMaxMove = 150; // Límite más alto
+                        const sirenaLimited = Math.max(Math.min(sirenaOffset, 0), -sirenaMaxMove);
+                        sirenaWrap.style.transform = `translateY(${sirenaLimited}px)`;
+                    }
                 } else {
                     // Reset cuando banner no visible
-                    sirenaWrap.style.transform = 'translateY(0)';
+                    if (hasSirena) sirenaWrap.style.transform = 'translateY(0)';
+                    if (hasTexturas) texturasWrap.style.transform = 'translateY(0)';
                 }
 
                 ticking = false;

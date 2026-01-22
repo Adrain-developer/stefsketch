@@ -751,6 +751,10 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                         </div>
                                     </div>
                                 </div>
+                                <!-- TERCERA CAPA: Texturas parallax (burbujas, estrellas, etc) -->
+                                <div class="texturas-parallax-wrap">
+                                    <img src="img/texturasBannerParallax.png" alt="Texturas decorativas">
+                                </div>
                                 <!-- SIRENA PARALLAX - ESTRUCTURA SIMPLIFICADA -->
                                 <div class="sirena-parallax-wrap">
                                     <img src="img/sirenaBannerParallax.png" alt="Sirena ilustración">
