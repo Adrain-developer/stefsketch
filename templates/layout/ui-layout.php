@@ -146,6 +146,14 @@ if ($user) {
             visibility: visible !important;
         }
 
+        .full-width-section>.col.span_12.dark .nectar-post-grid[data-text-color=light] .nectar-post-grid-item .content *, .nectar-post-grid[data-text-color=light] .nectar-post-grid-item .content * {
+    color: #28ebe3 !important;
+}
+
+       .category-button-color-rgba__10_10_10_0--2__ .meta-category a.style-button {
+           background-color: rgb(162 6 241 / 20%) !important;
+        }
+
         /* Transición suave para mouse parallax - SOLO DESKTOP */
         @media only screen and (min-width: 1000px) {
             .sirena-parallax-wrap {
@@ -812,21 +820,21 @@ font-size: 30px;
     font-family: 'Instrument Sans', sans-serif;
     font-size: 28px;
     font-weight: 700;
-    color: #28ebe3;
+    color: #28ebe3 !important;
     margin: 0 0 8px 0;
     line-height: 1.2;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .stef-masonry-item:hover .stef-masonry-item__title {
-    color: #3ffff4;
+    color: #3ffff4 !important;
     transform: translateX(3px);
 }
 
 .stef-masonry-item__count {
     font-family: 'Instrument Sans', sans-serif;
     font-size: 14px;
-    color: #28ebe3;
+    color: #28ebe3 !important;
     opacity: 0.9;
     margin: 0 0 15px 0;
     text-transform: uppercase;
@@ -1140,7 +1148,7 @@ font-size: 30px;
                                     <ul class="sf-menu">
                                         <li id="menu-item-237"
                                             class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-9 current_page_item nectar-regular-menu-item menu-item-237">
-                                            <a href="/" aria-current="page"><span class="menu-title-text"><span
+                                            <a href="/#homeProyectos" aria-current="page"><span class="menu-title-text"><span
                                                         class="nectar-text-reveal-button"><span
                                                             class="nectar-text-reveal-button__text"
                                                             data-text="Work's">Work's</span></span></span></a>
@@ -1320,7 +1328,7 @@ font-size: 30px;
                     <!-- Logo y Nombre -->
                     <div class="footer-brand">
                         <p class="footer-brand-name">© Stef Sketch</p>
-                        <img src="/img/stefsketch.png" alt="Stef Sketch Logo" class="footer-logo">
+                        <a href="/"><img src="/img/stefsketch.png" alt="Stef Sketch Logo" class="footer-logo"></a>
                     </div>
 
                     <!-- Email -->
@@ -1371,7 +1379,7 @@ font-size: 30px;
                             <ul class="menu">
                                 <li
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-9 current_page_item menu-item-237">
-                                    <a href="/" aria-current="page">Work</a>
+                                    <a href="/#homeProyectos" aria-current="page">Work</a>
                                 </li>
                                 <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-236">
                                     <a href="/historia">About</a>

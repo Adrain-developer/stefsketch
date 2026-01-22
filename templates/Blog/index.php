@@ -92,6 +92,18 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
     padding-right: 20px;
 }
 
+.anchoBannerparallax{
+    padding-top: calc(100vw * 0.20);
+    padding-bottom: calc(100vw * 0.20);
+}
+
+.secAqui{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+}
+
 @media (max-width: 999px) {
     .nectar-hor-list-item .vc_column-inner {
         margin-right: 200px; /* Menos espacio en tablet */
@@ -103,6 +115,17 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
         padding: 10px 20px;
         font-size: 13px;
     }
+}
+
+@media (max-width: 767px){
+    .anchoBannerparallax{
+    padding-top: calc(100vw * 0.20);
+    padding-bottom: calc(65vw);
+}
+.secAqui{
+    flex-direction: column;
+
+}
 }
 
 @media (max-width: 690px) {
@@ -186,7 +209,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
 
         </div>
 
-        <div class="container-wrap">
+        <div class="container-wrap" id="homeProyectos">
             <div class="container main-content" role="main">
                 <div class="row">
 
@@ -739,8 +762,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                             </div>
                             <div id="fws_68d462ae65ff8" data-column-margin="default" data-midnight="light"
                                 data-top-percent="20%" data-bottom-percent="20%"
-                                class="wpb_row vc_row-fluid vc_row full-width-section parallax_section"
-                                style="padding-top: calc(100vw * 0.20); padding-bottom: calc(100vw * 0.20); ">
+                                class="wpb_row vc_row-fluid vc_row full-width-section parallax_section anchoBannerparallax">
                                 <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay=""
                                     data-bg-overlay="false">
                                     <div class="inner-wrap row-bg-layer using-image">
@@ -814,7 +836,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                         data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
                                         data-bg-opacity="1" data-animation="" data-delay="0">
                                         <div class="vc_column-inner">
-                                            <div class="wpb_wrapper" style=" display: flex;flex-wrap: nowrap;flex-direction: row;align-items: center;">
+                                            <div class="wpb_wrapper secAqui">
                                                 <div class="nectar-split-heading " data-align="default"
                                                     data-m-align="inherit" data-text-effect="default"
                                                     data-animation-type="default" data-animation-delay="0"
@@ -896,40 +918,6 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
             </div>
             <!--/fullwidth-->
 
-    <!--
-<div class="sticky-container">
-    <?php foreach ($eventTypesWithPosts as $eventType): ?>
-        <div class="sticky-card" 
-             style="background-image: url('/img/<?= h($eventType->featured_image) ?>');"
-             onclick="window.location.href='/portafolio/<?= h($eventType->eventoslug) ?>'">
-            
-            <div class="card-header">
-                <div class="category-pills">
-                    <?php if (!empty($eventType->categories)): ?>
-                        <?php foreach (array_slice($eventType->categories, 0, 3) as $category): ?>
-                            <span class="pill"><?= h($category->name) ?></span>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-                
-                <div class="projects-count">
-                    <?= $eventType->posts_count ?> proyectos
-                </div>
-            </div>
-            
-            <div class="card-content">
-                <h2 class="card-title"><?= h($eventType->name) ?></h2>
-                <button class="mobile-btn">Ver Trabajos</button>
-            </div>
-            
-            <div></div>
-        </div>
-    <?php endforeach; ?>
-</div>
-
-<div class="view-cursor">VIEW</div>
-
--->
 
 
 

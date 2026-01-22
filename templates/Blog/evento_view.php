@@ -25,10 +25,16 @@ function formatNumberShort($n) {
         opacity: 0.6 !important;
     }
     body[data-header-resize="0"] .container-wrap, body[data-header-resize="0"] .project-title{
-    padding-top: 60px !important;
+    padding-top: 85px !important;
 }
 
     @media only screen and (max-width: 690px) {
+            body[data-header-resize="0"] .container-wrap, body[data-header-resize="0"] .project-title{
+    padding-top: 30px !important;
+}
+.wpb_column.bottom_padding_desktop_20px > .vc_column-inner {
+    padding-bottom: 0px !important;
+}
     body .vc_row.top_padding_phone_10px
  {
         padding-top: 78px !important;
