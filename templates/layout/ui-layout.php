@@ -184,25 +184,60 @@ if ($user) {
         }
     </style>
 
-    <!-- JavaScript para sirena - SIN PARALLAX (primero hacerla visible, luego agregamos parallax) -->
+    <!-- JavaScript PARALLAX INVERSO para sirena (sube = profundidad) -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sirenaWrap = document.querySelector('.sirena-parallax-wrap');
+            const banner = document.querySelector('#fws_68d462ae65ff8');
 
-            if (!sirenaWrap) {
-                console.log('❌ Sirena wrap NO encontrado');
+            if (!sirenaWrap || !banner) {
+                console.log('❌ Elementos no encontrados');
                 return;
             }
 
-            console.log('✅ Sirena wrap encontrado:', sirenaWrap);
+            console.log('✅ Parallax ACTIVADO para sirena');
 
-            // Asegurar que siempre sea visible y FIJA (sin movimiento)
-            sirenaWrap.style.display = 'block';
-            sirenaWrap.style.opacity = '1';
-            sirenaWrap.style.visibility = 'visible';
-            sirenaWrap.style.transform = 'none'; // SIN TRANSFORMACIONES
+            let ticking = false;
 
-            console.log('✅ Sirena debería estar visible en el banner');
+            function updateParallax() {
+                const scrolled = window.pageYOffset;
+                const bannerRect = banner.getBoundingClientRect();
+                const bannerTop = bannerRect.top + scrolled;
+
+                // Verificar si el banner está en viewport
+                if (bannerRect.bottom > 0 && bannerRect.top < window.innerHeight) {
+                    // PARALLAX INVERSO: Cuando scrolleas ABAJO, imagen sube (crea profundidad)
+                    const relativeScroll = scrolled - bannerTop;
+
+                    // Multiplicador 0.25 = efecto notorio pero controlado
+                    // Negativo = movimiento HACIA ARRIBA
+                    const parallaxOffset = relativeScroll * -0.25;
+
+                    // Limitar movimiento: máximo 150px arriba
+                    const maxMove = 150;
+                    const limitedOffset = Math.max(Math.min(parallaxOffset, 0), -maxMove);
+
+                    sirenaWrap.style.transform = `translateY(${limitedOffset}px)`;
+                } else {
+                    // Reset cuando banner no visible
+                    sirenaWrap.style.transform = 'translateY(0)';
+                }
+
+                ticking = false;
+            }
+
+            function requestTick() {
+                if (!ticking) {
+                    window.requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            }
+
+            // Activar en scroll
+            window.addEventListener('scroll', requestTick, { passive: true });
+
+            // Ejecutar al inicio
+            updateParallax();
         });
     </script>
 
