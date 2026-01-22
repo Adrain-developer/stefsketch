@@ -125,15 +125,50 @@ if ($user) {
     }
     </style>
 
-    <!-- Estilos para sirena parallax banner -->
+    <!-- Estilos para parallax banner con múltiples capas -->
     <style>
-        /* Contenedor de la sirena parallax */
+        /* Asegurar overflow en el contenedor principal */
+        #fws_68d462ae65ff8 {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Capa de texturas parallax (3ra capa - opcional) */
+        .texture-parallax-wrap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .texture-parallax-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        .texture-parallax-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Contenedor de la sirena parallax - PEGADA AL EXTREMO DERECHO INFERIOR */
         .sirena-parallax-wrap {
             position: absolute;
             bottom: 0;
             right: 0;
-            width: 400px;
-            height: 400px;
+            width: 700px;
+            height: 700px;
             z-index: 5;
             pointer-events: none;
             overflow: visible;
@@ -151,15 +186,19 @@ if ($user) {
             right: 0;
             width: 100%;
             height: 100%;
-            transform: translateZ(0);
+            transform: translate3d(0, 0, 0);
             will-change: transform;
-            transition: transform 0.1s ease-out;
         }
 
         .sirena-parallax-image img {
+            position: absolute;
+            bottom: 0;
+            right: 0;
             width: 100%;
-            height: 100%;
+            height: auto;
+            max-width: none;
             object-fit: contain;
+            object-position: bottom right;
             display: block;
         }
 
@@ -172,33 +211,79 @@ if ($user) {
         /* Responsive para tablets */
         @media only screen and (max-width: 999px) {
             .sirena-parallax-wrap {
-                width: 300px;
-                height: 300px;
-                right: -20px;
-                bottom: -20px;
+                width: 500px;
+                height: 500px;
             }
         }
 
         /* Responsive para móviles */
         @media only screen and (max-width: 690px) {
             .sirena-parallax-wrap {
-                width: 200px;
-                height: 200px;
-                right: -10px;
-                bottom: -10px;
+                width: 350px;
+                height: 350px;
             }
         }
 
         /* Muy pequeñas pantallas */
         @media only screen and (max-width: 480px) {
             .sirena-parallax-wrap {
-                width: 150px;
-                height: 150px;
-                right: -5px;
-                bottom: -5px;
+                width: 250px;
+                height: 250px;
             }
         }
     </style>
+
+    <!-- JavaScript para efecto parallax notorio en la sirena -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sirenaImage = document.querySelector('.sirena-parallax-image');
+            const textureImage = document.querySelector('.texture-parallax-image');
+            const bannerSection = document.querySelector('#fws_68d462ae65ff8');
+
+            if (!sirenaImage || !bannerSection) return;
+
+            let ticking = false;
+
+            function updateParallax() {
+                const scrolled = window.pageYOffset;
+                const bannerRect = bannerSection.getBoundingClientRect();
+                const bannerTop = bannerRect.top + scrolled;
+                const bannerHeight = bannerRect.height;
+
+                // Calcular si el banner está visible en viewport
+                const viewportHeight = window.innerHeight;
+                const bannerBottomInView = bannerTop + bannerHeight;
+
+                if (scrolled < bannerBottomInView) {
+                    // Efecto parallax MUY NOTORIO para la sirena
+                    // Multiplicador alto para movimiento visible
+                    const sirenaOffset = scrolled * 0.4; // Movimiento más pronunciado
+                    sirenaImage.style.transform = `translate3d(0, ${sirenaOffset}px, 0)`;
+
+                    // Efecto parallax sutil para texturas si existe
+                    if (textureImage) {
+                        const textureOffset = scrolled * 0.15;
+                        textureImage.style.transform = `translate3d(0, ${textureOffset}px, 0)`;
+                    }
+                }
+
+                ticking = false;
+            }
+
+            function requestTick() {
+                if (!ticking) {
+                    window.requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            }
+
+            // Escuchar scroll
+            window.addEventListener('scroll', requestTick, { passive: true });
+
+            // Ejecutar una vez al cargar
+            updateParallax();
+        });
+    </script>
 
     <noscript>
         <style>

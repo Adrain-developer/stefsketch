@@ -751,6 +751,12 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Tercera capa: Texturas parallax (opcional) - colocar imagen en img/texturasBannerParallax.png -->
+                                <div class="texture-parallax-wrap" style="display: none;">
+                                    <div class="texture-parallax-image">
+                                        <img src="img/texturasBannerParallax.png" alt="Texturas decorativas">
+                                    </div>
+                                </div>
                                 <!-- Segunda imagen parallax: Sirena -->
                                 <div class="sirena-parallax-wrap">
                                     <div class="sirena-parallax-layer">
