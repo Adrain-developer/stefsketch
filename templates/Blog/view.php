@@ -661,6 +661,7 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
                                         <div class="row-bg-wrap">
                                             <div class="row-bg"></div>
                                         </div>
+                                        <?php if (isset($prevPost) || isset($nextPost)): ?>
                                         <div class="row_col_wrap_12_inner col span_12  left">
                                             <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding inherit_tablet inherit_phone "
                                                 data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
@@ -684,6 +685,15 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
                                                                 <div class="nectar-scrolling-text-inner__text-chunk">
                                                                     <h2 aria-hidden="true">Explore More</h2>
                                                                 </div>
+                                                                 <div class="nectar-scrolling-text-inner__text-chunk">
+                                                                    <h2 aria-hidden="true">Explore More</h2>
+                                                                </div>
+                                                                <div class="nectar-scrolling-text-inner__text-chunk">
+                                                                    <h2 aria-hidden="true">Explore More</h2>
+                                                                </div>
+                                                                <div class="nectar-scrolling-text-inner__text-chunk">
+                                                                    <h2 aria-hidden="true">Explore More</h2>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -693,7 +703,7 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
                                     </div>
 
 <!-- ========== NAVEGACIÓN PREVIOUS / NEXT ========== -->
-<?php if (isset($prevPost) || isset($nextPost)): ?>
+
 <div class="project-navigation-wrap">
     <div class="project-navigation-grid">
         

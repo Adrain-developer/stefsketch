@@ -625,8 +625,8 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
 }
 
 .footer-logo {
-    max-width: 200px;
-    height: auto;
+    max-width: 200px !important;
+    height: auto !important;
 }
 
 .footer-brand-name {
@@ -712,8 +712,8 @@ font-size: 30px;
 
 .stef-masonry-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
     padding: 40px 0;
     width: 100%;
 }
@@ -725,7 +725,7 @@ font-size: 30px;
     cursor: pointer;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
                 box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    min-height: 380px;
+    min-height: 600px;
     background: #000;
     will-change: transform;
 }
