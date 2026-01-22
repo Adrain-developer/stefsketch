@@ -103,7 +103,7 @@ $cakeDescription = 'Stefsketch';
     transform: scale(0.95);
 }
 .glass-card {
-    padding: 190px 20px 10px 20px !important;
+    padding: 55px 20px 10px 20px !important;
 }
 
 /* Responsive móvil */
@@ -116,7 +116,7 @@ $cakeDescription = 'Stefsketch';
         font-size: 18px;
     }
     .glass-card {
-    padding: 150px 20px 10px 20px !important;
+    padding: 55px 20px 10px 20px !important;
 }
 }
 </style>
@@ -136,10 +136,11 @@ $cakeDescription = 'Stefsketch';
 </a>
 
 <header>
+    <!-- Logo --
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <!-- Logo -->
+                    
                     <div class="logo">
                         
                         <a href="https://stefsketch.com/" >
@@ -169,8 +170,33 @@ $cakeDescription = 'Stefsketch';
 <nav class="menu-nav">
     <ul class="menu-list">
         <li class="menu-item">
-            <a href="/blog" style="color: #777777;">
+            <a href="/" style="color: #777777;">
+                <div class="menu-title">Stef Sketch</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="/portafolio-posts" style="color: #777777;">
                 <div class="menu-title">Inicio</div>
+            </a>
+        </li>
+         <li class="menu-item">
+            <a href="/event-types" style="color: #777777;">
+                <div class="menu-title">Tipo Trabajos</div>
+            </a>
+        </li>
+         <li class="menu-item">
+            <a href="/blog-categories" style="color: #777777;">
+                <div class="menu-title">Categorías</div>
+            </a>
+        </li>
+         <li class="menu-item">
+            <a href="/blog-tags" style="color: #777777;">
+                <div class="menu-title">Tag's</div>
+            </a>
+        </li>
+         <li class="menu-item">
+            <a href="/leads" style="color: #777777;">
+                <div class="menu-title">Lead's</div>
             </a>
         </li>
     </ul>
@@ -206,7 +232,7 @@ $cakeDescription = 'Stefsketch';
 
         <!-- Brand + Login/Logout -->
         <div class="footer-brand">
-            <?= $this->Html->image('.png', [
+            <?= $this->Html->image('stefsketch.png', [
                 'class' => 'footer-logo',
                 'alt' => 'LOGO',
                 'loading' => 'lazy'
