@@ -127,10 +127,10 @@ if ($user) {
 
     <!-- Estilos para parallax banner con múltiples capas -->
     <style>
-        /* Asegurar overflow en el contenedor principal */
+        /* Contenedor principal con overflow visible para la sirena */
         #fws_68d462ae65ff8 {
             position: relative;
-            overflow: hidden;
+            overflow: visible;
         }
 
         /* Capa de texturas parallax (3ra capa - opcional) */
@@ -171,7 +171,6 @@ if ($user) {
             height: 700px;
             z-index: 5;
             pointer-events: none;
-            overflow: visible;
         }
 
         .sirena-parallax-layer {
