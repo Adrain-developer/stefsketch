@@ -123,7 +123,84 @@ if ($user) {
         .nectar-split-heading[data-has-fit-text="true"] {
             will-change: font-size;
     }
-    </style><noscript>
+    </style>
+
+    <!-- Estilos para sirena parallax banner -->
+    <style>
+        /* Contenedor de la sirena parallax */
+        .sirena-parallax-wrap {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 400px;
+            height: 400px;
+            z-index: 5;
+            pointer-events: none;
+            overflow: visible;
+        }
+
+        .sirena-parallax-layer {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sirena-parallax-image {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            transform: translateZ(0);
+            will-change: transform;
+            transition: transform 0.1s ease-out;
+        }
+
+        .sirena-parallax-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* Asegurar que el texto esté por encima */
+        .parallax_section .row_col_wrap_12 {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Responsive para tablets */
+        @media only screen and (max-width: 999px) {
+            .sirena-parallax-wrap {
+                width: 300px;
+                height: 300px;
+                right: -20px;
+                bottom: -20px;
+            }
+        }
+
+        /* Responsive para móviles */
+        @media only screen and (max-width: 690px) {
+            .sirena-parallax-wrap {
+                width: 200px;
+                height: 200px;
+                right: -10px;
+                bottom: -10px;
+            }
+        }
+
+        /* Muy pequeñas pantallas */
+        @media only screen and (max-width: 480px) {
+            .sirena-parallax-wrap {
+                width: 150px;
+                height: 150px;
+                right: -5px;
+                bottom: -5px;
+            }
+        }
+    </style>
+
+    <noscript>
         <style>
         .wpb_animate_when_almost_visible {
             opacity: 1;

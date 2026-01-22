@@ -751,6 +751,14 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Segunda imagen parallax: Sirena -->
+                                <div class="sirena-parallax-wrap">
+                                    <div class="sirena-parallax-layer">
+                                        <div class="sirena-parallax-image" data-parallax-speed="medium">
+                                            <img src="img/sirenaBannerParallax.png" alt="Sirena ilustración">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row_col_wrap_12 col span_12 light left">
                                     <div class="vc_col-sm-12 wpb_column column_container vc_column_container col no-extra-padding"
                                         data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
