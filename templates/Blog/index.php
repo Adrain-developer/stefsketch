@@ -735,52 +735,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                 data-top-percent="8%" data-bottom-percent="8%"
                                 class="wpb_row vc_row-fluid vc_row full-width-section"
                                 style="padding-top: calc(100vw * 0.08); padding-bottom: calc(100vw * 0.08); ">
-                                <div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay=""
-                                    data-bg-overlay="false">
-                                    <div class="inner-wrap row-bg-layer">
-                                        <div class="row-bg viewport-desktop using-bg-color"
-                                            style="background-color: #111111; ">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row_col_wrap_12 col span_12 light left">
-                                    <div class="vc_col-sm-6 wpb_column column_container vc_column_container col no-extra-padding"
-                                        data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
-                                        data-bg-opacity="1" data-animation="" data-delay="0">
-                                        <div class="vc_column-inner">
-                                            <div class="wpb_wrapper">
-                                                <div class="nectar-split-heading " data-align="default"
-                                                    data-m-align="inherit" data-text-effect="default"
-                                                    data-animation-type="default" data-animation-delay="0"
-                                                    data-animation-offset="" data-m-rm-animation="" data-stagger=""
-                                                    data-custom-font-size="false">
-                                                    <div class="heading-line">
-                                                        <div>
-                                                            <h2>¡Hola!</h2>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="wpb_text_column wpb_content_element  wpb_animate_when_almost_visible wpb_bottom-to-top bottom-to-top vc_custom_1484775560863"
-                                                    style=" max-width: 500px; display: inline-block;">
-                                                    <p>
-                                                        Soy Estefanía Palma, ilustradora mexicana de la ciudad de Puebla. Después de años creando con palabras, decidí darles forma y color.
-                                                    </p>
-                                                </div>
 
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="vc_col-sm-6 wpb_column column_container vc_column_container col no-extra-padding"
-                                        data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
-                                        data-bg-opacity="1" data-animation="" data-delay="0">
-                                        <div class="vc_column-inner">
-                                            <div class="wpb_wrapper">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div id="fws_68d462ae65ff8" data-column-margin="default" data-midnight="light"
                                 data-top-percent="20%" data-bottom-percent="20%"
@@ -792,7 +747,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                         <div class="row-bg viewport-desktop using-image using-bg-color"
                                             data-parallax-speed="fast"
                                             style="background-position: center top; background-repeat: no-repeat; background-color: #111111; "
-                                            data-nectar-img-src="webroot/img/stefsketch-1.jpg">
+                                            data-nectar-img-src="webroot/img/fondoBannerAqua.jpg">
                                         </div>
                                     </div>
                                 </div>
@@ -802,7 +757,23 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                         data-bg-opacity="1" data-animation="" data-delay="0">
                                         <div class="vc_column-inner">
                                             <div class="wpb_wrapper">
-
+                                                <div class="nectar-split-heading " data-align="default"
+                                                    data-m-align="inherit" data-text-effect="default"
+                                                    data-animation-type="default" data-animation-delay="0"
+                                                    data-animation-offset="" data-m-rm-animation="" data-stagger=""
+                                                    data-custom-font-size="false">
+                                                    <div class="heading-line">
+                                                        <div>
+                                                            <h2 style="color: black !important;">¡Hola!</h2>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="wpb_text_column wpb_content_element  wpb_animate_when_almost_visible wpb_bottom-to-top bottom-to-top vc_custom_1484775560863"
+                                                    style=" max-width: 500px; display: inline-block;">
+                                                    <p style="color: black;">
+                                                        Soy Estefanía Palma, ilustradora mexicana de la ciudad de Puebla. Después de años creando con palabras, decidí darles forma y color.
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
