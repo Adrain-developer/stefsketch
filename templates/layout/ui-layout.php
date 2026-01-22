@@ -125,146 +125,92 @@ if ($user) {
     }
     </style>
 
-    <!-- Estilos para parallax banner con múltiples capas -->
+    <!-- Estilos SIMPLIFICADOS para imagen sirena parallax -->
     <style>
-        /* Contenedor principal con overflow visible para la sirena */
+        /* IMPORTANTE: Contenedor principal sin overflow hidden */
         #fws_68d462ae65ff8 {
             position: relative;
-            overflow: visible;
+            overflow: visible !important;
         }
 
-        /* Capa de texturas parallax (3ra capa - opcional) */
-        .texture-parallax-wrap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            pointer-events: none;
-            opacity: 0.3;
-        }
-
-        .texture-parallax-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transform: translateZ(0);
-            will-change: transform;
-        }
-
-        .texture-parallax-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* Contenedor de la sirena parallax - PEGADA AL EXTREMO DERECHO INFERIOR */
+        /* Sirena - VERSIÓN SIMPLE Y DIRECTA */
         .sirena-parallax-wrap {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 700px;
-            height: 700px;
-            z-index: 5;
-            pointer-events: none;
+            position: absolute !important;
+            bottom: 0 !important;
+            right: 0 !important;
+            width: 700px !important;
+            height: 700px !important;
+            z-index: 5 !important;
+            pointer-events: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
 
-        .sirena-parallax-layer {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        .sirena-parallax-image {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            transform: translate3d(0, 0, 0);
-            will-change: transform;
-        }
-
-        .sirena-parallax-image img {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 100%;
-            height: auto;
-            max-width: none;
-            object-fit: contain;
-            object-position: bottom right;
-            display: block;
+        .sirena-parallax-wrap img {
+            position: absolute !important;
+            bottom: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            height: auto !important;
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
 
         /* Asegurar que el texto esté por encima */
-        .parallax_section .row_col_wrap_12 {
-            position: relative;
-            z-index: 10;
+        #fws_68d462ae65ff8 .row_col_wrap_12 {
+            position: relative !important;
+            z-index: 10 !important;
         }
 
-        /* Responsive para tablets */
+        /* Responsive */
         @media only screen and (max-width: 999px) {
             .sirena-parallax-wrap {
-                width: 500px;
-                height: 500px;
+                width: 500px !important;
+                height: 500px !important;
             }
         }
 
-        /* Responsive para móviles */
         @media only screen and (max-width: 690px) {
             .sirena-parallax-wrap {
-                width: 350px;
-                height: 350px;
+                width: 350px !important;
+                height: 350px !important;
             }
         }
 
-        /* Muy pequeñas pantallas */
         @media only screen and (max-width: 480px) {
             .sirena-parallax-wrap {
-                width: 250px;
-                height: 250px;
+                width: 250px !important;
+                height: 250px !important;
             }
         }
     </style>
 
-    <!-- JavaScript para efecto parallax notorio en la sirena -->
+    <!-- JavaScript SIMPLIFICADO para parallax -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const sirenaImage = document.querySelector('.sirena-parallax-image');
-            const textureImage = document.querySelector('.texture-parallax-image');
-            const bannerSection = document.querySelector('#fws_68d462ae65ff8');
+            const sirenaWrap = document.querySelector('.sirena-parallax-wrap');
 
-            if (!sirenaImage || !bannerSection) return;
+            if (!sirenaWrap) {
+                console.log('Sirena wrap no encontrado');
+                return;
+            }
+
+            console.log('Sirena wrap encontrado:', sirenaWrap);
+
+            // Asegurar que siempre sea visible
+            sirenaWrap.style.display = 'block';
+            sirenaWrap.style.opacity = '1';
+            sirenaWrap.style.visibility = 'visible';
 
             let ticking = false;
 
             function updateParallax() {
                 const scrolled = window.pageYOffset;
-                const bannerRect = bannerSection.getBoundingClientRect();
-                const bannerTop = bannerRect.top + scrolled;
-                const bannerHeight = bannerRect.height;
 
-                // Calcular si el banner está visible en viewport
-                const viewportHeight = window.innerHeight;
-                const bannerBottomInView = bannerTop + bannerHeight;
-
-                if (scrolled < bannerBottomInView) {
-                    // Efecto parallax MUY NOTORIO para la sirena
-                    // Multiplicador alto para movimiento visible
-                    const sirenaOffset = scrolled * 0.4; // Movimiento más pronunciado
-                    sirenaImage.style.transform = `translate3d(0, ${sirenaOffset}px, 0)`;
-
-                    // Efecto parallax sutil para texturas si existe
-                    if (textureImage) {
-                        const textureOffset = scrolled * 0.15;
-                        textureImage.style.transform = `translate3d(0, ${textureOffset}px, 0)`;
-                    }
-                }
+                // Efecto parallax simple: mover hacia abajo al hacer scroll
+                const offset = scrolled * 0.3;
+                sirenaWrap.style.transform = `translateY(${offset}px)`;
 
                 ticking = false;
             }
@@ -276,11 +222,8 @@ if ($user) {
                 }
             }
 
-            // Escuchar scroll
             window.addEventListener('scroll', requestTick, { passive: true });
-
-            // Ejecutar una vez al cargar
-            updateParallax();
+            updateParallax(); // Ejecutar una vez al inicio
         });
     </script>
 
