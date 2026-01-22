@@ -125,15 +125,15 @@ if ($user) {
     }
     </style>
 
-    <!-- Estilos SIMPLIFICADOS para imagen sirena parallax -->
+    <!-- Estilos para imagen sirena en banner -->
     <style>
-        /* IMPORTANTE: Contenedor principal sin overflow hidden */
+        /* CRÍTICO: Contenedor banner debe ser relative para que absolute funcione */
         #fws_68d462ae65ff8 {
-            position: relative;
+            position: relative !important;
             overflow: visible !important;
         }
 
-        /* Sirena - VERSIÓN SIMPLE Y DIRECTA */
+        /* Sirena - Posicionamiento absoluto dentro del banner */
         .sirena-parallax-wrap {
             position: absolute !important;
             bottom: 0 !important;
@@ -147,12 +147,10 @@ if ($user) {
         }
 
         .sirena-parallax-wrap img {
-            position: absolute !important;
-            bottom: 0 !important;
-            right: 0 !important;
+            display: block !important;
             width: 100% !important;
             height: auto !important;
-            display: block !important;
+            max-width: 100% !important;
             opacity: 1 !important;
             visibility: visible !important;
         }
@@ -186,44 +184,25 @@ if ($user) {
         }
     </style>
 
-    <!-- JavaScript SIMPLIFICADO para parallax -->
+    <!-- JavaScript para sirena - SIN PARALLAX (primero hacerla visible, luego agregamos parallax) -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sirenaWrap = document.querySelector('.sirena-parallax-wrap');
 
             if (!sirenaWrap) {
-                console.log('Sirena wrap no encontrado');
+                console.log('❌ Sirena wrap NO encontrado');
                 return;
             }
 
-            console.log('Sirena wrap encontrado:', sirenaWrap);
+            console.log('✅ Sirena wrap encontrado:', sirenaWrap);
 
-            // Asegurar que siempre sea visible
+            // Asegurar que siempre sea visible y FIJA (sin movimiento)
             sirenaWrap.style.display = 'block';
             sirenaWrap.style.opacity = '1';
             sirenaWrap.style.visibility = 'visible';
+            sirenaWrap.style.transform = 'none'; // SIN TRANSFORMACIONES
 
-            let ticking = false;
-
-            function updateParallax() {
-                const scrolled = window.pageYOffset;
-
-                // Efecto parallax simple: mover hacia abajo al hacer scroll
-                const offset = scrolled * 0.3;
-                sirenaWrap.style.transform = `translateY(${offset}px)`;
-
-                ticking = false;
-            }
-
-            function requestTick() {
-                if (!ticking) {
-                    window.requestAnimationFrame(updateParallax);
-                    ticking = true;
-                }
-            }
-
-            window.addEventListener('scroll', requestTick, { passive: true });
-            updateParallax(); // Ejecutar una vez al inicio
+            console.log('✅ Sirena debería estar visible en el banner');
         });
     </script>
 
