@@ -242,21 +242,11 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
      ============================================ -->
 <div id="fws_68d46b1958e71" data-column-margin="custom" data-midnight="light"
   class="wpb_row vc_row-fluid vc_row full-width-section"
-  style="padding-top: 60px; padding-bottom: 60px; background-color: #000000;">
+  style="padding-top: 30px; padding-bottom: 30px; background-color: #000000;">
 
-  <div class="container">
+  <div class="">
     <div class="row">
       <div class="col span_12">
-
-        <!-- Título de sección -->
-        <div style="margin-bottom: 40px;">
-          <div class="nectar-responsive-text font_size_max_90px font_size_desktop_5vw font_size_tablet_7vw font_line_height_1px nectar-link-underline-effect">
-            <h2 style="color: #28ebe3 !important;">Proyectos</h2>
-          </div>
-          <div class="nectar-responsive-text nectar-link-underline-effect" style="color: rgba(255,255,255,0.6); max-width: 600px;">
-            <p>Colores brillantes, elementos de la naturaleza y retratos femeninos. Disfruto experimentar con distintos medios, desde lo tradicional como acuarelas o pintura acrílica hasta ilustraciones digitales.</p>
-          </div>
-        </div>
 
         <!-- Masonry Grid -->
         <div class="stef-masonry-grid">
@@ -316,7 +306,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
             <!-- Overlay con contenido -->
             <div class="stef-masonry-item__overlay">
               <div class="stef-masonry-item__content">
-                <h3 class="stef-masonry-item__title"><?= h($eventType->name) ?></h3>
+                <h4 class="stef-masonry-item__title"><?= h($eventType->name) ?></h3>
                 <p class="stef-masonry-item__count"><?= $eventType->posts_count ?> PROYECTOS</p>
                 <a href="/portafolio/<?= h($eventType->eventoslug) ?>"
                    class="stef-masonry-item__button"
@@ -337,141 +327,6 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
   </div>
 </div>
 
-<script>
-// ============================================
-// MASONRY GRID INTELIGENTE - JavaScript
-// ============================================
-(function() {
-    'use strict';
-
-    function intelligentMasonryLayout() {
-        const grid = document.querySelector('.stef-masonry-grid');
-        if (!grid) return;
-
-        const items = Array.from(grid.querySelectorAll('.stef-masonry-item'));
-        if (items.length === 0) return;
-
-        // Detectar si estamos en desktop
-        const isDesktop = window.innerWidth > 768;
-
-        if (!isDesktop) return; // En móvil dejamos el CSS como está
-
-        let processedImages = 0;
-        const totalImages = items.length;
-
-        // Procesar cada item cuando su imagen cargue
-        items.forEach((item, index) => {
-            const img = item.querySelector('.stef-masonry-item__image');
-            if (!img) return;
-
-            const processImage = () => {
-                const imgWidth = img.naturalWidth;
-                const imgHeight = img.naturalHeight;
-
-                if (imgWidth === 0 || imgHeight === 0) return;
-
-                const ratio = imgWidth / imgHeight;
-
-                // Remover clases existentes
-                item.classList.remove('horizontal', 'vertical', 'square', 'large');
-
-                // Reclasificar según ratio real
-                if (ratio > 1.4) {
-                    item.classList.add('horizontal');
-                } else if (ratio < 0.6) {
-                    item.classList.add('vertical');
-                } else {
-                    item.classList.add('square');
-                }
-
-                processedImages++;
-
-                // Cuando todas las imágenes estén procesadas, optimizar el layout
-                if (processedImages === totalImages) {
-                    optimizeLayout(items);
-                }
-            };
-
-            if (img.complete && img.naturalWidth > 0) {
-                processImage();
-            } else {
-                img.addEventListener('load', processImage);
-                img.addEventListener('error', () => {
-                    processedImages++;
-                    if (processedImages === totalImages) {
-                        optimizeLayout(items);
-                    }
-                });
-            }
-        });
-    }
-
-    function optimizeLayout(items) {
-        if (window.innerWidth <= 768) return;
-
-        // Algoritmo para evitar huecos y balancear el grid
-        let currentRow = [];
-        let currentRowSpan = 0;
-        const maxSpanPerRow = 3;
-
-        items.forEach((item, index) => {
-            const isHorizontal = item.classList.contains('horizontal');
-            const isVertical = item.classList.contains('vertical');
-            const span = isHorizontal ? 2 : 1;
-
-            // Si el item actual no cabe en la fila, iniciamos nueva fila
-            if (currentRowSpan + span > maxSpanPerRow) {
-                // Si la fila actual solo tiene 1 span, intentar expandirlo
-                if (currentRowSpan === 1 && currentRow.length === 1) {
-                    // Convertir el último item a horizontal si es square
-                    const lastItem = currentRow[0];
-                    if (lastItem.classList.contains('square')) {
-                        lastItem.classList.remove('square');
-                        lastItem.classList.add('horizontal');
-                    }
-                }
-
-                // Reset para nueva fila
-                currentRow = [];
-                currentRowSpan = 0;
-            }
-
-            currentRow.push(item);
-            currentRowSpan += span;
-
-            // Cada 4to-5to elemento intentar hacer large si es cuadrado
-            if ((index % 4 === 0 || index % 5 === 0) &&
-                item.classList.contains('square') &&
-                currentRowSpan + 1 <= maxSpanPerRow) {
-
-                // Solo si tenemos espacio para un large (2x2)
-                const nextItem = items[index + 1];
-                if (nextItem && currentRowSpan <= 1) {
-                    item.classList.remove('square');
-                    item.classList.add('large');
-                }
-            }
-        });
-
-        // Forzar repaint para aplicar cambios
-        void grid.offsetWidth;
-    }
-
-    // Ejecutar cuando el DOM esté listo
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', intelligentMasonryLayout);
-    } else {
-        intelligentMasonryLayout();
-    }
-
-    // Re-ejecutar en resize (con debounce)
-    let resizeTimer;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(intelligentMasonryLayout, 250);
-    });
-})();
-</script>
 
 
                     <!-- Grid de EventTypes --
@@ -901,28 +756,15 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                     data-custom-font-size="false">
                                                     <div class="heading-line">
                                                         <div>
-                                                            <h2>Clases</h2>
-                                                        </div>
-                                                    </div>
-                                                    <div class="heading-line">
-                                                        <div>
-                                                            <h2>&</h2>
-                                                        </div>
-                                                    </div>
-                                                    <div class="heading-line">
-                                                        <div>
-                                                            <h2>Experiencias</h2>
+                                                            <h2>¡Hola!</h2>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="wpb_text_column wpb_content_element  wpb_animate_when_almost_visible wpb_bottom-to-top bottom-to-top vc_custom_1484775560863"
                                                     style=" max-width: 500px; display: inline-block;">
-                                                    <p>experiencias
-Diseño clases y experiencias de arte enfocadas en liberar tu creatividad a través de la pintura como una técnica de mindfulness y autoconocimiento.
-
-Cada mes tengo nuevas fechas en donde nos reunimos en algún lugar especial para aprender una nueva técnica.
-
-También creo experiencias para empresas que quieren tener una parte de su evento enfocado en el arte o que buscan una integración en equipo.</p>
+                                                    <p>
+                                                        Soy Estefanía Palma, ilustradora mexicana de la ciudad de Puebla. Después de años creando con palabras, decidí darles forma y color.
+                                                    </p>
                                                 </div>
 
                                             </div>

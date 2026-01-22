@@ -853,7 +853,7 @@ $bodyHtml = !empty($blogPost->body) ? $converter->convert($blogPost->body)->getC
             <!-- Overlay con contenido -->
             <div class="stef-masonry-item__overlay">
               <div class="stef-masonry-item__content">
-                <h3 class="stef-masonry-item__title"><?= h($eventType->name) ?></h3>
+                <h4 class="stef-masonry-item__title"><?= h($eventType->name) ?></h3>
                 <p class="stef-masonry-item__count"><?= $eventType->posts_count ?> PROYECTOS</p>
                 <a href="/portafolio/<?= h($eventType->eventoslug) ?>"
                    class="stef-masonry-item__button"

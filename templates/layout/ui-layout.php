@@ -505,7 +505,7 @@ font-size: 30px;
     cursor: pointer;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
                 box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    min-height: 280px;
+    min-height: 380px;
     background: #000;
     will-change: transform;
 }
@@ -523,7 +523,7 @@ font-size: 30px;
 
 .stef-masonry-item.large {
     grid-column: span 2;
-    grid-row: span 2;
+    grid-row: span 1;
     min-height: 580px;
 }
 
@@ -586,12 +586,7 @@ font-size: 30px;
 /* En móvil: overlay siempre visible con más contraste */
 @media (max-width: 768px) {
     .stef-masonry-item__overlay {
-        background: linear-gradient(
-            to top,
-            rgba(0, 0, 0, 0.95) 0%,
-            rgba(0, 0, 0, 0.6) 50%,
-            rgba(0, 0, 0, 0) 100%
-        );
+               background: linear-gradient(to top, rgb(153 0 255) 0%, rgb(22 0 51 / 60%) 50%, rgba(0, 0, 0, 0) 100%);
     }
 
     .stef-masonry-item__content {
