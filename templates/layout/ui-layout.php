@@ -146,6 +146,13 @@ if ($user) {
             visibility: visible !important;
         }
 
+        /* Transición suave para mouse parallax - SOLO DESKTOP */
+        @media only screen and (min-width: 1000px) {
+            .sirena-parallax-wrap {
+                transition: transform 0.3s ease-out !important;
+            }
+        }
+
         .sirena-parallax-wrap img {
             display: block !important;
             width: 100% !important;
@@ -206,7 +213,7 @@ if ($user) {
         }
     </style>
 
-    <!-- JavaScript PARALLAX INVERSO para 3 capas (texturas + sirena) -->
+    <!-- JavaScript PARALLAX: Scroll + Mouse (solo sirena en desktop) -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sirenaWrap = document.querySelector('.sirena-parallax-wrap');
@@ -220,13 +227,19 @@ if ($user) {
 
             const hasSirena = !!sirenaWrap;
             const hasTexturas = !!texturasWrap;
+            const isDesktop = window.innerWidth > 1000;
 
             console.log('✅ Parallax ACTIVADO:');
             console.log('   - Sirena:', hasSirena ? 'SÍ' : 'NO');
             console.log('   - Texturas:', hasTexturas ? 'SÍ' : 'NO');
+            console.log('   - Mouse Parallax:', isDesktop && hasSirena ? 'SÍ (desktop)' : 'NO');
 
+            // Variables para mouse parallax
+            let mouseX = 0;
+            let mouseY = 0;
             let ticking = false;
 
+            // FUNCIÓN PRINCIPAL: Actualiza todos los parallax
             function updateParallax() {
                 const scrolled = window.pageYOffset;
                 const bannerRect = banner.getBoundingClientRect();
@@ -236,25 +249,42 @@ if ($user) {
                 if (bannerRect.bottom > 0 && bannerRect.top < window.innerHeight) {
                     const relativeScroll = scrolled - bannerTop;
 
-                    // TEXTURAS: Parallax SUTIL (movimiento lento)
+                    // TEXTURAS: Solo scroll parallax (sin mouse)
                     if (hasTexturas) {
-                        const texturasOffset = relativeScroll * -0.12; // Más sutil
-                        const texturasMaxMove = 80; // Límite más bajo
+                        const texturasOffset = relativeScroll * -0.12;
+                        const texturasMaxMove = 80;
                         const texturasLimited = Math.max(Math.min(texturasOffset, 0), -texturasMaxMove);
                         texturasWrap.style.transform = `translateY(${texturasLimited}px)`;
                     }
 
-                    // SIRENA: Parallax NOTORIO (movimiento rápido)
+                    // SIRENA: Scroll + Mouse parallax (desktop) o solo scroll (mobile)
                     if (hasSirena) {
-                        const sirenaOffset = relativeScroll * -0.25; // Más notorio
-                        const sirenaMaxMove = 150; // Límite más alto
-                        const sirenaLimited = Math.max(Math.min(sirenaOffset, 0), -sirenaMaxMove);
-                        sirenaWrap.style.transform = `translateY(${sirenaLimited}px)`;
+                        const sirenaScrollOffset = relativeScroll * -0.25;
+                        const sirenaMaxScroll = 150;
+                        const sirenaScrollLimited = Math.max(Math.min(sirenaScrollOffset, 0), -sirenaMaxScroll);
+
+                        // Combinar scroll + mouse (solo en desktop)
+                        if (isDesktop) {
+                            // Mouse parallax con límites
+                            const maxMouseMove = 40;
+                            const limitedMouseX = Math.max(-maxMouseMove, Math.min(mouseX, maxMouseMove));
+                            const limitedMouseY = Math.max(-maxMouseMove, Math.min(mouseY, maxMouseMove));
+
+                            // Combinar ambos efectos en un solo transform
+                            sirenaWrap.style.transform = `translate3d(${limitedMouseX}px, ${sirenaScrollLimited + limitedMouseY}px, 0)`;
+                        } else {
+                            // Solo scroll en mobile
+                            sirenaWrap.style.transform = `translateY(${sirenaScrollLimited}px)`;
+                        }
                     }
                 } else {
                     // Reset cuando banner no visible
-                    if (hasSirena) sirenaWrap.style.transform = 'translateY(0)';
-                    if (hasTexturas) texturasWrap.style.transform = 'translateY(0)';
+                    if (hasSirena) {
+                        sirenaWrap.style.transform = isDesktop ? 'translate3d(0, 0, 0)' : 'translateY(0)';
+                    }
+                    if (hasTexturas) {
+                        texturasWrap.style.transform = 'translateY(0)';
+                    }
                 }
 
                 ticking = false;
@@ -267,7 +297,37 @@ if ($user) {
                 }
             }
 
-            // Activar en scroll
+            // MOUSE PARALLAX: Solo en desktop
+            if (isDesktop && hasSirena) {
+                banner.addEventListener('mousemove', function(e) {
+                    const bannerRect = banner.getBoundingClientRect();
+
+                    // Calcular posición del mouse relativa al banner
+                    const mouseXPos = e.clientX - bannerRect.left;
+                    const mouseYPos = e.clientY - bannerRect.top;
+
+                    // Normalizar a -1 a 1 (centro = 0)
+                    const xPercent = (mouseXPos / bannerRect.width) - 0.5;
+                    const yPercent = (mouseYPos / bannerRect.height) - 0.5;
+
+                    // Aplicar INVERSO (multiplicar por -1) y escalar
+                    // Mouse izquierda → imagen derecha (positivo)
+                    // Mouse derecha → imagen izquierda (negativo)
+                    mouseX = xPercent * -80; // Rango: -40 a 40px
+                    mouseY = yPercent * -80; // Rango: -40 a 40px
+
+                    requestTick();
+                }, { passive: true });
+
+                // Reset al salir del banner
+                banner.addEventListener('mouseleave', function() {
+                    mouseX = 0;
+                    mouseY = 0;
+                    requestTick();
+                }, { passive: true });
+            }
+
+            // Activar scroll parallax
             window.addEventListener('scroll', requestTick, { passive: true });
 
             // Ejecutar al inicio
