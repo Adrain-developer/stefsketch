@@ -189,7 +189,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                         <div class="container">
                             <div class="col span_6 section-title no-date">
                                 <div class="inner-wrap">
-                                    <h1>Estefania Palma Apango</h1>
+                                    <h1>Estefania</h1>
                                     <span class="subheader">Stefsketch</span>
                                 </div>
                             </div>
