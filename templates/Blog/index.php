@@ -259,6 +259,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                             </div>
                         </div>
                     </div>
+</div>
 
 <!-- ============================================
      MASONRY GRID INTELIGENTE - PROYECTOS
