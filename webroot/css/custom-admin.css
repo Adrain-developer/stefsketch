@@ -688,3 +688,331 @@
         transform: rotate(360deg);
     }
 }
+
+/* =========================================================
+   DARK / NEON ADMIN THEME - GLOBAL STYLES
+   ========================================================= */
+
+/* 1. Contenedores Principales (Glassmorphism) */
+.container-categories, 
+.form-container {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 24px !important;
+    padding: 40px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    margin: 0 auto;
+    color: #ffffff !important;
+}
+
+/* 2. Tipografía y Títulos */
+.title, 
+.form-title, 
+.form-container h2 {
+    color: #28ebe3 !important;
+    font-family: 'Instrument Sans', sans-serif !important;
+    background: none !important;
+    -webkit-text-fill-color: #28ebe3 !important;
+    font-weight: 800;
+    text-shadow: 0 0 10px rgba(40, 235, 227, 0.3);
+    margin-bottom: 20px;
+}
+.form-subtitle, .empty-state p, .image-label {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+.form-label, label {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-weight: 600;
+}
+
+/* 3. Botones Globales (Cyan Neon) */
+.add-button, 
+.btn, 
+.btn-primary, 
+.form-container button {
+    background: #28ebe3 !important;
+    color: #000 !important;
+    font-weight: 700 !important;
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(40, 235, 227, 0.2) !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding: 12px 24px;
+}
+.add-button:hover, 
+.btn:hover, 
+.btn-primary:hover, 
+.form-container button:hover {
+    background: #1fd4cc !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(40, 235, 227, 0.4) !important;
+    color: #000 !important;
+}
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+}
+.add-icon {
+    background: transparent !important;
+    color: #000 !important;
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+/* 4. Tarjetas de Cuadrícula (Index) */
+.category-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    padding: 24px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+    transition: all 0.3s ease !important;
+}
+.category-card:hover {
+    border-color: #28ebe3 !important;
+    transform: translateY(-5px) !important;
+    box-shadow: 0 10px 25px rgba(40, 235, 227, 0.15) !important;
+}
+.category-card::before { display: none !important; }
+.category-name { color: #fff !important; font-size: 24px; font-weight: 700; margin-bottom: 20px; }
+
+/* 5. Botones de Acción dentro de Tarjetas */
+.action-btn {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    padding: 8px 16px;
+    font-size: 14px;
+    margin-right: 5px;
+}
+.btn-view { color: #28ebe3 !important; }
+.btn-edit { color: #f6ad55 !important; }
+.btn-delete { color: #fc8181 !important; }
+.action-btn:hover { background: rgba(255, 255, 255, 0.1) !important; transform: translateY(-2px); }
+
+/* 6. Inputs y Formularios */
+.form-input, .form-textarea, input[type="text"], textarea, input[type="file"] {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    padding: 15px !important;
+    width: 100%;
+}
+.form-input:focus, .form-textarea:focus, input[type="text"]:focus, textarea:focus {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: #28ebe3 !important;
+    box-shadow: 0 0 0 0.2rem rgba(40, 235, 227, 0.25) !important;
+    outline: none !important;
+}
+
+/* 7. Drag & Drop Zone y Previews */
+.drag-drop-zone {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 2px dashed rgba(255, 255, 255, 0.2) !important;
+    box-shadow: none !important;
+    border-radius: 24px;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.drag-drop-zone:hover, .drag-drop-zone.drag-over {
+    border-color: #28ebe3 !important;
+    background: rgba(40, 235, 227, 0.05) !important;
+}
+.upload-icon { background: transparent !important; box-shadow: none !important; font-size: 48px !important; }
+.upload-title { color: #28ebe3 !important; }
+.current-image, .image-preview {
+    background: rgba(0,0,0,0.3) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    box-shadow: none !important;
+    border-radius: 20px;
+}
+.change-image { background: #28ebe3 !important; color: #000 !important; border:none; padding: 10px 20px; border-radius: 12px; }
+
+/* 8. Estados Vacíos y Loaders */
+.empty-icon { background: rgba(255,255,255,0.05) !important; box-shadow: none !important; }
+.loader { border-color: rgba(255,255,255,0.1) !important; border-top-color: #28ebe3 !important; }
+
+/* =========================================================
+   9. Tablas Globales y Listas Móviles
+   ========================================================= */
+.table-container { 
+    overflow-x: auto; 
+    margin-top: 20px; 
+    background: rgba(0,0,0,0.2); 
+    border-radius: 16px; 
+    padding: 10px;
+}
+.custom-table { width: 100%; border-collapse: collapse; }
+.custom-table th { 
+    background: rgba(40, 235, 227, 0.1) !important; 
+    color: #28ebe3 !important; 
+    padding: 16px; 
+    text-align: left; 
+    text-transform: uppercase; 
+    font-size: 14px;
+    border-bottom: 2px solid rgba(40, 235, 227, 0.3); 
+    border-radius: 8px 8px 0 0;
+}
+.custom-table td { 
+    padding: 16px; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+    color: rgba(255, 255, 255, 0.9); 
+    vertical-align: middle;
+}
+.custom-table tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
+
+/* Listas / Cards Móviles (Para responsive) */
+.mobile-card { 
+    background: rgba(255, 255, 255, 0.03) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+    border-radius: 16px; 
+    padding: 20px; 
+    margin-bottom: 15px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    transition: all 0.3s ease;
+}
+.mobile-card:hover { border-color: #28ebe3 !important; transform: translateX(5px); }
+.mobile-card-title { color: #fff; font-weight: bold; font-size: 16px; }
+
+/* =========================================================
+   10. Paginación Global Dark/Neon
+   ========================================================= */
+.pagination-container { 
+    margin-top: 30px; 
+    text-align: center; 
+    border-top: 1px solid rgba(255, 255, 255, 0.1); 
+    padding-top: 20px; 
+}
+.pagination-info { color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; font-size: 14px; }
+.pagination { 
+    display: inline-flex; 
+    gap: 8px; 
+    list-style: none; 
+    padding: 0; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+}
+.page-link { 
+    background: rgba(255, 255, 255, 0.05) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+    color: #28ebe3 !important; 
+    padding: 8px 16px; 
+    border-radius: 8px; 
+    text-decoration: none; 
+    transition: all 0.3s ease; 
+    font-weight: 600;
+}
+.page-link:hover { 
+    background: rgba(40, 235, 227, 0.1) !important; 
+    border-color: #28ebe3 !important; 
+    color: #fff !important; 
+    transform: translateY(-2px);
+}
+.page-item.active .page-link, .page-link.active, .pagination .active a { 
+    background: #28ebe3 !important; 
+    color: #000 !important; 
+    border-color: #28ebe3 !important; 
+    font-weight: bold; 
+    pointer-events: none;
+}
+
+/* =========================================================
+   11. ADMIN TOPBAR & HOME BUTTON
+   ========================================================= */
+.admin-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 9998; /* Un punto menos que el overlay del menú */
+    margin-bottom: 30px;
+}
+
+.admin-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #28ebe3 !important;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+    padding: 10px 20px;
+    background: rgba(40, 235, 227, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(40, 235, 227, 0.2);
+    transition: all 0.3s ease;
+}
+
+.admin-home-btn:hover {
+    background: #28ebe3;
+    color: #000 !important;
+    box-shadow: 0 4px 15px rgba(40, 235, 227, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Ajustes para Móviles */
+@media (max-width: 768px) {
+    .admin-topbar {
+        padding: 15px 20px;
+        margin-bottom: 25px;
+    }
+    
+    .admin-home-btn {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    /* Bajamos un poco el botón flotante de 'Atrás' para que no choque con la nueva barra */
+    .global-back-button {
+        top: 25px !important;
+    }
+}
+
+/* =========================================================
+   12. FIX RESPONSIVE & ANTI-SCROLL HORIZONTAL
+   ========================================================= */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 10px !important;
+        overflow-x: hidden !important; /* Seguro anti-scroll horizontal */
+    }
+    .container-categories, 
+    .form-container {
+        padding: 20px !important; /* Reducimos el padding en móvil */
+        border-radius: 16px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    /* Hacemos que los botones se apilen si no caben */
+    .form-container form > div[style*="display: flex"] {
+        flex-wrap: wrap !important;
+    }
+    .form-container form > div[style*="display: flex"] > * {
+        flex: 1 1 100% !important; /* En móvil, los botones toman el 100% */
+        margin-bottom: 10px;
+    }
+}

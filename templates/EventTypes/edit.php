@@ -1,10 +1,22 @@
-<div class="glass-card">
-    <h2><?= $this->fetch('title') ?></h2>
-    <?= $this->Form->create($eventType) ?>
-    <fieldset>
-        <legend><?= __('Información del Tipo de Evento') ?></legend>
-        <?= $this->Form->control('name') ?>
-    </fieldset>
-    <?= $this->Form->button(__('Guardar'), ['class' => 'neu-button']) ?>
-    <?= $this->Form->end() ?>
+<div class="main-content">
+    <div class="form-container" style="max-width: 500px;">
+        <h2 class="form-title" style="text-align: center;">Editar Tipo de Trabajo</h2>
+        
+        <?= $this->Form->create($eventType) ?>
+        
+        <div style="margin-bottom: 25px;">
+            <label class="form-label">Nombre del Tipo de Trabajo</label>
+            <?= $this->Form->control('name', [
+                'label' => false,
+                'class' => 'form-input'
+            ]) ?>
+        </div>
+
+        <div style="display: flex; gap: 15px; justify-content: space-between;">
+            <?= $this->Html->link('Cancelar', ['action' => 'index'], ['class' => 'btn btn-secondary', 'style' => 'width: 100%; text-align: center;']) ?>
+            <?= $this->Form->button('Actualizar', ['class' => 'btn btn-primary', 'style' => 'width: 100%;']) ?>
+        </div>
+        
+        <?= $this->Form->end() ?>
+    </div>
 </div>

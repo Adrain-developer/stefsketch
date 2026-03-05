@@ -9,7 +9,6 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
     min-height: 100vh;
     color: #2d3748;
 }
@@ -38,7 +37,6 @@ body {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
     background-size: 300% 300%;
     animation: gradientShift 3s ease infinite;
 }
@@ -56,7 +54,6 @@ body {
 .title {
     font-size: clamp(28px, 5vw, 42px);
     font-weight: 800;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -77,9 +74,6 @@ body {
     color: #4a5568;
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 
-        8px 8px 20px #d1d9e6,
-        -8px -8px 20px #ffffff;
     position: relative;
     overflow: hidden;
 }
@@ -91,7 +85,6 @@ body {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
     transition: left 0.6s;
 }
 
@@ -116,7 +109,6 @@ body {
 .add-icon {
     width: 20px;
     height: 20px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -156,7 +148,6 @@ body {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }

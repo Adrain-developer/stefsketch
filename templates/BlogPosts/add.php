@@ -10,83 +10,12 @@ $this->assign('title', 'Nuevo Proyecto');
     position: static !important; /* Permitir que los hijos usen position: fixed */
     overflow: visible !important; /* No cortar el botón fijo */
 }
-        .glass-card {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 30px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    color: #333;
-    }
-
-    .neo-input, .neo-select {
-    background:rgb(255, 255, 255);
-    border-radius: 12px;
-    border: none;
-    padding: 10px 15px;
-    box-shadow: inset 5px 5px 10px #d1d1d1,
-                inset -5px -5px 10px #ffffff;
-    width: 100%;
-    margin-bottom: 15px;
-    }
-
-    .neo-button {
-    background: #f0f0f3;
-    border: none;
-    border-radius: 12px;
-    padding: 10px 20px;
-    box-shadow: 5px 5px 10px #d1d1d1,
-                -5px -5px 10px #ffffff;
-    cursor: pointer;
-    transition: 0.3s ease;
-    }
-
-    .neo-button:hover {
-    background:rgb(213, 250, 199);
-    color: rgb(4, 250, 25);
-    }
 
     .neo-grid input[type="file"] {
     display: block;
     margin: 5px 0;
     }
-    .selectize-control.multi .selectize-input [data-value] {
-        background-image: linear-gradient(to bottom, #eff4fb, #e3f1fd)!important;
-        text-shadow: 0px 0px 3px rgb(0 157 255 / 30%) !important;
-    }
-    .selectize-control.multi .selectize-input > div {
-        color: #158ce3 !important;
-        border: 1px solid #3173e7 !important;
-    }
-    .selectize-control.plugin-remove_button [data-value] .remove {
-        border-left: 1px solid #3173e7 !important;
-    }
-    .selectize-control.plugin-remove_button [data-value] .remove {
-    color: rgb(239 39 39) !important;
-    }
-    .selectize-control.multi .selectize-input.has-items {
-      background:rgb(255, 255, 255);
-    border-radius: 12px;
-    border: none;
-    padding: 10px 15px;
-    box-shadow: inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff;
-    width: 100%;
-    margin-bottom: 15px;
-}
-.selectize-input {
-      background:rgb(255, 255, 255) !important;
-    border-radius: 12px !important;
-    border: none !important;
-    padding: 10px 15px !important;
-    box-shadow: inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff !important;
-    width: 100%  !important;
-    margin-bottom: 15px !important;
-}
-.selectize-dropdown .create {
-    color: rgb(197 52 52 / 50%) !important;
-    padding: 20px !important;
-}
-
+   
 /* Estilos base heredados de tu diseño actual */
         .form-group {
             margin-bottom: 24px;
@@ -99,28 +28,7 @@ $this->assign('title', 'Nuevo Proyecto');
             color: #374151;
             font-size: 16px;
         }
-        /* DRAG & DROP BANNER */
-.banner-drag-drop-zone {
-    border: 2px dashed #cbd5e0;
-    border-radius: 12px;
-    padding: 30px 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: #f8fafc;
-    margin-bottom: 10px;
-}
-
-.banner-drag-drop-zone:hover {
-    border-color: #4299e1;
-    background: #ebf8ff;
-}
-
-.banner-drag-drop-zone.dragover {
-    border-color: #3182ce;
-    background: #bee3f8;
-    transform: scale(1.02);
-}
+ 
 /* ========================================
    BANNER PREVIEW CON ESTILOS
    ======================================== */
@@ -173,97 +81,6 @@ $this->assign('title', 'Nuevo Proyecto');
     display: none !important;
 }
 
-        /* Multi-Image Drag & Drop Zone */
-        .multi-drag-drop-zone {
-            position: relative;
-            width: 100%;
-            min-height: 200px;
-            border: 3px dashed #cbd5e0;
-            border-radius: 24px;
-            background: #f7fafc;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                inset 12px 12px 30px #d1d9e6,
-                inset -12px -12px 30px #ffffff;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .multi-drag-drop-zone.drag-over {
-            border-color: #667eea;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-            transform: scale(1.02);
-            box-shadow: 
-                inset 8px 8px 20px #d1d9e6,
-                inset -8px -8px 20px #ffffff,
-                0 0 20px rgba(102, 126, 234, 0.2);
-        }
-
-        .multi-drag-drop-zone.has-files {
-            border-color: #48bb78;
-            background: linear-gradient(135deg, rgba(72, 187, 120, 0.05) 0%, rgba(56, 178, 172, 0.05) 100%);
-            min-height: 120px;
-        }
-
-        .multi-drag-drop-zone.at-limit {
-            border-color: #f56565;
-            background: linear-gradient(135deg, rgba(245, 101, 101, 0.05) 0%, rgba(237, 137, 54, 0.05) 100%);
-            cursor: not-allowed;
-        }
-
-        .upload-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            margin-bottom: 16px;
-            box-shadow: 
-                8px 8px 20px #d1d9e6,
-                -8px -8px 20px #ffffff;
-            transition: all 0.3s ease;
-        }
-
-        .multi-drag-drop-zone.has-files .upload-icon {
-            width: 40px;
-            height: 40px;
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-
-        .multi-drag-drop-zone:hover .upload-icon {
-            transform: scale(1.1);
-        }
-
-        .upload-text {
-            text-align: center;
-            color: #4a5568;
-        }
-
-        .upload-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .multi-drag-drop-zone.has-files .upload-title {
-            font-size: 16px;
-        }
-
-        .upload-subtitle {
-            font-size: 13px;
-            color: #718096;
-        }
-
         .file-input {
             position: absolute;
             top: 0;
@@ -282,18 +99,7 @@ $this->assign('title', 'Nuevo Proyecto');
             margin-top: 20px;
         }
 
-        .image-card {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            background: white;
-            box-shadow: 
-                8px 8px 20px #d1d9e6,
-                -8px -8px 20px #ffffff;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px) scale(0.9);
-        }
+      
 
         .image-card.animate-in {
             opacity: 1;
@@ -627,6 +433,224 @@ $this->assign('title', 'Nuevo Proyecto');
         font-size: 12px;
     }
 }
+.remove-image {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-image:hover {
+    background: #c53030;
+}
+/* ========================================
+   1. CONTENEDORES Y TEXTOS (DARK/NEON)
+   ======================================== */
+.glass-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    padding: 30px;
+    color: #fff !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+legend { color: #28ebe3 !important; font-family: 'Instrument Sans', sans-serif; font-weight: bold; }
+.text-muted { color: rgba(255, 255, 255, 0.4) !important; }
+.form-label { color: rgba(255, 255, 255, 0.8) !important; }
+
+/* ========================================
+   2. INPUTS BÁSICOS
+   ======================================== */
+.neo-input, .neo-select {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    border-radius: 12px;
+    padding: 10px 15px;
+    box-shadow: none !important;
+    width: 100%;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.neo-input:focus, .neo-select:focus {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: #28ebe3 !important;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(40, 235, 227, 0.25) !important;
+}
+
+.neo-input::placeholder { color: rgba(255, 255, 255, 0.3) !important; }
+
+/* ========================================
+   3. DRAG & DROP ZONES
+   ======================================== */
+.banner-drag-drop-zone, .multi-drag-drop-zone {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 2px dashed rgba(255, 255, 255, 0.2) !important;
+    color: #fff;
+    box-shadow: none !important;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+.banner-drag-drop-zone:hover, .multi-drag-drop-zone:hover,
+.banner-drag-drop-zone.dragover, .multi-drag-drop-zone.dragover,
+.multi-drag-drop-zone.drag-over {
+    border-color: #28ebe3 !important;
+    background: rgba(40, 235, 227, 0.05) !important;
+    transform: scale(1.02);
+}
+
+.upload-icon {
+    background: transparent !important;
+    box-shadow: none !important;
+    font-size: 48px !important;
+    margin-bottom: 10px;
+}
+.upload-title { color: #28ebe3 !important; font-size: 18px; font-weight: bold; }
+.upload-subtitle { color: rgba(255, 255, 255, 0.5) !important; }
+
+/* Grid de imágenes subidas */
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+.grid-image { 
+    background: rgba(0,0,0,0.5) !important; 
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 1;
+}
+.grid-image img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ========================================
+   4. SELECTIZE (MODO OSCURO)
+   ======================================== */
+.selectize-input, .selectize-input.full, .selectize-control.multi .selectize-input.has-items {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    padding: 10px 15px !important;
+}
+.selectize-input.focus {
+    border-color: #28ebe3 !important;
+    box-shadow: 0 0 0 0.2rem rgba(40, 235, 227, 0.25) !important;
+}
+.selectize-input > input { color: #fff !important; }
+.selectize-input > input::placeholder { color: rgba(255, 255, 255, 0.3) !important; }
+
+.selectize-control.multi .selectize-input > div, .selectize-control.multi .selectize-input [data-value] {
+    background: rgba(40, 235, 227, 0.1) !important;
+    background-image: none !important;
+    color: #28ebe3 !important;
+    border: 1px solid rgba(40, 235, 227, 0.5) !important;
+    text-shadow: none !important;
+    border-radius: 6px;
+}
+.selectize-control.plugin-remove_button [data-value] .remove {
+    border-left: 1px solid rgba(40, 235, 227, 0.3) !important;
+    color: #28ebe3 !important;
+}
+.selectize-control.plugin-remove_button [data-value] .remove:hover { background: rgba(40, 235, 227, 0.2) !important; }
+
+.selectize-dropdown {
+    background: #111 !important;
+    border: 1px solid rgba(40, 235, 227, 0.3) !important;
+    color: #fff !important;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
+}
+.selectize-dropdown .option { color: rgba(255,255,255,0.8); }
+.selectize-dropdown .active { background: rgba(40, 235, 227, 0.1) !important; color: #28ebe3 !important; }
+.selectize-dropdown .create { color: #28ebe3 !important; }
+
+/* ========================================
+   5. EASYMDE (EDITOR MARKDOWN NEON)
+   ======================================== */
+.editor-toolbar {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-bottom: none !important;
+    border-radius: 12px 12px 0 0 !important;
+    opacity: 1 !important;
+}
+.editor-toolbar button { color: rgba(255,255,255,0.6) !important; transition: all 0.2s; }
+.editor-toolbar button:hover, .editor-toolbar button.active {
+    background: rgba(40, 235, 227, 0.1) !important;
+    color: #28ebe3 !important;
+    border-color: transparent !important;
+}
+.editor-toolbar button::before { color: inherit !important; }
+.editor-toolbar i.separator { border-left: 1px solid rgba(255,255,255,0.1) !important; border-right: none !important; }
+
+.CodeMirror {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 0 0 12px 12px !important;
+    color: #fff !important;
+}
+.CodeMirror-cursor { border-left: 2px solid #28ebe3 !important; }
+.CodeMirror-selected { background: rgba(40, 235, 227, 0.2) !important; }
+
+/* ========================================
+   6. BOTÓN SUBMIT FLOTANTE Y OVERLAY
+   ======================================== */
+.submit-button-container {
+    background: rgba(0, 0, 0, 0.8) !important;
+    border-top: 1px solid rgba(40, 235, 227, 0.2) !important;
+}
+.submit-button-container .neo-button {
+    background: #28ebe3 !important;
+    color: #000 !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(40, 235, 227, 0.3) !important;
+    border-radius: 12px !important;
+    border: none !important;
+    transition: all 0.3s ease !important;
+}
+.submit-button-container .neo-button:hover {
+    background: #1fd4cc !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 235, 227, 0.5) !important;
+    color: #000 !important;
+}
+
+.loading-content {
+    background: rgba(20, 20, 20, 0.95) !important;
+    border: 1px solid rgba(40, 235, 227, 0.2) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+}
+.loading-spinner {
+    border: 5px solid rgba(255, 255, 255, 0.1) !important;
+    border-top: 5px solid #28ebe3 !important;
+}
+.loading-text { color: #28ebe3 !important; }
+.loading-subtext { color: rgba(255, 255, 255, 0.5) !important; }
+
     </style>
 
     <!-- Botón de retroceso -->
@@ -798,106 +822,6 @@ $this->assign('title', 'Nuevo Proyecto');
 
 <?= $this->Form->end() ?>
 </div>
-
-<style>
-/* ESTILOS ESPECÍFICOS PARA PORTAFOLIO */
-.multi-drag-drop-zone {
-    border: 2px dashed #e2e8f0;
-    border-radius: 12px;
-    padding: 40px 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: #f8fafc;
-}
-
-.multi-drag-drop-zone:hover {
-    border-color: #4299e1;
-    background: #ebf8ff;
-}
-
-.multi-drag-drop-zone.dragover {
-    border-color: #3182ce;
-    background: #bee3f8;
-}
-
-.upload-icon {
-    font-size: 48px;
-    margin-bottom: 16px;
-    opacity: 0.6;
-}
-
-.upload-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 8px;
-}
-
-.upload-subtitle {
-    color: #718096;
-    font-size: 14px;
-}
-
-.images-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 16px;
-    margin-top: 20px;
-}
-
-.grid-image {
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #f7fafc;
-    aspect-ratio: 1;
-}
-
-.grid-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.remove-image {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    background: #e53e3e;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.remove-image:hover {
-    background: #c53030;
-}
-
-
-/* Responsive */
-@media (max-width: 768px) {
-    .images-grid {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 12px;
-    }
-    
-    .multi-drag-drop-zone {
-        padding: 30px 15px;
-    }
-    
-    .upload-icon {
-        font-size: 36px;
-    }
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', async () => {

@@ -205,9 +205,82 @@ $this->assign('title', 'Admin | Proyectos');
     background: #e2e8f0;
     transform: none;
 }
+/* ========================================
+   REFINAMIENTO DARK/NEON PARA INDEX.PHP
+   ======================================== */
+
+/* 1. Inputs y Selects del Filtro */
+.neo-input, .neo-select {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+}
+.neo-input::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+.neo-select option {
+    background-color: #111111 !important; /* Fondo oscuro al desplegar la lista */
+    color: #ffffff !important;
+}
+
+/* 2. Menú Colapsable "Extras" */
+.config-content {
+    background: rgba(20, 20, 20, 0.95) !important;
+    border: 1px solid rgba(40, 235, 227, 0.2) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(10px);
+}
+
+.config-btn {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.config-btn i {
+    color: #28ebe3 !important; /* Iconos en Cyan */
+}
+
+.config-btn:hover {
+    background: rgba(40, 235, 227, 0.1) !important;
+    border-color: #28ebe3 !important;
+    color: #28ebe3 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(40, 235, 227, 0.2) !important;
+}
+
+/* 3. Paginación de Bootstrap (Fix colores blancos) */
+.page-link {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #28ebe3 !important;
+}
+.page-item.active .page-link,
+.page-item.active span.page-link {
+    background-color: #28ebe3 !important;
+    border-color: #28ebe3 !important;
+    color: #000000 !important;
+    font-weight: bold;
+}
+.page-link:hover {
+    background-color: rgba(40, 235, 227, 0.2) !important;
+    color: #ffffff !important;
+}
+
+/* 4. Fix para Tarjetas en Versión Móvil */
+.card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.card-title {
+    color: #28ebe3 !important;
+}
+.card-text {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
 </style>
 
-<section id="ventajas" class="como-funciona" style="background-color: #ffffff;">
+<section id="ventajas" class="como-funciona">
     <div class="my-4 glass-card" style="padding: 18px;">
         <h2 class="mb-3">Hola <?= $blogAuthorName ?? '<span style="color:#aaa;">Sin autor</span>' ?> | Administra tus Proyectos</h2>
 
