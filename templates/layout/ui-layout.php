@@ -583,14 +583,14 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
 
 @media only screen and (max-width: 690px) {
     .header-social-icons {
-        gap: 10px;
-        margin-top: 10px;
+        gap: 20px;
+        margin-top: 6px;
     }
 
     .header-social-icon {
         width: 26px;
         height: 26px;
-        font-size: 13px;
+        font-size: 20px;
     }
 }
 
