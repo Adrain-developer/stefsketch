@@ -83,9 +83,9 @@
                                           <img fetchpriority="high" decoding="async"
                                             class="img-with-animation skip-lazy" data-delay="0" height="2560"
                                             width="2382" data-animation="none"
-                                            src="webroot/img/EstefaniaPalma.jpg"
+                                            src="img/foto_historia.jpg"
                                             alt=""
-                                            srcset="webroot/img/EstefaniaPalma.jpg 2382w, webroot/img/EstefaniaPalma.jpg 279w, webroot/img/EstefaniaPalma.jpg 953w, webroot/img/EstefaniaPalma.jpg 768w, webroot/img/EstefaniaPalma.jpg 1429w, webroot/img/EstefaniaPalma.jpg 1905w"
+                                            srcset="img/foto_historia.jpg 2382w, img/foto_historia.jpg 279w, img/foto_historia.jpg 953w, img/foto_historia.jpg 768w, img/foto_historia.jpg 1429w, img/foto_historia.jpg 1905w"
                                             sizes="(max-width: 2382px) 100vw, 2382px" />
                                         </div>
                                       </div>
