@@ -121,25 +121,22 @@
                         style="text-align: left;">
                     <div class="nectar-text-inline-images__inner">
                         <h2 style="font-style: italic;padding-bottom: 1.5rem;">
-                            ¡Hola! Soy Estefanía Palma, copy de profesión pero ilustradora por pasión.
+                            ¡Hola!
                         </h2>
-                        <p>
-                            Vivo en la ciudad de Puebla y recientemente me he aventurado a seguir mi pasión: hacer ilustración.
+                        <h3 style="font-weight: 700;">
+                           Soy Estefanía Palma,
+                        </h3>
+                        <p style="font-style: italic;">
+                            Copy de profesión e ilustradora por pasión.
                         </p>
                         <p>
-                            Durante años conté historias con palabras; ahora las dibujo.
+                           Durante años escribí historias; hoy las dibujo.  
                         </p>
                         <p>
-                           Me inspiran las los temas marinos y de naturaleza. Amo dibujar animales, sirenas y más.  
+                            Me inspiran el mar y la naturaleza. Trabajo con acuarela y en formato digital, creando animales, sirenas y escenas imaginadas que cobran vida en papel, en productos o en ese proyecto que quieres hacer realidad.
                         </p>
                         <p>
-                            Las técnicas principales que uso son acuarela y plumones, aunque actualmente estoy incursionando en el mundo digital.
-                        </p>
-                        <p>
-                            Me gusta imaginar mi obra plasmada no solo en papel, sino que trascienda en diferentes objetos como bolsas, ropa, stickers y más. 
-                        </p>
-                        <p>
-                            Acompáñame a dar mis primeros pasos profesionales en la ilustración dándole vida juntos a tu proyecto visual, tu pones el reto y yo ¡manos a la obra!
+                           Si tienes una idea, un regalo especial o un reto creativo, hagámoslo imagen.
                         </p>
                     </div>
                 </div>

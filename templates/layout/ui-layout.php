@@ -425,7 +425,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
  }
 
   .wpb_column.instance-21 > .vc_column-inner > .column-bg-overlay-wrap > .column-bg-overlay {
-       background-image: url(/img/footer_textura_morado.jpg) !important;
+       background-image: url(img/footer_textura_morado2.jpg) !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
     background-size: cover !important;
@@ -1111,15 +1111,10 @@ font-size: 30px;
                                     <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="header-social-icon" aria-label="Instagram">
                                         <i class="fab fa-instagram"></i>
                                     </a>
-                                    <a href="https://www.tiktok.com/" target="_blank" rel="noopener" class="header-social-icon" aria-label="TikTok">
-                                        <i class="fab fa-tiktok"></i>
+                                    <a href="https://www.behance.com/" target="_blank" rel="noopener" class="header-social-icon" aria-label="behance">
+                                        <i class="fab fa-behance"></i>
                                     </a>
-                                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="header-social-icon" aria-label="LinkedIn">
-                                        <i class="fab fa-linkedin-in"></i>
-                                    </a>
-                                    <a href="https://www.pinterest.com/" target="_blank" rel="noopener" class="header-social-icon" aria-label="Pinterest">
-                                        <i class="fab fa-pinterest-p"></i>
-                                    </a>
+                                  
                                 </div>
                             </div>
                             <!--/span_3-->
@@ -1216,7 +1211,7 @@ font-size: 30px;
                             <div class="vc_col-sm-12 wpb_column column_container vc_column_container col el_spacing_20px tl_br_25px tr_br_25px bl_br_25px br_br_25px left_padding_desktop_30px top_padding_desktop_30px right_padding_desktop_30px bottom_padding_desktop_30px "
                                 data-using-bg="true" data-padding-pos="all" data-has-bg-color="true"
                                 data-bg-color="#ede8e4" data-bg-opacity="1" data-animation="" data-delay="0">
-                                <div class="vc_column-inner" style="background-image: url(/img/footer_textura_morado.jpg) !important; background-repeat: no-repeat !important; background-position: center !important; background-size: cover !important;">
+                                <div class="vc_column-inner" style="background-image: url(img/footer_textura_morado2.jpg) !important; background-repeat: no-repeat !important; background-position: center !important; background-size: cover !important;">
                                     <div class="column-bg-overlay-wrap column-bg-layer" data-bg-animation="none">
                                         <div class="column-bg-overlay" >
                                         </div>
@@ -1293,18 +1288,13 @@ font-size: 30px;
                                                     <div class="vc_column-inner">
                                                         <div class="wpb_wrapper">
                                                             <div class="social-icons-container">
-                                                                <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Facebook">
-                                                                    <i class="fab fa-facebook-f"></i>
-                                                                </a>
                                                                 <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Instagram">
                                                                     <i class="fab fa-instagram"></i>
                                                                 </a>
-                                                                <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="social-icon-btn" aria-label="YouTube">
-                                                                    <i class="fab fa-youtube"></i>
+                                                                <a href="https://www.behance.com/" target="_blank" rel="noopener" class="social-icon-btn" aria-label="behance   ">
+                                                                    <i class="fab fa-behance"></i>
                                                                 </a>
-                                                                <a href="https://t.me/" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Telegram">
-                                                                    <i class="fab fa-telegram-plane"></i>
-                                                                </a>
+                                                               
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1327,8 +1317,8 @@ font-size: 30px;
                 <div class="second-footer-content">
                     <!-- Logo y Nombre -->
                     <div class="footer-brand">
-                        <p class="footer-brand-name">© Stef Sketch</p>
-                        <a href="/"><img src="/img/stefsketch.png" alt="Stef Sketch Logo" class="footer-logo"></a>
+                        <p class="footer-brand-name">¡Hola!</p>
+                        <a href="/"><img src="img/logoBlanco.png" alt="Stef Sketch Logo" class="footer-logo"></a>
                     </div>
 
                     <!-- Email -->
@@ -1338,9 +1328,8 @@ font-size: 30px;
 
                     <!-- Legal Text -->
                     <div class="footer-legal">
-                        <p>Todo el contenido del sitio web © Stef Sketch está prohibido para uso o reproducción total o parcial. Derechos reservados <span class="current-year"><?= date('Y') ?></span>.</p>
-                        <p>Prohibido el uso o reproducción total o parcial de cualquier imagen del sitio. Derechos reservados <span class="current-year"><?= date('Y') ?></span>.</p>
-                        <p>The use or total or partial reproduction of any image of the site is prohibited. All rights reserved <span class="current-year"><?= date('Y') ?></span>.</p>
+                        <p>Este sitio y su contenido están protegidos por las leyes de derechos de autor aplicables. Queda prohibida la reproducción, distribución o uso total o parcial de cualquier imagen contenida en este sitio web sin autorización previa y por escrito de © StefSketch. Todos los derechos reservados <span class="current-year"><?= date('Y') ?></span>.</p>
+                        <p>This website and its content are protected by applicable copyright laws. The total or partial reproduction, distribution, or use of any image contained on this website is strictly prohibited without prior written authorization from © StefSketch. All rights reserved <span class="current-year"><?= date('Y') ?></span>.</p>
                 </div>
                 <div class="vc_col-sm-12 wpb_column column_container vc_column_container col child_column no-extra-padding force-desktop-text-align-center force-tablet-text-align-center force-phone-text-align-center inherit_tablet inherit_phone "
                     data-padding-pos="all" data-has-bg-color="false" data-bg-color=""

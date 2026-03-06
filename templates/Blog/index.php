@@ -102,6 +102,8 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
     flex-wrap: nowrap;
     flex-direction: row;
     align-items: center;
+    justify-content: space-around;
+    gap: 8px;
 }
 
 @media (max-width: 999px) {
@@ -163,51 +165,167 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
         padding-right: 15px;
     }
 }
+/* =========================================================
+   PARALLAX HERO SCENE (Dinosaurio + Diálogo) - TAMAÑOS MAX
+   ========================================================= */
+#full_width_portfolio {
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-layers-scene {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.hero-layer {
+    position: absolute;
+    will-change: transform;
+}
+/* Creamos el efecto de oscilación y flotación continua */
+@keyframes ufoOscillation {
+    0% { 
+        transform: rotate(5deg) translateY(0px); 
+    }
+    50% { 
+        transform: rotate(-5deg) translateY(-20px); /* Gira a la izquierda y sube un poquito */
+    }
+    100% { 
+        transform: rotate(5deg) translateY(0px); /* Regresa a la derecha */
+    }
+}
+/* 🦖 CAPA 3: DINOSAURIO (Mucho más grande) */
+.layer-dino {
+    bottom: -8%; 
+    right: 28%; /* Más pegado a la orilla derecha */
+    width: 550px; /* Tamaño PC ajustado a "Gigante" */
+    max-width: 65vw;
+    z-index: 3;
+}
+.layer-dino img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 25px 35px rgba(0,0,0,0.6));
+        /* MAGIA AQUÍ: Aplicamos la oscilación */
+    animation: ufoOscillation 8s ease-in-out infinite;
+    transform-origin: top center; /* El pivote arriba hace que balancee como un péndulo/rayo abductor */
+}
+/* 💬 CAPA 2: DIÁLOGO (Ajustado para conectar) */
+.layer-dialogo {
+    bottom: 45%; /* Sube para quedar a la altura de la boca */
+    right: 45%; /* Se desplaza hacia el centro */
+    width: 380px; /* Tamaño PC aumentado */
+    max-width: 55vw;
+    z-index: 4;
+    /* ESTO ES LA MAGIA: El globo rotará desde su esquina inferior derecha (la colita) */
+    transform-origin: bottom right; 
+}
+.layer-dialogo img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.4));
+}
+
+/* 📱 RESPONSIVE: MÓVIL Y TABLET */
+@media (max-width: 768px) {
+    .layer-dino { 
+        width: 463px;
+        right: 0%;
+        bottom: -2%;
+        max-width: 90vw;
+    }
+    .layer-dialogo { 
+        width: 260px;
+        right: 40%;
+        bottom: 45%;
+    }
+}
+/* =========================================================
+   🎬 COREOGRAFÍA DE ENTRADA (ENTRANCE ANIMATIONS)
+   ========================================================= */
+
+/* 1. Zoom Out del Banner Completo */
+@keyframes bannerZoomOut {
+    0% { transform: scale(1.08); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+#full_width_portfolio {
+    /* Mantenemos tus estilos anteriores, solo agregamos la animación */
+    animation: bannerZoomOut 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* 2. Entrada de la Nave/Dino (Sube desde las sombras) */
+@keyframes dinoEntrance {
+    0% { transform: translateY(150px) rotate(15deg); opacity: 0; }
+    100% { transform: translateY(0px) rotate(5deg); opacity: 1; }
+}
+
+.layer-dino img {
+    /* MAGIA PURA AQUÍ: 
+      1. Primero ejecuta 'dinoEntrance' (dura 1.2s).
+      2. Luego ejecuta 'ufoOscillation' con un delay de 1.2s para que inicie justo al terminar la entrada.
+    */
+    opacity: 0; /* Oculto antes de cargar */
+    animation: 
+        dinoEntrance 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, 
+        ufoOscillation 6s ease-in-out 1.2s infinite;
+}
+
+/* 3. Entrada del Diálogo (Efecto Pop/Burbuja elástica) */
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    70% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.layer-dialogo img {
+    opacity: 0; /* Oculto al inicio */
+    /* Retrasamos esta animación 0.8s para que el globo aparezca DESPUÉS de que el dino ya salió */
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.8s forwards;
+}
+
+/* PREVENCIÓN DE BUGS: Evitamos que el scale del banner cause scroll horizontal */
+body {
+    overflow-x: hidden;
+}
 </style>
 
 
 <div id="ajax-content-wrap">
-    <div id="full_width_portfolio" data-featured-img="webroot/img/stefsketch-1.jpg">
+    <div id="full_width_portfolio" class="parallax-hero-section" data-featured-img="img/Fondo_banner_Hero.jpg" style="background-image: url('img/Fondo_banner_Hero.jpg');">
+        
+        <div class="hero-layers-scene" id="hero-scene">
+            
+            <div class="hero-layer layer-dialogo" data-speed="0.1" data-rotate="-0.03">
+                <img src="/img/Dialogo.png" alt="Diálogo" loading="lazy">
+            </div>
 
-        <div id="page-header-wrap" data-animate-in-effect="zoom-out" data-midnight="light" class="fullscreen-header"
-            role="region" aria-label="Page Header">
-            <div id="page-header-bg" class="fullscreen-header" data-padding-amt="normal"
-                data-animate-in-effect="zoom-out" data-midnight="light" data-text-effect="" data-bg-pos="center"
-                data-alignment="left" data-alignment-v="middle" data-parallax="1" data-height="350"
-                style="background-color: #0a0a0a;  ">
-                <div class="page-header-bg-image-wrap" id="nectar-page-header-p-wrap" data-parallax-speed="fast">
-                    <div class="page-header-bg-image">
-                        <img src="webroot/img/stefsketch-1.jpg" width="100%" height="100%" alt="Nectar Motors" />
-                    </div>
-                </div>
-                <div class="page-header-overlay-color" data-overlay-opacity="default"
-                    style="background-color: #0a0a0a;">
-                </div>
+            <div class="hero-layer layer-dino" data-speed="0.25">
+                <img src="/img/Nave_y_dino.png" alt="Dinosaurio Stefsketch" loading="lazy">
+            </div>
 
-                <div class="container">
-                    <div class="row">
-                        <div class="container">
-                            <div class="col span_6 section-title no-date">
-                                <div class="inner-wrap">
-                                    <h1>Estefania</h1>
-                                    <span class="subheader">Stefsketch</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--/row-->
+        </div>
 
-                </div>
-                <div class="scroll-down-wrap no-border"><a href="#" class="section-down-arrow "><svg
+                    <div class="scroll-down-wrap no-border"><a href="#homeProyectos" class="section-down-arrow "><svg
                             class="nectar-scroll-icon" viewBox="0 0 30 45" enable-background="new 0 0 30 45">
                             <path class="nectar-scroll-icon-path" fill="none" stroke="#ffffff" stroke-width="2"
                                 stroke-miterlimit="10"
                                 d="M15,1.118c12.352,0,13.967,12.88,13.967,12.88v18.76  c0,0-1.514,11.204-13.967,11.204S0.931,32.966,0.931,32.966V14.05C0.931,14.05,2.648,1.118,15,1.118z">
                             </path>
                         </svg></a></div>
-            </div>
-
-        </div>
+    </div>
 
         <div class="container-wrap" id="homeProyectos">
             <div class="container main-content" role="main">
@@ -538,7 +656,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                         </div>
                                     </div>
                 <div class="row  ">
-                    <div class="post-area col span_12">
+                    <div class=" col span_12">
                         <div id="portfolio-extra">
 
                         
@@ -770,11 +888,11 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                         <div class="row-bg viewport-desktop using-image using-bg-color"
                                             data-parallax-speed="fast"
                                             style="background-position: center top; background-repeat: no-repeat; background-color: #111111; "
-                                            data-nectar-img-src="webroot/img/fondoBannerAqua.jpg">
+                                            data-nectar-img-src="img/banner-seccion-historia.jpg">
                                         </div>
                                     </div>
                                 </div>
-                                <!-- TERCERA CAPA: Texturas parallax (burbujas, estrellas, etc) -->
+                                <!-- TERCERA CAPA: Texturas parallax (burbujas, estrellas, etc) --
                                 <div class="texturas-parallax-wrap">
                                     <img src="img/texturasBannerParallax.png" alt="Texturas decorativas">
                                 </div>
@@ -795,14 +913,14 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                     data-custom-font-size="false">
                                                     <div class="heading-line">
                                                         <div>
-                                                            <h2 style="color: black !important;">¡Hola!</h2>
+                                                            <h1 style="color: #9900ff !important;">¡Hola!</h2>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="wpb_text_column wpb_content_element  wpb_animate_when_almost_visible wpb_bottom-to-top bottom-to-top vc_custom_1484775560863"
                                                     style=" max-width: 500px; display: inline-block;">
                                                     <p style="color: black;">
-                                                        Soy Estefanía Palma, ilustradora mexicana de la ciudad de Puebla. Después de años creando con palabras, decidí darles forma y color.
+                                                        Soy Estefanía Palma, ilustradora mexicana en Puebla. Transformo historias en imágenes llenas de color y emoción.
                                                     </p>
                                                 </div>
                                             </div>
@@ -823,7 +941,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                     </div>
                                 </div>
                                 <div class="row_col_wrap_12 col span_12 light left">
-                                    <div class="vc_col-sm-3 wpb_column column_container vc_column_container col no-extra-padding"
+                                    <div class=""
                                         data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
                                         data-bg-opacity="1" data-animation="" data-delay="0">
                                         <div class="vc_column-inner">
@@ -833,7 +951,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                         </div>
                                     </div>
 
-                                    <div class="vc_col-sm-6 wpb_column column_container vc_column_container col no-extra-padding"
+                                    <div class="vc_col-sm-12 wpb_column column_container vc_column_container col no-extra-padding"
                                         data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
                                         data-bg-opacity="1" data-animation="" data-delay="0">
                                         <div class="vc_column-inner">
@@ -845,7 +963,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                     data-custom-font-size="false">
                                                     <div class="heading-line">
                                                         <div>
-                                                            <h2>Cada ilustración es una historia, conoce la mía</h2>
+                                                            <h2>Cada ilustración nace de una historia.<br>Esta es la mía.</h2>
                                                         </div>
                                                     </div>                                 
                                                 </div>                                               
@@ -866,7 +984,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                                     <div class="nectar-3d-transparent-button"
                                                                          data-size="jumbo">
                                                                         <a href="/historia" role="button" class=""><span
-                                                                                class="hidden-text">Aquí</span>
+                                                                                class="hidden-text">→ Descubrir más</span>
                                                                             <div class="inner-wrap">
                                                                                 <div class="front-3d">
                                                                                     <svg>
@@ -879,7 +997,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                                                                 <text
                                                                                                     class="mask-text button-text"
                                                                                                     fill="#000000"
-                                                                                                    text-anchor="middle">Aquí</text>
+                                                                                                    text-anchor="middle">→ Descubrir más</text>
                                                                                             </mask>
                                                                                         </defs>
                                                                                         <rect fill="#ffffff"
@@ -896,7 +1014,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
                                                                                         </rect>
                                                                                         <text class="button-text"
                                                                                             fill="#ffffff"
-                                                                                            text-anchor="middle">Aquí</text>
+                                                                                            text-anchor="middle">→ Descubrir más</text>
                                                                                     </svg>
                                                                                 </div>
                                                                             </div>
@@ -921,5 +1039,47 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
 
 
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const parallaxLayers = document.querySelectorAll('.hero-layer');
+    const heroSection = document.getElementById('full_width_portfolio');
 
+    if (!heroSection) return;
+
+    // 1. Observer: Solo animamos cuando el banner está visible en pantalla
+    let isVisible = false;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            isVisible = entry.isIntersecting;
+        });
+    }, { threshold: 0 }); // Con que se vea un pixel, se activa
+    
+    observer.observe(heroSection);
+
+    // 2. Parallax Core con rotación matemática
+    window.addEventListener('scroll', function() {
+        if (!isVisible) return; // Ahorramos CPU/Batería del celular
+
+        // Math: Cuántos pixeles hemos bajado
+        let scrolled = window.pageYOffset;
+
+        parallaxLayers.forEach(function(layer) {
+            let speed = parseFloat(layer.getAttribute('data-speed') || 0);
+            let rotateFactor = parseFloat(layer.getAttribute('data-rotate') || 0);
+            
+            // Calculamos traslación (hacia arriba al scrollear hacia abajo)
+            let yPos = -(scrolled * speed);
+            
+            if (rotateFactor !== 0) {
+                // Si tiene rotación, calculamos los grados
+                let rotation = scrolled * rotateFactor;
+                layer.style.transform = `translateY(${yPos}px) rotate(${rotation}deg)`;
+            } else {
+                // Si es solo el Dino, solo lo movemos en Y
+                layer.style.transform = `translateY(${yPos}px)`;
+            }
+        });
+    });
+});
+</script>
 
