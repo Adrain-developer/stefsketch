@@ -425,7 +425,7 @@ body h3, .row .col h3, .toggle > h3.toggle-title a, .ascend #respond h3, .ascend
  }
 
   .wpb_column.instance-21 > .vc_column-inner > .column-bg-overlay-wrap > .column-bg-overlay {
-       background-image: url(img/footer_textura_morado2.jpg) !important;
+       background-image: url(/img/footer_textura_morado2.jpg) !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
     background-size: cover !important;
@@ -1211,7 +1211,7 @@ font-size: 30px;
                             <div class="vc_col-sm-12 wpb_column column_container vc_column_container col el_spacing_20px tl_br_25px tr_br_25px bl_br_25px br_br_25px left_padding_desktop_30px top_padding_desktop_30px right_padding_desktop_30px bottom_padding_desktop_30px "
                                 data-using-bg="true" data-padding-pos="all" data-has-bg-color="true"
                                 data-bg-color="#ede8e4" data-bg-opacity="1" data-animation="" data-delay="0">
-                                <div class="vc_column-inner" style="background-image: url(img/footer_textura_morado2.jpg) !important; background-repeat: no-repeat !important; background-position: center !important; background-size: cover !important;">
+                                <div class="vc_column-inner" style="background-image: url(/img/footer_textura_morado2.jpg) !important; background-repeat: no-repeat !important; background-position: center !important; background-size: cover !important;">
                                     <div class="column-bg-overlay-wrap column-bg-layer" data-bg-animation="none">
                                         <div class="column-bg-overlay" >
                                         </div>
