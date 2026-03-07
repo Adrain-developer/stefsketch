@@ -1318,7 +1318,7 @@ font-size: 30px;
                     <!-- Logo y Nombre -->
                     <div class="footer-brand">
                         <p class="footer-brand-name">¡Hola!</p>
-                        <a href="/"><img src="img/logoBlanco.png" alt="Stef Sketch Logo" class="footer-logo"></a>
+                        <a href="/"><img src="/img/logoBlanco.png" alt="Stef Sketch Logo" class="footer-logo"></a>
                     </div>
 
                     <!-- Email -->
