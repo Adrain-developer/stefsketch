@@ -36,9 +36,7 @@ $cakeDescription = 'Stefsketch Admin';
         <?= $cakeDescription ?>: <?= $this->fetch('title') ?>
     </title>
 
-    <?= $this->Html->meta('icon', '.png', ['type'=>'image/png']) ?>
-    <?= $this->Html->meta('og:type', 'article'); ?>
-    <?= $this->Html->meta('og:site_name', 'Stefsketch Admin'); ?>
+    <?= $this->element('favicon') ?>
 
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C600%2C700&amp;subset=latin%2Clatin-ext&amp;display=swap' type='text/css' media='all' />
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Instrument+Sans%3A400%2C700%7CInstrument+Serif%3A400%7CPoppins%3A500%7CSource+Serif+Pro%3A400&amp;display=swap&amp;ver=6.8.2' type='text/css' media='all' />

@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boda de Manuela y Lauro</title>
+    <?= $this->element('favicon') ?>
     <!-- Listado de css con version dinamica segun modificacion de archivo -->
     <?= $this->Html->css(['bootstrap.min', 'boda/slick', 'boda/slick-theme', 'boda/jquery.fancybox.min', 'boda/addEvent', 'boda/aos', 'boda/style', 'boda/responsive', 'css2']) ?>
     <!--<link rel="stylesheet" href="./Boda de Manuel y Laura_files/bootstrap.min.css">

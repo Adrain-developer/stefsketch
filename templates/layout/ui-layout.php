@@ -62,10 +62,8 @@ if ($user) {
     }
     </style>
 
-    <?= $this->Html->meta('icon', '.png', ['type'=>'image/png']) ?>
-
-    <?= $this->Html->meta('og:type', 'portafolio'); ?>
-    <?= $this->Html->meta('og:site_name', 'Stefsketch'); ?>
+    <?= $this->element('favicon') ?>
+    <?= $this->element('social_meta') ?>
 
     <link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
     

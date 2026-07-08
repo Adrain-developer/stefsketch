@@ -41,9 +41,8 @@ $cakeDescription = 'Stefsketch';
         <?= $this->fetch('title') ?>
     </title>
 
-    <?= $this->Html->meta('icon', '.png', ['type'=>'image/png']) ?>
-    <?= $this->Html->meta('og:type', 'article'); ?>
-    <?= $this->Html->meta('og:site_name', 'Mi Evento App'); ?>
+    <?= $this->element('favicon') ?>
+    <?= $this->element('social_meta') ?>
     <?= $this->Html->css(['bootstrap.min', 'base'.'.css?ver=26-08:001', 'css2.css', 'footer_blog'.'.css?ver=6']) ?>
     <?= $this->Html->css(['easymde.min.css']) ?>
     <!-- Font Awesome -->
