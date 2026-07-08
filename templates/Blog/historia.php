@@ -83,9 +83,9 @@
                                           <img fetchpriority="high" decoding="async"
                                             class="img-with-animation skip-lazy" data-delay="0" height="2560"
                                             width="2382" data-animation="none"
-                                            src="img/foto_historia.jpg"
+                                            src="img/foto_2_bio.jpeg"
                                             alt=""
-                                            srcset="img/foto_historia.jpg 2382w, img/foto_historia.jpg 279w, img/foto_historia.jpg 953w, img/foto_historia.jpg 768w, img/foto_historia.jpg 1429w, img/foto_historia.jpg 1905w"
+                                            srcset="img/foto_2_bio.jpeg 2382w, img/foto_2_bio.jpeg 279w, img/foto_2_bio.jpeg 953w, img/foto_2_bio.jpeg 768w, img/foto_2_bio.jpeg 1429w, img/foto_2_bio.jpeg 1905w"
                                             sizes="(max-width: 2382px) 100vw, 2382px" />
                                         </div>
                                       </div>

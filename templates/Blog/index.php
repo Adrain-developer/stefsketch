@@ -207,7 +207,7 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
 }
 /* 🦖 CAPA 3: DINOSAURIO (Mucho más grande) */
 .layer-dino {
-    bottom: -8%; 
+    bottom: -25%; 
     right: 28%; /* Más pegado a la orilla derecha */
     width: 550px; /* Tamaño PC ajustado a "Gigante" */
     max-width: 65vw;
