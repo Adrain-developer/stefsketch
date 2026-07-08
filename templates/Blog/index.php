@@ -303,18 +303,29 @@ body {
 </style>
 
 
+<?php
+// Banner 1 (Hero) dinámico: cada capa cae a su imagen por defecto si el admin no subió una.
+$heroBanner = $bannerImages['hero'] ?? [];
+$heroLayer1 = $heroBanner['layer1'] ?? 'Fondo_banner_Hero.jpg';
+$heroLayer2 = $heroBanner['layer2'] ?? 'Dialogo.png';
+$heroLayer3 = $heroBanner['layer3'] ?? 'Nave_y_dino.png';
+?>
 <div id="ajax-content-wrap">
-    <div id="full_width_portfolio" class="parallax-hero-section" data-featured-img="img/Fondo_banner_Hero.jpg" style="background-image: url('img/Fondo_banner_Hero.jpg');">
-        
-        <div class="hero-layers-scene" id="hero-scene">
-            
-            <div class="hero-layer layer-dialogo" data-speed="0.1" data-rotate="-0.03">
-                <img src="/img/Dialogo.png" alt="Diálogo" loading="lazy">
-            </div>
+    <div id="full_width_portfolio" class="parallax-hero-section" data-featured-img="img/<?= h($heroLayer1) ?>" style="background-image: url('img/<?= h($heroLayer1) ?>');">
 
-            <div class="hero-layer layer-dino" data-speed="0.25">
-                <img src="/img/Nave_y_dino.png" alt="Dinosaurio Stefsketch" loading="lazy">
+        <div class="hero-layers-scene" id="hero-scene">
+
+            <?php if (!empty($heroLayer2)): ?>
+            <div class="hero-layer layer-dialogo" data-speed="0.1" data-rotate="-0.03">
+                <img src="/img/<?= h($heroLayer2) ?>" alt="Diálogo" loading="lazy">
             </div>
+            <?php endif; ?>
+
+            <?php if (!empty($heroLayer3)): ?>
+            <div class="hero-layer layer-dino" data-speed="0.25">
+                <img src="/img/<?= h($heroLayer3) ?>" alt="Dinosaurio Stefsketch" loading="lazy">
+            </div>
+            <?php endif; ?>
 
         </div>
 
@@ -879,6 +890,15 @@ body {
                                 style="padding-top: calc(100vw * 0.08); padding-bottom: calc(100vw * 0.08); ">
 
                             </div>
+                            <?php
+                            // Banner 2 (Historia) dinámico: capas + textos con fallback a los defaults.
+                            $historiaBanner = $bannerImages['historia'] ?? [];
+                            $historiaLayer1 = $historiaBanner['layer1'] ?? 'banner-seccion-historia.jpg';
+                            $historiaLayer2 = $historiaBanner['layer2'] ?? 'texturasBannerParallax.png';
+                            $historiaLayer3 = $historiaBanner['layer3'] ?? 'sirenaBannerParallax.png';
+                            $historiaHeading = $historiaBanner['heading'] ?? '¡Hola!';
+                            $historiaParagraph = $historiaBanner['paragraph'] ?? 'Soy Estefanía Palma, ilustradora mexicana en Puebla. Transformo historias en imágenes llenas de color y emoción.';
+                            ?>
                             <div id="fws_68d462ae65ff8" data-column-margin="default" data-midnight="light"
                                 data-top-percent="20%" data-bottom-percent="20%"
                                 class="wpb_row vc_row-fluid vc_row full-width-section parallax_section anchoBannerparallax">
@@ -888,18 +908,22 @@ body {
                                         <div class="row-bg viewport-desktop using-image using-bg-color"
                                             data-parallax-speed="fast"
                                             style="background-position: center top; background-repeat: no-repeat; background-color: #111111; "
-                                            data-nectar-img-src="img/banner-seccion-historia.jpg">
+                                            data-nectar-img-src="img/<?= h($historiaLayer1) ?>">
                                         </div>
                                     </div>
                                 </div>
-                                <!-- TERCERA CAPA: Texturas parallax (burbujas, estrellas, etc) --
+                                <?php if (!empty($historiaLayer2)): ?>
+                                <!-- TERCERA CAPA: Texturas parallax (burbujas, estrellas, etc) -->
                                 <div class="texturas-parallax-wrap">
-                                    <img src="img/texturasBannerParallax.png" alt="Texturas decorativas">
+                                    <img src="img/<?= h($historiaLayer2) ?>" alt="Texturas decorativas">
                                 </div>
+                                <?php endif; ?>
+                                <?php if (!empty($historiaLayer3)): ?>
                                 <!-- SIRENA PARALLAX - ESTRUCTURA SIMPLIFICADA -->
                                 <div class="sirena-parallax-wrap">
-                                    <img src="img/sirenaBannerParallax.png" alt="Sirena ilustración">
+                                    <img src="img/<?= h($historiaLayer3) ?>" alt="Sirena ilustración">
                                 </div>
+                                <?php endif; ?>
                                 <div class="row_col_wrap_12 col span_12 light left">
                                     <div class="vc_col-sm-12 wpb_column column_container vc_column_container col no-extra-padding"
                                         data-padding-pos="all" data-has-bg-color="false" data-bg-color=""
@@ -913,14 +937,14 @@ body {
                                                     data-custom-font-size="false">
                                                     <div class="heading-line">
                                                         <div>
-                                                            <h1 style="color: #9900ff !important;">¡Hola!</h2>
+                                                            <h1 style="color: #9900ff !important;"><?= h($historiaHeading) ?></h1>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="wpb_text_column wpb_content_element  wpb_animate_when_almost_visible wpb_bottom-to-top bottom-to-top vc_custom_1484775560863"
                                                     style=" max-width: 500px; display: inline-block;">
                                                     <p style="color: black;">
-                                                        Soy Estefanía Palma, ilustradora mexicana en Puebla. Transformo historias en imágenes llenas de color y emoción.
+                                                        <?= nl2br(h($historiaParagraph)) ?>
                                                     </p>
                                                 </div>
                                             </div>

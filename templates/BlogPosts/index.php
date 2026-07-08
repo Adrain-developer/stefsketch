@@ -302,9 +302,15 @@ $this->assign('title', 'Admin | Proyectos');
         
         <div class="config-content">
             <div class="config-grid">
+                <!-- Gestionar Banners de portada -->
+                <?= $this->Html->link(
+                    '<i class="fas fa-images"></i><span>Banners</span>',
+                    ['controller' => 'BlogBanners', 'action' => 'index'],
+                    ['class' => 'config-btn', 'escape' => false]
+                ) ?>
                 <!-- Gestionar Tipos de Trabajo -->
                 <?= $this->Html->link(
-                    '<i class="fas fa-palette"></i><span>Tipos de Trabajo</span>', 
+                    '<i class="fas fa-palette"></i><span>Tipos de Trabajo</span>',
                     ['controller' => 'EventTypes', 'action' => 'index'],
                     ['class' => 'config-btn', 'escape' => false]
                 ) ?>

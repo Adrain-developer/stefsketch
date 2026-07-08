@@ -205,7 +205,11 @@ public function index()
     }
     
     
-    $this->set(compact('eventTypesWithPosts', 'randomPost'));
+    // Banners parallax dinámicos de la portada (con fallback a los defaults)
+    $this->loadModel('BlogBanners');
+    $bannerImages = $this->BlogBanners->resolveForPublic();
+
+    $this->set(compact('eventTypesWithPosts', 'randomPost', 'bannerImages'));
 }
 
 public function eventoView($eventoslug = null, $param2 = null, $param3 = null)

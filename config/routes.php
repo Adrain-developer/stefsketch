@@ -85,8 +85,19 @@ $builder->connect('/portafolio/delete/*', [
 ]);
 
 $builder->connect('/portafolio-posts/update-views', [
-    'controller' => 'BlogPosts', 
+    'controller' => 'BlogPosts',
     'action' => 'updateViews'
+]);
+
+// Módulo administrativo: Banners de portada (parallax dinámicos)
+$builder->connect('/portafolio-banners', [
+    'controller' => 'BlogBanners',
+    'action' => 'index'
+]);
+
+$builder->connect('/portafolio-banners/edit/*', [
+    'controller' => 'BlogBanners',
+    'action' => 'edit'
 ]);
 
 
