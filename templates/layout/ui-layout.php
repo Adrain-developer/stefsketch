@@ -1067,7 +1067,12 @@ font-size: 30px;
 .stef-masonry-item:hover .stef-masonry-item__count {
     animation: pulse 2s ease-in-out infinite;
 }
-
+body #slide-out-widget-area .inner-wrap > .inner .off-canvas-menu-container li > a,body #slide-out-widget-area.fullscreen .inner-wrap > .inner .off-canvas-menu-container li > a,body #slide-out-widget-area.fullscreen-alt .inner-wrap > .inner .off-canvas-menu-container li > a,body #slide-out-widget-area.slide-out-from-right-hover .inner-wrap > .inner .off-canvas-menu-container li > a,body #nectar-ocm-ht-line-check {
+    font-family: none !important;
+    font-weight: 300 !important;
+    letter-spacing: normal !important;
+    text-transform: uppercase !important;
+}
 </style>
 
 <body
@@ -1106,10 +1111,10 @@ font-size: 30px;
 
                                 <!-- Header Social Icons -->
                                 <div class="header-social-icons">
-                                    <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="header-social-icon" aria-label="Instagram">
+                                    <a href="https://www.instagram.com/stef_sketch.mx/" target="_blank" rel="noopener" class="header-social-icon" aria-label="Instagram">
                                         <i class="fab fa-instagram"></i>
                                     </a>
-                                    <a href="https://www.behance.com/" target="_blank" rel="noopener" class="header-social-icon" aria-label="behance">
+                                    <a href="https://www.behance.net/estefanapalma" target="_blank" rel="noopener" class="header-social-icon" aria-label="behance">
                                         <i class="fab fa-behance"></i>
                                     </a>
                                   
@@ -1286,10 +1291,10 @@ font-size: 30px;
                                                     <div class="vc_column-inner">
                                                         <div class="wpb_wrapper">
                                                             <div class="social-icons-container">
-                                                                <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Instagram">
+                                                                <a href="https://www.instagram.com/stef_sketch.mx/" target="_blank" rel="noopener" class="social-icon-btn" aria-label="Instagram">
                                                                     <i class="fab fa-instagram"></i>
                                                                 </a>
-                                                                <a href="https://www.behance.com/" target="_blank" rel="noopener" class="social-icon-btn" aria-label="behance   ">
+                                                                <a href="https://www.behance.net/estefanapalma" target="_blank" rel="noopener" class="social-icon-btn" aria-label="behance   ">
                                                                     <i class="fab fa-behance"></i>
                                                                 </a>
                                                                
@@ -1366,7 +1371,7 @@ font-size: 30px;
                             <ul class="menu">
                                 <li
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-9 current_page_item menu-item-237">
-                                    <a href="/#homeProyectos" aria-current="page">Work</a>
+                                    <a href="/#homeProyectos" aria-current="page">Work's</a>
                                 </li>
                                 <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-236">
                                     <a href="/historia">About</a>

@@ -15,10 +15,10 @@ use Cake\Routing\Router;
  * @var string|null $metaImage
  */
 $siteName = 'Stef Sketch';
-$title = !empty($metaTitle) ? $metaTitle : 'Stef Sketch · Ilustración que cuenta historias';
+$title = !empty($metaTitle) ? $metaTitle : 'Stefsketch · Storytelling ilustrado';
 $description = !empty($metaDescription)
     ? $metaDescription
-    : 'Soy Estefanía Palma, ilustradora mexicana en Puebla. Transformo historias en imágenes llenas de color y emoción.';
+    : 'Las palabras dejaron de ser suficiente para mí. Soy Estefanía, ex copywriter y ahora ilustradora. Bienvenido a mi proceso artístico.';
 $imagePath = !empty($metaImage) ? $metaImage : 'img/img_metadata.jpg';
 
 // Los scrapers de redes sociales exigen URLs absolutas.

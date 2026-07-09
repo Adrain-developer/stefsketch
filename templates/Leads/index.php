@@ -2,6 +2,13 @@
 $this->assign('title', 'Gestión de Leads');
 ?>
 
+<style>
+    #statusSelect option {
+    background-color: #343a40 !important;
+    color: #ffffff; /* Ajusta el color del texto si es necesario */
+}
+</style>
+
 <div class="leads-index">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>📧 Gestión de Leads</h1>
@@ -57,7 +64,7 @@ $this->assign('title', 'Gestión de Leads');
                         'descartado' => 'Descartado'
                     ],
                     'empty' => 'Todos los estados',
-                    'class' => 'form-select',
+                    'class' => 'form-select bg-dark',
                     'value' => $this->request->getQuery('status')
                 ]) ?>
             </div>

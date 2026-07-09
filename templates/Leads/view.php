@@ -2,6 +2,13 @@
 $this->assign('title', 'Lead: ' . $lead->name);
 ?>
 
+<style>
+    #statusSelect option {
+    background-color: #343a40;
+    color: #ffffff; /* Ajusta el color del texto si es necesario */
+}
+</style>
+
 <div class="lead-view">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>📧 Detalles del Lead</h1>
@@ -63,10 +70,10 @@ $this->assign('title', 'Lead: ' . $lead->name);
                                     <?php endif; ?>
                                 </td>
                             </tr>
-                            <tr>
+                            <!--<tr>
                                 <td><strong>IP:</strong></td>
                                 <td><code><?= h($lead->ip_address) ?></code></td>
-                            </tr>
+                            </tr>-->
                         </table>
                     </div>
                 </div>
@@ -75,7 +82,7 @@ $this->assign('title', 'Lead: ' . $lead->name);
 
                 <div class="mb-3">
                     <h5>💬 Mensaje</h5>
-                    <div class="p-3 bg-light rounded">
+                    <div class="p-3 bg-dark rounded">
                         <?= nl2br(h($lead->message)) ?>
                     </div>
                 </div>
@@ -90,7 +97,7 @@ $this->assign('title', 'Lead: ' . $lead->name);
                 <!-- Cambiar Estado -->
                 <div class="mb-3">
                     <label class="form-label">Cambiar Estado:</label>
-                    <select class="form-select" id="statusSelect">
+                    <select class="form-select bg-dark" id="statusSelect">
                         <option value="nuevo" <?= $lead->status === 'nuevo' ? 'selected' : '' ?>>🆕 Nuevo</option>
                         <option value="contactado" <?= $lead->status === 'contactado' ? 'selected' : '' ?>>📞 Contactado</option>
                         <option value="convertido" <?= $lead->status === 'convertido' ? 'selected' : '' ?>>✅ Convertido</option>
