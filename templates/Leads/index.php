@@ -3,10 +3,11 @@ $this->assign('title', 'Gestión de Leads');
 ?>
 
 <style>
-    #statusSelect option {
-    background-color: #343a40 !important;
-    color: #ffffff; /* Ajusta el color del texto si es necesario */
-}
+    #status,
+    #status option {
+        background-color: #343a40 !important;
+        color: #ffffff !important;
+    }
 </style>
 
 <div class="leads-index">
@@ -18,25 +19,25 @@ $this->assign('title', 'Gestión de Leads');
     <div class="row mb-4">
         <div class="col-md-3">
             <div class="glass-card p-3 text-center">
-                <h3 class="text-primary"><?= $stats['total'] ?></h3>
+                <h3 class="text-primary" id="statTotal"><?= $stats['total'] ?></h3>
                 <p class="mb-0">Total Leads</p>
             </div>
         </div>
         <div class="col-md-3">
             <div class="glass-card p-3 text-center">
-                <h3 class="text-warning"><?= $stats['nuevos'] ?></h3>
+                <h3 class="text-warning" id="statNuevos"><?= $stats['nuevos'] ?></h3>
                 <p class="mb-0">Nuevos</p>
             </div>
         </div>
         <div class="col-md-3">
             <div class="glass-card p-3 text-center">
-                <h3 class="text-info"><?= $stats['hoy'] ?></h3>
+                <h3 class="text-info" id="statHoy"><?= $stats['hoy'] ?></h3>
                 <p class="mb-0">Hoy</p>
             </div>
         </div>
         <div class="col-md-3">
             <div class="glass-card p-3 text-center">
-                <h3 class="text-success"><?= $stats['convertidos'] ?></h3>
+                <h3 class="text-success" id="statConvertidos"><?= $stats['convertidos'] ?></h3>
                 <p class="mb-0">Convertidos</p>
             </div>
         </div>
@@ -127,25 +128,25 @@ $this->assign('title', 'Gestión de Leads');
                             </div>
                         </td>
                         <td>
-                            <div class="btn-group" role="group">
+                            <div class="action-buttons">
                                 <?= $this->Html->link('👁️', ['action' => 'view', $lead->id], [
-                                    'class' => 'btn btn-sm btn-outline-info',
+                                    'class' => 'btn btn-sm btn-outline-info me-2',
                                     'title' => 'Ver detalles'
                                 ]) ?>
-                                
+
                                 <!-- Dropdown para cambiar estado -->
-                                <div class="dropdown">
-    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Estado
-    </button>
-    <ul class="dropdown-menu">
-        <li><a class="dropdown-item change-status" href="#" data-id="<?= $lead->id ?>" data-status="nuevo">🆕 Nuevo</a></li>
-        <li><a class="dropdown-item change-status" href="#" data-id="<?= $lead->id ?>" data-status="contactado">📞 Contactado</a></li>
-        <li><a class="dropdown-item change-status" href="#" data-id="<?= $lead->id ?>" data-status="convertido">✅ Convertido</a></li>
-        <li><a class="dropdown-item change-status" href="#" data-id="<?= $lead->id ?>" data-status="descartado">❌ Descartado</a></li>
-    </ul>
-</div>
-                                
+                                <div class="dropdown me-2">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Estado
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item change-status" href="#" data-id="<?= $lead->id ?>" data-status="nuevo">🆕 Nuevo</a></li>
+                                        <li><a class="dropdown-item change-status" href="#" data-id="<?= $lead->id ?>" data-status="contactado">📞 Contactado</a></li>
+                                        <li><a class="dropdown-item change-status" href="#" data-id="<?= $lead->id ?>" data-status="convertido">✅ Convertido</a></li>
+                                        <li><a class="dropdown-item change-status" href="#" data-id="<?= $lead->id ?>" data-status="descartado">❌ Descartado</a></li>
+                                    </ul>
+                                </div>
+
                                 <?= $this->Form->postLink('🗑️', ['action' => 'delete', $lead->id], [
                                     'confirm' => '¿Seguro que quieres eliminar este lead?',
                                     'class' => 'btn btn-sm btn-outline-danger',
@@ -203,7 +204,21 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     statusContainer.innerHTML = data.newBadge;
-                    
+
+                    // Actualizar Dashboard de Estadísticas sin recargar
+                    if (data.stats) {
+                        const statMap = {
+                            statTotal: data.stats.total,
+                            statNuevos: data.stats.nuevos,
+                            statHoy: data.stats.hoy,
+                            statConvertidos: data.stats.convertidos
+                        };
+                        Object.keys(statMap).forEach(function(elId) {
+                            const el = document.getElementById(elId);
+                            if (el) el.textContent = statMap[elId];
+                        });
+                    }
+
                     // Mostrar notificación temporal
                     const alert = document.createElement('div');
                     alert.className = 'alert alert-success alert-dismissible fade show position-fixed';

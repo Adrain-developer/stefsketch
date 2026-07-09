@@ -1016,3 +1016,25 @@
         margin-bottom: 10px;
     }
 }
+
+/* =========================================================
+   13. LEADS - Compat utilidades Bootstrap 5 (CSS local es v4)
+   ========================================================= */
+.me-2 { margin-right: 0.5rem !important; }
+.ms-2 { margin-left: 0.5rem !important; }
+.gap-2 { gap: 0.5rem !important; }
+.d-grid { display: grid !important; }
+
+/* Grupo de acciones de la tabla: separación entre botones en vez de fusionados */
+.leads-index .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+@media (max-width: 576px) {
+    .leads-index .action-buttons .btn,
+    .leads-index .action-buttons .dropdown {
+        flex: 0 0 auto;
+    }
+}

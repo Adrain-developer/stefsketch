@@ -199,12 +199,20 @@ public function beforeFilter(\Cake\Event\EventInterface $event)
         try {
             $lead = $this->Leads->get($id);
             $lead->status = $status;
-            
+
             if ($this->Leads->save($lead)) {
+                $stats = [
+                    'total' => $this->Leads->find()->count(),
+                    'nuevos' => $this->Leads->find('new')->count(),
+                    'hoy' => $this->Leads->find('today')->count(),
+                    'convertidos' => $this->Leads->find()->where(['status' => 'convertido'])->count()
+                ];
+
                 $response = [
                     'success' => true,
                     'message' => 'Estado actualizado',
-                    'newBadge' => $lead->getStatusBadge()
+                    'newBadge' => $lead->getStatusBadge(),
+                    'stats' => $stats
                 ];
             } else {
                 $response = ['success' => false, 'message' => 'Error al actualizar'];

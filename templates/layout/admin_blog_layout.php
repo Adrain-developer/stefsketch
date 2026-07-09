@@ -41,7 +41,7 @@ $cakeDescription = 'Stefsketch Admin';
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C600%2C700&amp;subset=latin%2Clatin-ext&amp;display=swap' type='text/css' media='all' />
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Instrument+Sans%3A400%2C700%7CInstrument+Serif%3A400%7CPoppins%3A500%7CSource+Serif+Pro%3A400&amp;display=swap&amp;ver=6.8.2' type='text/css' media='all' />
 
-    <?= $this->Html->css(['bootstrap.min', 'base'.'.css?ver=26-08:001', 'css2.css', 'footer_blog'.'.css?ver=3', 'custom-admin'.'.css?ver=5']) ?>
+    <?= $this->Html->css(['bootstrap.min', 'base'.'.css?ver=26-08:001', 'css2.css', 'footer_blog'.'.css?ver=3', 'custom-admin'.'.css?ver=6']) ?>
     <?= $this->Html->css(['easymde.min.css']) ?>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -340,6 +340,9 @@ $cakeDescription = 'Stefsketch Admin';
 <?= $this->Html->script('parallax.min.js') ?>
 <?= $this->Html->script('jquery.stickr.min.js') ?>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- Bootstrap 5.3 JS: requerido por componentes data-bs-* (dropdowns, etc.) del panel admin -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <?= $this->Html->script('jscustom-adn.js?ver=24-10-05') ?>
 
