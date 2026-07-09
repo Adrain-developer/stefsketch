@@ -8,6 +8,26 @@ $this->assign('title', 'Gestión de Leads');
         background-color: #343a40 !important;
         color: #ffffff !important;
     }
+    .row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: nowrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    align-items: center;
+    justify-content: space-around;
+}
+@media only screen and (min-width: 1px) and (max-width: 999px) {
+    .row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+}
 </style>
 
 <div class="leads-index">
