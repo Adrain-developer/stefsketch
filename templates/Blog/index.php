@@ -182,10 +182,17 @@ $this->assign('title', 'Portafolio - Ilustraciones Digitales');
 
 .hero-layers-scene {
     position: absolute;
-    width: 100%;
+    /* Escena centrada y con ancho tope: en pantallas ultra-wide (o con zoom
+       out) evita que el dino y el diálogo se separen, ya que sus anclas
+       right:% se resuelven contra este ancho acotado y no contra el viewport. */
+    width: auto;
+    max-width: 1920px;
     height: 100%;
     top: 0;
     left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
     pointer-events: none;
 }
 

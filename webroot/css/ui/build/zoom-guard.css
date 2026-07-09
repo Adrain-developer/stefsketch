@@ -5,14 +5,19 @@
  *   --browser-zoom  (factor de zoom, p. ej. 1.25)
  *   data-zoom-level = "normal" | "in" | "out"
  *
- * Estrategia: los elementos con tamaño fijo en px (logo del header y capas
- * decorativas de los banners del home) se dividen entre --browser-zoom para
- * mantener un tamaño visual estable mientras el resto de la maqueta (basada
- * en vw/vh/%) sí escala con el zoom. Así la composición no se desborda ni se
- * encima al ampliar/reducir.
+ * Estrategia:
+ *   · Header: al ampliar (zoom in) el contenido crecía y se desbordaba. Se
+ *     contrarresta con la propiedad `zoom` sobre el contenedor centrado del
+ *     header, dejándolo a tamaño estable sin afectar la barra full-width.
+ *   · Capas decorativas con tamaño fijo en px (banners del home): se dividen
+ *     entre --browser-zoom SOLO al ampliar (in), para que no se encimen. Al
+ *     reducir (out) no se tocan: encoger no hace falta y agrandarlas provoca
+ *     traslapes (dino sobre diálogo). El "desparramado" en pantallas anchas /
+ *     zoom out se resuelve limitando el ancho de la escena (ver index.php).
  *
- * La compensación SOLO se aplica cuando data-zoom-level es "in" u "out"; en
- * estado "normal" el render base y el responsive quedan intactos.
+ * En estado "normal" el render base y el responsive quedan intactos.
+ * Compatibilidad: Chrome, Edge, Firefox 126+, Safari (incl. iOS). En Firefox
+ * anterior a 126 la regla `zoom` se ignora (degradación elegante).
  */
 
 :root {
@@ -20,38 +25,35 @@
 }
 
 /* =========================================================================
-   HEADER (compartido por todas las vistas) — logo con tamaño fijo (50px)
+   HEADER (compartido por todas las vistas)
+   Contra-escala del contenido: neutraliza el crecimiento al ampliar.
+   El contenedor está centrado (margin:0 auto), por lo que `zoom` conserva
+   el centrado; la barra negra (#header-outer) permanece full-width.
    ========================================================================= */
-@media only screen and (min-width: 1000px) {
-    html[data-zoom-level="in"] #header-outer:not(.transparent) #top #logo,
-    html[data-zoom-level="out"] #header-outer:not(.transparent) #top #logo {
-        font-size: calc(50px / var(--browser-zoom));
-    }
+html[data-zoom-level="in"] #header-outer #top .container {
+    zoom: calc(1 / var(--browser-zoom));
 }
 
 /* =========================================================================
    HOME · Banner Hero (#full_width_portfolio) — capas decorativas en px
+   Solo se reducen al ampliar (zoom in).
    ========================================================================= */
 @media only screen and (min-width: 769px) {
-    html[data-zoom-level="in"] .layer-dino,
-    html[data-zoom-level="out"] .layer-dino {
+    html[data-zoom-level="in"] .layer-dino {
         width: calc(550px / var(--browser-zoom));
     }
 
-    html[data-zoom-level="in"] .layer-dialogo,
-    html[data-zoom-level="out"] .layer-dialogo {
+    html[data-zoom-level="in"] .layer-dialogo {
         width: calc(380px / var(--browser-zoom));
     }
 }
 
 @media only screen and (max-width: 768px) {
-    html[data-zoom-level="in"] .layer-dino,
-    html[data-zoom-level="out"] .layer-dino {
+    html[data-zoom-level="in"] .layer-dino {
         width: calc(463px / var(--browser-zoom));
     }
 
-    html[data-zoom-level="in"] .layer-dialogo,
-    html[data-zoom-level="out"] .layer-dialogo {
+    html[data-zoom-level="in"] .layer-dialogo {
         width: calc(260px / var(--browser-zoom));
     }
 }
@@ -60,43 +62,38 @@
    HOME · Banner Historia (#fws_68d462ae65ff8) — sirena con tamaño fijo
    Se replican los breakpoints existentes de .sirena-parallax-wrap.
    ========================================================================= */
-html[data-zoom-level="in"] .sirena-parallax-wrap,
-html[data-zoom-level="out"] .sirena-parallax-wrap {
+html[data-zoom-level="in"] .sirena-parallax-wrap {
     width: calc(700px / var(--browser-zoom)) !important;
     height: calc(700px / var(--browser-zoom)) !important;
 }
 
 @media only screen and (max-width: 999px) {
-    html[data-zoom-level="in"] .sirena-parallax-wrap,
-    html[data-zoom-level="out"] .sirena-parallax-wrap {
+    html[data-zoom-level="in"] .sirena-parallax-wrap {
         width: calc(500px / var(--browser-zoom)) !important;
         height: calc(500px / var(--browser-zoom)) !important;
     }
 }
 
 @media only screen and (max-width: 690px) {
-    html[data-zoom-level="in"] .sirena-parallax-wrap,
-    html[data-zoom-level="out"] .sirena-parallax-wrap {
+    html[data-zoom-level="in"] .sirena-parallax-wrap {
         width: calc(350px / var(--browser-zoom)) !important;
         height: calc(350px / var(--browser-zoom)) !important;
     }
 }
 
 @media only screen and (max-width: 480px) {
-    html[data-zoom-level="in"] .sirena-parallax-wrap,
-    html[data-zoom-level="out"] .sirena-parallax-wrap {
+    html[data-zoom-level="in"] .sirena-parallax-wrap {
         width: calc(250px / var(--browser-zoom)) !important;
         height: calc(250px / var(--browser-zoom)) !important;
     }
 }
 
 /* =========================================================================
-   Utilidad reutilizable: bloquea el escalado por zoom en cualquier elemento
-   de tamaño fijo. Uso: añadir la clase .zoom-lock y definir --zoom-lock-size
-   con el ancho base en px, p. ej. style="--zoom-lock-size: 200px".
+   Utilidad reutilizable: bloquea el escalado por zoom-in en cualquier
+   elemento de tamaño fijo. Uso: clase .zoom-lock + --zoom-lock-size con el
+   ancho base en px, p. ej. style="--zoom-lock-size: 200px".
    ========================================================================= */
-html[data-zoom-level="in"] .zoom-lock,
-html[data-zoom-level="out"] .zoom-lock {
+html[data-zoom-level="in"] .zoom-lock {
     width: calc(var(--zoom-lock-size, 100%) / var(--browser-zoom));
     max-width: 100%;
     height: auto;

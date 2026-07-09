@@ -91,7 +91,7 @@ if ($user) {
         'ui/build/plugins/lenis0583',
         'ui/build/off-canvas/core0583',
         'ui/build/off-canvas/fullscreen-legacy0583',
-        'ui/build/zoom-guard.css?v=1',
+        'ui/build/zoom-guard.css?v=2',
     ]) ?>
 
     <style id='dynamic-css-inline-css' type='text/css'>
