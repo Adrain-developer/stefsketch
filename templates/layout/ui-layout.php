@@ -91,6 +91,7 @@ if ($user) {
         'ui/build/plugins/lenis0583',
         'ui/build/off-canvas/core0583',
         'ui/build/off-canvas/fullscreen-legacy0583',
+        'ui/build/zoom-guard.css?v=1',
     ]) ?>
 
     <style id='dynamic-css-inline-css' type='text/css'>
@@ -116,6 +117,9 @@ if ($user) {
         var root = document.getElementsByTagName("html")[0];
         root.setAttribute("class", "js");
     </script>
+
+    <!-- Zoom Guard: detecta el nivel de zoom del navegador (temprano, evita FOUC) -->
+    <?= $this->Html->script('zoom-guard.js?v=1') ?>
 
     <style data-type="vc_custom-css">
         .nectar-split-heading[data-has-fit-text="true"] {
