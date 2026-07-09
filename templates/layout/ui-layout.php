@@ -1068,7 +1068,7 @@ font-size: 30px;
     animation: pulse 2s ease-in-out infinite;
 }
 body #slide-out-widget-area .inner-wrap > .inner .off-canvas-menu-container li > a,body #slide-out-widget-area.fullscreen .inner-wrap > .inner .off-canvas-menu-container li > a,body #slide-out-widget-area.fullscreen-alt .inner-wrap > .inner .off-canvas-menu-container li > a,body #slide-out-widget-area.slide-out-from-right-hover .inner-wrap > .inner .off-canvas-menu-container li > a,body #nectar-ocm-ht-line-check {
-    font-family: none !important;
+   font-family: Instrument Sans !important;
     font-weight: 300 !important;
     letter-spacing: normal !important;
     text-transform: uppercase !important;
